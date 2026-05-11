@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Lock, CheckCircle2 } from "@lucide/astro";
+---
+
+<Layout title="Zunou · auth test">
+  <main class="max-w-lg mx-auto px-6 py-16 text-center">
+    <div class="flex items-center justify-center gap-2 mb-8 text-[var(--color-success)]">
+      <CheckCircle2 size={20} />
+      <span class="text-sm font-medium uppercase tracking-[0.18em]">
+        Authenticated
+      </span>
+    </div>
+
+    <h1 class="font-display text-5xl sm:text-6xl mb-4">
+      You're in.
+    </h1>
+
+    <p class="text-lg text-[var(--color-ink-soft)] mb-8 leading-relaxed">
+      This is the <code class="font-mono text-sm px-1.5 py-0.5 bg-[var(--color-paper-soft)] rounded border border-[var(--color-line)]">zunou.anysigma.com</code> security-test placeholder. If you can read this, Cloudflare Access is correctly gating the subdomain and your email is on the allowlist.
+    </p>
+
+    <div class="border border-[var(--color-line)] rounded-lg p-5 bg-[var(--color-paper-soft)] text-left text-sm">
+      <div class="flex items-center gap-2 mb-3 text-[var(--color-ink)]">
+        <Lock size={14} />
+        <span class="font-medium">Access checks</span>
+      </div>
+      <ul class="space-y-2 text-[var(--color-ink-soft)]">
+        <li class="flex gap-2">
+          <span class="text-[var(--color-success)]">✓</span>
+          <span>Authenticated via Cloudflare Access magic-link.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="text-[var(--color-success)]">✓</span>
+          <span>Session duration set to 14 days.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="text-[var(--color-success)]">✓</span>
+          <span>Subdomain-scoped policy — no cross-tenant access.</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="text-[var(--color-ink-soft)] opacity-60">↻</span>
+          <span>Strategy mini-site content lands here once security is verified.</span>
+        </li>
+      </ul>
+    </div>
+
+    <p class="mt-8 text-xs text-[var(--color-ink-soft)] font-mono opacity-70">
+      Build: zunou.anysigma.com / placeholder / 2026-05-11
+    </p>
+  </main>
+</Layout>

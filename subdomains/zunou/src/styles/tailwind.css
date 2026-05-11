@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink: oklch(0.18 0.01 250);
+  --color-ink-soft: oklch(0.42 0.01 250);
+  --color-paper: oklch(0.99 0.005 90);
+  --color-paper-soft: oklch(0.96 0.01 90);
+  --color-line: oklch(0.88 0.01 90);
+  --color-accent: oklch(0.62 0.18 28);
+  --color-success: oklch(0.62 0.13 155);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
