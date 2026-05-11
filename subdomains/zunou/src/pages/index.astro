@@ -240,10 +240,68 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         data-reveal="fade-up"
         data-reveal-delay="1"
       >
-        Zunou is an AI Chief of Staff company, based in Japan.
+        What Zunou actually is — and what we're not yet selling.
       </h2>
 
-      <div class="prose-block max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+      <!-- What Zunou is — grounded in the actual product (from internal codebase) -->
+      <div
+        class="mb-12 max-w-5xl"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-6 max-w-3xl">
+          Internally Zunou frames itself as <strong class="text-[var(--color-ink)]">"the AI operating system for leadership productivity"</strong> — a multi-surface platform with three production clients (Nova mobile · Dashboard web · Scout legacy) on top of a real backend with 136+ AI tools, voice agent, autonomous delegation (Relays), and meeting intelligence. The marketing tagline is "AI Chief of Staff" but the actual product is broader.
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-3 mb-5">
+          <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">Surface 1 · flagship</div>
+            <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Nova (mobile)</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              iOS · Android · Web. Voice agent · meeting recording · chat · tasks · cross-org connections. 30,000+ LOC across 50+ screens.
+            </p>
+          </div>
+          <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">Surface 2 · power-user</div>
+            <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Dashboard (desktop)</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              Browser. Pulse AI chat surface. Where heavy users live during the workday. Full-featured admin / data / reports.
+            </p>
+          </div>
+          <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">Surface 3 · platform play</div>
+            <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Spaces</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              White-label container for events / communities / alumni networks. Phase 2+ GTM angle — a powerful lever we're not using in this proposal but worth a separate discussion.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-[var(--color-ink-soft)]">
+          <div class="rounded-md bg-[var(--color-paper)] border border-[var(--color-line)] p-3">
+            <div class="font-mono text-lg text-[var(--color-ink)]">136+</div>
+            <div>AI tools in production</div>
+          </div>
+          <div class="rounded-md bg-[var(--color-paper)] border border-[var(--color-line)] p-3">
+            <div class="font-mono text-lg text-[var(--color-ink)]">8</div>
+            <div>Specialised AI session types</div>
+          </div>
+          <div class="rounded-md bg-[var(--color-paper)] border border-[var(--color-line)] p-3">
+            <div class="font-mono text-lg text-[var(--color-ink)]">18</div>
+            <div>Voice languages (incl. JP)</div>
+          </div>
+          <div class="rounded-md bg-[var(--color-paper)] border border-[var(--color-line)] p-3">
+            <div class="font-mono text-lg text-[var(--color-ink)]">11</div>
+            <div>Navigable modules</div>
+          </div>
+        </div>
+
+        <p class="text-xs text-[var(--color-ink-faint)] italic mt-4 max-w-3xl leading-relaxed">
+          <strong class="not-italic text-[var(--color-ink-soft)]">What this means for our pitch:</strong> we're not selling vapor. The product is real, deployed, and substantially deeper than what zunou.ai shows publicly. The pitch problem isn't "can we ship?" — it's "which of these capabilities do we lead with for the community pilot, and which do we hold back as the upgrade path?" Source: internal <code class="inline-code">zunou-services</code> investor doc, March 2026.
+        </p>
+      </div>
+
+      <div class="prose-block max-w-3xl" data-reveal="fade-up" data-reveal-delay="3">
         <p>
           <strong>The opening:</strong> the AI productivity stack is fragmenting, not consolidating. Personal-tier exec assistants — <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">alfred_</a>, <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Klaio</a>, <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Alyna</a> — solve email + scheduling for one person, not teams. AI workspace tools — <a href="https://glean.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Glean</a>, <a href="https://mem.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Mem</a>, <a href="https://lindy.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Lindy</a> — solve search and agents for English-speaking enterprise. Meeting tools — <a href="https://otter.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Otter</a>, <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Fireflies</a>, <a href="https://granola.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Granola</a> — transcribe but don't act. The category's most-funded team-focused AI Chief of Staff, <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Xembly</a>, shut down in 2024. The platform incumbents — <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion AI</a>, <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack AI</a>, <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Microsoft Copilot</a> — have each shipped AI surfaces bounded to their own walled gardens.
         </p>
