@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">anysigma mark</title>
+  <desc id="desc">Executive Σ (Sigma) mark for anysigma.</desc>
+  <!-- Background rect matching the brand paper/surface color -->
+  <rect width="96" height="96" rx="16" fill="oklch(10% 0.02 280)"/>
+  
+  <!-- The Sigma structure, refined with executive weight -->
+  <path d="M28 28H68L44 48L68 68H28" stroke="oklch(65% 0.2 280)" stroke-width="8" fill="none" stroke-linecap="butt" stroke-linejoin="miter"/>
+  
+  <!-- Accent nodes similar to leomares compass nodes but forming a "flow" -->
+  <circle cx="48" cy="48" r="4" fill="oklch(80% 0.1 320)"/>
+  <circle cx="28" cy="28" r="4" fill="oklch(80% 0.1 320)"/>
+  <circle cx="28" cy="68" r="4" fill="oklch(80% 0.1 320)"/>
+</svg>

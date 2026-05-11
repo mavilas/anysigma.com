@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://leomares.com/sitemap.xml
-Host: leomares.com
+Sitemap: https://anysigma.com/sitemap.xml
+Host: anysigma.com
