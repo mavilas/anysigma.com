@@ -1,0 +1,39 @@
+---
+import { Quote as QuoteIcon } from "@lucide/astro";
+
+interface Props {
+  cite?: string;
+  source?: { label: string; url: string };
+  revealDelay?: number;
+}
+
+const { cite, source, revealDelay = 0 } = Astro.props;
+---
+
+<figure
+  class="max-w-3xl"
+  data-reveal="fade-up"
+  data-reveal-delay={revealDelay}
+>
+  <QuoteIcon class="w-6 h-6 text-[var(--color-accent)] mb-4" />
+  <blockquote class="font-display text-2xl sm:text-3xl leading-snug text-[var(--color-ink)]">
+    <slot />
+  </blockquote>
+  {
+    (cite || source) && (
+      <figcaption class="mt-5 text-sm text-[var(--color-ink-soft)] flex flex-wrap items-center gap-x-3 gap-y-1">
+        {cite && <span class="font-medium text-[var(--color-ink)]">— {cite}</span>}
+        {source && (
+          <a
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs text-[var(--color-accent)] hover:text-[var(--color-accent-ink)] underline-offset-2 hover:underline"
+          >
+            {source.label}
+          </a>
+        )}
+      </figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,76 @@
+---
+import * as Icons from "@lucide/astro";
+import { ChevronRight } from "@lucide/astro";
+
+interface Phase {
+  label: string;
+  title: string;
+  description?: string;
+  icon?: string;
+  /** Mark this phase as a stage-gate / decision point. */
+  gate?: boolean;
+}
+
+interface Props {
+  phases: Phase[];
+}
+
+const { phases } = Astro.props;
+
+const toPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+---
+
+<div class="overflow-x-auto pb-2">
+  <ol class="flex items-stretch gap-3 min-w-max">
+    {
+      phases.map((phase, i) => {
+        const Icon = phase.icon ? (Icons as any)[toPascal(phase.icon)] : null;
+        return (
+          <>
+            <li
+              class={`tile flex-1 min-w-[220px] max-w-[280px] rounded-xl p-5 border ${
+                phase.gate
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent-soft)]"
+                  : "border-[var(--color-line)] bg-[var(--color-paper)]"
+              }`}
+              data-reveal="fade-up"
+              data-reveal-delay={i}
+            >
+              <div class="flex items-center gap-2 mb-3">
+                {Icon && (
+                  <Icon
+                    class={`w-4 h-4 ${
+                      phase.gate
+                        ? "text-[var(--color-accent-ink)]"
+                        : "text-[var(--color-accent)]"
+                    }`}
+                  />
+                )}
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-medium">
+                  {phase.label}
+                </span>
+              </div>
+              <div class="font-display text-lg leading-tight mb-1.5">
+                {phase.title}
+              </div>
+              {phase.description && (
+                <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed">
+                  {phase.description}
+                </p>
+              )}
+            </li>
+            {i < phases.length - 1 && (
+              <li class="self-center text-[var(--color-ink-faint)]" aria-hidden>
+                <ChevronRight class="w-5 h-5" />
+              </li>
+            )}
+          </>
+        );
+      })
+    }
+  </ol>
+</div>

@@ -1,0 +1,5 @@
+# Mini-sites are private, served behind Cloudflare Access. Reinforce the
+# noindex meta tag with a wildcard disallow so any crawler that somehow
+# reaches the build output knows not to index it.
+User-agent: *
+Disallow: /

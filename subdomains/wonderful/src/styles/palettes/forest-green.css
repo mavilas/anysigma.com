@@ -1,0 +1,6 @@
+/* Forest green — grounded, natural, healthy. */
+:root {
+  --palette-accent: oklch(0.55 0.12 155);
+  --palette-accent-soft: oklch(0.94 0.04 155);
+  --palette-accent-ink: oklch(0.36 0.1 155);
+}
