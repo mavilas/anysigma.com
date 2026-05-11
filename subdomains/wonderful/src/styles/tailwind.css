@@ -6,8 +6,8 @@
 @import "./palettes/slate.css";
 
 @theme {
-  --font-sans: "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
-  --font-display: "Instrument Serif", "Hiragino Mincho ProN", "Noto Serif JP", Georgia, serif;
+  --font-sans: "Bricolage Grotesque", "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+  --font-display: "Bree Serif", "Hiragino Mincho ProN", "Noto Serif JP", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
   /* Editorial neutrals — kept across every palette */
