@@ -5,6 +5,15 @@ import Stat from "../components/Stat.astro";
 import CaseStudy from "../components/CaseStudy.astro";
 import Decision from "../components/Decision.astro";
 import Community from "../components/Community.astro";
+import Term from "../components/Term.astro";
+import { glossary, groupTitles, groupOrder } from "../data/glossary";
+
+// Pre-bucket glossary entries for the rendered Glossary section
+const glossaryByGroup = groupOrder.map((group) => ({
+  group,
+  title: groupTitles[group],
+  entries: Object.entries(glossary).filter(([, e]) => e.group === group),
+}));
 import {
   Flag,
   CheckSquare,
@@ -121,6 +130,14 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
           revealDelay={6}
         />
       </div>
+
+      <p
+        class="mt-6 text-xs text-[var(--color-ink-faint)] max-w-3xl"
+        data-reveal="fade-up"
+        data-reveal-delay="7"
+      >
+        Unfamiliar with <Term name="KGI" />, <Term name="NSM" />, <Term name="PMF" />, <Term name="MCP" />, <Term name="Ringi" />, <Term name="Keigo" />, or <Term name="APPI" />? Hover any underlined term for an inline definition, or jump to the <a href="#glossary" class="text-[var(--color-accent)] hover:underline">full glossary</a>.
+      </p>
     </div>
   </section>
 
@@ -911,10 +928,50 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
-  <!-- 15 · REFERENCES -->
+  <!-- 15 · GLOSSARY -->
+  <Section
+    id="glossary"
+    number="15"
+    eyebrow="Define the terms"
+    title="Glossary."
+    lede="The international team doesn't all share the same vocabulary. Every acronym and strategic term used in this proposal — defined in one place."
+    tone="soft"
+  >
+    <div
+      class="grid md:grid-cols-2 gap-x-10 gap-y-10 max-w-5xl"
+      data-reveal="fade-up"
+    >
+      {glossaryByGroup.map((bucket) => (
+        <div>
+          <h3 class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-semibold mb-5">
+            {bucket.title}
+          </h3>
+          <dl class="space-y-4">
+            {bucket.entries.map(([name, entry]) => (
+              <div>
+                <dt class="font-semibold text-[var(--color-ink)] mb-1 flex items-baseline gap-2 flex-wrap">
+                  <span>{name}</span>
+                  {entry.jp && (
+                    <span class="font-display text-base text-[var(--color-accent-ink)]">
+                      {entry.jp}
+                    </span>
+                  )}
+                </dt>
+                <dd class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+                  {entry.long}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 16 · REFERENCES -->
   <Section
     id="references"
-    number="15"
+    number="16"
     eyebrow="The receipts"
     title="References."
     lede="Every numerical claim above traces back to a public source. Listed here for anyone who wants to verify or go deeper."
