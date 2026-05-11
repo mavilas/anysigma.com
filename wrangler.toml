@@ -1,0 +1,11 @@
+name = "anysigma-com-site"
+compatibility_date = "2026-05-11"
+
+# anysigma.com uses Cloudflare Pages direct deployment or worker-based assets.
+# For now, we'll configure it for the parking page.
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"

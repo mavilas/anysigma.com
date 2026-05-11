@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "contact": "Contact"
+  },
+  "brand": {
+    "tagline": "Beyond Intelligence."
+  },
+  "language": {
+    "current": "日本語",
+    "switchLabel": "English",
+    "switchHref": "/en/"
+  },
+  "parking": {
+    "title": "anysigma",
+    "status": "Coming Soon",
+    "message": "Intelligent systems. Boundless potential.",
+    "submessage": "We are building the future of automated intelligence. Stay tuned.",
+    "cta": "Inquiries"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "noEmail": "Contact us via the link above."
+  },
+  "accessibility": {
+    "skip": "Skip to content",
+    "home": "anysigma home"
+  }
+}

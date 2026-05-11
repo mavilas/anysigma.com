@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leomares.com/sitemap.xml
+Host: leomares.com

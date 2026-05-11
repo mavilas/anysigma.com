@@ -1,0 +1,361 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-quiet: var(--surface-quiet);
+  --color-field: var(--field);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-blue: var(--blue);
+  --color-blue-ink: var(--blue-ink);
+  --color-blue-deep: var(--blue-deep);
+  --color-cyan: var(--cyan);
+  --color-green: var(--green);
+  --color-gold: var(--gold);
+  --color-red: var(--red);
+  --color-card: var(--card-bg);
+  --color-chip: var(--chip-bg);
+  --color-control-border: var(--control-border);
+  --radius-leomares: var(--radius);
+  --radius-leomares-lg: var(--radius-lg);
+  --radius-leomares-button: var(--button-radius);
+  --shadow-leomares: var(--shadow);
+  --shadow-leomares-raised: var(--shadow-raised);
+  --font-sans: var(--font);
+  --font-mono: var(--mono);
+  --ease-leomares: var(--ease);
+  --ease-leomares-deep: var(--ease-deep);
+}
+
+@layer components {
+  .lc-form-panel {
+    background:
+      linear-gradient(150deg, color-mix(in oklch, var(--cyan), transparent 94%), transparent 38%),
+      linear-gradient(330deg, color-mix(in oklch, var(--gold), transparent 96%), transparent 40%),
+      var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 58px -48px color-mix(in oklch, var(--blue-deep), transparent 8%);
+    display: grid;
+    gap: 1rem;
+    overflow: hidden;
+    padding: clamp(1rem, 3vw, 1.4rem);
+    position: relative;
+    transition:
+      border-color 260ms var(--ease),
+      box-shadow 360ms var(--ease),
+      transform 360ms var(--ease-deep);
+  }
+
+  .lc-form-panel::before {
+    background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green));
+    content: "";
+    height: 2px;
+    inset: 0 0 auto;
+    opacity: 0.78;
+    position: absolute;
+    transform: scaleX(0.22);
+    transform-origin: left;
+    transition: transform 520ms var(--ease-deep), opacity 260ms var(--ease);
+  }
+
+  .lc-form-panel:focus-within {
+    border-color: color-mix(in oklch, var(--cyan), transparent 42%);
+    box-shadow:
+      0 28px 68px -52px color-mix(in oklch, var(--blue-deep), transparent 4%),
+      0 8px 22px -20px color-mix(in oklch, var(--cyan), transparent 58%);
+    transform: translateY(-2px);
+  }
+
+  .lc-form-panel:focus-within::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .lc-form-panel.is-compact {
+    gap: 0.86rem;
+  }
+
+  .lc-form-panel.is-embedded {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    padding: 0;
+    transform: none;
+  }
+
+  .lc-form-panel.is-embedded::before {
+    display: none;
+  }
+
+  .lc-form-panel.is-embedded:focus-within {
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .lc-form-row {
+    display: grid;
+    gap: 0.86rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lc-form-row.is-stacked {
+    grid-template-columns: 1fr;
+  }
+
+  .lc-field {
+    display: grid;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .lc-label {
+    color: var(--blue-ink);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    font-weight: 820;
+    letter-spacing: 0.08em;
+    line-height: 1.45;
+  }
+
+  .lc-label em {
+    color: var(--blue);
+    font-style: normal;
+    font-weight: 900;
+    margin-left: 0.2rem;
+  }
+
+  .lc-control {
+    appearance: none;
+    background: var(--control-bg);
+    border: 1px solid var(--control-border);
+    border-radius: var(--button-radius);
+    box-shadow: var(--control-shadow);
+    color: var(--ink);
+    font: inherit;
+    min-height: 46px;
+    padding: 0.78rem 0.9rem;
+    transition:
+      background 160ms var(--ease),
+      border-color 160ms var(--ease),
+      box-shadow 160ms var(--ease),
+      transform 160ms var(--ease);
+    width: 100%;
+  }
+
+  .lc-control:hover {
+    border-color: color-mix(in oklch, var(--blue), transparent 54%);
+  }
+
+  .lc-control:focus {
+    background: var(--control-bg);
+    border-color: color-mix(in oklch, var(--blue), transparent 18%);
+    box-shadow: var(--control-shadow), 0 0 0 4px var(--focus-ring);
+    outline: none;
+  }
+
+  .lc-control::placeholder {
+    color: color-mix(in oklch, var(--muted), transparent 28%);
+  }
+
+  .lc-textarea {
+    field-sizing: content;
+    min-height: 10rem;
+    resize: vertical;
+  }
+
+  .lc-bot-field {
+    height: 0;
+    left: -10000px;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+  }
+
+  .lc-captcha-shell {
+    min-height: 76px;
+  }
+
+  .lc-captcha-note {
+    background:
+      linear-gradient(135deg, color-mix(in oklch, var(--blue-soft), transparent 20%), color-mix(in oklch, var(--surface-elevated), transparent 8%));
+    border: 1px solid color-mix(in oklch, var(--blue), transparent 72%);
+    border-radius: var(--button-radius);
+    color: var(--blue-deep);
+    font-size: 0.82rem;
+    font-weight: 760;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0.85rem;
+  }
+
+  .lc-captcha-note code {
+    background: color-mix(in oklch, var(--surface-elevated), transparent 8%);
+    border: 1px solid color-mix(in oklch, var(--line), transparent 20%);
+    border-radius: 6px;
+    color: var(--blue-ink);
+    font-size: 0.78em;
+    padding: 0.12rem 0.28rem;
+  }
+
+  .lc-submit {
+    justify-content: center;
+    min-height: 48px;
+    position: relative;
+    width: 100%;
+  }
+
+  .lc-submit-spinner {
+    align-items: center;
+    display: inline-flex;
+    height: 18px;
+    margin-left: 0.4rem;
+    opacity: 0;
+    transition: opacity 180ms var(--ease);
+    width: 18px;
+  }
+
+  .lc-submit-spinner svg {
+    animation: lc-spin 720ms linear infinite;
+    transform-origin: center;
+  }
+
+  .lc-submit[data-loading="true"] .lc-submit-spinner {
+    opacity: 1;
+  }
+
+  .lc-submit[data-loading="true"] .lc-submit-icon {
+    display: none;
+  }
+
+  .lc-submit[disabled],
+  .lc-submit[aria-busy="true"] {
+    cursor: progress;
+    opacity: 0.85;
+  }
+
+  @keyframes lc-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lc-submit-spinner svg {
+      animation: none;
+    }
+  }
+
+  .btn {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--button-radius);
+    color: var(--ink);
+    cursor: pointer;
+    display: inline-flex;
+    font-weight: 860;
+    gap: 0.48rem;
+    isolation: isolate;
+    min-height: 42px;
+    overflow: hidden;
+    padding: 0.72rem 0.95rem;
+    position: relative;
+    text-decoration: none;
+    transition:
+      border-color 220ms var(--ease),
+      box-shadow 280ms var(--ease),
+      color 220ms var(--ease),
+      transform 280ms var(--ease-deep);
+  }
+
+  .btn::before {
+    background: color-mix(in oklch, var(--blue), transparent 90%);
+    content: "";
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-18%);
+    transition: opacity 220ms var(--ease), transform 360ms var(--ease-deep);
+    z-index: -1;
+  }
+
+  .btn::after {
+    background: currentColor;
+    bottom: 0.56rem;
+    content: "";
+    height: 1px;
+    left: 0.95rem;
+    opacity: 0.38;
+    position: absolute;
+    transform: scaleX(0.22);
+    transform-origin: left;
+    transition: transform 320ms var(--ease-deep), opacity 220ms var(--ease);
+    width: 1.4rem;
+    z-index: -1;
+  }
+
+  .btn > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn svg {
+    transition: transform 220ms var(--ease-deep);
+  }
+
+  .btn:hover {
+    border-color: color-mix(in oklch, var(--blue), transparent 52%);
+    box-shadow: 0 18px 42px -34px var(--blue-deep);
+    transform: translateY(-1px);
+  }
+
+  .btn:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .btn:hover::after {
+    opacity: 0.68;
+    transform: scaleX(1);
+  }
+
+  .btn:hover svg {
+    transform: translateX(2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn:focus-visible {
+    box-shadow: 0 0 0 4px var(--focus-ring);
+    outline: none;
+  }
+
+  .btn.primary {
+    background: var(--accent-solid);
+    border-color: color-mix(in oklch, var(--blue), transparent 22%);
+    box-shadow: 0 22px 52px -38px var(--blue-deep);
+    color: var(--on-accent);
+  }
+
+  .btn.primary::before {
+    background: var(--accent-solid-hover);
+  }
+
+  .btn.primary:hover {
+    color: var(--on-accent);
+  }
+
+  @media (max-width: 720px) {
+    .lc-form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -1,0 +1,170 @@
+---
+import "../styles/tailwind.css";
+import { getDictionary } from "../i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "ja" | "en";
+}
+
+const {
+  title = "anysigma | Beyond Intelligence",
+  description = "Intelligent systems. Boundless potential. We are building the future of automated intelligence.",
+  lang = "ja",
+} = Astro.props;
+
+const t = getDictionary(lang);
+const canonical = new URL(Astro.url.pathname, "https://anysigma.com").toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0c" />
+    <link rel="alternate" href="https://anysigma.com/" hreflang="ja" />
+    <link rel="alternate" href="https://anysigma.com/en/" hreflang="en" />
+    <link rel="alternate" href="https://anysigma.com/" hreflang="x-default" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="anysigma" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "ja_JP"} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div class="background-grid"></div>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="wrap">
+        <p>&copy; 2026 anysigma. {t.footer.rights}</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+    --paper: oklch(10% 0.02 280);
+    --surface: oklch(12% 0.02 280);
+    --ink: oklch(98% 0.01 280);
+    --muted: oklch(70% 0.02 280);
+    --line: oklch(25% 0.03 280);
+    --accent: oklch(65% 0.2 280);
+    --accent-deep: oklch(45% 0.2 280);
+    --font: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", YuGothic, "Noto Sans JP", system-ui, sans-serif;
+    --max: 1200px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .background-grid {
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.2;
+    z-index: -1;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .footer {
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--line);
+  }
+
+  h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin: 0;
+    line-height: 0.9;
+  }
+
+  .accent-text {
+    color: var(--accent);
+    background: linear-gradient(135deg, var(--accent), oklch(80% 0.1 320));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .lead {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    color: var(--muted);
+    max-width: 30ch;
+    margin-top: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 0.75rem 1.5rem;
+    border-radius: 99px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 2.5rem;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 1rem;
+    }
+  }
+</style>
