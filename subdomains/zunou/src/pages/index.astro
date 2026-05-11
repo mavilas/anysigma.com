@@ -174,15 +174,28 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         </p>
       </div>
 
-      <!-- Zunou's two product use cases (verbatim from zunou.ai) + our launch audience -->
-      <div
-        class="mt-12 grid md:grid-cols-2 gap-4 max-w-4xl"
+      <!-- Zunou's two product use cases (verbatim from zunou.ai) — neither is exactly the launch target -->
+      <p
+        class="mt-14 text-sm text-[var(--color-ink-faint)] uppercase tracking-[0.16em] font-semibold max-w-3xl"
         data-reveal="fade-up"
         data-reveal-delay="3"
       >
+        Zunou's site has two use cases · neither is exactly the launch target
+      </p>
+
+      <div
+        class="mt-4 grid md:grid-cols-2 gap-4 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="4"
+      >
         <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)] flex flex-col">
-          <div class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-3">
-            zunou.ai use case · 1
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
+            <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold">
+              zunou.ai use case · 1
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-bold">
+              Not enough alone
+            </span>
           </div>
           <h3 class="font-display text-2xl mb-2">For Founders</h3>
           <p class="text-sm text-[var(--color-ink)] italic mb-3 font-display">
@@ -192,17 +205,17 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
             Intelligent agents run in the background — route tasks, approvals, follow-ups. Approve / review only when human input is needed.
           </p>
           <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 leading-relaxed">
-            <strong class="text-[var(--color-ink-soft)]">Phase 1 launch audience — broader than the use-case name.</strong> The 4 communities cover Tokyo's <strong class="text-[var(--color-ink-soft)]">builder, operator, and founder population</strong>: TAI = AI engineers / researchers / PMs (mostly builders, not founders); AI Tinkerers = shipping builders; Tokyo Founders = operator-founders; Venture Café = the mix on a weekly rotation. The magic-number mechanic applies wherever there's a small team + many meetings + decisions to track — which is everyone in those rooms.
+            <strong class="text-[var(--color-ink-soft)]">Founders alone don't give us critical mass.</strong> Tokyo has too few of them, and they're too spread across companies to hit the magic-number density threshold by themselves. The launch goes broader — see resolution below.
           </div>
         </div>
 
         <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)] flex flex-col">
-          <div class="flex items-center gap-2 mb-3">
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
             <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold">
               zunou.ai use case · 2
             </span>
             <span class="text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">
-              Not now
+              Too early
             </span>
           </div>
           <h3 class="font-display text-2xl mb-2">For Enterprises</h3>
@@ -213,9 +226,28 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
             Live exec dashboard — progress, workload, and outcomes across teams, projects, priorities. No more chasing updates.
           </p>
           <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 leading-relaxed">
-            <strong class="text-[var(--color-ink-soft)]">Deliberately out of scope until the platform is proven.</strong> Enterprises buy validated tools, not waitlist betas. Selling here credibly requires: (a) several paying logos from the community phase, (b) operational maturity from Phases 1–3, (c) <Term name="APPI" /> compliance posture, (d) referenceable customers. <strong class="text-[var(--color-ink-soft)]">Realistic open: Phase 5a, conditional on the day-180 stage-gate.</strong> Pre-building relationships earlier (warm intros, advisor introductions) is fine — selling is not.
+            <strong class="text-[var(--color-ink-soft)]">Out of scope until the platform is proven.</strong> Enterprises buy validated tools, not waitlist betas. They need paying logos, operational maturity, <Term name="APPI" /> compliance posture, referenceable customers. Realistic open: Phase 5a (post-stage-gate). Pre-building advisor relationships earlier is fine — selling is not.
           </div>
         </div>
+      </div>
+
+      <!-- Resolution: what the launch actually targets -->
+      <div
+        class="mt-6 max-w-4xl rounded-xl border-2 border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/35 p-6"
+        data-reveal="fade-up"
+        data-reveal-delay="5"
+      >
+        <div class="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">
+            What the launch actually targets
+          </span>
+        </div>
+        <h3 class="font-display text-2xl mb-3 text-[var(--color-ink)]">
+          Tokyo's broader builder + operator + founder community.
+        </h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          The four launch communities cover that whole population — not just founders. <strong class="text-[var(--color-ink)]">TAI</strong> (4,000+ AI engineers / researchers / PMs — mostly builders) · <strong class="text-[var(--color-ink)]">AI Tinkerers Ginza</strong> (~200 builders shipping in production) · <strong class="text-[var(--color-ink)]">Tokyo Founders</strong> (~150 operator-founders) · <strong class="text-[var(--color-ink)]">Venture Café Toranomon</strong> (the mix, every Thursday). The magic-number mechanic applies wherever there's a small team + many meetings + decisions to track — which is true across the segment, not just at the founder layer.
+        </p>
       </div>
     </div>
   </section>
