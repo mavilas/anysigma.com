@@ -43,7 +43,7 @@ const decisions = [
   { n: 8, title: "Launch shape — pilot-first vs synchronized 4-community?", desc: "Current recommendation in §06: pilot one community deep first (TAI), learn, then double. Original §05 plan was 4-at-once synchronized. Pilot-first means slower but lower risk. Vote on which approach.", group: "core", status: "open" },
   { n: 9, title: "Sponsored-seat cap + free-trial duration", desc: "Working estimate: 50 members × ¥600 × N months × 4 communities. Candidate Ns: 3 months vs 6 months. Question to test with community owners. Bounded liability either way — not 'free forever'.", group: "core", status: "open" },
   { n: 10, title: "Public events feed — before / with / after waitlist?", desc: "Connpass + Doorkeeper APIs + Lu.ma at launch. The discovery question (§06.7): do we put this in front of unsigned-in users to drive top-of-funnel?", group: "core", status: "open" },
-  { n: 11, title: "Budget approach — methodology over total", desc: "Per-user inference math + sponsored-seat caps + venue sponsorship at ¥1,000/attendee + ops/content/legal placeholders. §09 panel D shows ¥11–18M operational envelope (compensation lines out of scope here — separate conversation). Ratify the methodology, not the total.", group: "core", status: "open" },
+  { n: 11, title: "Budget approach — methodology over total", desc: "Per-user inference math + sponsored-seat caps + hybrid venue sponsorship (flat fee + per-user-join bonus, capped ¥400k/event) + ops/content/legal placeholders. §09 panel D shows ¥12.5–21M operational envelope (compensation lines out of scope here — separate conversation). Ratify the methodology + sponsorship-model shape, not the absolute total.", group: "core", status: "open" },
   { n: 12, title: "Adopt Masaru's positioning angle as the lead message", desc: "“Strategy in Notion. Tasks in Asana. Decisions in Slack. Good luck.” Effective for builders / operators; less so for enterprise.", group: "core", status: "open" },
   { n: 13, title: "Community-discovery direction (A / B / C)", desc: "A = passive emergence (default); B = lightweight in-product recs (Phase 3+ test); C = community discovery as a core surface.", group: "core", status: "open" },
 
@@ -249,7 +249,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             The shape · in one paragraph
           </div>
           <p class="text-[var(--color-ink)] leading-relaxed mb-4">
-            <strong class="text-[var(--color-ink)]">Pilot-first community-led launch</strong> in Tokyo: TAI (4,000+ AI builders) onboarded deep, learn what breaks, then double to AI Tinkerers + Venture Café + one more. Sponsor venues at TokyoDev's published <strong class="text-[var(--color-ink)]">¥1,000/attendee</strong> rate to earn recurring on-stage presence. Push <Term name="Spaces" /> Event-Spaces as the Zoom-playbook viral surface alongside it. <strong class="text-[var(--color-ink)]">Pre-committed stage-gate at ~6 months: ≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend.</strong>
+            <strong class="text-[var(--color-ink)]">Pilot-first community-led launch</strong> in Tokyo. <strong class="text-[var(--color-ink)]">TAI pilot launches end July / early Aug 2026</strong> (Ilya-introduced), then layer in AI Tinkerers + Venture Café + one more. Hybrid venue sponsorship — flat fee + per-user-join bonus — that pays for actual conversion, not just seats (§06.4). Push <Term name="Spaces" /> Event-Spaces as the Zoom-playbook viral surface alongside it. <strong class="text-[var(--color-ink)]">Pre-committed stage-gate Feb 2027: ≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend.</strong>
           </p>
           <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
             The architecture (MIT-aligned tool-based selective retrieval, 136+ tools, Voice Agent on Realtime API, autonomous Relays) means the product is already deeper than what zunou.ai shows publicly — the launch problem is distribution + density, not product readiness. <strong class="text-[var(--color-ink)]">The page below is the show-your-work version. This card is for the skim.</strong>
@@ -314,7 +314,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
             <li>· The <strong class="text-[var(--color-ink)]">launch shape</strong> — pilot-first as recommended (§06), or synchronized 4-community (the original §05 plan)?</li>
             <li>· The <strong class="text-[var(--color-ink)]">year-1 ambition framing</strong> — ¥30M+ ARR is the target we're working toward; beachhead is just months 1–2 of PMF learning; parallel tracks compound from there. Lock the specific number after month-3 paid signal.</li>
-            <li>· The <strong class="text-[var(--color-ink)]">¥1,000/attendee venue sponsorship</strong> (§06.4) as the leading edge of the community partnerships</li>
+            <li>· The <strong class="text-[var(--color-ink)]">hybrid venue-sponsorship model</strong> — flat fee + per-user-join bonus (§06.4) — as the leading edge of community partnerships</li>
             <li>· Which <strong class="text-[var(--color-ink)]">3 capabilities</strong> the TAI pilot demo leads with — and which we hold back</li>
           </ul>
         </div>
@@ -962,6 +962,57 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         <p class="pull-quote">
           MCP gets us into the room. The architecture is why we're still in the room 18 months later.
         </p>
+      </div>
+
+      <!-- The honest "but we already have text agent" question -->
+      <div class="mt-12 max-w-5xl" data-reveal="fade-up">
+        <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-3">
+          Worth talking through · "but we already have text agent — why also do Slack / MCP?"
+        </p>
+        <h3 class="font-display text-2xl mb-4 leading-tight">
+          Text agent + MCP integrations aren't the same thing. They serve different purposes — and together they produce entanglement.
+        </h3>
+        <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+          Fair question. We have a full Text Agent already — it can chat, look things up across our 136+ tools, draft anything. Why also invest in MCP integrations to Slack, Notion, Google Workspace, etc.? Three honest reasons + one we should discuss openly:
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">1 · Day-1 retention</div>
+            <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">Users keep their existing tools.</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              Telling a TAI builder to migrate Slack history into Zunou on day 1 loses 80% of them. MCP means they don't migrate — Zunou's AI reads their existing Slack / Notion / Linear / calendar in place. Day-1 friction goes from "rebuild your workspace" to "click connect." Materially higher activation.
+            </p>
+          </div>
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">2 · Cross-app intelligence</div>
+            <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">The text agent gets smarter when it sees more.</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              "What did the team decide in #product yesterday?" is only answerable if the agent can read Slack. Without MCP, our text agent is bounded to data inside Zunou. With MCP, it's bounded to data the user has access to anywhere. <strong class="text-[var(--color-ink)]">That's the difference between a smart chat box and a chief of staff.</strong>
+            </p>
+          </div>
+          <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">3 · Entanglement (★ the strategic one)</div>
+            <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">Once integrated, leaving Zunou means losing cross-app workflows.</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              The text agent alone is replaceable — ChatGPT can also answer questions. But a text agent <em class="font-display">entangled across 6 of the user's tools</em> isn't replaceable without rebuilding all those connections elsewhere. <strong class="text-[var(--color-ink)]">Entanglement is the moat that compounds with time</strong> — month 1 user has 2 integrations, month 12 user has 10, and switching to anything else costs 10× more by then.
+            </p>
+          </div>
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-warning)] font-bold mb-2">4 · The honest cost · worth discussing</div>
+            <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">MCP isn't free — each integration is eng investment + maintenance.</h4>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              We don't need to integrate everything day one. <strong class="text-[var(--color-ink)]">Open question: which 2–3 integrations do we lead with?</strong> Slack + Google Workspace + Notion are the most-used by TAI builders; Linear comes after; the rest can wait. Phase 0 ships 1–2; the rest are layered as users ask.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout-stripe max-w-4xl">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-2">The short version</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Text agent alone = good product. Text agent + MCP entanglement = <em class="font-display">indispensable workflow</em>. The first wins users on capability; the second keeps them because leaving costs more than staying. <strong class="text-[var(--color-ink)]">We should do both — but pace the MCP build by user pull, not by checklist.</strong>
+          </p>
+        </div>
       </div>
     </div>
   </Section>
@@ -1856,7 +1907,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
               The single most-cited operational pain. Company offices are gated by HR / facilities. CIC Tokyo + EGG JAPAN + WeWork charge per event. Cafés don't fit 50 people. Booking takes weeks of relationship work for one night of value.
             </td>
             <td class="p-3 text-[var(--color-ink-soft)]">
-              We don't run venues — but we can sponsor them at the established market rate. TokyoDev's <a href="https://www.tokyodev.com/articles/organizing-a-tech-meetup-in-japan-tokyodev-will-sponsor-you" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">public meetup-sponsorship program</a> uses <strong class="text-[var(--color-ink)]">¥1,000/attendee</strong> as the standard. At that rate a 50-person AI Tinkerers meetup = ¥50k. Four communities × monthly × 6 months ≈ <strong class="text-[var(--color-ink)]">¥1.2M</strong> — bounded, line-itemable, and gets us recurring on-stage presence.
+              We don't run venues — we sponsor them, but with a model that incentivizes <em class="font-display">actual product adoption</em> not just attendance. <a href="https://www.tokyodev.com/articles/organizing-a-tech-meetup-in-japan-tokyodev-will-sponsor-you" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">TokyoDev's ¥1,000/attendee program</a> is the public market floor, but their audience is job-seeker-curated (lower Zunou-acquisition value). TAI / AI Tinkerers / Venture Café are higher-quality audiences for us — and at TAI's scale (~4,000 members, ~100–300 per meetup), a flat ¥1,000/attendee gets expensive fast without guaranteeing downloads. <strong class="text-[var(--color-ink)]">We propose a hybrid model — see below — that shares risk with the organizer and pays for outcomes, not seats.</strong>
             </td>
             <td class="p-3 text-[var(--color-ink-soft)]">
               Sponsorship line-item (proposed addition to §09 panel D budget). Optional adjacent play: bulk meeting-room deal with CIC Tokyo / EGG JAPAN as Phase 2.
@@ -1914,16 +1965,16 @@ const openCount = decisions.filter((d) => d.status === "open").length;
       </table>
     </div>
 
-    <!-- Named organizer voices · grounded in actual conversations Marco has had -->
+    <!-- Validation calls to schedule · what we'll ask each organizer -->
     <div class="mb-12 max-w-5xl" data-reveal="fade-up">
       <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-3">
-        From the organizers we've spoken with
+        Validation calls to schedule · what we'll ask each organizer
       </p>
       <h3 class="font-display text-2xl mb-5 leading-tight">
-        Real voices from the four communities — not theory.
+        We haven't spoken to them yet. Here are the relationships + the specific questions each call needs to answer.
       </h3>
       <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        Marco has direct relationships across the launch list. Below: what each organizer has told us about their community's friction — in their own words, with permission to quote. <em class="font-display">These quotes are the ground-truth the §06.4 thesis rests on.</em>
+        The §06.4 thesis (community partnerships · hybrid sponsorship model · co-marketed events) needs validation from the actual organizers before it hardens into a plan. <strong class="text-[var(--color-ink)]">These calls happen in the next 4 weeks.</strong> Each card lists the relationship we have + the specific information we need to gather.
       </p>
 
       <div class="grid md:grid-cols-2 gap-4">
@@ -1933,12 +1984,18 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold">TAI · Tokyo AI</span>
             <span class="text-xs text-[var(--color-ink-faint)] font-mono">~4,000 members · WhatsApp</span>
           </div>
-          <p class="font-display text-lg text-[var(--color-ink)] leading-snug mb-3 italic">
-            <span class="text-[var(--color-accent)]">"</span><span class="text-[var(--color-ink-faint)] not-italic font-sans text-sm">[Quote pending · Marco to fill]</span><span class="text-[var(--color-accent)]">"</span>
+          <p class="text-sm text-[var(--color-ink-soft)] mb-3 leading-relaxed">
+            <strong class="text-[var(--color-ink)]">Relationship:</strong> Marco knows <strong class="text-[var(--color-ink)]">Ilya Kulyatin</strong> (founder) personally. Direct access.
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            — <strong class="text-[var(--color-ink)]">Ilya Kulyatin</strong>, founder of Tokyo AI. <span class="text-[var(--color-ink-faint)]">Relationship: direct, personal.</span>
-          </p>
+          <div class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-bold mb-2">Questions for the call</div>
+          <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+            <li>· Typical meetup attendance + active-member-vs-roster dynamic?</li>
+            <li>· Which 2–3 pain points TAI members repeatedly mention?</li>
+            <li>· Existing sponsorship models that have worked + what hasn't?</li>
+            <li>· Reaction to hybrid model: flat fee + per-user-join bonus?</li>
+            <li>· Demo slot at the next monthly meetup — feasible?</li>
+            <li>· Are members already paying for AI tools (Cursor, ChatGPT Plus, etc.)?</li>
+          </ul>
         </div>
 
         <!-- IVS · Headline Asia -->
@@ -1947,45 +2004,63 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold">IVS · Kyoto</span>
             <span class="text-xs text-[var(--color-ink-faint)] font-mono">~13,000 attendees · July annual</span>
           </div>
-          <p class="font-display text-lg text-[var(--color-ink)] leading-snug mb-3 italic">
-            <span class="text-[var(--color-accent)]">"</span><span class="text-[var(--color-ink-faint)] not-italic font-sans text-sm">[Quote pending · meeting scheduled this week / next]</span><span class="text-[var(--color-accent)]">"</span>
+          <p class="text-sm text-[var(--color-ink-soft)] mb-3 leading-relaxed">
+            <strong class="text-[var(--color-ink)]">Relationship:</strong> meeting scheduled this week or next with Headline Asia / IVS team.
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            — <strong class="text-[var(--color-ink)]">IVS organizer</strong>, Headline Asia. <span class="text-[var(--color-ink-faint)]">Relationship: live conversation in flight.</span>
-          </p>
+          <div class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-bold mb-2">Questions for the call</div>
+          <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+            <li>· LAUNCHPAD application timeline + selection criteria for 2026?</li>
+            <li>· Sponsor tiers — pricing + what each tier unlocks?</li>
+            <li>· Side-event Spaces deployment — feasible alongside main programming?</li>
+            <li>· Attendee composition (founder / investor / builder mix)?</li>
+            <li>· Co-marketed "AI assistant for every attendee" Spaces experience — interest level?</li>
+            <li>· Past sponsor examples — what worked / what didn't?</li>
+          </ul>
         </div>
 
         <!-- AI Tinkerers Ginza -->
         <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
           <div class="flex items-baseline gap-2 mb-3 flex-wrap">
             <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold">AI Tinkerers Ginza</span>
-            <span class="text-xs text-[var(--color-ink-faint)] font-mono">~200 shipping builders</span>
+            <span class="text-xs text-[var(--color-ink-faint)] font-mono">~200 shipping builders · selective</span>
           </div>
-          <p class="font-display text-lg text-[var(--color-ink)] leading-snug mb-3 italic">
-            <span class="text-[var(--color-accent)]">"</span><span class="text-[var(--color-ink-faint)] not-italic font-sans text-sm">[Quote pending · Marco to fill]</span><span class="text-[var(--color-accent)]">"</span>
+          <p class="text-sm text-[var(--color-ink-soft)] mb-3 leading-relaxed">
+            <strong class="text-[var(--color-ink)]">Relationship:</strong> public events accessible. Need to identify the organizer + secure intro.
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            — <strong class="text-[var(--color-ink)]">[Organizer name]</strong>, AI Tinkerers Ginza.
-          </p>
+          <div class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-bold mb-2">Questions for the call</div>
+          <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+            <li>· Demo-night cadence + selection process?</li>
+            <li>· Member overlap with TAI — rough %?</li>
+            <li>· Pain points shipping builders most cite when running their own teams?</li>
+            <li>· Sponsorship interest — hybrid model fit?</li>
+            <li>· Are members already paying for productivity tools?</li>
+            <li>· Anyone we should specifically not pitch to (competing AI Chief of Staff founders, etc.)?</li>
+          </ul>
         </div>
 
-        <!-- Venture Café / Tokyo Founders Group -->
+        <!-- Tokyo Founders Group -->
         <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
           <div class="flex items-baseline gap-2 mb-3 flex-wrap">
             <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold">Tokyo Founders Group</span>
-            <span class="text-xs text-[var(--color-ink-faint)] font-mono">~150 operator-founders</span>
+            <span class="text-xs text-[var(--color-ink-faint)] font-mono">~150 operator-founders · private</span>
           </div>
-          <p class="font-display text-lg text-[var(--color-ink)] leading-snug mb-3 italic">
-            <span class="text-[var(--color-accent)]">"</span><span class="text-[var(--color-ink-faint)] not-italic font-sans text-sm">[Quote pending — warm intro likely, to confirm]</span><span class="text-[var(--color-accent)]">"</span>
+          <p class="text-sm text-[var(--color-ink-soft)] mb-3 leading-relaxed">
+            <strong class="text-[var(--color-ink)]">Relationship:</strong> warm intro likely — need to confirm with the connecting party + identify the right TFG admin contact.
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            — <strong class="text-[var(--color-ink)]">[Organizer name]</strong>, Tokyo Founders Group.
-          </p>
+          <div class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-bold mb-2">Questions for the call</div>
+          <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+            <li>· Active-member vs roster — how many actually engage?</li>
+            <li>· What channel(s) does TFG use (Slack / WhatsApp / something else)?</li>
+            <li>· Pain points operator-founders mention vs builder-founders?</li>
+            <li>· Have they sponsored / partnered with any product before?</li>
+            <li>· Closed-door demo vs. public event — what fits their culture?</li>
+            <li>· Willingness-to-pay signal — do members already pay for ops tools?</li>
+          </ul>
         </div>
       </div>
 
       <p class="text-xs text-[var(--color-ink-faint)] italic mt-5 max-w-3xl leading-relaxed">
-        <strong class="not-italic text-[var(--color-ink-soft)]">Why this is in the proposal:</strong> a launch plan that names four organizers and a venue-sponsorship pitch all four have heard is materially harder to push back on than a launch plan grounded in public stats. Quotes are pending — Marco fills these in before the review meeting.
+        <strong class="not-italic text-[var(--color-ink-soft)]">Why this is in the proposal:</strong> hardening the §06.4 thesis depends on real organizer conversations, not Marco's hypothesis. The calls happen in the next 4 weeks; quotes + corrected pain points + sponsorship-model feedback come back into the proposal as v2. <strong class="not-italic text-[var(--color-ink)]">If any of these conversations push back hard on the venue-sponsorship model, the proposal rebalances around what actually works.</strong>
       </p>
     </div>
 
@@ -1996,7 +2071,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         The pitch to the organizer (one sentence)
       </div>
       <blockquote class="font-display text-2xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight text-[var(--color-paper)]">
-        <span class="text-[var(--color-accent)] mr-1">"</span>We sponsor your venue at the rate TokyoDev established, your members get Nova free for the run of the partnership, and after each event you get an AI-generated recap + sponsor report that takes you zero minutes to produce.<span class="text-[var(--color-accent)] ml-1">"</span>
+        <span class="text-[var(--color-accent)] mr-1">"</span>We cover your event costs with a flat sponsorship — plus we pay you a per-user bonus for every attendee who actually joins Zunou. Your members get Nova free for the partnership, and after each event we hand you an AI-generated recap + sponsor report that takes you zero minutes to produce.<span class="text-[var(--color-accent)] ml-1">"</span>
       </blockquote>
       <p class="mt-6 text-sm text-[var(--color-paper-soft)]/70 max-w-3xl">
         Why this works: every line is something they already want, none of it requires them to migrate their community off Connpass / Doorkeeper / Lu.ma, and the financial cost is bounded and per-event. We're a sponsor with product utility, not a platform asking them to move.
@@ -2017,12 +2092,12 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
             Level 1 · Phase 1 ★
           </div>
-          <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Sponsor at TokyoDev rate</h4>
+          <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Hybrid: flat fee + per-user-join bonus</h4>
           <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
-            ¥1,000/attendee. 50-person meetup = ¥50k. We pay venue + F&B directly or reimburse the organizer (TokyoDev's exact process). Bounded liability, recurring presence, immediate yes from organizers.
+            Base sponsorship <strong class="text-[var(--color-ink)]">¥75k–¥150k</strong> per event (covers venue / F&B / AV) <strong class="text-[var(--color-ink)]">+ ¥2,000 per attendee</strong> who creates a Zunou account within 14 days, capped at <strong class="text-[var(--color-ink)]">¥400k</strong> per event. Pays for outcomes, not seats. Organizer shares the conversion risk + upside.
           </p>
           <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
-            Working line item: ~¥1.2M / 6 months across 4 P1–P2 communities. Folds cleanly into §09 panel D.
+            Working line item: ~<strong class="not-italic text-[var(--color-ink)]">¥2.5–5M / 6 months</strong> across 3–4 P1–P2 communities (high end if conversion is strong — that's a feature, not a bug). Subject to validation with each organizer (§06.4 calls). Folds into §09 panel D.
           </p>
         </div>
         <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
@@ -2053,7 +2128,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
     </div>
 
     <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed" data-reveal="fade-up">
-      <strong class="not-italic text-[var(--color-ink-soft)]">Sources:</strong> TokyoDev's published meetup-sponsorship process (¥1,000/attendee, reimbursement within 10 business days); Tokyo AI's hosting pattern across company offices, coworking spaces, and partner venues (confirmed via their event history); CIC Tokyo as canonical venue (Toranomon Hills Business Tower 15F hosts Tokyo Tech Meetup Feb 2026). The market rate is established and public — we don't need to invent a number.
+      <strong class="not-italic text-[var(--color-ink-soft)]">Sources + caveats:</strong> TokyoDev's published meetup-sponsorship program (¥1,000/attendee, reimbursed within 10 business days) is the market floor — but their audience (job-seekers) doesn't match Zunou's ICP. TAI / AI Tinkerers / Venture Café audiences are materially more valuable per acquired user, which is why a hybrid (flat + per-join) model fits better. Numbers above are starting hypotheses subject to validation with each organizer (§06.4 calls). CIC Tokyo as canonical venue: Toranomon Hills Business Tower 15F hosts Tokyo Tech Meetup Feb 2026 — public.
     </p>
   </Section>
   <!-- /06.4 -->
@@ -2640,7 +2715,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
     number="07"
     eyebrow="How it actually unfolds"
     title="Five phases. Each gated on readiness, not on the calendar."
-    lede="We don't promise dates we can't keep. We promise readiness gates the team agrees on in advance. Earliest plausible launch is summer 2026; later is fine if Phase 0 isn't clean."
+    lede="We move fast. Phase 0 readiness in 4–6 weeks; TAI pilot launch by end of July or early August 2026. The gates are still readiness-based, not calendar-based — but the readiness bar is sized for a fast launch, not an open-ended timeline."
   >
     <!-- Visual timeline · scannable summary above the detailed list -->
     <div class="mb-12 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 sm:p-6" data-reveal="fade-up">
@@ -2705,13 +2780,13 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           <!-- Month axis -->
           <g font-family="JetBrains Mono, monospace" font-size="10" fill="#8c8c8c" font-weight="500">
             <line x1="20" y1="180" x2="660" y2="180" stroke="#e6e6e6" stroke-width="1"/>
-            <text x="20"  y="200" text-anchor="start">May '26</text>
+            <text x="20"  y="200" text-anchor="start">Jun '26</text>
             <text x="125" y="200" text-anchor="middle">Jul</text>
             <text x="220" y="200" text-anchor="middle">Aug</text>
             <text x="320" y="200" text-anchor="middle">Sep</text>
             <text x="420" y="200" text-anchor="middle">Nov</text>
-            <text x="540" y="200" text-anchor="middle">Jan '27</text>
-            <text x="660" y="200" text-anchor="middle">Mar '27</text>
+            <text x="540" y="200" text-anchor="middle">Feb '27</text>
+            <text x="660" y="200" text-anchor="middle">Apr '27</text>
           </g>
 
           <!-- Phase tick caveats -->
@@ -2737,42 +2812,42 @@ const openCount = decisions.filter((d) => d.status === "open").length;
     <ol class="relative border-l-2 border-[var(--color-line)] pl-6 space-y-10 max-w-4xl">
       <li data-reveal="fade-up">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
-        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 0 · Foundations</div>
-        <h3 class="font-display text-2xl mb-2">Ship the cost guardrails and platform readiness checks.</h3>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 0 · Pre-pilot readiness · 4–6 weeks (June–mid-July 2026)</div>
+        <h3 class="font-display text-2xl mb-2">Ship cost guardrails + community-pilot instrumentation.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Token budget meter + multi-model routing tier — cheap model for high-volume work, premium for heavy reasoning, model-agnostic (Claude / GPT / Gemini routable based on cost-per-task). JP landing page on <code class="inline-code">zunou.anysigma.com</code>. Magic-number counters in the PWA. Events-feed v0 (Connpass + Doorkeeper public APIs). Validate community overlap via roster sampling. <strong class="text-[var(--color-ink)]">Gate: all six items shipped, or no pilot.</strong>
+          Per-AU inference telemetry · free-tier soft/hard caps · invite-gating via Spaces <code class="inline-code">join_code</code> (one code per partner community) · magic-number counters wired to real Zunou events (<Term name="Daily Debrief" /> open, <Term name="Relays" /> sent, calendar OAuth, colleague-join) · per-user anomaly detection (5× median = same-day flag) · PostHog cohort dashboards. <strong class="text-[var(--color-ink)]">Gate: cost-gating + magic-number instrumentation green, or pilot slips.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="1">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
-        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 1 · Community pilot launch</div>
-        <h3 class="font-display text-2xl mb-2">TAI first (pilot-deep), then double to 3 more.</h3>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 1 · TAI pilot launch · end July / early August 2026</div>
+        <h3 class="font-display text-2xl mb-2">TAI first (pilot-deep) — Ilya-introduced, partner-curated.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Week 1: AI Tinkerers Ginza demo + Tokyo Founders private launch. Week 2: TAI presentation + Venture Café Thursday Gathering. Same-week PR Times release. Member-of-N badge live in product. <strong class="text-[var(--color-ink)]">Gate: 100 signups across the four, ≥30% calendar-connected.</strong>
+          Demo at TAI monthly meetup (Marco + Ilya warm-introduced). Invite codes distributed to attendees + WhatsApp group. First 50 onboarded with Marco / Malek in the room. Concurrent PR Times release. <strong class="text-[var(--color-ink)]">Gate: 50+ activations in the first 14 days, magic-number ≥ 35%.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="2">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
-        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 2 · IVS Kyoto + density push</div>
-        <h3 class="font-display text-2xl mb-2">Convert the conference into ARR-credible logos.</h3>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 2 · Double + IVS · August–October 2026</div>
+        <h3 class="font-display text-2xl mb-2">Layer 2nd–3rd communities + IVS Kyoto.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          IVS LAUNCHPAD pitch (or side-event regardless). Booth with live "summarize this booth's pitches" demo. Pre-conference auto-prep emailed to RSVP'd attendees who connect calendar. <strong class="text-[var(--color-ink)]">Gate: <Term name="NSM" /> ≥ 60 <Term name="WAU" /> past magic number by end of phase.</strong>
+          AI Tinkerers Ginza demo + Venture Café Thursday Gathering. IVS-side-event Spaces deployment (IVS July annual; if calendar lines up, otherwise IVS-class equivalent). Hybrid sponsorship model running (§06.4). <strong class="text-[var(--color-ink)]">Gate: <Term name="NSM" /> ≥ 60 <Term name="WAU" /> past magic number by end of phase.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="3">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
-        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 3 · Density compound + first paying logos</div>
-        <h3 class="font-display text-2xl mb-2">Prove paid conversion before the free runway expires.</h3>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 3 · Paid signal + density · November 2026–January 2027</div>
+        <h3 class="font-display text-2xl mb-2">First paying logos · tier preference data · scale-up readiness.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          First paid logo + PR Times release. Akai Wagon / Indelible portfolio rollouts. "This Week in Tokyo" digest hits 5,000 weekly uniques. Ringi automation alpha to 3 enterprise design partners. Apply for METI IT subsidy. <strong class="text-[var(--color-ink)]">Gate: ≥5 paid logos, MoM growth ≥ 20%.</strong>
+          First 5–10 paying logos by month 3 of pilot; 20–30 by month 6. Tier preference (Pro $19 vs Business $39) calibrated. Akai Wagon / Indelible portfolio rollouts warm-introduced. "This Week in Tokyo" digest hits 5,000 weekly uniques. <strong class="text-[var(--color-ink)]">Gate: paid signal real · Sean Ellis ≥ 40% · MoM growth accelerating.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="4">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)] status-dot"></span>
-        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-accent)] mb-1.5">Phase 4 · Stage-gate review</div>
-        <h3 class="font-display text-2xl mb-2">The single yes/no/extend decision against six PMF criteria.</h3>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-accent)] mb-1.5">Phase 4 · Stage-gate review · February 2027</div>
+        <h3 class="font-display text-2xl mb-2">The single fuel / extend / pivot decision against six PMF criteria.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          ~6 months after Phase 1 launch. <Term name="NSM" /> ≥ 200 · One launch community at 25%+ density · 35%+ activation in 14 days · ≥3 paid logos · Inference ≤¥600/<Term name="AU" />/mo · <Term name="Member-of-N" /> ≥ 15%. <strong class="text-[var(--color-ink)]">Hit ≥4 → fuel. ≤2 → pivot. 3 → extend 60 days.</strong>
+          ~6 months after Phase 1 launch. <Term name="NSM" /> ≥ 200 · one launch community at 25%+ density · 35%+ activation in 14 days · ≥3 paid logos · inference ≤¥600/<Term name="AU" />/mo · <Term name="Member-of-N" /> ≥ 15%. <strong class="text-[var(--color-ink)]">Hit ≥4 → fuel. ≤2 → pivot. 3 → extend 60 days.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="5">
@@ -3195,14 +3270,14 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             <tr class="border-t border-[var(--color-line-soft)]">
               <td class="p-3 font-semibold text-[var(--color-ink)] align-top">
                 Venue sponsorships (§06.4)<br/>
-                <span class="text-xs font-normal text-[var(--color-ink-faint)]">(¥1,000/attendee · TokyoDev rate)</span>
+                <span class="text-xs font-normal text-[var(--color-ink-faint)]">(hybrid: flat fee + per-user-join bonus, capped per event)</span>
               </td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono align-top">¥1.2–2.5M</td>
-              <td class="p-3 text-[var(--color-ink-soft)] align-top">50-person meetup ≈ ¥50k; 4 communities × ~monthly × 6 months ≈ ¥1.2M baseline; doubles if cadence picks up.</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono align-top">¥2.5–5M</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">~¥75–150k flat + ¥2,000/join, capped ¥400k/event · 3–4 communities × ~monthly × 6 months. Range scales with conversion — high end means more downloads (good problem).</td>
             </tr>
             <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-accent-soft)]/30">
               <td class="p-3 font-semibold text-[var(--color-ink)]">Total working envelope</td>
-              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">¥11.2–18.5M</td>
+              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">¥12.5–21M</td>
               <td class="p-3 text-[var(--color-ink-soft)]">Operational + sponsored-seat + venue-sponsorship line items only. <em class="font-display">Compensation (Marco's contract, advisor fees) is a separate conversation, not included here.</em></td>
             </tr>
           </tbody>
@@ -3210,7 +3285,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
       </div>
 
       <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
-        ¥11–18M ≈ $75–125k USD. Operational only — the team-comp side of any GTM commitment is a separate discussion that doesn't belong in this envelope. The point of putting the methodology in §12 #11 is so we ratify the <em class="font-display">shape</em> of spend, not the absolute total.
+        ¥12.5–21M ≈ $85–140k USD. Operational only — the team-comp side of any GTM commitment is a separate discussion that doesn't belong in this envelope. The hybrid-sponsorship range is wider than a flat rate because actual cost scales with download conversion — that's a feature, not a bug. The point of putting the methodology in §12 #11 is so we ratify the <em class="font-display">shape</em> of spend, not the absolute total.
       </p>
     </div>
   </Section>
@@ -3917,7 +3992,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           <tr>
             <td><strong>JP advisors</strong></td>
             <td>
-              I've spoken with organizers from TAI / AI Tinkerers / Venture Café / Le Wagon / Tokyo Founders Group (with permission to name) — quotes live in §06.4. <strong class="text-[var(--color-ink)]">Who else should I be talking to before this hardens into a plan</strong>, and is the venue-sponsorship pitch at ¥1,000/attendee something you've seen land before?
+              I have direct access to TAI (Ilya) and a live conversation in flight with IVS; warm intros likely to TFG and AI Tinkerers. <strong class="text-[var(--color-ink)]">I haven't yet had the validation calls</strong> — those happen in the next 4 weeks (questions per call in §06.4). Who else should I be talking to before this hardens into a plan, and is the hybrid sponsorship model (flat fee + per-user-join bonus) something you've seen land with JP community organizers?
             </td>
             <td>The §06.4 thesis is grounded in real organizer conversations. Adding 1–2 more named voices makes it impossible to push back on as "Marco's theory."</td>
           </tr>
@@ -3985,10 +4060,10 @@ const openCount = decisions.filter((d) => d.status === "open").length;
 
           <!-- Ask 3: Operational budget envelope -->
           <tr>
-            <td><strong>Operational budget envelope</strong><div class="text-xs text-[var(--color-ink-faint)] mt-1">Inference + sponsored seats + venue (¥1,000/attendee) + ops/content/legal · compensation excluded (separate conversation)</div></td>
-            <td><strong class="text-[var(--color-ink)]">¥11–18M</strong></td>
+            <td><strong>Operational budget envelope</strong><div class="text-xs text-[var(--color-ink-faint)] mt-1">Inference + sponsored seats + hybrid venue sponsorship (flat + per-user-join) + ops/content/legal · compensation excluded (separate conversation)</div></td>
+            <td><strong class="text-[var(--color-ink)]">¥12.5–21M</strong></td>
             <td><span class="gap-status partial" aria-label="partial"></span> <span class="text-[var(--color-warning)] font-semibold text-xs">Methodology</span></td>
-            <td>Per-user inference math is honest; venue rate is TokyoDev's published number; ops is sized to a community-led launch. Ratify the shape, not the total.</td>
+            <td>Per-user inference math is honest; venue model pays for outcomes (downloads) not seats — shares risk with organizer. Ops sized to a community-led launch. Ratify the shape, not the total.</td>
             <td>~6,500 individuals reachable in the beachhead; 4-community partnership program active for 6+ months; sufficient cohort scale to produce PMF signals (Sean Ellis, retention, paid validation).</td>
             <td>Single-channel launch (no venue sponsorship); activation depends on viral mechanics alone; cap on reach.</td>
             <td>This review</td>
@@ -4018,13 +4093,13 @@ const openCount = decisions.filter((d) => d.status === "open").length;
 
           <!-- Ask 6: Validation calls -->
           <tr>
-            <td><strong>5 organizer validation calls</strong><div class="text-xs text-[var(--color-ink-faint)] mt-1">TAI / AI Tinkerers / Venture Café / Le Wagon / Tokyo Founders Group · §06.4 quotes</div></td>
+            <td><strong>5 organizer validation calls</strong><div class="text-xs text-[var(--color-ink-faint)] mt-1">TAI / IVS / AI Tinkerers / Venture Café / Tokyo Founders Group · question list in §06.4</div></td>
             <td><strong class="text-[var(--color-ink)]">5</strong></td>
-            <td><span class="gap-status partial" aria-label="partial"></span> <span class="text-[var(--color-warning)] font-semibold text-xs">2 in flight</span></td>
-            <td>Marco has direct access (Ilya at TAI · IVS this week / next · TFG warm intro likely). Remaining 2 need scheduling.</td>
-            <td>§06.4 thesis grounded in named voices; venue-sponsorship pitch pressure-tested; pilot launch has named co-conspirators.</td>
-            <td>The community pain panel reads as theory; senior readers can push back as "Marco's hypothesis."</td>
-            <td><strong>4 weeks</strong></td>
+            <td><span class="gap-status open" aria-label="open"></span> <span class="text-[var(--color-ink-faint)] font-semibold text-xs">All to schedule</span></td>
+            <td>Marco has relationships (Ilya at TAI direct · IVS meeting this week/next · TFG warm intro likely) but no validation calls have happened yet. All 5 need to be scheduled + run.</td>
+            <td>§06.4 thesis gets grounded in real organizer voices, hybrid sponsorship model gets pressure-tested before scaling spend, pilot launch has named co-conspirators.</td>
+            <td>The community pain panel + sponsorship math read as Marco's hypothesis until validated.</td>
+            <td><strong>Next 4 weeks</strong></td>
           </tr>
 
           <!-- Ask 7: Marketing channel investments -->
