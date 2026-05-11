@@ -146,6 +146,187 @@ code, .font-mono {
   background: oklch(0.99 0.005 90 / 0.8);
 }
 
+/* === Hero claim cards — three-up scannable trio === */
+.claim-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.claim-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.12);
+}
+
+/* === Acts roadmap pill strip === */
+.act-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  font-size: 0.75rem;
+  color: var(--color-ink);
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.act-pill:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  transform: translateY(-1px);
+}
+.act-pill-accent {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.act-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+.act-label {
+  font-weight: 600;
+}
+.act-sep {
+  align-self: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-ink-faint);
+}
+
+/* === Prominence — make headline claims stand out === */
+.standout {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(180deg, transparent 65%, var(--color-accent-soft) 65%);
+  padding: 0 0.15em;
+}
+
+/* === Radial procurement filter — animated rings, spokes, scanner === */
+@keyframes radial-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes radial-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.06); }
+}
+@keyframes radial-spoke-draw {
+  0% { stroke-dashoffset: 130; opacity: 0; }
+  20% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes radial-node-in {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes radial-orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+@keyframes ring-breathe {
+  0%, 100% { opacity: 0.25; r: 95; }
+  50% { opacity: 0.6; r: 102; }
+}
+
+.radial-stage {
+  position: relative;
+}
+.radial-stage .radial-spoke {
+  stroke-dasharray: 130;
+  stroke-dashoffset: 130;
+  animation: radial-spoke-draw 1.6s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+}
+.radial-stage.is-visible .radial-spoke {
+  animation-play-state: running;
+}
+.radial-stage .radial-node {
+  transform-origin: var(--cx) var(--cy);
+  transform-box: fill-box;
+  opacity: 0;
+  animation: radial-node-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.radial-stage .radial-ring-pulse {
+  transform-origin: 300px 230px;
+  animation: ring-breathe 3.6s ease-in-out infinite;
+}
+.radial-stage .radial-scanner {
+  transform-origin: 300px 230px;
+  animation: radial-sweep 12s linear infinite;
+}
+.radial-stage .radial-orbit-marker {
+  transform-origin: 300px 230px;
+  animation: radial-orbit 18s linear infinite;
+}
+.radial-stage .radial-center-glow {
+  animation: radial-pulse 3.2s ease-in-out infinite;
+  transform-origin: 300px 230px;
+  transform-box: fill-box;
+}
+
+/* === Beachhead expansion flow — animated cascade SVG === */
+@keyframes flow-path-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes flow-arrow-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.flow-stage {
+  position: relative;
+}
+.flow-stage .flow-path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: flow-path-draw 1.1s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+}
+.flow-stage .flow-node {
+  transform-origin: center center;
+  transform-box: fill-box;
+  opacity: 0;
+  animation: radial-node-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.flow-stage .flow-node-label {
+  opacity: 0;
+  animation: radial-node-in 0.4s ease-out forwards;
+}
+.flow-stage .flow-arrow-head {
+  opacity: 0;
+  animation: radial-node-in 0.3s ease-out forwards;
+}
+.flow-stage .flow-pulse {
+  transform-origin: center center;
+  transform-box: fill-box;
+  animation: radial-pulse 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-stage .flow-path { stroke-dashoffset: 0; }
+  .flow-stage .flow-node,
+  .flow-stage .flow-node-label,
+  .flow-stage .flow-arrow-head { opacity: 1; }
+}
+
+/* === Section number badge — replaces plain eyebrows where prominence matters === */
+.num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  background: var(--color-accent);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -153,4 +334,11 @@ code, .font-mono {
     transition-duration: 0.01ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .radial-stage .radial-spoke {
+    stroke-dashoffset: 0;
+  }
+  .radial-stage .radial-node {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

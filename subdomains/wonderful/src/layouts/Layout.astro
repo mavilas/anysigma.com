@@ -1,6 +1,7 @@
 ---
 import "../styles/tailwind.css";
 import { Zap, Lock, Shield } from "@lucide/astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
 interface Props {
   title?: string;
@@ -81,6 +82,8 @@ const {
         </div>
       </div>
     </header>
+
+    <TableOfContents />
 
     <main>
       <slot />
