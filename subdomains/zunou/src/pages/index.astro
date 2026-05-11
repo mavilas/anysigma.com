@@ -760,7 +760,29 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         The physics term for this is <strong>sympathetic detonation</strong> — adjacent explosive charges igniting each other through shockwave coupling. The growth-theory term is <strong>percolation threshold</strong> — the moment a sparse graph flips from disconnected clusters into one giant connected component.
       </p>
       <p>
-        In plain terms: an attendee at AI Tinkerers Ginza on Tuesday sees three people at Venture Café Toranomon on Thursday. By the end of the launch week, "everyone I know is on Zunou" becomes literally true inside the Tokyo English-speaking founder graph.
+        In plain terms: an attendee at AI Tinkerers Ginza on Tuesday sees three people at Venture Café Toranomon on Thursday. By the end of the launch week, one sentence becomes literally true inside the Tokyo English-speaking founder graph —
+      </p>
+    </div>
+
+    <!-- The hero moment of the entire mechanic -->
+    <div
+      class="my-12 max-w-4xl mx-auto rounded-2xl bg-[var(--color-ink)] text-[var(--color-paper)] p-10 sm:p-14 relative overflow-hidden"
+      data-reveal="scale"
+    >
+      <!-- decorative accent corner -->
+      <div
+        class="absolute top-0 right-0 w-32 h-32 -translate-y-12 translate-x-12 rounded-full bg-[var(--color-accent)]/30 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <div class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4">
+        The sentence that signals we won
+      </div>
+      <blockquote class="font-display text-3xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-[var(--color-paper)]">
+        <span class="text-[var(--color-accent)] mr-1">"</span>Everyone I know<br />
+        is on Zunou.<span class="text-[var(--color-accent)] ml-1">"</span>
+      </blockquote>
+      <p class="mt-6 text-sm text-[var(--color-paper-soft)]/70 max-w-md">
+        When this becomes literally true for one person inside a launch community, the percolation threshold is crossed. From there it spreads passively.
       </p>
     </div>
 
@@ -773,50 +795,312 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
 
   <hr class="section-rule max-w-6xl mx-auto" />
 
-  <!-- 05 · COMMUNITIES -->
+  <!-- 06 · COMMUNITIES -->
   <Section
     id="communities"
     number="06"
-    eyebrow="The four"
-    title="Tokyo. Same week. Synchronized."
-    lede="Not picked for prestige. Picked because their members already overlap — verified by roster sampling before launch."
+    eyebrow="The launch shape"
+    title="One pilot first. Learn. Double. Scale."
+    lede="We don't sympathetic-detonate four launches before we know the platform is ready. We onboard one community deeply, take the operational learnings, fix what breaks — then double, then scale to the rest."
   >
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Community
-        name="TAI (Tokyo AI)"
-        members="4,000+ members"
-        channel="Monthly meetup · Connpass · Slack"
-        rationale="Largest technical AI community in Japan. Engineers, researchers, investors, PMs. Cross-cuts every other community in our launch graph."
-        url="https://www.tokyoai.jp/"
-        icon="layers"
-      />
-      <Community
-        name="AI Tinkerers Ginza"
-        members="~200 selective"
-        channel="Monthly demo nights"
-        rationale="Highest-signal builders — the people who write the tools other engineers adopt. If they pick up Zunou, it spreads from there."
-        url="https://tokyo.aitinkerers.org/"
-        icon="wrench"
-        revealDelay={1}
-      />
-      <Community
-        name="Tokyo Founders Group"
-        members="~150 operators"
-        channel="Private list"
-        rationale="Operator-founders — exactly Beachhead A ICP. Bilingual, English-first leadership at Tokyo scale-ups."
-        icon="rocket"
-        revealDelay={2}
-      />
-      <Community
-        name="Venture Café Toranomon"
-        members="Weekly rotating"
-        channel="Thursday physical gathering"
-        rationale="Highest-frequency repeated touchpoint in Tokyo. Same place every Thursday — compounding density through repetition."
-        url="https://venturecafetokyo.org/"
-        icon="coffee"
-        revealDelay={3}
-      />
+    <!-- The reframed approach -->
+    <div
+      class="mb-12 grid md:grid-cols-4 gap-3 max-w-5xl"
+      data-reveal="fade-up"
+    >
+      <div class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
+          Pilot · stage 1
+        </div>
+        <h4 class="font-display text-lg mb-1.5 text-[var(--color-ink)]">One community</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Deep onboarding. Marco + Malek hand-hold the first ~50 users. Every friction point gets logged. Platform readiness becomes a known.
+        </p>
+      </div>
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2">
+          Learn · stage 2
+        </div>
+        <h4 class="font-display text-lg mb-1.5 text-[var(--color-ink)]">Fix what breaks</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Onboarding gaps, integration friction, support questions. Real magic-number data replaces the hypothesis. Stickiness mechanics validated or rebuilt.
+        </p>
+      </div>
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2">
+          Double · stage 3
+        </div>
+        <h4 class="font-display text-lg mb-1.5 text-[var(--color-ink)]">Adjacent overlap</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Add 1–2 communities that share members with the pilot. Validates the cross-community percolation thesis before scaling further.
+        </p>
+      </div>
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2">
+          Scale · stage 4
+        </div>
+        <h4 class="font-display text-lg mb-1.5 text-[var(--color-ink)]">Sympathetic detonation</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Now the multi-community simultaneous launch from a position of knowing the platform works. The original §05 mechanic, but earned not assumed.
+        </p>
+      </div>
     </div>
+
+    <!-- The why -->
+    <div
+      class="mb-14 max-w-4xl rounded-xl border border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]/30 p-6"
+      data-reveal="fade-up"
+      data-reveal-delay="1"
+    >
+      <div class="flex items-start gap-3">
+        <AlertTriangle class="w-5 h-5 text-[var(--color-warning)] shrink-0 mt-0.5" />
+        <div>
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2">Why pilot-first, not synchronized</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            A simultaneous 4-community launch only works <em class="font-display">if</em> the platform is ready to handle 200 cold signups with no operational drag. We don't know that yet. Falling flat across 4 communities at once damages 4 relationships at once and the recovery cost is brutal in the Tokyo founder graph — everyone knows everyone. <strong class="text-[var(--color-ink)]">A messy pilot in 1 community recovers; a messy launch across 4 doesn't.</strong> The sympathetic-detonation play in §05 stays — we just earn the right to run it before we run it.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Candidate list (ranked) -->
+    <p
+      class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5"
+      data-reveal="fade-up"
+    >
+      Pilot candidates · ranked by adjacent overlap with our ICP
+    </p>
+
+    <div class="space-y-3 max-w-5xl mb-12" data-reveal="fade-up" data-reveal-delay="1">
+
+      <!-- P1 — TAI (Tokyo AI) — top pilot pick -->
+      <article class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-accent)] text-[var(--color-paper)] font-bold">P1 · PILOT</span>
+            <a href="https://www.tokyoai.jp/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+              TAI (Tokyo AI) ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            4,000+ members · AI engineers / researchers / PMs · monthly meetup + Slack
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-3">
+          <strong>Why first:</strong> the broadest overlap with every other community we'd target (every AI-tech-founder Slack in Tokyo has TAI members in it). Mostly builders, not founders — which matches Zunou's day-1 user (people who run lots of meetings + AI-fluent + curious about new tools). Open membership = lower bar to access than private founder lists.
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <strong class="text-[var(--color-ink)]">Pilot mechanic:</strong> Marco gives a 15-min demo + Q&A at a monthly TAI meetup. Onboard the first 30–50 sign-ups with white-glove support. Six weeks of measured cohort behavior before deciding what comes next.
+        </p>
+      </article>
+
+      <!-- P2 cluster — adjacent communities to scale into -->
+      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-bold">P2 · DOUBLE</span>
+            <a href="https://tokyo.aitinkerers.org/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+              AI Tinkerers Ginza ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            ~200 builders · monthly demo nights
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <strong class="text-[var(--color-ink)]">Highest-signal builders</strong> — the people who write tools other engineers adopt. Heavy overlap with TAI. If pilot data validates, this is the natural "double" community.
+        </p>
+      </article>
+
+      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-bold">P2 · DOUBLE</span>
+            <a href="https://venturecafetokyo.org/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+              Venture Café Toranomon ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            Weekly Thursday gathering · CIC Tokyo
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <strong class="text-[var(--color-ink)]">Highest-frequency repeated touchpoint</strong> in Tokyo's startup graph. Weekly recurring presence = compound exposure. Builders + founders + investors mix.
+        </p>
+      </article>
+
+      <!-- P3 cluster — scale phase -->
+      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
+            <span class="font-display text-2xl text-[var(--color-ink)]">Tokyo Founders Group</span>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            ~150 operator-founders · private list
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Operator-founders — closer to Zunou's marketed "For Founders" persona. Private list, warm-intro access. Reach them after the platform is proven via builders.
+        </p>
+      </article>
+
+      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
+            <a href="https://www.startupgrind.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+              Startup Grind Tokyo ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            Monthly fireside chats · founders + investors
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Established founder community with monthly event rhythm. Overlap with Venture Café audience. Useful for credentialing speaker spots.
+        </p>
+      </article>
+
+      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
+            <a href="https://blog.lewagon.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+              Le Wagon Tokyo alumni ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            300+ alumni · technical founders + builders
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Tech bootcamp alumni network in Tokyo. Slack-active, tools-curious. Strong builder overlap with TAI + AI Tinkerers.
+        </p>
+      </article>
+
+      <!-- P4 — speculative -->
+      <article class="tile rounded-xl border border-dashed border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/15 text-[var(--color-ink-faint)] font-bold">P4 · LATER</span>
+            <span class="font-display text-2xl text-[var(--color-ink-soft)]">Headline / Coral / Genesia portfolios</span>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            VC portfolio cohorts · post-platform-proof
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          JP VC portfolios as a community (Headline runs IVS · Coral runs YC-like programs · Genesia Ventures). Wait until Zunou has paying logos to warm-intro at this layer.
+        </p>
+      </article>
+
+      <article class="tile rounded-xl border border-dashed border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/15 text-[var(--color-ink-faint)] font-bold">P4 · LATER</span>
+            <a href="https://www.ivs.events/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">
+              IVS (Infinity Ventures Summit) ↗
+            </a>
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
+            Annual · Kyoto · ~13,000 attendees
+          </div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Japan's largest startup conference. Anchor event for the year. Aim to demo / pitch only with a working platform + early logos in hand.
+        </p>
+      </article>
+    </div>
+
+    <p
+      class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed"
+      data-reveal="fade-up"
+    >
+      <strong class="not-italic text-[var(--color-ink-soft)]">Why this order:</strong> P1 (TAI) is broad + open + adjacent to everything else. P2 (AI Tinkerers, Venture Café) are the natural double — heavy member overlap with P1. P3 (Tokyo Founders, Startup Grind, Le Wagon) widen the audience to operators + technical founders. P4 (VC portfolios + IVS) needs proof to access. We pick P1, run it deep, and decide P2 based on what we learn — not based on the plan we wrote today.
+    </p>
+  </Section>
+
+  <!-- 06.5 · READINESS — are we ready for them? -->
+  <Section
+    id="readiness"
+    eyebrow="Before we invite anyone"
+    title="Are we ready to onboard them?"
+    lede="A pilot only works if the platform handles the first 50 users without falling over. These are the questions we answer with platform / product / Malek before the TAI demo gets scheduled."
+    tone="soft"
+  >
+    <div class="grid md:grid-cols-2 gap-4 max-w-5xl" data-reveal="fade-up">
+
+      <!-- Onboarding experience -->
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-3">
+          Onboarding experience
+        </div>
+        <h3 class="font-display text-xl mb-3">First 15 minutes, day 1</h3>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>· Sign-up → time-to-first-value: target ≤ 5 min.</li>
+          <li>· Calendar OAuth: works on Google Workspace + iCloud + Outlook?</li>
+          <li>· Slack OAuth: works on personal + workspace?</li>
+          <li>· Voice setup: mic permission, fallback if denied?</li>
+          <li>· First AI action: prep brief for next real meeting — does it land or feel generic?</li>
+          <li>· What happens if integrations fail silently?</li>
+        </ul>
+      </div>
+
+      <!-- Pain points we'd address -->
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-3">
+          Their current pain
+        </div>
+        <h3 class="font-display text-xl mb-3">What TAI members complain about</h3>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>· "I can't keep up with my Slack DMs across multiple workspaces."</li>
+          <li>· "I miss action items from meetings because note-taking sucks."</li>
+          <li>· "Calendar prep takes 20 min I don't have."</li>
+          <li>· "Event RSVPs scattered across Connpass / Lu.ma / Peatix."</li>
+          <li>· "Follow-ups slip through the cracks; my CRM is a notebook."</li>
+          <li>· <strong class="text-[var(--color-ink)]">If Zunou solves 2–3 of these well, they'll try it. If it solves 1 plus has rough edges, they won't.</strong></li>
+        </ul>
+      </div>
+
+      <!-- Stickiness mechanics -->
+      <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-3">
+          What makes them stick
+        </div>
+        <h3 class="font-display text-xl mb-3">Day 7, 30, 90 retention</h3>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>· <strong class="text-[var(--color-ink)]">Day 7:</strong> morning brief becomes the first app opened.</li>
+          <li>· <strong class="text-[var(--color-ink)]">Day 30:</strong> 5+ colleagues active in same workspace (the magic number) — cross-context insights are visible.</li>
+          <li>· <strong class="text-[var(--color-ink)]">Day 90:</strong> internal team chat shifts from Slack to Zunou for at least one workflow.</li>
+          <li>· Habit loop: morning brief → meeting prep → in-meeting capture → post-meeting follow-up → next morning's brief.</li>
+        </ul>
+      </div>
+
+      <!-- Critical platform questions -->
+      <div class="tile rounded-xl border-2 border-[var(--color-warning)]/40 bg-[var(--color-warning-soft)]/30 p-6">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-warning)] font-bold mb-3">
+          Open platform questions
+        </div>
+        <h3 class="font-display text-xl mb-3">Need answers before the demo</h3>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>· Can we handle 50 concurrent active users without degradation?</li>
+          <li>· Inference cost per active user — what's the actual runrate?</li>
+          <li>· Multi-workspace isolation — solid or leaky?</li>
+          <li>· What's the support model when a TAI member DMs Malek with a bug at midnight?</li>
+          <li>· APPI compliance posture — even if not enterprise, JP users will ask.</li>
+          <li>· Disaster mode: what's the rollback plan if the launch demo glitches live?</li>
+        </ul>
+      </div>
+    </div>
+
+    <p
+      class="mt-8 max-w-3xl text-sm text-[var(--color-ink-soft)] leading-relaxed"
+      data-reveal="fade-up"
+      data-reveal-delay="1"
+    >
+      <strong class="text-[var(--color-ink)]">The honest answer to "ready?":</strong> we don't know yet. Phase 0 (foundations) answers it. The TAI pilot demo doesn't get scheduled until the open-question column above is green. If platform readiness takes longer than expected, we slip the demo — not the platform's quality bar.
+    </p>
   </Section>
 
   <!-- 07 · PHASED ROLLOUT -->
