@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" preserveAspectRatio="xMidYMid slice">
+  <title>anysigma Tokyo night background</title>
+  <defs>
+    <!-- Sigma Palette: Deep Indigo -->
+    <radialGradient id="storm-bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="oklch(18% 0.05 280)"/>
+      <stop offset="60%" stop-color="oklch(12% 0.03 280)"/>
+      <stop offset="100%" stop-color="oklch(8% 0.02 280)"/>
+    </radialGradient>
+    
+    <radialGradient id="storm-halo" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="oklch(65% 0.18 280 / 0.15)"/>
+      <stop offset="100%" stop-color="oklch(65% 0.18 280 / 0)"/>
+    </radialGradient>
+
+    <pattern id="storm-grid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M0 100 L100 100 M100 0 L100 100" stroke="oklch(65% 0.18 280 / 0.04)" stroke-width="1" fill="none"/>
+    </pattern>
+
+    <filter id="glow-blur"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1000" fill="url(#storm-bg)"/>
+  <rect width="1600" height="1000" fill="url(#storm-grid)"/>
+  <rect width="1600" height="1000" fill="url(#storm-halo)"/>
+
+  <!-- Stylized "City Lights" -->
+  <g fill="oklch(75% 0.15 280 / 0.6)">
+    <circle cx="200" cy="300" r="1.5">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="4s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle cx="450" cy="150" r="1">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="5s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+    <circle cx="800" cy="400" r="2">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    <circle cx="1200" cy="250" r="1.5">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="6s" repeatCount="indefinite" begin="2s"/>
+    </circle>
+    <circle cx="1400" cy="700" r="2.5">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="4.5s" repeatCount="indefinite" begin="1.5s"/>
+    </circle>
+  </g>
+
+  <!-- Atmospheric scan lines -->
+  <g stroke="oklch(75% 0.15 280 / 0.08)" stroke-width="0.5" fill="none">
+    <path d="M-40 200 L1640 200" stroke-dasharray="1 10"/>
+    <path d="M-40 400 L1640 400" stroke-dasharray="1 10"/>
+    <path d="M-40 600 L1640 600" stroke-dasharray="1 10"/>
+    <path d="M-40 800 L1640 800" stroke-dasharray="1 10"/>
+  </g>
+
+  <!-- Large Sigma Pulse -->
+  <g transform="translate(800 500)" opacity="0.1">
+    <path d="M-60 -60 H60 L-20 0 L60 60 H-60" stroke="oklch(70% 0.2 280)" stroke-width="2" fill="none">
+      <animate attributeName="stroke-dashoffset" from="1000" to="0" dur="20s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
