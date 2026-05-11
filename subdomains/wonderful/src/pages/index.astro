@@ -155,7 +155,7 @@ const practiceAreas = [
     bullets: [
       "Technical screening at engineering depth. Architecture, system design, code quality, production readiness.",
       "Interview process design calibrated for JP candidates' multiple offers.",
-      "Engineering network access. Current, not database — people I have shipped with.",
+      "Engineering network access. Current, not database. People I have shipped with.",
       "Recruiter alignment. Sharper briefs, calibrated comp benchmarks, JP-specific screening criteria.",
     ],
   },
@@ -437,7 +437,7 @@ const competitors = [
     role: "Old guard",
     strength: "Massive installed base · existing enterprise relationships",
     weakness: "Agent-poor · decision-tree-bound · slow to ship agentic",
-    wonderfulWedge: "Voice + autonomy + multimodal — step-changes PKSHA can't match operationally",
+    wonderfulWedge: "Voice + autonomy + multimodal. Step-changes PKSHA can't match operationally.",
   },
   {
     name: "Karakuri",
@@ -756,7 +756,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div class="rounded-xl border border-[var(--color-success)]/30 bg-[var(--color-success-soft)]/30 p-6">
         <div class="flex items-center gap-2 mb-3">
           <Rocket class="w-4 h-4 text-[var(--color-success)]" />
-          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-success)]">Tailwinds — what's pulling Japan forward</h3>
+          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-success)]">Tailwinds · what's pulling Japan forward</h3>
         </div>
         <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
           <li><strong class="text-[var(--color-ink)]">Voice AI is real for the first time.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://openai.com/index/introducing-the-realtime-api/" target="_blank" rel="noopener noreferrer">OpenAI Realtime API</a> + Deepdub-class eTTS make sub-second voice in Japanese deployable. Wonderful is on the right side of this break.</li>
@@ -770,7 +770,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div class="rounded-xl border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)]/30 p-6">
         <div class="flex items-center gap-2 mb-3">
           <Skull class="w-4 h-4 text-[var(--color-danger)]" />
-          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-danger)]">Headwinds — the pattern of foreign-vendor failure</h3>
+          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-danger)]">Headwinds · the pattern of foreign-vendor failure</h3>
         </div>
         <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
           <li><strong class="text-[var(--color-ink)]">IBM Watson Japan</strong> · Loud entry 2017–2019. Mizuho, MUFG, Daiichi Sankyo named, then quietly off. <a class="text-[var(--color-accent)] hover:underline" href="https://www.statnews.com/2017/09/05/watson-ibm-cancer/" target="_blank" rel="noopener noreferrer">STAT (Watson Health context)</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a>.</li>
@@ -843,7 +843,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     id="promised-land"
     eyebrow="03 · The promised land"
     title="Wonderful is the first foreign agentic-AI platform to win Japan, by going JP-led first."
-    lede="The future state worth describing. Not a feature list — a position in the market."
+    lede="The future state worth describing. Not a feature list. A position in the market."
     tone="ink"
   >
     <div class="max-w-3xl space-y-5">
@@ -868,7 +868,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   <Section
     id="magic-gifts"
     eyebrow="04 · Magic gifts"
-    title="What bridges old world to promised land — the product plus the operator."
+    title="What bridges old world to promised land. The product plus the operator."
     lede="Two parts. Wonderful's platform delivers the core 80%. The remaining 20% is JP execution. I bring operator-grade execution on the 20% that determines whether Japan is winnable."
   >
     <!-- PART A: Wonderful's platform features (the strengths) -->
@@ -917,27 +917,43 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 
     <!-- PART B: Marco's four practice areas (operator-in-residence) -->
     <div>
-      <div class="flex items-center gap-2 mb-6">
-        <Briefcase class="w-4 h-4 text-[var(--color-accent)]" />
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+          <Briefcase class="w-5 h-5" />
+        </span>
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Operator-in-residence · the 20% that decides whether Japan is winnable</h3>
+        <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">04 areas</span>
       </div>
       <p class="text-sm text-[var(--color-ink-soft)] mb-8 max-w-3xl leading-relaxed">
         Four practice areas mapped directly to what Wonderful needs in Japan. Each one matches a high-severity gap in §05 (the audit). Each one is what I have just done, not what I am proposing to learn.
       </p>
-      <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
+      <div class="grid sm:grid-cols-2 gap-4 max-w-6xl">
         {practiceAreas.map((p, i) => {
           const IconC = Icon(p.icon);
+          const isUnderway = p.week === "Underway";
+          const num = String(i + 1).padStart(2, "0");
           return (
-            <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6" data-reveal="fade-up" data-reveal-delay={i % 2}>
-              <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                <div class="flex items-center gap-2.5">
-                  {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)]" />}
+            <div class={`relative rounded-xl border-2 ${isUnderway ? 'border-[var(--color-accent)] bg-[var(--color-paper)]' : 'border-[var(--color-line)] bg-[var(--color-paper)]'} p-6 overflow-hidden`} data-reveal="fade-up" data-reveal-delay={i % 2}>
+              {isUnderway && (
+                <span aria-hidden="true" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[var(--color-success)] to-[var(--color-accent)]"></span>
+              )}
+              <div class="flex items-start gap-4 mb-4">
+                <span class={`inline-flex items-center justify-center w-12 h-12 rounded-lg shrink-0 ${isUnderway ? 'bg-[var(--color-accent)] text-[var(--color-paper)]' : 'bg-[var(--color-paper-soft)] text-[var(--color-accent)] border border-[var(--color-line)]'}`}>
+                  {IconC && <IconC class="w-6 h-6" />}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">B-{num}</span>
+                    <span class={`text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded ${isUnderway ? 'bg-[var(--color-accent)] text-[var(--color-paper)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]'} font-bold inline-flex items-center gap-1`}>
+                      {isUnderway && <span class="status-dot inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-paper)]"></span>}
+                      {p.week}
+                    </span>
+                  </div>
                   <h4 class="font-display text-xl leading-tight">{p.title}</h4>
                 </div>
-                <span class="text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] font-bold">{p.week}</span>
               </div>
-              <p class="text-sm text-[var(--color-ink)] mb-3 leading-relaxed">{p.blurb}</p>
-              <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+              <p class="text-sm text-[var(--color-ink)] mb-4 leading-relaxed">{p.blurb}</p>
+              <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
                 {p.bullets.map((b) => (
                   <li class="flex gap-2">
                     <CheckCheck class="w-3.5 h-3.5 mt-1 shrink-0 text-[var(--color-accent)]" />
@@ -1059,7 +1075,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <span class="text-[var(--color-ink-soft)] font-normal block text-base mt-1">before evaluating the product itself.</span>
         </h4>
         <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-5 max-w-2xl">
-          Six categories. Three meetings. Fail one — you fail the procurement, before they ever try the product.
+          Six categories. Three meetings. Fail one, you fail the procurement, before they ever try the product.
         </p>
         <div class="overflow-x-auto radial-stage is-visible">
           <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" class="w-full max-w-2xl mx-auto block" role="img" aria-labelledby="radial-title radial-desc">
@@ -1201,13 +1217,154 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 
     <!-- C · Competitive matrix -->
     <div class="mb-16">
-      <div class="flex items-center gap-2 mb-2">
-        <Swords class="w-4 h-4 text-[var(--color-accent)]" />
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+          <Swords class="w-5 h-5" />
+        </span>
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">C · Competitive cohort · who JP procurement compares Wonderful against</h3>
+        <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">05 names</span>
       </div>
       <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
         Five names that come up in JP enterprise vendor reviews. The right framing in customer conversations: Wonderful is the only one in this cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference]. That combination is the wedge.
       </p>
+
+      <!-- Wedge radar SVG · 5 dimensions · Wonderful filled + competitor outlines -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-7 mb-6 max-w-5xl" data-reveal="fade-up">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
+          <div class="flex items-center gap-2">
+            <Target class="w-4 h-4 text-[var(--color-accent)]" />
+            <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold">The wedge · 5 dimensions</div>
+          </div>
+          <div class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">Wonderful fills all 5 · no competitor does</div>
+        </div>
+        <h4 class="font-display text-xl mb-1 leading-tight">
+          <span class="standout">The combination is the wedge.</span>
+        </h4>
+        <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-5 max-w-2xl">
+          Each competitor wins one or two dimensions. None wins all five. The shape of Wonderful's polygon is the differentiator.
+        </p>
+
+        <div class="grid lg:grid-cols-[1fr_18rem] gap-6 items-start">
+          <div class="overflow-x-auto flow-stage">
+            <svg viewBox="0 0 600 440" preserveAspectRatio="xMidYMid meet" class="w-full max-w-xl mx-auto block" role="img" aria-labelledby="radar-title radar-desc">
+              <title id="radar-title">Competitive wedge radar — 5 dimensions</title>
+              <desc id="radar-desc">Five-axis radar showing Wonderful's coverage (filled accent polygon) vs five JP competitors (PKSHA, Karakuri, AI Shift, Mobius, Sakana) as faded outlines on dimensions: voice, autonomy, multimodal, forward-deployed engineering, production-scale reference.</desc>
+
+              <!-- Concentric grid rings (1-5) -->
+              <g fill="none" stroke="var(--color-line)" stroke-width="0.8">
+                <polygon points="300,194 325,202 318,236 282,236 275,202" opacity="0.5" />
+                <polygon points="300,168 349,204 336,262 264,262 251,204" opacity="0.5" />
+                <polygon points="300,142 374,206 354,288 246,288 226,206" opacity="0.5" />
+                <polygon points="300,116 399,208 372,314 228,314 201,208" opacity="0.5" />
+                <polygon points="300,90 424,210 390,340 210,340 176,210" opacity="0.6" />
+              </g>
+
+              <!-- Axis spokes -->
+              <g stroke="var(--color-line)" stroke-width="0.8" stroke-dasharray="2 4">
+                <line x1="300" y1="220" x2="300" y2="90" />
+                <line x1="300" y1="220" x2="424" y2="180" />
+                <line x1="300" y1="220" x2="376" y2="325" />
+                <line x1="300" y1="220" x2="224" y2="325" />
+                <line x1="300" y1="220" x2="176" y2="180" />
+              </g>
+
+              <!-- Ring labels -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" fill="var(--color-ink-faint)" text-anchor="middle">
+                <text x="307" y="187">1</text>
+                <text x="307" y="161">2</text>
+                <text x="307" y="135">3</text>
+                <text x="307" y="109">4</text>
+                <text x="307" y="83">5</text>
+              </g>
+
+              <!-- Competitor polygons (faded outlines) -->
+              <!-- PKSHA [1,2,3,3,5] -->
+              <polygon class="flow-node" style="animation-delay:0.4s" points="300,194 349,204 346,283 254,283 176,180" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
+              <!-- Karakuri [2,3,2,3,3] -->
+              <polygon class="flow-node" style="animation-delay:0.55s" points="300,168 374,196 331,262 254,283 226,196" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
+              <!-- AI Shift [3,2,3,2,2] -->
+              <polygon class="flow-node" style="animation-delay:0.7s" points="300,142 349,204 346,283 269,262 251,204" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
+              <!-- Mobius [3,1,2,2,4] -->
+              <polygon class="flow-node" style="animation-delay:0.85s" points="300,142 325,212 331,262 269,262 201,188" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
+              <!-- Sakana [2,1,4,1,2] -->
+              <polygon class="flow-node" style="animation-delay:1.0s" points="300,168 325,212 361,304 285,241 251,204" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
+
+              <!-- Wonderful polygon (filled accent) -->
+              <polygon class="flow-node" style="animation-delay:1.2s" points="300,90 424,180 376,325 224,325 189,184" fill="var(--color-accent)" fill-opacity="0.18" stroke="var(--color-accent)" stroke-width="2.5" />
+
+              <!-- Wonderful score dots -->
+              <g fill="var(--color-accent)" class="flow-node" style="animation-delay:1.4s">
+                <circle cx="300" cy="90" r="4.5" />
+                <circle cx="424" cy="180" r="4.5" />
+                <circle cx="376" cy="325" r="4.5" />
+                <circle cx="224" cy="325" r="4.5" />
+                <circle cx="189" cy="184" r="4.5" />
+              </g>
+
+              <!-- Axis labels (outside the radar) -->
+              <g font-family="Bricolage Grotesque, sans-serif" font-size="11" font-weight="600" fill="var(--color-ink)" text-anchor="middle">
+                <text x="300" y="70">Voice</text>
+                <text x="464" y="170">Autonomy</text>
+                <text x="464" y="183" font-size="8" font-weight="400" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">agentic OS</text>
+                <text x="402" y="355">Multimodal</text>
+                <text x="200" y="355">Forward-deployed</text>
+                <text x="200" y="368" font-size="8" font-weight="400" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">engineering</text>
+                <text x="138" y="170">Scale reference</text>
+                <text x="138" y="183" font-size="8" font-weight="400" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">Bezeq-grade</text>
+              </g>
+
+              <!-- Bottom caption -->
+              <g>
+                <text x="300" y="410" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="10" fill="var(--color-ink-soft)" font-style="italic">Scores are positioning estimates from observed JP enterprise reviews. Tunable as we run more cycles.</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Legend on the right -->
+          <div class="space-y-3">
+            <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2 flex items-center gap-1.5">
+              <ListChecks class="w-3.5 h-3.5" />
+              On the radar
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="inline-block w-4 h-4 rounded-sm border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/30"></span>
+              <span class="font-semibold text-[var(--color-ink)]">Wonderful</span>
+              <span class="text-xs text-[var(--color-ink-faint)]">· hits all 5</span>
+            </div>
+            <div class="space-y-1.5 pt-1">
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
+                <span class="font-semibold text-[var(--color-ink)]">PKSHA</span>
+                <span class="text-[var(--color-ink-faint)]">· installed base + scale, agent-poor</span>
+              </div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
+                <span class="font-semibold text-[var(--color-ink)]">Karakuri</span>
+                <span class="text-[var(--color-ink-faint)]">· chat-accurate, weak voice</span>
+              </div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
+                <span class="font-semibold text-[var(--color-ink)]">AI Shift</span>
+                <span class="text-[var(--color-ink-faint)]">· UX strong, surface-level</span>
+              </div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
+                <span class="font-semibold text-[var(--color-ink)]">Mobius</span>
+                <span class="text-[var(--color-ink-faint)]">· telco scale, legacy stack</span>
+              </div>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
+                <span class="font-semibold text-[var(--color-ink)]">Sakana</span>
+                <span class="text-[var(--color-ink-faint)]">· models only, no app layer</span>
+              </div>
+            </div>
+            <div class="pt-3 mt-3 border-t border-[var(--color-line)] text-xs text-[var(--color-ink-soft)] leading-relaxed">
+              <strong class="text-[var(--color-ink)]">Reading the chart:</strong> a vendor's polygon is the shape of their wedge. Wonderful's is the only complete pentagon.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="overflow-x-auto -mx-6 px-6 max-w-5xl mx-auto">
         <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
           <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
@@ -1310,24 +1467,139 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     title="90 days to pilot terms. Beachhead in internal workflow automation. Customer service after the 20% is closed."
     lede="The deliverables that match what Wonderful needs in Japan, sequenced into a 90-day plan. Plus the beachhead strategy that Hosoi-san and I are aligned on, and the operational logic that compresses the JP enterprise sales cycle."
   >
-    <!-- 90-day plan timeline -->
+    <!-- 90-day plan timeline — animated horizontal SVG + compact phase strip below -->
     <div class="mb-14 max-w-6xl">
-      <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5">
-        90-day delivery plan · first enterprise pilot terms by week 12
-      </p>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-5" data-reveal="fade-up">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+              <Calendar class="w-4 h-4" />
+            </span>
+            <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold">90-day delivery plan</div>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">
+            <span class="status-dot inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>
+            <span>4 phases · week 12 = pilot terms</span>
+          </div>
+        </div>
+        <h4 class="font-display text-2xl mb-1 leading-tight">
+          <span class="standout">First enterprise pilot terms</span> by week 12.
+        </h4>
+        <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-6 max-w-3xl">
+          Four phases. Engineering and sales run in parallel, not sequenced. By week 12, pilot terms with the first big-logo customer and a credible hiring framework for the Japan team.
+        </p>
+
+        <div class="overflow-x-auto flow-stage">
+          <svg viewBox="0 0 940 280" preserveAspectRatio="xMidYMid meet" class="w-full max-w-5xl mx-auto block" role="img" aria-labelledby="timeline-title timeline-desc">
+            <title id="timeline-title">90-day delivery plan — animated timeline</title>
+            <desc id="timeline-desc">Horizontal timeline with four phases over twelve weeks: Land + playbook (Wk 1–2), Roadmap + compliance (Wk 3–4), Open the funnel (Wk 5–8), Pilot terms + hiring (Wk 9–12). Final milestone at week 12 is pilot terms with the first enterprise customer.</desc>
+
+            <defs>
+              <linearGradient id="track-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--color-line)" />
+                <stop offset="100%" stop-color="var(--color-accent)" />
+              </linearGradient>
+              <linearGradient id="phase-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--color-accent-soft)" />
+                <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.5" />
+              </linearGradient>
+            </defs>
+
+            <!-- Week tick marks (1-12) -->
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="var(--color-ink-faint)" text-anchor="middle">
+              {Array.from({ length: 13 }, (_, w) => {
+                const x = 80 + (w * (860 - 80)) / 12;
+                return (
+                  <g>
+                    <line x1={x} y1="200" x2={x} y2={w % 2 === 0 ? 212 : 208} stroke="var(--color-line)" stroke-width="1" />
+                    {w > 0 && <text x={x} y="226" style="letter-spacing:0.08em">{w === 12 ? "W12" : `W${w}`}</text>}
+                  </g>
+                );
+              })}
+            </g>
+
+            <!-- Main track line -->
+            <line x1="80" y1="200" x2="860" y2="200" stroke="url(#track-grad)" stroke-width="3" stroke-linecap="round" />
+
+            <!-- Phase 1 · Wk 1-2 · Land + playbook -->
+            <g class="flow-node" style="animation-delay:0.1s">
+              <rect x="80" y="100" width="130" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-line)" stroke-width="1.5" />
+              <text x="92" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 01 · W1–W2</text>
+              <text x="92" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Land + playbook</text>
+              <text x="92" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">positioning · target map · sourcing</text>
+              <!-- Connector to track -->
+              <line x1="145" y1="168" x2="145" y2="195" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="2 3" />
+              <circle cx="145" cy="200" r="6" fill="var(--color-paper)" stroke="var(--color-ink-faint)" stroke-width="1.5" />
+            </g>
+
+            <!-- Phase 2 · Wk 3-4 · Roadmap + compliance -->
+            <g class="flow-node" style="animation-delay:0.4s">
+              <rect x="220" y="100" width="130" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-line)" stroke-width="1.5" />
+              <text x="232" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 02 · W3–W4</text>
+              <text x="232" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Roadmap + compliance</text>
+              <text x="232" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">SOC II · ISMAP · battle cards</text>
+              <line x1="285" y1="168" x2="285" y2="195" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="2 3" />
+              <circle cx="285" cy="200" r="6" fill="var(--color-paper)" stroke="var(--color-ink-faint)" stroke-width="1.5" />
+            </g>
+
+            <!-- Phase 3 · Wk 5-8 · Open the funnel -->
+            <g class="flow-node" style="animation-delay:0.7s">
+              <rect x="360" y="100" width="220" height="68" rx="10" fill="url(#phase-grad)" stroke="var(--color-accent)" stroke-width="1.5" />
+              <text x="372" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.16em">PHASE 03 · W5–W8</text>
+              <text x="372" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Open the funnel</text>
+              <text x="372" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">enterprise meetings · candidate pipeline</text>
+              <line x1="470" y1="168" x2="470" y2="195" stroke="var(--color-accent)" stroke-width="1.5" stroke-dasharray="2 3" />
+              <circle cx="470" cy="200" r="8" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="2" />
+            </g>
+
+            <!-- Phase 4 · Wk 9-12 · Pilot terms + hiring (THE WIN) -->
+            <g class="flow-node" style="animation-delay:1.0s">
+              <rect x="590" y="100" width="270" height="68" rx="10" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" />
+              <rect x="590" y="100" width="270" height="68" rx="10" fill="none" stroke="var(--color-paper)" stroke-width="0.5" opacity="0.4" stroke-dasharray="3 3" />
+              <text x="602" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-paper)" style="letter-spacing:0.16em">PHASE 04 · W9–W12 · TARGET</text>
+              <text x="602" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)" font-weight="600">Pilot terms + hiring</text>
+              <text x="602" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-paper)" opacity="0.85" style="letter-spacing:0.06em">first enterprise pilot · decision memo · hiring framework</text>
+              <line x1="725" y1="168" x2="725" y2="190" stroke="var(--color-accent)" stroke-width="2" />
+              <!-- Trophy marker at week 12 -->
+              <circle cx="860" cy="200" r="14" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="3" class="flow-pulse" />
+              <circle cx="860" cy="200" r="6" fill="var(--color-accent)" />
+              <text x="860" y="180" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" text-anchor="middle" style="letter-spacing:0.12em">★ W12</text>
+              <text x="860" y="246" font-family="Bricolage Grotesque, sans-serif" font-size="9" fill="var(--color-accent-ink)" text-anchor="middle" font-weight="700">Pilot terms</text>
+            </g>
+
+            <!-- Start marker -->
+            <circle cx="80" cy="200" r="8" fill="var(--color-ink)" stroke="var(--color-paper)" stroke-width="2" />
+            <text x="80" y="180" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink)" text-anchor="middle" style="letter-spacing:0.12em">START</text>
+            <text x="80" y="246" font-family="Bricolage Grotesque, sans-serif" font-size="9" fill="var(--color-ink-soft)" text-anchor="middle">Day 1</text>
+
+            <!-- Engineering + Sales parallel-track callout (above the phase blocks) -->
+            <g>
+              <text x="470" y="76" font-family="Bricolage Grotesque, sans-serif" font-size="10" fill="var(--color-ink-soft)" font-style="italic" text-anchor="middle">
+                Engineering and sales run in parallel, not sequenced.
+              </text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Compact phase deliverables strip below SVG -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
         {ninetyDayPlan.map((phase, i) => {
           const IconC = Icon(phase.icon);
+          const isWin = i === 3;
           return (
-            <div class={`rounded-xl border ${i === 3 ? 'border-2 border-[var(--color-accent)] bg-[var(--color-paper)]' : 'border-[var(--color-line)] bg-[var(--color-paper)]'} p-6`} data-reveal="fade-up" data-reveal-delay={i}>
-              <div class="flex items-center gap-2 mb-3">
-                {IconC && <IconC class={`w-5 h-5 ${i === 3 ? 'text-[var(--color-accent)]' : 'text-[var(--color-ink-soft)]'}`} />}
-                <span class={`text-xs uppercase tracking-[0.14em] font-mono font-bold ${i === 3 ? 'text-[var(--color-accent-ink)]' : 'text-[var(--color-ink-faint)]'}`}>{phase.weeks}</span>
+            <div class={`rounded-lg border ${isWin ? 'border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/40' : 'border-[var(--color-line)] bg-[var(--color-paper)]'} p-4`} data-reveal="fade-up" data-reveal-delay={i}>
+              <div class="flex items-center gap-2 mb-2 flex-wrap">
+                <span class={`text-[10px] uppercase tracking-[0.14em] font-mono font-bold ${isWin ? 'text-[var(--color-accent-ink)]' : 'text-[var(--color-ink-faint)]'}`}>{String(i + 1).padStart(2, "0")} · {phase.weeks}</span>
+                {isWin && <Trophy class="w-3 h-3 text-[var(--color-accent)]" />}
               </div>
-              <h3 class="font-display text-lg mb-3 leading-tight">{phase.title}</h3>
-              <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+              <h3 class="font-display text-base mb-2 leading-tight flex items-center gap-1.5">
+                {IconC && <IconC class={`w-4 h-4 shrink-0 ${isWin ? 'text-[var(--color-accent)]' : 'text-[var(--color-ink-soft)]'}`} />}
+                {phase.title}
+              </h3>
+              <ul class="text-[11px] text-[var(--color-ink-soft)] space-y-1 leading-relaxed">
                 {phase.deliverables.map((d) => (
-                  <li class="flex gap-1.5"><span class="text-[var(--color-accent)]">·</span><span>{d}</span></li>
+                  <li class="flex gap-1.5"><span class={isWin ? 'text-[var(--color-accent)]' : 'text-[var(--color-accent)]'}>·</span><span>{d}</span></li>
                 ))}
               </ul>
             </div>
@@ -1629,9 +1901,9 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div>
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Japan market · adoption + funding</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">Yomiuri Shimbun + Teikoku Databank — 34.6% JP gen-AI adoption (Mar 2026)</a></li>
-          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch — Sakana AI Series B ($135M @ $2.65B, Nov 2025)</a></li>
-          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">TechCrunch — LayerX Series B ($100M, Sep 2025)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">Yomiuri Shimbun + Teikoku Databank · 34.6% JP gen-AI adoption (Mar 2026)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch · Sakana AI Series B ($135M @ $2.65B, Nov 2025)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">TechCrunch · LayerX Series B ($100M, Sep 2025)</a></li>
           <li>· METI national AI strategy + SME subsidies (50–66% project-cost reimbursement)</li>
           <li>· Cabinet Office: working-age population forecasts to 2040</li>
           <li>· Japan 2024 AI-act-lite policy framework</li>
@@ -1640,8 +1912,8 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div>
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Compliance + regulation</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· APPI (Act on the Protection of Personal Information) — 2025–26 enforcement amendments</li>
-          <li>· ISMAP (Information system Security Management and Assessment Program) — govt + enterprise procurement</li>
+          <li>· APPI (Act on the Protection of Personal Information) · 2025–26 enforcement amendments</li>
+          <li>· ISMAP (Information system Security Management and Assessment Program) · govt + enterprise procurement</li>
           <li>· JP-domestic data residency requirements (varies by industry: finance, healthcare, govt)</li>
         </ul>
       </div>
@@ -1658,7 +1930,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div>
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Foreign-vendor failure pattern (sources)</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire — Xembly shutdown (June 2024)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire · Xembly shutdown (June 2024)</a></li>
           <li>· IBM Japan public disclosures · Watson Health JP transition</li>
           <li>· IDC Japan AI follow-up reports · 2020–24</li>
           <li>· Salesforce Einstein JP customer disclosure (public earnings + case studies)</li>
