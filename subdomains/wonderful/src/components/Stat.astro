@@ -1,0 +1,46 @@
+---
+import * as Icons from "@lucide/astro";
+
+interface Props {
+  value: string;
+  label: string;
+  caveat?: string;
+  icon?: string;
+  revealDelay?: number;
+}
+
+const { value, label, caveat, icon, revealDelay = 0 } = Astro.props;
+
+const toPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+
+const IconComponent = icon ? (Icons as any)[toPascal(icon)] : null;
+---
+
+<div
+  class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]"
+  data-reveal="fade-up"
+  data-reveal-delay={revealDelay}
+>
+  {
+    IconComponent && (
+      <IconComponent class="w-5 h-5 text-[var(--color-accent)] mb-4" />
+    )
+  }
+  <div class="font-display text-3xl sm:text-4xl mb-1.5 leading-tight tracking-tight">
+    {value}
+  </div>
+  <div class="text-sm font-medium text-[var(--color-ink)] mb-1.5">
+    {label}
+  </div>
+  {
+    caveat && (
+      <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">
+        {caveat}
+      </div>
+    )
+  }
+</div>

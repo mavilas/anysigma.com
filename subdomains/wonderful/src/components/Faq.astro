@@ -1,0 +1,36 @@
+---
+import { Plus } from "@lucide/astro";
+
+interface Item {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="max-w-3xl border-t border-[var(--color-line-soft)]">
+  {
+    items.map((item, i) => (
+      <details
+        class="group border-b border-[var(--color-line-soft)] py-5"
+        data-reveal="fade-up"
+        data-reveal-delay={i}
+      >
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+          <span class="font-medium text-[var(--color-ink)] leading-snug">
+            {item.q}
+          </span>
+          <Plus class="w-4 h-4 text-[var(--color-ink-soft)] mt-1 shrink-0 transition-transform group-open:rotate-45" />
+        </summary>
+        <p class="mt-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          {item.a}
+        </p>
+      </details>
+    ))
+  }
+</div>

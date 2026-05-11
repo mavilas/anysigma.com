@@ -1,0 +1,98 @@
+---
+import * as Icons from "@lucide/astro";
+import { ArrowRight } from "@lucide/astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  primary?: { label: string; href: string; icon?: string };
+  secondary?: { label: string; href: string; icon?: string };
+  variant?: "light" | "dark";
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  primary,
+  secondary,
+  variant = "light",
+} = Astro.props;
+
+const toPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+
+const PrimaryIcon = primary?.icon
+  ? (Icons as any)[toPascal(primary.icon)]
+  : ArrowRight;
+const SecondaryIcon = secondary?.icon
+  ? (Icons as any)[toPascal(secondary.icon)]
+  : null;
+
+const isDark = variant === "dark";
+
+const bg = isDark ? "bg-[var(--color-ink)]" : "bg-[var(--color-paper-soft)]";
+const titleColor = isDark ? "text-[var(--color-paper)]" : "text-[var(--color-ink)]";
+const descColor = isDark
+  ? "text-[var(--color-paper-soft)]"
+  : "text-[var(--color-ink-soft)]";
+const eyebrowColor = "text-[var(--color-accent)]";
+
+const primaryClass = isDark
+  ? "bg-[var(--color-accent)] text-[var(--color-paper)] hover:bg-[var(--color-accent-ink)]"
+  : "bg-[var(--color-ink)] text-[var(--color-paper)] hover:bg-[var(--color-accent)]";
+const secondaryClass = isDark
+  ? "border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] hover:border-[var(--color-paper)]"
+  : "border border-[var(--color-line)] text-[var(--color-ink)] hover:border-[var(--color-ink)]";
+---
+
+<div
+  class={`${bg} rounded-2xl p-8 sm:p-12 max-w-4xl`}
+  data-reveal="fade-up"
+>
+  {
+    eyebrow && (
+      <div class={`text-xs uppercase tracking-[0.18em] font-medium mb-3 ${eyebrowColor}`}>
+        {eyebrow}
+      </div>
+    )
+  }
+  <h3 class={`font-display text-3xl sm:text-4xl leading-tight mb-3 max-w-2xl ${titleColor}`}>
+    {title}
+  </h3>
+  {
+    description && (
+      <p class={`text-base leading-relaxed max-w-2xl mb-7 ${descColor}`}>
+        {description}
+      </p>
+    )
+  }
+  {
+    (primary || secondary) && (
+      <div class="flex flex-wrap items-center gap-3">
+        {primary && (
+          <a
+            href={primary.href}
+            class={`inline-flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${primaryClass}`}
+          >
+            <PrimaryIcon class="w-4 h-4" />
+            <span>{primary.label}</span>
+          </a>
+        )}
+        {secondary && (
+          <a
+            href={secondary.href}
+            class={`inline-flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${secondaryClass}`}
+          >
+            {SecondaryIcon && <SecondaryIcon class="w-4 h-4" />}
+            <span>{secondary.label}</span>
+          </a>
+        )}
+      </div>
+    )
+  }
+</div>

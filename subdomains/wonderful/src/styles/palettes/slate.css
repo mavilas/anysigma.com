@@ -1,0 +1,6 @@
+/* Slate — restrained, monochrome-leaning, premium. */
+:root {
+  --palette-accent: oklch(0.45 0.04 240);
+  --palette-accent-soft: oklch(0.93 0.01 240);
+  --palette-accent-ink: oklch(0.3 0.04 240);
+}

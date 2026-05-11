@@ -1,0 +1,6 @@
+/* Warm orange-red — refined, editorial. Default palette (from Zunou). */
+:root {
+  --palette-accent: oklch(0.62 0.18 28);
+  --palette-accent-soft: oklch(0.94 0.04 28);
+  --palette-accent-ink: oklch(0.42 0.16 28);
+}

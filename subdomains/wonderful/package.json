@@ -1,0 +1,29 @@
+{
+  "name": "wonderful-anysigma",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=10.33.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy:check": "node -e \"const fs=require('fs'),p=require('path');if(!fs.existsSync('dist/index.html')){console.error('✗ No dist/index.html — run pnpm build first.');process.exit(1);}const t=fs.readFileSync('dist/index.html','utf8').match(/<title>([^<]+)<\\/title>/);console.log('✓ dist/index.html title:',t?t[1]:'(none)');console.log('✓ cwd:',p.basename(process.cwd()));console.log('  → If the title or cwd look wrong, do NOT deploy. cd to the right project first.');\"",
+    "deploy": "pnpm run build && pnpm run deploy:check && wrangler pages deploy dist",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@lucide/astro": "^1.14.0",
+    "astro": "^6.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "tailwindcss": "^4.3.0",
+    "wrangler": "^4.90.0"
+  }
+}

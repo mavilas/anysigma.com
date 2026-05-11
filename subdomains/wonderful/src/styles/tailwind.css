@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* === Pick one accent palette. Swap this single line per project. ===
+ * Available: warm-orange · cool-blue · forest-green · slate · plum
+ */
+@import "./palettes/slate.css";
+
+@theme {
+  --font-sans: "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Hiragino Mincho ProN", "Noto Serif JP", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Editorial neutrals — kept across every palette */
+  --color-ink: oklch(0.18 0.01 250);
+  --color-ink-soft: oklch(0.42 0.01 250);
+  --color-ink-faint: oklch(0.62 0.005 250);
+  --color-paper: oklch(0.99 0.005 90);
+  --color-paper-soft: oklch(0.96 0.01 90);
+  --color-paper-warm: oklch(0.97 0.02 70);
+  --color-line: oklch(0.88 0.01 90);
+  --color-line-soft: oklch(0.93 0.005 90);
+
+  /* Accent — overridden by the palette @import above */
+  --color-accent: var(--palette-accent);
+  --color-accent-soft: var(--palette-accent-soft);
+  --color-accent-ink: var(--palette-accent-ink);
+
+  /* Semantic colors — kept constant across palettes */
+  --color-success: oklch(0.62 0.13 155);
+  --color-success-soft: oklch(0.94 0.04 155);
+  --color-warning: oklch(0.72 0.14 75);
+  --color-warning-soft: oklch(0.95 0.04 75);
+  --color-danger: oklch(0.6 0.2 25);
+  --color-danger-soft: oklch(0.95 0.04 25);
+
+  --color-ink-inverse: oklch(0.98 0.005 90);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "ss01", "cv01", "cv02";
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+/* Subtle grain — tactile depth, no skeuomorphism */
+.bg-grain {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(0, 0, 0, 0.025) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+}
+
+/* === Reveal animations (IntersectionObserver in Layout.astro) === */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.96);
+}
+[data-reveal="scale"].is-visible {
+  transform: scale(1);
+}
+
+[data-reveal="left"] {
+  transform: translateX(-20px);
+}
+[data-reveal="left"].is-visible {
+  transform: translateX(0);
+}
+
+/* === Micro-interactions === */
+.tile {
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.08);
+}
+
+.arrow-pop {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .arrow-pop {
+  transform: translate(2px, -2px);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.status-dot {
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+code, .font-mono {
+  font-family: var(--font-mono);
+}
+
+.inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  background: var(--color-paper-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 0.25rem;
+  color: var(--color-ink);
+}
+
+/* === Sticky nav backdrop === */
+.nav-backdrop {
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  background: oklch(0.99 0.005 90 / 0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+}
