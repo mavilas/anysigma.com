@@ -98,37 +98,37 @@ const japanFailureModes = [
     label: "Keigo",
     title: "Sonkeigo · Kenjogo · Teineigo switching",
     impact:
-      "Foreign agents that get keigo wrong don't just read as wooden — they read as offensive. The single biggest reason US-first vendors fail in JP customer-facing voice. Needs targeted eval set, not just \"add more Japanese training data.\"",
+      "Foreign agents that get keigo wrong don't just read as wooden — they read as offensive. The single biggest reason US-first vendors fail in JP customer-facing voice.",
   },
   {
     label: "Dialect",
     title: "Kansai-ben · Tohoku-ben ASR",
     impact:
-      "Regional dialects break Western ASR pipelines. Wonderful's claim of \"high-fidelity dialect-aware models\" needs measurable proof per dialect — not a marketing line. Specific call regions (Osaka contact centers, Tohoku branches) make-or-break early POCs.",
+      "Regional dialects break Western ASR pipelines. Specific call regions (Osaka contact centers, Tohoku branches) make-or-break early PoCs.",
   },
   {
     label: "Encoding",
     title: "Mojibake · Shift-JIS / EBCDIC transcoding",
     impact:
-      "JP banks + utilities still run mainframe stacks (IBM-930/939). Without native transcoding, every customer-record lookup becomes an ETL project. Either Wonderful absorbs this complexity or partners with a SI who will (Accenture JP / NRI / NTT Data).",
+      "JP banks + utilities still run mainframe stacks. Without native transcoding, every customer-record lookup becomes a project of its own.",
   },
   {
     label: "Documents",
-    title: "Kami-Excel · merged cells · multi-sheet macros",
+    title: "Kami-Excel · merged cells · multi-sheet layout",
     impact:
-      "Japanese corporates use Excel as a layout language, not a data format. Strategy decks, internal policies, customer records — all in Excel with merged cells and Shift-JIS macros. RAG that handles this honestly is a wedge; RAG that doesn't will fail the first PoC.",
+      "Japanese corporates use Excel as a layout language, not a data format. Strategy decks, internal policies, customer records — all live in Excel patterns that break naïve RAG.",
   },
   {
     label: "Characters",
     title: "Furigana + Gaiji handling",
     impact:
-      "Naïve tokenizers duplicate Furigana (\"漢字かんじ\" → \"KanjiKanji\"). Banks + government use Gaiji (user-defined Kanji) for customer names that don't exist in Unicode. Both surface as quiet hallucinations the customer notices before you do.",
+      "Naïve tokenizers duplicate Furigana. Banks and government use Gaiji (user-defined Kanji) for names that don't exist in Unicode. Both surface as quiet hallucinations the customer notices before you do.",
   },
   {
     label: "Compliance",
     title: "APPI · data residency · on-prem / VPC posture",
     impact:
-      "Procurement asks about data residency in the first 30 minutes. Without a clear answer (and ideally on-prem or VPC option), the conversation stops. The 2025–26 APPI amendments added administrative penalties — this matters more now than 18 months ago.",
+      "Procurement asks about data residency in the first 30 minutes. Without a clear answer, the conversation stops. The 2025–26 APPI amendments added administrative penalties — this matters more now than 18 months ago.",
   },
 ];
 
@@ -168,29 +168,6 @@ const competitors = [
     weakness: "No application layer · model-first · long enterprise sales cycles",
     wonderfulWedge:
       "Wonderful is the \"last mile\" Sakana doesn't build. Co-marketing potential, not direct competition.",
-  },
-];
-
-const beachheadTargets = [
-  {
-    name: "Panasonic Connect",
-    angle:
-      "Factory floor + supply-chain orchestration. Rebuilding via Blue Yonder integration. Wonderful as the agentic layer for the AI Connected Ecosystem — internal workflow, not consumer CS.",
-  },
-  {
-    name: "Pioneer",
-    angle:
-      "Moving to SaaS-based mobility. Low-latency voice agents in-car where attention is safety-critical. Internal — driver / fleet / dispatch workflows — not customer-facing.",
-  },
-  {
-    name: "Mitsubishi Electric (Serendie)",
-    angle:
-      "Digitizing tacit veteran-engineer knowledge. Multi-agent orchestration for production planning where expert agents \"debate\" trade-offs. Pure internal DX play.",
-  },
-  {
-    name: "Other old-guard candidates",
-    angle:
-      "Hitachi, Fujitsu Group internal ops, NEC's in-house DX, KDDI Evolva (BPO channel diplomacy required) — all good candidates if the workflow-automation thesis is validated in the first 1–2 wins.",
   },
 ];
 
@@ -481,61 +458,26 @@ const openQuestions = [
     title="Not customer service yet. Internal workflow automation, old-guard logos, then earn the right to CS."
     lede="The new content from this writeup — what didn't come up live but Hosoi-san and I have aligned on since. The product is strong enough today to win an internal-DX PoC at a major old-guard logo. It is not yet ready to win a JP customer-service contract at the bar JP enterprise will hold it to. Sequence accordingly."
   >
-    <div class="prose-block max-w-3xl space-y-4 mb-12">
+    <div class="prose-block max-w-3xl space-y-4 mb-10">
       <p>
-        <strong>Hosoi-san agrees on the sequencing.</strong> Leading with customer service in Japan today is a fight against (a) keigo / dialect requirements that need 6–12 months of targeted engineering, (b) BPO incumbents (Transcosmos, Bell System24, KDDI Evolva) who feel threatened by AI displacement, and (c) regulatory + procurement cycles that punish "almost ready" platforms. The bar to win JP CS is materially higher than Israel or the US.
+        <strong>Hosoi-san and I have aligned on the sequencing.</strong> Leading with customer service in Japan today is a fight against (a) the language + dialect requirements that need targeted engineering, (b) BPO incumbents who feel threatened by AI displacement, and (c) regulatory + procurement cycles that punish "almost ready." The bar to win JP CS is materially higher than the markets Wonderful has won so far.
       </p>
       <p>
-        <strong>The alternative is sharper.</strong> Wonderful's strengths — agentic OS, multi-agent orchestration, dynamic dashboard generation, Wonderful Apps auto-UI, voice-where-applicable — are exactly the capabilities old-guard JP industrials need for <em>internal</em> workflow automation. That market has shorter procurement cycles, fewer regulatory traps, more forgiving language requirements (employee-facing tolerates more imperfection than customer-facing), and crucially: a single big-logo win there earns the right + the case study to enter customer service later, on Wonderful's terms.
+        <strong>The sharper move is internal first.</strong> Wonderful's strengths — agentic OS, multi-agent orchestration, dynamic dashboards, Wonderful Apps auto-UI, voice where it works today — map cleanly to what JP old-guard industrials need for <em>internal</em> workflow automation. Shorter procurement cycles, fewer regulatory traps, more forgiving language requirements (employee-facing tolerates more imperfection than customer-facing). A single big-logo internal win earns the right + the reference story to re-enter customer service later, on Wonderful's terms rather than the market's.
+      </p>
+      <p>
+        <strong>The principle, not the playbook.</strong> The specifics of <em>which</em> old-guard logos to target first, the warm-chain map, the sequencing of internal-DX vs. process automation, the parallel engineering investments that close the JP-fit gaps in §04, and the SI / BPO channel diplomacy — those are working-session material. The thesis is durable; the execution plan is the thing that has to be built with the team, not handed over in a writeup.
       </p>
     </div>
 
-    <div class="mb-12">
-      <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-3">
-        Big-logo candidates — the old-guard angle
+    <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 max-w-4xl">
+      <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">The shape, not the specifics</div>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+        The named beachhead targets, the operational playbook, the keigo / dialect / Mojibake-class engineering audit, and the 6-month sequencing roadmap are documents I'd develop with Hosoi-san and the regional team if the engagement gets shaped. They aren't useful as a static artifact — they need to live as a working plan that the team operates against and refits monthly.
       </p>
-      <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
-        {beachheadTargets.map((t, i) => (
-          <div
-            class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5"
-            data-reveal="fade-up"
-            data-reveal-delay={i % 2}
-          >
-            <h3 class="font-display text-xl mb-2 leading-tight">{t.name}</h3>
-            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{t.angle}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
-      <div class="rounded-xl border border-[var(--color-success)]/30 bg-[var(--color-success-soft)]/35 p-6">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-success)] font-bold mb-3">
-          Months 1–6 · workflow automation
-        </div>
-        <h3 class="font-display text-xl mb-2 leading-tight">PoC + first big-logo win.</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Sell Wonderful as an <strong class="text-[var(--color-ink)]">internal-workflow agentic platform</strong> — factory orchestration (Panasonic), mobility fleet/dispatch (Pioneer), tacit-knowledge digitization (Mitsubishi Serendie). Build the reference story. Develop relationships with the SIs (Accenture JP, NRI, NTT Data) who will eventually carry CS deals.
-        </p>
-      </div>
-      <div class="rounded-xl border border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/30 p-6">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3">
-          In parallel · close the JP-fit gaps
-        </div>
-        <h3 class="font-display text-xl mb-2 leading-tight">Engineering invests in CS-readiness.</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Keigo eval set · Kansai/Tohoku dialect ASR · Mojibake / EBCDIC native transcoding · Kami-Excel + Furigana + Gaiji handling. These don't block the workflow PoC, but they do block CS. Ship them on a 6-month roadmap visible to Hosoi-san.
-        </p>
-      </div>
-      <div class="rounded-xl border border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]/30 p-6 md:col-span-2">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold mb-3">
-          Month 6–12 · earn the right to enter CS
-        </div>
-        <h3 class="font-display text-xl mb-2 leading-tight">Re-enter customer service with track record + JP-tuned platform.</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          With a paying old-guard logo, a Japan-tuned voice stack, and an SI / BPO channel warm chain, Wonderful enters JP customer service from a position of strength — not as "another foreign vendor pitching CS." This is the inversion that makes the year-2 expansion actually possible.
-        </p>
-      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+        What this section is committed to is the <strong class="text-[var(--color-ink)]">principle</strong>: do not lead with CS. Sequence the JP-fit gap closure as parallel-track engineering investment. Earn the right to enter CS with a reference story already in hand. The rest comes from working it.
+      </p>
     </div>
   </Section>
 
@@ -582,6 +524,28 @@ const openQuestions = [
       </p>
       <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic">
         Japan-led, not Japan-translated. Everything else flows from that.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ENGAGEMENT HOOK -->
+  <Section
+    id="next"
+    eyebrow="What's behind this writeup"
+    title="The high-altitude version is here. The depth lives in working sessions, not static documents."
+  >
+    <div class="max-w-3xl prose-block space-y-4">
+      <p>
+        This page is what fits in a 1-2 page brief. The pieces that didn't fit — and that I think matter more than the brief — are the kind of work that doesn't translate well into a static document:
+      </p>
+      <ul class="space-y-2 ml-6 list-disc text-[var(--color-ink-soft)] marker:text-[var(--color-accent)]">
+        <li>The detailed Japan-fit engineering audit (eval sets, dialect benchmarks, transcoding paths) — needs to be done <em>against</em> the codebase, with the engineering team in the room, not from outside.</li>
+        <li>The named-account warm-chain map for the beachhead — needs to be timed against the actual cadence of those companies' ringi cycles, and refit weekly.</li>
+        <li>The operational playbook for the workflow-automation beachhead — has to be built <em>with</em> Hosoi-san, Anthony, and Henek so it reflects what HQ will and won't cover air-cover for.</li>
+        <li>The SI / BPO channel diplomacy plan (Accenture JP, NRI, NTT Data, Transcosmos, Bell System24) — needs to start with the right introduction, not a cold pitch.</li>
+      </ul>
+      <p>
+        Happy to develop any of these with the team in whatever shape works — consulting engagement, advisor role, or organizational. The shape is a separate conversation; the value of the work is the same regardless of which container it sits inside.
       </p>
     </div>
   </Section>
