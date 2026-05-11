@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
-import Stat from "../components/Stat.astro";
 import Quote from "../components/Quote.astro";
+import * as Icons from "@lucide/astro";
 import {
   Flag,
   CheckCircle2,
@@ -11,134 +11,399 @@ import {
   CircleHelp,
   ArrowDown,
   BookOpen,
+  Globe,
+  TrendingUp,
+  Sparkles,
+  Skull,
+  Rocket,
+  Eye,
+  Trophy,
+  Wrench,
+  MapPin,
+  Languages,
+  Swords,
+  Anchor,
+  Compass,
+  Lightbulb,
+  AlertCircle,
+  Crown,
+  Mountain,
+  Gift,
+  Award,
+  Calendar,
+  CheckCheck,
+  Cpu,
+  Mic,
+  Building2,
+  UsersRound,
+  LayoutDashboard,
+  ShieldCheck,
+  Cloud,
+  CloudOff,
+  Activity,
+  ActivitySquare,
+  ShieldAlert,
+  Shield,
+  Binary,
+  FileSpreadsheet,
+  Type,
+  Map,
+  Download,
+  ThumbsUp,
+  ListChecks,
+  MicVocal,
+  SlidersHorizontal,
+  Phone,
+  FastForward,
+  Package2,
+  Code2,
+  Play,
+  GitFork,
+  CloudCog,
+  Users,
+  Target,
+  Globe2,
+  Building,
+  Briefcase,
 } from "@lucide/astro";
 
-// Strengths · Gaps · Japan-specific failure modes — kept as data so it's easy to edit.
+// kebab-case → PascalCase icon lookup helper for the dynamic Icons import
+const iconToPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
 
+// =====================================================================
+// CONTENT — kept as data so individual sections stay clean to read
+// =====================================================================
+
+// Marco's track-record credentials (for §05 Evidence)
+const marcoCredentials = [
+  {
+    icon: "phone",
+    headline: "4 enterprise voice-AI deals in Japan",
+    detail:
+      "Sold first, built the product after the deal was signed. Contact centers, real estate, logistics, partner ops. Current Japanese enterprise buyers, current conversations.",
+  },
+  {
+    icon: "shield-check",
+    headline: "SOC II Type I led end-to-end",
+    detail:
+      "In Japan, security review is meeting one. I have the documentation, the playbook, and the answers procurement teams ask for before they evaluate the product itself.",
+  },
+  {
+    icon: "languages",
+    headline: "Voice AI built for 4 JP writing systems",
+    detail:
+      "From scratch, not translated. Hiragana, Katakana, Kanji, Romaji. Keigo speech levels (Sonkeigo, Kenjogo, Teineigo). Cultural silence patterns. Found and fixed the predictable breaking points.",
+  },
+  {
+    icon: "fast-forward",
+    headline: "Japanese enterprise procurement: 12 mo → 3 mo",
+    detail:
+      "Demo in meeting one, security in two, pilot terms in three. Skip a step and the deal dies. I have just run this sequence. The current intel is current.",
+  },
+];
+
+// Four practice areas that map to Wonderful's specific gaps
+const practiceAreas = [
+  {
+    title: "Product & Localization",
+    icon: "package-2",
+    week: "Wk 2–4",
+    blurb:
+      "Audit your product against what Japanese enterprise buyers test for in the first ten minutes. Build localization right, not translated.",
+    bullets: [
+      "Demo & product audit walk-through. What they ask first, what wows, what kills the deal.",
+      "Voice-AI localization. 4 writing systems · keigo speech levels · cultural silence handling. From scratch.",
+      "Roadmap input. Fix the predictable JP breaking points before customers find them.",
+    ],
+  },
+  {
+    title: "Compliance & Security",
+    icon: "shield-check",
+    week: "Wk 3–4",
+    blurb:
+      "Get the security story production-ready before you walk into meeting one. Security review is the first meeting in Japan, not the last.",
+    bullets: [
+      "SOC II Type I playbook + documentation pack.",
+      "ISMAP readiness for Japanese govt + enterprise procurement.",
+      "Data residency · on-prem · VPC posture mapped to JP buyer requirements.",
+      "Japanese-language compliance docs and procurement responses.",
+    ],
+  },
+  {
+    title: "Go-to-Market",
+    icon: "compass",
+    week: "Wk 1–12",
+    blurb:
+      "Compress the 12-month JP enterprise sales cycle to 3. The procurement sequence is the same every time. The vertical detail varies.",
+    bullets: [
+      "Sales playbook calibrated by vertical (contact center, real estate, logistics, partner).",
+      "Procurement sequence: security meeting one, demo meeting two, pilot terms meeting three.",
+      "Warm introductions to JP enterprise decision-makers. Current network, not old contacts.",
+      "Market positioning for procurement workflows, fiscal year cycles, ringi approval chains.",
+    ],
+  },
+  {
+    title: "Talent & Recruiting",
+    icon: "users-round",
+    week: "Wk 5–12",
+    blurb:
+      "Find, evaluate, and close the team in Japan. Engineering judgment that recruiters cannot provide.",
+    bullets: [
+      "Technical screening at engineering depth. Architecture, system design, code quality, production readiness.",
+      "Interview process design calibrated for JP candidates' multiple offers.",
+      "Engineering network access. Current, not database — people I have shipped with.",
+      "Recruiter alignment. Sharper briefs, calibrated comp benchmarks, JP-specific screening criteria.",
+    ],
+  },
+];
+
+// 90-day plan, used in §06
+const ninetyDayPlan = [
+  {
+    weeks: "Weeks 1–2",
+    title: "Land + playbook",
+    icon: "play",
+    deliverables: [
+      "Japan positioning playbook",
+      "Enterprise demo playbook",
+      "Target account map",
+      "Candidate sourcing strategy",
+    ],
+  },
+  {
+    weeks: "Weeks 3–4",
+    title: "Roadmap + compliance",
+    icon: "shield-check",
+    deliverables: [
+      "Compliance roadmap (SOC II, ISMAP, data residency)",
+      "Localization gap assessment",
+      "Competitive battle cards",
+      "Security review preparation pack",
+    ],
+  },
+  {
+    weeks: "Weeks 5–8",
+    title: "Open the funnel",
+    icon: "rocket",
+    deliverables: [
+      "First enterprise meetings · warm introductions",
+      "Candidate pipeline delivery to JP recruiters",
+      "Recruiter activation with vetted Japan firms",
+    ],
+  },
+  {
+    weeks: "Weeks 9–12",
+    title: "Pilot terms + hiring",
+    icon: "trophy",
+    deliverables: [
+      "Pilot terms with first enterprise customer",
+      "Hiring framework + comp strategy",
+      "Decision memo: direct vs SI-led vs BPO-channel primary motion",
+    ],
+  },
+];
+
+// Winners (JP-led, market-deep) vs Losers (HQ-driven, generic)
+const winners = [
+  { name: "Sakana AI", what: "$2.65B valuation Nov 2025. JP-native, government-friendly. Local champion.", url: "https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" },
+  { name: "LayerX", what: "$100M Series B Sep 2025. JP back-office AI. Embedded customer teams.", url: "https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" },
+  { name: "PKSHA · Karakuri · Mobius", what: "Imperfect but JP-deep. Own the installed base by default. Slow but trusted.", url: "https://www.pkshatech.com/" },
+  { name: "Bezeq (Wonderful's own ref)", what: "2,000-agent telco, ~80% resolution, real production. Proof Wonderful can win at scale when the local fit is there.", url: "https://www.bezeq.co.il/en/" },
+];
+
+const losers = [
+  { name: "IBM Watson Japan", what: "2017–19 loud entry. Mizuho · MUFG · Daiichi Sankyo named, then quietly off. The reference accounts walked.", url: "https://www.idc.com/jp" },
+  { name: "Salesforce Einstein", what: "Strong global product. JP customers run on PKSHA, Karakuri, or Mobius for voice + chat. Einstein stays the CRM.", url: "https://www.salesforce.com/jp/products/einstein-ai-solutions/" },
+  { name: "Generic foreign AI-CX vendors", what: "Translated their pitch, lost POCs in 3 months. No embedded team, no keigo eval, no on-prem option.", url: null },
+  { name: "Xembly (US AI Chief of Staff)", what: "$20M raised. Salesforce + Qualtrics customers. Shut down June 2024. Same archetype, US edition.", url: "https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" },
+];
+
+// Wonderful platform strengths (from V2)
 const strengths = [
   {
     title: "Agentic OS, not chat-on-top",
-    detail:
-      "The demo made clear this is plumbing — real workflow autonomy that can bridge a billing dispute on a legacy stack without human handoff. Not a chatbot pretending to be a platform.",
     icon: "cpu",
+    detail:
+      "The demo showed real plumbing. The platform bridges a billing dispute on a legacy stack with no human handoff. Not a chatbot in platform costume.",
   },
   {
     title: "Deepdub eTTS voice",
-    detail:
-      "Human-grade voice quality with barge-in / interruption handling. Closest competitor on voice in the JP-targeting category. Hard to overstate how much this matters here.",
     icon: "mic",
+    detail:
+      "Human-grade voice with proper barge-in and interruption handling. Closest competitor on voice in the JP-targeting cohort. Voice matters more here than anywhere.",
   },
   {
-    title: "Bezeq as a real production reference",
-    detail:
-      "2,000-agent telco, ~80% resolution, millions of calls/month. Most foreign vendors arriving in Japan have nothing that operates at this scale. Wonderful does.",
+    title: "Bezeq production reference",
     icon: "building-2",
+    detail:
+      "2,000-agent telco, around 80% resolution, millions of calls a month. Most foreign vendors landing in Japan have no production reference at this scale.",
   },
   {
-    title: "Forward-Deployed Engineering posture",
-    detail:
-      "Embedded country teams (local CTO + agentic engineers inside the customer), not pure SaaS. This is exactly the posture JP enterprises expect — and exactly what competitors like PKSHA / AI Shift cannot match operationally.",
+    title: "Forward-Deployed Engineering",
     icon: "users-round",
+    detail:
+      "Embedded country teams. Local CTO plus agentic engineers inside the customer. This is the posture JP enterprises expect. PKSHA and AI Shift cannot match it operationally.",
   },
   {
-    title: "Multimodal agents + dynamic dashboards",
-    detail:
-      "Demo across end-user, employee, and platform views was coherent and convincing. \"Wonderful Apps\" auto-generated UIs are a credible wedge into internal DX, not just CS.",
+    title: "Multimodal agents + Wonderful Apps",
     icon: "layout-dashboard",
+    detail:
+      "End-user, employee, and platform views landed as one product. Auto-generated UIs are a credible wedge into internal DX, not just CS.",
   },
   {
     title: "Enterprise-grade governance + audit",
-    detail:
-      "Permissioning, audit logs, channel integrations, telephony, MCP — the table-stakes for JP enterprise procurement are checked. Hard-won, not easy to fake.",
     icon: "shield-check",
+    detail:
+      "Permissioning, audit logs, channel integrations, telephony, MCP. The table-stakes for JP enterprise procurement are checked. Hard-won, not easy to fake.",
   },
 ];
 
+// Wonderful platform gaps (with severity + icon)
 const gaps = [
   {
     title: "Voice control · formality + dialect handling",
-    detail:
-      "Japanese voice control needs to switch fluently between Sonkeigo (respectful for the listener), Kenjogo (humble for the speaker), and Teineigo (polite) inside the same conversation. Kansai-ben / Tohoku-ben dialect ASR is a separate cliff. Both are deal-breakers for JP customer-facing voice. Not solved by general LLM scale — needs targeted JP training data + eval sets.",
     severity: "high",
+    icon: "mic-vocal",
+    detail:
+      "Japanese voice has to switch fluently between Sonkeigo, Kenjogo, and Teineigo inside the same call. Kansai-ben and Tohoku-ben ASR is a separate cliff. General LLM scale does not fix this.",
   },
   {
-    title: "Dashboard UX innovation",
+    title: "Cloud-only posture · no on-prem / VPC option",
+    severity: "high",
+    icon: "cloud-off",
     detail:
-      "Anthony surfaced this himself — current dashboards under-invest in UX. The widget-studio approach I proposed in the session (customizable per-role dashboard components, drag-to-reorder, contextual surface) is the right direction. JP enterprise execs grade on this surface daily, not on backend metrics.",
+      "JP procurement asks about data residency in the first 30 minutes. Many enterprises require VPC, on-prem, or air-gapped. Cloud-only is a hard stop with those accounts.",
+  },
+  {
+    title: "LLM repeat-number / hallucination loops",
+    severity: "high",
+    icon: "alert-triangle",
+    detail:
+      "Voice models sometimes lock into repeating digits or phrases on long sessions. Needs a guardrail layer (length cap, repetition detector, deterministic fallback). Unforgiving in JP customer service.",
+  },
+  {
+    title: "PII handling · in transit, at rest, on every touch",
+    severity: "high",
+    icon: "shield",
+    detail:
+      "JP procurement asks specifically about pseudonymization in transit, redaction at storage, role-based view, and audit logging on every touch. \"Encrypted\" is not the answer they want.",
+  },
+  {
+    title: "Robustness + graceful degradation",
+    severity: "high",
+    icon: "shield-alert",
+    detail:
+      "Production voice + agentic orchestration + multi-agent debate creates many failure modes. What breaks first when something fails? JP procurement asks and grades the answer.",
+  },
+  {
+    title: "Uptime + SLA terms",
+    severity: "high",
+    icon: "activity-square",
+    detail:
+      "JP enterprise treats SLAs contractually. Specific uptime (99.9 / 99.95 / four-nines), credit terms, defined incident-response cadence. \"Best effort\" does not survive procurement.",
+  },
+  {
+    title: "Dashboard UX",
     severity: "medium",
+    icon: "layout-dashboard",
+    detail:
+      "Anthony surfaced this. The widget-studio approach (per-role components, drag-to-reorder, contextual surface) is the right direction. JP execs grade on this surface daily.",
   },
   {
     title: "Data export friction",
-    detail:
-      "Anthony acknowledged this — large JP enterprises (NTT, Mitsubishi, Panasonic) routinely need subsidiary-to-parent data flow. Today's export workflow is too consultative. Needs a self-serve, signed-URL-style path with audit trail. Solvable; just not solved.",
     severity: "medium",
+    icon: "download",
+    detail:
+      "Large JP enterprises (NTT, Mitsubishi, Panasonic) routinely need subsidiary-to-parent data flow. A self-serve signed-URL path with audit trail solves it.",
   },
   {
     title: "AI-recommendation feedback (thumbs / approve / reject)",
-    detail:
-      "Mentioned in the session — Anthony agreed it's valuable for future iterations. JP enterprise clients want oversight more than autonomy. Without explicit accept/reject signal capture on every AI recommendation, the platform looks autopilot-y in procurement reviews.",
     severity: "medium",
+    icon: "thumbs-up",
+    detail:
+      "JP enterprise wants oversight over autonomy. Without explicit accept / reject capture on every recommendation, the platform reads as autopilot-y in procurement.",
   },
   {
-    title: "Activity / task UI/UX layer",
+    title: "Configuration over customization",
+    severity: "medium",
+    icon: "sliders-horizontal",
     detail:
-      "Acknowledged basic. Acceptable for now if the underlying pipeline and dashboard are strong, but should not stay basic into Q4 2026 — JP design expectations are unforgiving.",
-    severity: "low",
+      "Forward-Deployed Engineering is a strength. Risk: customer-specific customization becomes one-off engineering creating tech debt. JP enterprises prefer 80% via configuration, 20% custom.",
   },
   {
-    title: "In-session sentiment analysis",
-    detail:
-      "Still in development. Post-session is fine for analytics; in-session is what call-center floor leads actually want (intervention triggers). Worth surfacing the roadmap timeline to Hosoi-san.",
+    title: "Activity / task UI",
     severity: "low",
+    icon: "list-checks",
+    detail:
+      "Acknowledged basic. Acceptable through 2026 if the underlying pipeline is strong. Not acceptable past Q4.",
+  },
+  {
+    title: "In-session sentiment",
+    severity: "low",
+    icon: "activity",
+    detail:
+      "Post-session sentiment is fine for analytics. In-session is what call-center floor leads want for intervention triggers. Roadmap timeline worth surfacing.",
   },
 ];
 
+// Japan failure modes — radial signature SVG + cards
 const japanFailureModes = [
   {
     label: "Keigo",
     title: "Sonkeigo · Kenjogo · Teineigo switching",
     impact:
-      "Foreign agents that get keigo wrong don't just read as wooden — they read as offensive. The single biggest reason US-first vendors fail in JP customer-facing voice.",
+      "Foreign agents that get keigo wrong don't read as wooden. They read as offensive. The single biggest reason US-first vendors fail at JP customer-facing voice.",
+    icon: "languages",
   },
   {
     label: "Dialect",
     title: "Kansai-ben · Tohoku-ben ASR",
     impact:
-      "Regional dialects break Western ASR pipelines. Specific call regions (Osaka contact centers, Tohoku branches) make-or-break early PoCs.",
+      "Regional dialects break Western ASR pipelines. Osaka contact centers and Tohoku branches make-or-break early PoCs.",
+    icon: "map",
   },
   {
     label: "Encoding",
-    title: "Mojibake · Shift-JIS / EBCDIC transcoding",
+    title: "Mojibake · Shift-JIS · EBCDIC",
     impact:
-      "JP banks + utilities still run mainframe stacks. Without native transcoding, every customer-record lookup becomes a project of its own.",
+      "JP banks and utilities still run mainframe stacks. Without native transcoding, every customer-record lookup becomes a project of its own.",
+    icon: "binary",
   },
   {
     label: "Documents",
-    title: "Kami-Excel · merged cells · multi-sheet layout",
+    title: "Kami-Excel · merged cells · layout-as-data",
     impact:
-      "Japanese corporates use Excel as a layout language, not a data format. Strategy decks, internal policies, customer records — all live in Excel patterns that break naïve RAG.",
+      "Japanese corporates use Excel as a layout language. Strategy decks, internal policies, customer records all live in patterns that break naïve RAG.",
+    icon: "file-spreadsheet",
   },
   {
     label: "Characters",
-    title: "Furigana + Gaiji handling",
+    title: "Furigana + Gaiji",
     impact:
-      "Naïve tokenizers duplicate Furigana. Banks and government use Gaiji (user-defined Kanji) for names that don't exist in Unicode. Both surface as quiet hallucinations the customer notices before you do.",
+      "Naïve tokenizers duplicate Furigana. Banks and government use Gaiji for names that don't exist in Unicode. Quiet hallucinations the customer notices before you do.",
+    icon: "type",
   },
   {
     label: "Compliance",
-    title: "APPI · data residency · on-prem / VPC posture",
+    title: "APPI · data residency · on-prem",
     impact:
-      "Procurement asks about data residency in the first 30 minutes. Without a clear answer, the conversation stops. The 2025–26 APPI amendments added administrative penalties — this matters more now than 18 months ago.",
+      "Procurement asks about data residency in the first 30 minutes. Cloud-only is a hard stop. APPI 2025–26 amendments added administrative penalties.",
+    icon: "shield-alert",
   },
 ];
 
+// Competitor matrix — JP procurement cohort
 const competitors = [
   {
     name: "PKSHA Tech",
     role: "Old guard",
     strength: "Massive installed base · existing enterprise relationships",
     weakness: "Agent-poor · decision-tree-bound · slow to ship agentic",
-    wonderfulWedge: "Voice + autonomy + multimodal are step-changes PKSHA can't match operationally",
+    wonderfulWedge: "Voice + autonomy + multimodal — step-changes PKSHA can't match operationally",
   },
   {
     name: "Karakuri",
@@ -151,64 +416,74 @@ const competitors = [
     name: "AI Shift",
     role: "Marketer",
     strength: "Strong UX · solid sales motion",
-    weakness: "Surface-level · no deep ERP integration · less platform, more product",
+    weakness: "Surface-level · no deep ERP · less platform, more product",
     wonderfulWedge: "Platform depth + forward-deployed eng = procurement edge for larger logos",
   },
   {
     name: "Mobius (Mobilus)",
     role: "Telco veteran",
-    strength: "Deployed everywhere in JP telco",
-    weakness: "Legacy baggage · less agentic · innovation pace",
-    wonderfulWedge: "Use as the baseline customers will be migrating from. Replacement story is real.",
+    strength: "Deployed across JP telco contact centers",
+    weakness: "Legacy baggage · less agentic · slow innovation",
+    wonderfulWedge: "Use as the baseline customers are migrating from. Replacement story is real.",
   },
   {
     name: "Sakana AI",
     role: "Local hero",
     strength: "World-class models · Japan-native · brand halo",
-    weakness: "No application layer · model-first · long enterprise sales cycles",
-    wonderfulWedge:
-      "Wonderful is the \"last mile\" Sakana doesn't build. Co-marketing potential, not direct competition.",
+    weakness: "No application layer · model-first · long enterprise cycles",
+    wonderfulWedge: "Wonderful is the last mile Sakana doesn't build. Co-marketing potential, not direct competition.",
   },
 ];
 
+// Open questions per audience
 const openQuestions = [
   {
     audience: "HQ + Asia Regional",
-    question: "Direct enterprise sales, BPO channel (Transcosmos / Bell System24), or both — has Tel Aviv decided?",
+    icon: "globe-2",
+    question: "Direct enterprise sales, BPO channel (Transcosmos, Bell System24), or both. Has Tel Aviv decided?",
   },
   {
     audience: "HQ + Asia Regional",
-    question: "On-prem / VPC deployment posture — current state, and roadmap timeline visible to a JP procurement team?",
+    icon: "cloud-cog",
+    question: "On-prem + VPC posture. Current state, and roadmap timeline visible to a JP procurement team.",
   },
   {
     audience: "HQ + Asia Regional",
-    question: "Founding JP team profile — who's already hired, what role is next, what bar?",
-  },
-  {
-    audience: "Hosoi-san + regional",
-    question: "Year-1 logo target — which single name landed in 2026 makes this region \"won\" in HQ's eyes?",
+    icon: "users",
+    question: "Founding JP team profile. Who is hired, what role is next, what bar.",
   },
   {
     audience: "Hosoi-san + Anthony + Henek",
-    question:
-      "Is HQ aligned that the beachhead is internal workflow automation (not CS) until keigo + dialect + Mojibake-class capabilities are demonstrably production-ready?",
+    icon: "target",
+    question: "Year-1 logo target. Which single name landed in 2026 makes this region \"won\" in HQ's eyes.",
+  },
+  {
+    audience: "Hosoi-san + Anthony + Henek",
+    icon: "git-fork",
+    question: "Alignment that the beachhead is internal workflow automation, not customer service, until JP-fit gaps are production-ready.",
   },
   {
     audience: "HQ engineering",
-    question: "Timeline for keigo eval set, Kansai/Tohoku dialect ASR fidelity benchmarks, and Shift-JIS / EBCDIC native transcoding?",
+    icon: "wrench",
+    question: "Roadmap for §03 high-severity gaps. Keigo eval set, dialect ASR fidelity, transcoding, repeat-number guardrail, PII handling, SLA terms.",
   },
 ];
+
+// Helper to render an icon by string name
+const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 ---
 
 <Layout
-  title="Wonderful · Japan Strategy Feedback · Marco Avila"
-  description="Reactions, strengths, gaps, and a beachhead recommendation after the platform demo with Anthony and Satoshi. Confidential — for Anthony, Henek, and Hosoi-san."
+  title="Wonderful · Japan strategy · Marco Avila"
+  description="Selling the shift in Japan. A confidential strategy + engagement proposal for Wonderful.ai's Asia leadership."
   brand="Marco Avila"
-  tagline="Wonderful · Japan Strategy Feedback"
-  footerNote="Cloudflare Access · 14-day session · Confidential to Anthony, Henek, Hosoi-san"
+  tagline="Wonderful · Japan strategy"
+  footerNote="Cloudflare Access · 24h session · Confidential to Anthony · Henek · Hosoi-san"
   lastUpdated="2026-05-12"
 >
+  <!-- ============================================================ -->
   <!-- HERO -->
+  <!-- ============================================================ -->
   <section class="pt-20 sm:pt-28 pb-16">
     <div class="max-w-6xl mx-auto px-6">
       <div class="flex items-center gap-3 mb-10 flex-wrap" data-reveal="fade-up">
@@ -217,340 +492,596 @@ const openQuestions = [
           Confidential · Anthony · Henek · Hosoi-san
         </span>
         <span class="text-xs text-[var(--color-ink-faint)] font-mono">
-          Marco Avila · 2026-05-12 · ~12 min read
+          Marco Avila · 2026-05-12 · ~14 min read
         </span>
       </div>
 
-      <p
-        class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5"
-        data-reveal="fade-up"
-        data-reveal-delay="1"
-      >
-        The thesis
+      <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
+        The shift
       </p>
-      <h1
-        class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-8 max-w-5xl"
-        data-reveal="fade-up"
-        data-reveal-delay="2"
-      >
-        Japan-led, not<br />Japan-translated.
+      <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-8 max-w-5xl" data-reveal="fade-up" data-reveal-delay="2">
+        Japan-led,<br />not Japan-translated.
       </h1>
 
       <div class="prose-block max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="3">
         <p>
-          The Japan strategy has to be <strong>written in Tokyo</strong> and propagated outward — to Asia regional, then to Tel Aviv. Not the reverse. <strong>Every foreign vendor that tried the reverse got pushed out</strong>, and the demographic + procurement reality of this market will close the door on the next foreign vendor that does the same.
+          <strong>In Japan, AI is not a cost-cutting story. It is survival.</strong> Contact centers cannot hire. Knowledge workers are retiring faster than they are being replaced. The Cabinet Office's own demographic forecasts make the math undeniable. Enterprise AI in Japan is not a margin lever. It is the only way the country's largest organizations stay operational past 2030.
         </p>
         <p>
-          The demo was strong. The platform is real. But Japan is not a translation problem and the bar to win here is materially higher than any other market Wonderful has entered. Below: what works, what doesn't yet, where the Japan-specific gaps are, who Wonderful's competitive cohort actually is, and a beachhead recommendation Hosoi-san agrees on.
+          That changes how Japan buys. The question is no longer <em>"can we afford to wait?"</em> It is <em>"who do we trust to land before the door closes?"</em> The market is huge, friendly, and finally moving. Most foreign vendors will lose it the same way they have lost it before, by letting HQ write the Japan plan.
+        </p>
+        <p>
+          The Japan strategy has to be <strong>written in Tokyo</strong>. Asia regional carries it outward. HQ in Tel Aviv provides air cover, capital, and platform velocity. Every foreign vendor that tried this in reverse got pushed out, and the procurement reality of this market will close the door on the next foreign vendor that does the same.
+        </p>
+        <p>
+          This writeup follows that thesis through five acts. <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">The shift</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Winners and losers</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">The promised land</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Magic gifts (platform + operator)</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Evidence</span>. Then a 90-day plan and a path forward.
         </p>
       </div>
 
       <!-- TL;DR card -->
-      <div
-        class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-7 mb-12 max-w-4xl"
-        data-reveal="fade-up"
-        data-reveal-delay="4"
-      >
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3">
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-7 mb-12 max-w-4xl" data-reveal="fade-up" data-reveal-delay="4">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3 flex items-center gap-2">
+          <Sparkles class="w-3.5 h-3.5" />
           TL;DR · 60 seconds
         </div>
         <ul class="text-base text-[var(--color-ink)] leading-relaxed space-y-2.5">
           <li>
-            <strong>The platform is real and well-architected.</strong> Agentic OS, voice, multimodal, Bezeq-scale reference — table-stakes for serious JP enterprise are largely met.
+            <strong>The platform is real.</strong> Agentic OS, voice, Bezeq-scale reference. The core 80% is shipped.
           </li>
           <li>
-            <strong>Voice + Japan-language nuance is the make-or-break gap.</strong> Keigo registers · Kansai/Tohoku dialect ASR · Mojibake / Gaiji / Furigana / Kami-Excel parsing. These aren't nice-to-haves — they're how JP procurement decides.
+            <strong>The 20% is what Japan tests for.</strong> Keigo, dialect, PII, on-prem, robustness, SLA, document encoding. Without these, no SI partner will stake their JP enterprise relationship on Wonderful.
           </li>
           <li>
-            <strong>Beachhead recommendation (Hosoi-san agrees):</strong> do not lead with customer service. Lead with internal workflow automation at old-guard logos (Panasonic Connect, Pioneer, Mitsubishi Electric Serendie). PoC + first big logo while keigo / dialect capabilities harden in parallel. Re-enter customer service with a track record + proven JP fit.
+            <strong>Beachhead, Hosoi-san aligned.</strong> Sell PoC on the 80% now. Internal workflow automation at old-guard logos. Close the 20% in parallel during procurement. By production time, Wonderful is JP-tuned and the customer is committed. 12-month sales cycle compressed to engineering-and-sales-in-parallel.
           </li>
           <li>
-            <strong>The strategy gets written in Tokyo.</strong> HQ provides air-cover, capital, and platform velocity. Hosoi-san, Henek, and Anthony align on the JP shape. If the inversion doesn't happen now, the market won't wait.
+            <strong>The strategy gets written in Tokyo.</strong> Hosoi-san leads. Asia regional bridges. HQ provides air cover. Inversion of the foreign-vendor default.
           </li>
         </ul>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 mb-4" data-reveal="fade-up" data-reveal-delay="5">
-        <a
-          href="#strengths"
-          class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors"
-        >
+      <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="5">
+        <a href="#shift" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors">
           <BookOpen class="w-4 h-4" />
           Read the full feedback
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
-        <a
-          href="#beachhead"
-          class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors"
-        >
-          Skip to the beachhead recommendation
+        <a href="#plan" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
+          Skip to the 90-day plan
         </a>
       </div>
 
-      <p class="mt-4 text-xs text-[var(--color-ink-faint)] max-w-3xl">
-        Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san (President, Japan, in role from May 2026). Feedback as requested in the LINE group following the demo session with Anthony and Satoshi.
+      <p class="mt-6 text-xs text-[var(--color-ink-faint)] max-w-3xl">
+        Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san / Satoshi (President, Japan, in role May 2026). Distributed via the LINE group as the requested feedback writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access.
       </p>
     </div>
   </section>
 
   <hr class="section-rule max-w-6xl mx-auto" />
 
-  <!-- §01 REACTIONS -->
+  <!-- ============================================================ -->
+  <!-- §01 THE SHIFT -->
+  <!-- ============================================================ -->
   <Section
-    id="reactions"
-    eyebrow="01 · First impressions"
-    title="What the demo actually showed."
-    lede="The three user views (end-user · employee · platform) hung together. This isn't a chat wrapper — it's plumbing. That alone is rare in this category."
+    id="shift"
+    eyebrow="01 · The shift"
+    title="Japan's AI market is huge, friendly, and moving fast. The HQ-driven foreign-vendor model is officially dead."
+    lede="Two things changed at once. Demographic pressure flipped Japan from 'maybe' to 'must' on enterprise AI adoption. And the pattern of foreign-vendor failure became too obvious for procurement teams to ignore. Both shifts create urgency. Both shifts have winners and losers, and the criteria for being on the right side are clear."
   >
-    <div class="prose-block max-w-3xl space-y-4">
-      <p>
-        Anthony walked the three views coherently. The end-user side — voice + chat + email customer touchpoints — looked clean. The employee side — the AI-assisted operator dashboard with auto-approval, human review queues, and AI-recommendation review surface — showed the kind of human-in-the-loop posture JP enterprises actually want. The platform view exposed the agent-building tools, voice pipeline, and governance/audit layer in a way that suggested real depth, not a thin demo skin.
-      </p>
-      <p>
-        The Bezeq reference matters. Most foreign agentic-AI vendors entering Japan have either no production reference or a small one. Wonderful has a 2,000-agent telco running millions of calls/month at ~80% resolution. That's a credible artifact a JP procurement team can verify and benchmark against.
-      </p>
-      <p>
-        The points where I pushed back in the session — voice control depth, dashboard UX, export friction, AI-recommendation feedback (thumbs up/down) — are addressable. Anthony heard them and agreed on direction. None of those are fatal. The deeper concern is Japan-specific (§04), and that's where this feedback gets specific.
-      </p>
-    </div>
-  </Section>
-
-  <!-- §02 STRENGTHS -->
-  <Section
-    id="strengths"
-    eyebrow="02 · Strengths"
-    title="What's clearly working — and worth protecting in the JP narrative."
-    lede="Not flattery. The features below are real differentiators that competitors named in §05 cannot easily match. Make sure these stay front-and-center in any JP customer conversation."
-  >
-    <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
-      {strengths.map((s, i) => (
-        <div
-          class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]"
-          data-reveal="fade-up"
-          data-reveal-delay={i % 3}
-        >
-          <CheckCircle2 class="w-5 h-5 text-[var(--color-success)] mb-4" />
-          <h3 class="font-display text-xl mb-2 leading-tight">{s.title}</h3>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{s.detail}</p>
-        </div>
-      ))}
-    </div>
-  </Section>
-
-  <!-- §03 WEAKNESSES + UX GAPS -->
-  <Section
-    id="gaps"
-    eyebrow="03 · Weaknesses + UX gaps"
-    title="What I flagged in the session — and Anthony agreed."
-    lede="Most of these are solvable. The list is here for visibility, not blame. Severity is my read of how much each one matters for JP enterprise procurement specifically."
-    tone="soft"
-  >
-    <div class="space-y-4 max-w-4xl">
-      {gaps.map((g, i) => (
-        <div
-          class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5"
-          data-reveal="fade-up"
-          data-reveal-delay={i}
-        >
-          <div class="flex items-center justify-between gap-3 mb-2 flex-wrap">
-            <h3 class="font-display text-lg leading-tight">{g.title}</h3>
-            {g.severity === "high" && (
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.14em] font-bold bg-[var(--color-danger-soft)] text-[var(--color-danger)]">
-                <AlertTriangle class="w-3 h-3" /> High · deal-breaker
-              </span>
-            )}
-            {g.severity === "medium" && (
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.14em] font-bold bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
-                Medium · address by Q4
-              </span>
-            )}
-            {g.severity === "low" && (
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.14em] font-bold bg-[var(--color-ink-faint)]/15 text-[var(--color-ink-soft)]">
-                Low · solvable iteratively
-              </span>
-            )}
-          </div>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{g.detail}</p>
-        </div>
-      ))}
-    </div>
-  </Section>
-
-  <!-- §04 THE JAPAN GAP -->
-  <Section
-    id="japan-gap"
-    eyebrow="04 · The Japan gap"
-    title="Six failure modes most foreign vendors discover at PoC, six months in."
-    lede="None of these are theoretical — they show up in week 2 of any real JP enterprise deployment. Shorten the discovery loop by surfacing them honestly to HQ now."
-  >
-    <div class="space-y-3 max-w-5xl">
-      {japanFailureModes.map((m, i) => (
-        <div
-          class="grid sm:grid-cols-[8rem_1fr] gap-4 sm:gap-6 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5"
-          data-reveal="fade-up"
-          data-reveal-delay={i % 4}
-        >
-          <div>
-            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-1">
-              {m.label}
-            </div>
-            <h3 class="font-display text-lg leading-tight">{m.title}</h3>
-          </div>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{m.impact}</p>
-        </div>
-      ))}
-    </div>
-
-    <div class="mt-10 max-w-4xl">
-      <Quote
-        text="Western AI fails in Japan because they treat language as a translation task. The platforms that win treat it as a cultural negotiation."
-        cite="working principle from the JP playbook I've been operating against"
-      />
-    </div>
-
-    <p class="mt-8 text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed">
-      <strong>I could not see the code</strong>, so this list is the failure surface based on what the demo exposed and what every other foreign vendor has hit on this market. If Wonderful has already invested in two or three of these, that's a strong signal — make sure those investments are visible in JP customer pitches. If not yet, they're the highest-leverage engineering bets for 2026.
-    </p>
-  </Section>
-
-  <!-- §05 COMPETITIVE POSITIONING -->
-  <Section
-    id="competitive"
-    eyebrow="05 · Competitive positioning · Japan"
-    title="The cohort JP procurement actually compares Wonderful against."
-    lede="Not the global agentic-AI category. The five names below are the ones JP enterprise teams will surface in vendor reviews."
-    tone="soft"
-  >
-    <div class="overflow-x-auto -mx-6 px-6 max-w-5xl mx-auto">
-      <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
-        <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
-          <tr>
-            <th class="text-left p-3 font-semibold">Competitor</th>
-            <th class="text-left p-3 font-semibold">Role</th>
-            <th class="text-left p-3 font-semibold">Strength</th>
-            <th class="text-left p-3 font-semibold">Weakness</th>
-            <th class="text-left p-3 font-semibold">Wonderful's wedge</th>
-          </tr>
-        </thead>
-        <tbody class="bg-[var(--color-paper)] align-top">
-          {competitors.map((c) => (
-            <tr class="border-t border-[var(--color-line-soft)]">
-              <td class="p-3 font-semibold text-[var(--color-ink)]">{c.name}</td>
-              <td class="p-3 text-[var(--color-ink-soft)] text-xs uppercase tracking-[0.1em]">{c.role}</td>
-              <td class="p-3 text-[var(--color-ink-soft)]">{c.strength}</td>
-              <td class="p-3 text-[var(--color-ink-soft)]">{c.weakness}</td>
-              <td class="p-3 text-[var(--color-ink)] font-medium">{c.wonderfulWedge}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-    <p class="mt-6 text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed">
-      <strong>The right framing in customer conversations:</strong> Wonderful is the only platform in this cohort with all of [voice + autonomy + multimodal + forward-deployed engineering + production-scale reference]. That combination is the wedge — not any single feature. PKSHA can't match the agentic story; Karakuri can't match voice; AI Shift can't match platform depth; Mobius can't match velocity; Sakana doesn't build the application layer. Each of them owns a single line; Wonderful owns the column.
-    </p>
-  </Section>
-
-  <!-- §06 BEACHHEAD STRATEGY -->
-  <Section
-    id="beachhead"
-    eyebrow="06 · Beachhead strategy"
-    title="Not customer service yet. Internal workflow automation, old-guard logos, then earn the right to CS."
-    lede="The new content from this writeup — what didn't come up live but Hosoi-san and I have aligned on since. The product is strong enough today to win an internal-DX PoC at a major old-guard logo. It is not yet ready to win a JP customer-service contract at the bar JP enterprise will hold it to. Sequence accordingly."
-  >
-    <div class="prose-block max-w-3xl space-y-4 mb-10">
-      <p>
-        <strong>Hosoi-san and I have aligned on the sequencing.</strong> Leading with customer service in Japan today is a fight against (a) the language + dialect requirements that need targeted engineering, (b) BPO incumbents who feel threatened by AI displacement, and (c) regulatory + procurement cycles that punish "almost ready." The bar to win JP CS is materially higher than the markets Wonderful has won so far.
-      </p>
-      <p>
-        <strong>The sharper move is internal first.</strong> Wonderful's strengths — agentic OS, multi-agent orchestration, dynamic dashboards, Wonderful Apps auto-UI, voice where it works today — map cleanly to what JP old-guard industrials need for <em>internal</em> workflow automation. Shorter procurement cycles, fewer regulatory traps, more forgiving language requirements (employee-facing tolerates more imperfection than customer-facing). A single big-logo internal win earns the right + the reference story to re-enter customer service later, on Wonderful's terms rather than the market's.
-      </p>
-      <p>
-        <strong>The principle, not the playbook.</strong> The specifics of <em>which</em> old-guard logos to target first, the warm-chain map, the sequencing of internal-DX vs. process automation, the parallel engineering investments that close the JP-fit gaps in §04, and the SI / BPO channel diplomacy — those are working-session material. The thesis is durable; the execution plan is the thing that has to be built with the team, not handed over in a writeup.
-      </p>
-    </div>
-
-    <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 max-w-4xl">
-      <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">The shape, not the specifics</div>
-      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
-        The named beachhead targets, the operational playbook, the keigo / dialect / Mojibake-class engineering audit, and the 6-month sequencing roadmap are documents I'd develop with Hosoi-san and the regional team if the engagement gets shaped. They aren't useful as a static artifact — they need to live as a working plan that the team operates against and refits monthly.
-      </p>
+    <!-- "AI = survival" callout — the load-bearing reframe -->
+    <div class="rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/30 p-6 mb-10 max-w-4xl" data-reveal="fade-up">
+      <div class="flex items-baseline gap-2 mb-2 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">The Japan reframe</span>
+      </div>
+      <h3 class="font-display text-2xl mb-2 leading-tight">AI in Japan is not a cost-cutting story. It is survival.</h3>
       <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-        What this section is committed to is the <strong class="text-[var(--color-ink)]">principle</strong>: do not lead with CS. Sequence the JP-fit gap closure as parallel-track engineering investment. Earn the right to enter CS with a reference story already in hand. The rest comes from working it.
+        In every other market, enterprise AI gets sold as ROI or margin. In Japan, it gets sold as <em class="font-display">continuity</em>. Contact centers physically cannot hire enough operators. Knowledge workers are retiring faster than they are replaced. <a class="text-[var(--color-accent)] hover:underline" href="https://www8.cao.go.jp/kourei/english/annualreport/index-wh.html" target="_blank" rel="noopener noreferrer">The Cabinet Office's demographic forecasts</a> make the math undeniable. AI is the only way the largest JP organizations stay operational past 2030. That changes the buying frame from "do we want this" to "who do we trust to deliver it."
       </p>
     </div>
-  </Section>
 
-  <!-- §07 OPEN QUESTIONS -->
-  <Section
-    id="open-questions"
-    eyebrow="07 · Open questions · what HQ + regional need to align on"
-    title="Six questions worth answering before the next ringi cycle."
-    lede="Not for me to answer — for the leadership team. Each one is a fork. Marco's role-engagement discussion is intentionally not in this list — that's a separate conversation, and I want this writeup to be about Wonderful's Japan strategy, not my contract."
-    tone="soft"
-  >
-    <div class="space-y-3 max-w-4xl">
-      {openQuestions.map((q, i) => (
-        <div
-          class="grid sm:grid-cols-[10rem_1fr] gap-3 sm:gap-5 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5"
-          data-reveal="fade-up"
-          data-reveal-delay={i % 3}
-        >
-          <div class="text-xs uppercase tracking-[0.14em] text-[var(--color-accent)] font-bold">
-            {q.audience}
-          </div>
-          <p class="text-sm text-[var(--color-ink)] leading-relaxed">
-            <CircleHelp class="inline w-4 h-4 -mt-0.5 text-[var(--color-ink-faint)] mr-1" />
-            {q.question}
-          </p>
+    <div class="grid sm:grid-cols-3 gap-4 max-w-5xl mb-12">
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up">
+        <Globe class="w-5 h-5 text-[var(--color-accent)] mb-4" />
+        <div class="font-display text-3xl sm:text-4xl mb-1.5 leading-tight tracking-tight">¥1T+</div>
+        <div class="text-sm font-medium text-[var(--color-ink)] mb-1.5">JP BPO market size</div>
+        <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">Transcosmos, Bell System24, KDDI Evolva, Relia, Mosaic. Under sustained margin pressure. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.transcosmos.co.jp/english/ir/" target="_blank" rel="noopener noreferrer">Transcosmos IR</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.belle24.co.jp/en/ir/" target="_blank" rel="noopener noreferrer">Bell System24 IR</a>.</div>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay="1">
+        <TrendingUp class="w-5 h-5 text-[var(--color-accent)] mb-4" />
+        <div class="font-display text-3xl sm:text-4xl mb-1.5 leading-tight tracking-tight">34.6%</div>
+        <div class="text-sm font-medium text-[var(--color-ink)] mb-1.5">JP firms using generative AI</div>
+        <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">March 2026, n = 23,349. Plus 14.2% considering. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">Yomiuri Shimbun + Teikoku Databank</a>.</div>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay="2">
+        <Sparkles class="w-5 h-5 text-[var(--color-accent)] mb-4" />
+        <div class="font-display text-3xl sm:text-4xl mb-1.5 leading-tight tracking-tight">$2.65B</div>
+        <div class="text-sm font-medium text-[var(--color-ink)] mb-1.5">Sakana AI valuation</div>
+        <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">$135M Series B from NEA, Lux, Khosla, NVIDIA. Nov 2025. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch</a>.</div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 max-w-5xl">
+      <div class="rounded-xl border border-[var(--color-success)]/30 bg-[var(--color-success-soft)]/30 p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <Rocket class="w-4 h-4 text-[var(--color-success)]" />
+          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-success)]">Tailwinds — what's pulling Japan forward</h3>
         </div>
-      ))}
+        <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <li><strong class="text-[var(--color-ink)]">Voice AI is real for the first time.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://openai.com/index/introducing-the-realtime-api/" target="_blank" rel="noopener noreferrer">OpenAI Realtime API</a> + Deepdub-class eTTS make sub-second voice in Japanese deployable. Wonderful is on the right side of this break.</li>
+          <li><strong class="text-[var(--color-ink)]">METI tailwind.</strong> National AI strategy + SME subsidies (50–66% project-cost reimbursement, ¥300k–¥4.5M per grant). Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.meti.go.jp/english/policy/it_policy/index.html" target="_blank" rel="noopener noreferrer">METI · IT policy</a>.</li>
+          <li><strong class="text-[var(--color-ink)]">JP-domestic AI funding inflection.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">Sakana $135M</a>, <a class="text-[var(--color-accent)] hover:underline" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">LayerX $100M</a>, KDDI's $1B AI infrastructure commitment. Enterprise is buying.</li>
+          <li><strong class="text-[var(--color-ink)]">Demographics force the buy.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://www8.cao.go.jp/kourei/english/annualreport/index-wh.html" target="_blank" rel="noopener noreferrer">Cabinet Office</a>: working-age population falling ~1% per year through 2040. Contact centers cannot hire. AI agents are no longer optional.</li>
+          <li><strong class="text-[var(--color-ink)]">JP regulation is friendlier than EU.</strong> Japan's 2024 AI-act-lite vs the EU AI Act. APPI strict but predictable. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.ppc.go.jp/en/" target="_blank" rel="noopener noreferrer">PPC.go.jp</a>.</li>
+        </ul>
+      </div>
+
+      <div class="rounded-xl border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)]/30 p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <Skull class="w-4 h-4 text-[var(--color-danger)]" />
+          <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-danger)]">Headwinds — the pattern of foreign-vendor failure</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <li><strong class="text-[var(--color-ink)]">IBM Watson Japan</strong> · Loud entry 2017–2019. Mizuho, MUFG, Daiichi Sankyo named, then quietly off. <a class="text-[var(--color-accent)] hover:underline" href="https://www.statnews.com/2017/09/05/watson-ibm-cancer/" target="_blank" rel="noopener noreferrer">STAT (Watson Health context)</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a>.</li>
+          <li><strong class="text-[var(--color-ink)]">Salesforce Einstein</strong> · Strong global product. JP customers run on PKSHA, Karakuri, or Mobius for voice and chat. Einstein stays the CRM.</li>
+          <li><strong class="text-[var(--color-ink)]">Generic foreign AI-CX vendors</strong> · Translated their pitch, lost PoCs in 3 months. No embedded team, no keigo eval, no on-prem option. Pattern documented across <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a> annual surveys.</li>
+          <li><strong class="text-[var(--color-ink)]">Xembly</strong> · $20M raised, customers Salesforce and Qualtrics. Shutdown June 2024. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire</a>.</li>
+        </ul>
+        <p class="text-xs text-[var(--color-ink-faint)] italic mt-4 leading-relaxed">
+          The pattern is consistent. HQ-driven entry. Generic localization. No embedded JP team. No on-prem option. No keigo eval set. The vendors who win in Japan all share the inverse.
+        </p>
+      </div>
     </div>
   </Section>
 
-  <!-- §08 CLOSING -->
+  <!-- ============================================================ -->
+  <!-- §02 WINNERS AND LOSERS -->
+  <!-- ============================================================ -->
   <Section
-    id="closing"
-    eyebrow="The bottom line"
-    title="The market is here for Wonderful. The question is whether HQ lets Japan lead the JP plan."
+    id="winners-losers"
+    eyebrow="02 · Winners and losers"
+    title="The pattern repeats. JP-deep wins. HQ-driven loses. Always."
+    lede="Two columns of names from the same market. The difference between them is not product quality. It is the organizational shape that produced the product."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-2 gap-6 max-w-5xl">
+      <div class="rounded-xl border-2 border-[var(--color-success)]/30 bg-[var(--color-paper)] p-6">
+        <div class="flex items-center gap-2 mb-4">
+          <Crown class="w-5 h-5 text-[var(--color-success)]" />
+          <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-success)]">Winners · JP-deep, embedded, configuration-grade</h3>
+        </div>
+        <ul class="space-y-4 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          {winners.map((w) => (
+            <li class="border-l-2 border-[var(--color-success)]/40 pl-4">
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">
+                {w.url ? <a class="hover:text-[var(--color-accent)] hover:underline" href={w.url} target="_blank" rel="noopener noreferrer">{w.name} ↗</a> : w.name}
+              </div>
+              <div>{w.what}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="rounded-xl border-2 border-[var(--color-danger)]/30 bg-[var(--color-paper)] p-6">
+        <div class="flex items-center gap-2 mb-4">
+          <Skull class="w-5 h-5 text-[var(--color-danger)]" />
+          <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-danger)]">Losers · HQ-driven, generic-localized, walked-away references</h3>
+        </div>
+        <ul class="space-y-4 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          {losers.map((l) => (
+            <li class="border-l-2 border-[var(--color-danger)]/40 pl-4">
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">
+                {l.url ? <a class="hover:text-[var(--color-accent)] hover:underline" href={l.url} target="_blank" rel="noopener noreferrer">{l.name} ↗</a> : l.name}
+              </div>
+              <div>{l.what}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-10 text-base text-[var(--color-ink-soft)] max-w-3xl leading-relaxed italic">
+      <strong class="not-italic text-[var(--color-ink)]">Which side is Wonderful on?</strong> Today, neither yet. Bezeq is winner-shaped. The cloud-only posture and the JP-fit gaps in §03 are loser-shaped. The decision happens in the next 6–12 months.
+    </p>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §03 THE PROMISED LAND -->
+  <!-- ============================================================ -->
+  <Section
+    id="promised-land"
+    eyebrow="03 · The promised land"
+    title="Wonderful is the first foreign agentic-AI platform to win Japan, by going JP-led first."
+    lede="The future state worth describing. Not a feature list — a position in the market."
     tone="ink"
   >
     <div class="max-w-3xl space-y-5">
       <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
-        The platform is real. The Bezeq reference is rare. The strengths that matter for JP enterprise — agentic OS, voice, forward-deployed engineering, multimodal — are all present. The gaps that matter (keigo, dialects, document encoding, dashboard UX) are nameable, finite, and shipping-distance.
+        Twelve months from now, Wonderful is the platform every JP enterprise CIO has been told about by their SI partner. Not "the Israeli vendor" or "the foreign agentic-AI startup," but <strong class="text-[var(--color-paper)]">the platform that respected this market enough to come on JP terms</strong>.
       </p>
       <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
-        The question that decides this isn't technical. It's organizational. <strong class="text-[var(--color-paper)]">Will Tel Aviv let Hosoi-san write the Japan plan</strong>, with Anthony and Henek as the regional bridge, and trust HQ's role to be air-cover and platform velocity? If yes, this market is winnable on a 12–24 month horizon. If no, the procurement reality + demographic pressure + competitive cohort will win instead.
+        The Tokyo office writes the Japan plan. Hosoi-san leads. Asia regional bridges. HQ provides air cover, capital, and platform velocity. Customer-facing voice runs on keigo-tuned, dialect-aware, on-prem-capable infrastructure. Internal workflow automation is shipping in production at three old-guard industrial logos. SI partners (NRI, NTT Data, Accenture JP) are carrying the platform into their accounts because the 20% gap is closed and the security story is meeting-one-ready.
       </p>
-      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic">
+      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
+        From there, the playbook propagates. Korea, Singapore, Taiwan. The JP-first model becomes the template for every market HQ enters where foreign default fails.
+      </p>
+      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
         Japan-led, not Japan-translated. Everything else flows from that.
       </p>
     </div>
   </Section>
 
-  <!-- ENGAGEMENT HOOK -->
+  <!-- ============================================================ -->
+  <!-- §04 MAGIC GIFTS -->
+  <!-- ============================================================ -->
   <Section
-    id="next"
-    eyebrow="What's behind this writeup"
-    title="The high-altitude version is here. The depth lives in working sessions, not static documents."
+    id="magic-gifts"
+    eyebrow="04 · Magic gifts"
+    title="What bridges old world to promised land — the product plus the operator."
+    lede="Two parts. Wonderful's platform delivers the core 80%. The remaining 20% is JP execution. I bring operator-grade execution on the 20% that determines whether Japan is winnable."
   >
-    <div class="max-w-3xl prose-block space-y-4">
-      <p>
-        This page is what fits in a 1-2 page brief. The pieces that didn't fit — and that I think matter more than the brief — are the kind of work that doesn't translate well into a static document:
+    <!-- PART A: Wonderful's platform features (the strengths) -->
+    <div class="mb-16">
+      <div class="flex items-center gap-2 mb-6">
+        <Gift class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">A · Wonderful's platform · the 80% that's already shipped</h3>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
+        {strengths.map((s, i) => {
+          const IconC = Icon(s.icon);
+          return (
+            <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay={i % 3}>
+              {IconC && <IconC class="w-5 h-5 text-[var(--color-success)] mb-4" />}
+              <h4 class="font-display text-xl mb-2 leading-tight">{s.title}</h4>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{s.detail}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- PART B: Marco's four practice areas (operator-in-residence) -->
+    <div>
+      <div class="flex items-center gap-2 mb-6">
+        <Briefcase class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Operator-in-residence · the 20% that decides whether Japan is winnable</h3>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] mb-8 max-w-3xl leading-relaxed">
+        Four practice areas mapped directly to what Wonderful needs in Japan. Each one matches a high-severity gap in §05 (the audit). Each one is what I have just done, not what I am proposing to learn.
       </p>
-      <ul class="space-y-2 ml-6 list-disc text-[var(--color-ink-soft)] marker:text-[var(--color-accent)]">
-        <li>The detailed Japan-fit engineering audit (eval sets, dialect benchmarks, transcoding paths) — needs to be done <em>against</em> the codebase, with the engineering team in the room, not from outside.</li>
-        <li>The named-account warm-chain map for the beachhead — needs to be timed against the actual cadence of those companies' ringi cycles, and refit weekly.</li>
-        <li>The operational playbook for the workflow-automation beachhead — has to be built <em>with</em> Hosoi-san, Anthony, and Henek so it reflects what HQ will and won't cover air-cover for.</li>
-        <li>The SI / BPO channel diplomacy plan (Accenture JP, NRI, NTT Data, Transcosmos, Bell System24) — needs to start with the right introduction, not a cold pitch.</li>
-      </ul>
-      <p>
-        Happy to develop any of these with the team in whatever shape works — consulting engagement, advisor role, or organizational. The shape is a separate conversation; the value of the work is the same regardless of which container it sits inside.
+      <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
+        {practiceAreas.map((p, i) => {
+          const IconC = Icon(p.icon);
+          return (
+            <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6" data-reveal="fade-up" data-reveal-delay={i % 2}>
+              <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)]" />}
+                  <h4 class="font-display text-xl leading-tight">{p.title}</h4>
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] font-bold">{p.week}</span>
+              </div>
+              <p class="text-sm text-[var(--color-ink)] mb-3 leading-relaxed">{p.blurb}</p>
+              <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+                {p.bullets.map((b) => (
+                  <li class="flex gap-2">
+                    <CheckCheck class="w-3.5 h-3.5 mt-1 shrink-0 text-[var(--color-accent)]" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §05 EVIDENCE — Wonderful's gaps + Japan failure modes + Marco's track record -->
+  <!-- ============================================================ -->
+  <Section
+    id="evidence"
+    eyebrow="05 · Evidence"
+    title="What works, what doesn't yet, and what I have already shipped."
+    lede="Three lenses. The gaps in Wonderful's current platform that procurement will surface. The Japan-specific failure modes that kill foreign vendors at PoC. And what I have built and sold in this exact market in the past months."
+    tone="soft"
+  >
+    <!-- PII pull-quote — the procurement reality nobody pre-empts -->
+    <div class="my-10 max-w-4xl rounded-2xl bg-[var(--color-ink)] text-[var(--color-paper)] p-10 sm:p-12 relative overflow-hidden" data-reveal="scale">
+      <div class="absolute top-0 right-0 w-32 h-32 -translate-y-12 translate-x-12 rounded-full bg-[var(--color-accent)]/30 blur-3xl" aria-hidden="true"></div>
+      <div class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 flex items-center gap-2">
+        <Shield class="w-3.5 h-3.5" /> The procurement reality nobody pre-empts
+      </div>
+      <blockquote class="font-display text-2xl sm:text-3xl lg:text-[2.5rem] leading-[1.15] tracking-tight text-[var(--color-paper)]">
+        <span class="text-[var(--color-accent)] mr-1">"</span>Pseudonymization in transit. Redaction at rest. Role-based PII view. Audit logging on every touch.<span class="text-[var(--color-accent)] ml-1">"</span>
+      </blockquote>
+      <p class="mt-6 text-sm text-[var(--color-paper-soft)]/80 max-w-3xl leading-relaxed">
+        That is the literal sentence Japanese procurement asks in the first 30 minutes. <strong class="text-[var(--color-paper)]">"Encrypted" is not the answer they want.</strong> APPI 2025–26 enforcement amendments added administrative penalties, which makes this contractual rather than aspirational. PII handling is one of the high-severity items below. It is also the one most foreign vendors mis-handle by treating it as a checkbox instead of a process. The procurement teams who reviewed Wonderful would test this question first.
+      </p>
+    </div>
+
+    <!-- A · Wonderful platform gaps -->
+    <div class="mb-16">
+      <div class="flex items-center gap-2 mb-2">
+        <Wrench class="w-4 h-4 text-[var(--color-warning)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-warning)]">A · Platform gaps · what JP procurement will surface</h3>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Severity is my read of how much each one matters for JP enterprise procurement specifically. High-severity items are deal-breakers and need a credible roadmap by the time the first big-logo PoC starts.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-6xl">
+        {gaps.map((g, i) => {
+          const IconC = Icon(g.icon);
+          const sevColor =
+            g.severity === "high"
+              ? "border-[var(--color-danger)]/40 bg-[var(--color-danger-soft)]/15"
+              : g.severity === "medium"
+                ? "border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]/15"
+                : "border-[var(--color-line)] bg-[var(--color-paper)]";
+          const sevText =
+            g.severity === "high"
+              ? "text-[var(--color-danger)]"
+              : g.severity === "medium"
+                ? "text-[var(--color-warning)]"
+                : "text-[var(--color-ink-faint)]";
+          return (
+            <div class={`rounded-xl border ${sevColor} p-5`} data-reveal="fade-up" data-reveal-delay={i % 3}>
+              <div class="flex items-start justify-between gap-2 mb-2 flex-wrap">
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                  {IconC && <IconC class={`w-4 h-4 shrink-0 ${sevText}`} />}
+                  <span class={`text-[9px] uppercase tracking-[0.14em] font-bold ${sevText}`}>{g.severity}</span>
+                </div>
+              </div>
+              <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug text-sm">{g.title}</h4>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{g.detail}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- B · Japan-specific failure modes -->
+    <div class="mb-16">
+      <div class="flex items-center gap-2 mb-2">
+        <MapPin class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Japan failure modes · what kills vendors at PoC</h3>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Six categories most foreign vendors discover at PoC, six months in. None of these came up in the session itself. They are my post-session assessment grounded in what every other foreign vendor has hit on this market.
+      </p>
+      <div class="grid md:grid-cols-2 gap-3 max-w-5xl">
+        {japanFailureModes.map((m, i) => {
+          const IconC = Icon(m.icon);
+          return (
+            <div class="grid grid-cols-[3rem_1fr] gap-4 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay={i % 4}>
+              <div class="flex items-start pt-1">
+                {IconC && <IconC class="w-7 h-7 text-[var(--color-accent)]" />}
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-1">{m.label}</div>
+                <h4 class="font-display text-base leading-tight mb-1.5">{m.title}</h4>
+                <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{m.impact}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- C · Competitive matrix -->
+    <div class="mb-16">
+      <div class="flex items-center gap-2 mb-2">
+        <Swords class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">C · Competitive cohort · who JP procurement compares Wonderful against</h3>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Five names that come up in JP enterprise vendor reviews. The right framing in customer conversations: Wonderful is the only one in this cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference]. That combination is the wedge.
+      </p>
+      <div class="overflow-x-auto -mx-6 px-6 max-w-5xl mx-auto">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+          <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Competitor</th>
+              <th class="text-left p-3 font-semibold">Role</th>
+              <th class="text-left p-3 font-semibold">Strength</th>
+              <th class="text-left p-3 font-semibold">Weakness</th>
+              <th class="text-left p-3 font-semibold">Wonderful's wedge</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[var(--color-paper)] align-top">
+            {competitors.map((c) => (
+              <tr class="border-t border-[var(--color-line-soft)]">
+                <td class="p-3 font-semibold text-[var(--color-ink)]">{c.name}</td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs uppercase tracking-[0.1em]">{c.role}</td>
+                <td class="p-3 text-[var(--color-ink-soft)]">{c.strength}</td>
+                <td class="p-3 text-[var(--color-ink-soft)]">{c.weakness}</td>
+                <td class="p-3 text-[var(--color-ink)] font-medium">{c.wonderfulWedge}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- D · Marco's track record -->
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <Award class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">D · My track record · in this exact market, in the past months</h3>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Not consulting credentials from ten years ago. Current intel from JP enterprise rooms I have been in this quarter. The four facts below are the four reasons I can de-risk the 20% gap that decides whether Japan is winnable.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-4 max-w-5xl mb-8">
+        {marcoCredentials.map((c, i) => {
+          const IconC = Icon(c.icon);
+          return (
+            <div class="rounded-xl border-2 border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/15 p-5" data-reveal="fade-up" data-reveal-delay={i % 2}>
+              <div class="flex items-start gap-3 mb-2">
+                {IconC && <IconC class="w-6 h-6 text-[var(--color-accent)] shrink-0 mt-0.5" />}
+                <h4 class="font-display text-lg leading-tight">{c.headline}</h4>
+              </div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.detail}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 max-w-4xl">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">My background, in one line</div>
+        <p class="text-sm text-[var(--color-ink) leading-relaxed mb-2">
+          <strong class="text-[var(--color-ink)]">Marco Avila · Tokyo · 20+ years operating, 10+ in Tokyo.</strong> Rakuten (CEO's Office) · Delivery Hero Japan (CTO) · Flexport (Chief of Staff to CTO) · Rocket Internet (Head of BD, Asia) · Jurin AI (Deputy CEO).
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          JP business executive and working engineer. Can sit in a ringi conversation in the morning and pressure-test an ASR pipeline in the afternoon. Bilingual at exec register. The rare profile that can stand in for the President on either side of the table.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §06 PLAN — 90-day plan + beachhead sequencing -->
+  <!-- ============================================================ -->
+  <Section
+    id="plan"
+    eyebrow="06 · The plan"
+    title="90 days to pilot terms. Beachhead in internal workflow automation. Customer service after the 20% is closed."
+    lede="The deliverables that match what Wonderful needs in Japan, sequenced into a 90-day plan. Plus the beachhead strategy that Hosoi-san and I are aligned on, and the operational logic that compresses the JP enterprise sales cycle."
+  >
+    <!-- 90-day plan timeline -->
+    <div class="mb-14 max-w-6xl">
+      <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5">
+        90-day delivery plan · first enterprise pilot terms by week 12
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {ninetyDayPlan.map((phase, i) => {
+          const IconC = Icon(phase.icon);
+          return (
+            <div class={`rounded-xl border ${i === 3 ? 'border-2 border-[var(--color-accent)] bg-[var(--color-paper)]' : 'border-[var(--color-line)] bg-[var(--color-paper)]'} p-6`} data-reveal="fade-up" data-reveal-delay={i}>
+              <div class="flex items-center gap-2 mb-3">
+                {IconC && <IconC class={`w-5 h-5 ${i === 3 ? 'text-[var(--color-accent)]' : 'text-[var(--color-ink-soft)]'}`} />}
+                <span class={`text-xs uppercase tracking-[0.14em] font-mono font-bold ${i === 3 ? 'text-[var(--color-accent-ink)]' : 'text-[var(--color-ink-faint)]'}`}>{phase.weeks}</span>
+              </div>
+              <h3 class="font-display text-lg mb-3 leading-tight">{phase.title}</h3>
+              <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+                {phase.deliverables.map((d) => (
+                  <li class="flex gap-1.5"><span class="text-[var(--color-accent)]">·</span><span>{d}</span></li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Beachhead principle -->
+    <div class="max-w-4xl">
+      <div class="flex items-center gap-2 mb-3">
+        <Anchor class="w-4 h-4 text-[var(--color-accent)]" />
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">Beachhead strategy · Hosoi-san aligned</h3>
+      </div>
+      <div class="prose-block space-y-4 mb-8">
+        <p>
+          Leading with customer service in Japan today is a fight against (a) the language and dialect requirements that need targeted engineering, (b) BPO incumbents who feel threatened by AI displacement, and (c) regulatory and procurement cycles that punish "almost ready." The bar to win JP customer service is materially higher than the markets Wonderful has won so far.
+        </p>
+        <p>
+          The sharper move is internal first. Wonderful's strengths (agentic OS, multi-agent orchestration, dynamic dashboards, Wonderful Apps auto-UI, voice where it works today) map cleanly to what JP old-guard industrials need for <em>internal</em> workflow automation. Shorter procurement cycles. Fewer regulatory traps. More forgiving language requirements. A single big-logo internal win earns the right and the reference story to re-enter customer service later, on Wonderful's terms.
+        </p>
+      </div>
+
+      <!-- The 80/20 reality -->
+      <div class="rounded-xl border-2 border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]/30 p-6 mb-4">
+        <div class="flex items-center gap-2 mb-2">
+          <AlertCircle class="w-4 h-4 text-[var(--color-warning)]" />
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">The 80 / 20 reality for SI engagement</div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          For SI partnership (NRI, NTT Data, Accenture JP, Fujitsu) Wonderful looks "almost ready." The core is there. The breaking points sit in the last 20%: keigo, dialect, PII handling, on-prem posture, robustness, SLA terms, repeat-number guardrails, document encoding.
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <strong class="text-[var(--color-ink)]">That 20% is what determines whether Japan is winnable.</strong> Without it, no SI stakes their JP enterprise relationship on Wonderful. With it, every SI on this list becomes a credible channel.
+        </p>
+      </div>
+
+      <!-- PoC compression rationale -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/20 p-6 mb-4">
+        <div class="flex items-center gap-2 mb-2">
+          <Rocket class="w-4 h-4 text-[var(--color-accent)]" />
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">Why this strategy works · sales-cycle compression</div>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          JP enterprise sales cycles run 12–18 months. The standard approach is to wait until the platform is fully production-ready, then start procurement. That serializes engineering and sales and extends time-to-revenue by a year.
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          <strong class="text-[var(--color-ink)]">PoC-first inverts this.</strong> Sell what Wonderful can deliver and demo today (the 80% core is real). Land a PoC at an old-guard logo on terms matched to current capabilities. Production rollout is months out, and that window is where we close the 20% gap. The customer gets a working PoC. We get a paid runway to close JP-fit while their procurement, security, and integration teams move at JP pace.
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          By production time, Wonderful is JP-tuned and the customer is committed. The 12-month sales cycle runs in parallel with the engineering work instead of after it. We start early. We earn buy-in early. We shorten the cycle by months.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">The shape, not the specifics</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          The named beachhead targets, the operational playbook, the engineering audit, and the warm-chain map are documents I develop with Hosoi-san and the regional team if the engagement gets shaped. They live as a working plan the team operates against and refits monthly, not as static artifacts.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §07 OPEN QUESTIONS -->
+  <!-- ============================================================ -->
+  <Section
+    id="open-questions"
+    eyebrow="07 · Open questions"
+    title="Six questions worth answering before the next ringi cycle."
+    lede="Not for me to answer. Each one is a fork the leadership team decides. Each one shapes the rest of the plan."
+    tone="soft"
+  >
+    <div class="space-y-3 max-w-4xl">
+      {openQuestions.map((q, i) => {
+        const IconC = Icon(q.icon);
+        return (
+          <div class="grid sm:grid-cols-[12rem_1fr] gap-3 sm:gap-5 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay={i % 3}>
+            <div class="flex items-center gap-2">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)] shrink-0" />}
+              <div class="text-xs uppercase tracking-[0.14em] text-[var(--color-accent)] font-bold">{q.audience}</div>
+            </div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+              {q.question}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- CLOSING -->
+  <!-- ============================================================ -->
+  <Section
+    id="closing"
+    eyebrow="The bottom line"
+    title="Tokyo writes the plan. Regional bridges. HQ provides the velocity. Wonderful wins Japan."
+    tone="ink"
+  >
+    <div class="max-w-3xl space-y-5">
+      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
+        The platform is real. The Bezeq reference is rare. The strengths that matter for JP enterprise (agentic OS, voice, forward-deployed engineering, multimodal) are all present. The gaps that matter (keigo, dialects, on-prem, PII, robustness, SLA, document encoding) are nameable, finite, and shipping-distance.
+      </p>
+      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
+        The decision that determines whether Wonderful wins Japan is not technical. It is organizational. <strong class="text-[var(--color-paper)]">Will Tel Aviv let Hosoi-san write the Japan plan</strong>, with Anthony and Henek as the regional bridge, and trust HQ's role to be air cover, capital, and platform velocity? If yes, this market is winnable on a 12–24 month horizon. If no, the procurement reality and demographic pressure win instead.
+      </p>
+      <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+        Japan-led, not Japan-translated. Everything else flows from that.
       </p>
     </div>
   </Section>
 
+  <!-- ============================================================ -->
   <!-- REFERENCES -->
+  <!-- ============================================================ -->
   <Section
     id="references"
     eyebrow="References"
@@ -559,30 +1090,64 @@ const openQuestions = [
   >
     <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-sm leading-relaxed">
       <div>
-        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Wonderful · product + traction</h3>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Wonderful · demo + traction</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· Demo session with Anthony (VP, Asia Operations) + Satoshi · 2026</li>
-          <li>· Wonderful internal collateral on Bezeq deployment (referenced verbally in the demo)</li>
-          <li>· Anthony's post-session demo video (reviewed)</li>
-          <li>· <em>Internal note (mine):</em> wonderful-ai meeting brief 2026-04-27 + JP GTM playbook 2026-05-08</li>
+          <li>· Demo session with Anthony (VP Asia Operations) and Satoshi · 2026</li>
+          <li>· Wonderful internal collateral on Bezeq deployment (referenced in the demo)</li>
+          <li>· Demo video sent post-session by Anthony · reviewed</li>
         </ul>
       </div>
       <div>
-        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Japan market · competitive · regulatory</h3>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Japan market · adoption + funding</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· APPI (Act on the Protection of Personal Information) · 2025–26 enforcement amendments</li>
-          <li>· METI · digital workforce shortage forecasts</li>
-          <li>· BPO market data — Transcosmos, Bell System24, KDDI Evolva, Relia, Mosaic</li>
-          <li>· PKSHA Technology · public product positioning</li>
-          <li>· Karakuri · public product positioning</li>
-          <li>· AI Shift · public product positioning</li>
-          <li>· Mobilus · public product positioning</li>
-          <li>· Sakana AI · TechCrunch 2025-11 Series B</li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">Yomiuri Shimbun + Teikoku Databank — 34.6% JP gen-AI adoption (Mar 2026)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch — Sakana AI Series B ($135M @ $2.65B, Nov 2025)</a></li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">TechCrunch — LayerX Series B ($100M, Sep 2025)</a></li>
+          <li>· METI national AI strategy + SME subsidies (50–66% project-cost reimbursement)</li>
+          <li>· Cabinet Office: working-age population forecasts to 2040</li>
+          <li>· Japan 2024 AI-act-lite policy framework</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Compliance + regulation</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li>· APPI (Act on the Protection of Personal Information) — 2025–26 enforcement amendments</li>
+          <li>· ISMAP (Information system Security Management and Assessment Program) — govt + enterprise procurement</li>
+          <li>· JP-domestic data residency requirements (varies by industry: finance, healthcare, govt)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Competitive · cohort</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.pkshatech.com/" target="_blank" rel="noopener noreferrer">PKSHA Technology</a> · public product positioning</li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://karakuri.ai/" target="_blank" rel="noopener noreferrer">Karakuri</a> · public product positioning</li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.ai-shift.co.jp/" target="_blank" rel="noopener noreferrer">AI Shift</a> · public product positioning</li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://mobilus.co.jp/" target="_blank" rel="noopener noreferrer">Mobilus</a> · public product positioning</li>
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://sakana.ai/" target="_blank" rel="noopener noreferrer">Sakana AI</a> · public product positioning</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Foreign-vendor failure pattern (sources)</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire — Xembly shutdown (June 2024)</a></li>
+          <li>· IBM Japan public disclosures · Watson Health JP transition</li>
+          <li>· IDC Japan AI follow-up reports · 2020–24</li>
+          <li>· Salesforce Einstein JP customer disclosure (public earnings + case studies)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">My background</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li>· Rakuten · CEO's Office · enterprise AI + ecosystem</li>
+          <li>· Delivery Hero Japan · CTO · platform + voice</li>
+          <li>· Flexport · Chief of Staff to CTO · global engineering ops</li>
+          <li>· Rocket Internet · Head of BD, Asia · enterprise growth</li>
+          <li>· Jurin AI · Deputy CEO · JP enterprise AI · 4 voice-AI deals · SOC II Type I</li>
         </ul>
       </div>
     </div>
     <p class="mt-10 text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
-      Confidential to Anthony, Henek, and Hosoi-san. Distributed via the LINE group as the requested 1–2 page writeup, hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access (14-day session). If any reader wants a doc or PDF version, ask Marco directly.
+      Confidential to Anthony, Henek, and Hosoi-san. Distributed via the LINE group as the requested writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access (24h session). For a PDF or doc version, ask Marco directly.
     </p>
   </Section>
 </Layout>
