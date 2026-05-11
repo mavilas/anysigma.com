@@ -155,6 +155,21 @@ const ogImageUrl = new URL(ogImage, "https://anysigma.com").toString();
     background: linear-gradient(180deg, transparent 60%, var(--paper) 100%);
   }
 
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(0, 0, 0, 0.05) 51%,
+      transparent 51%
+    );
+    background-size: 100% 4px;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
   .wrap {
     max-width: var(--max);
     margin: 0 auto;
@@ -185,6 +200,17 @@ const ogImageUrl = new URL(ogImage, "https://anysigma.com").toString();
 
   .logo-mark {
     filter: drop-shadow(0 0 8px var(--accent-glow));
+    animation: logo-flicker 4s infinite;
+  }
+
+  @keyframes logo-flicker {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+    31% { opacity: 1; }
+    32% { opacity: 0.8; filter: drop-shadow(0 0 2px var(--accent-glow)); }
+    33% { opacity: 1; }
+    84% { opacity: 1; }
+    85% { opacity: 0.9; }
+    86% { opacity: 1; }
   }
 
   .logo-text {
