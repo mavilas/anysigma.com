@@ -146,7 +146,38 @@ code, .font-mono {
   background: oklch(0.99 0.005 90 / 0.8);
 }
 
-/* === Hero claim cards — three-up scannable trio === */
+/* === Story prose — editorial narrative styling for the hero + section ledes === */
+.story-prose p {
+  font-size: 1.0625rem;
+  line-height: 1.72;
+  color: var(--color-ink);
+  margin-bottom: 1.25em;
+}
+.story-prose p:last-child { margin-bottom: 0; }
+.story-prose p strong { color: var(--color-ink); font-weight: 600; }
+.story-prose p em { font-style: italic; color: var(--color-ink); }
+.story-prose .first-para::first-letter {
+  font-family: var(--font-display);
+  float: left;
+  font-size: 3.2em;
+  line-height: 0.92;
+  margin: 0.05em 0.14em 0 -0.04em;
+  color: var(--color-ink);
+  font-weight: 400;
+}
+.story-act {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent-ink);
+  background: var(--color-accent-soft);
+  padding: 0.05em 0.4em;
+  border-radius: 0.2em;
+}
+
+/* === Hero claim cards — kept for back-compat; not used in story-form hero === */
 .claim-card {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);

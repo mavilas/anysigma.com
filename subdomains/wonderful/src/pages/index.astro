@@ -547,149 +547,39 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
         The shift
       </p>
-      <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-8 max-w-5xl relative" data-reveal="fade-up" data-reveal-delay="2">
-        <span class="standout">Japan-led</span>,<br />not Japan-translated.
+      <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-6 max-w-5xl relative" data-reveal="fade-up" data-reveal-delay="2">
+        Japan-led,<br />not Japan-translated.
         <span aria-hidden="true" class="absolute -left-3 sm:-left-5 top-2 bottom-2 w-[3px] sm:w-[5px] rounded-full bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)] to-transparent"></span>
       </h1>
+      <p class="font-display text-xl sm:text-2xl text-[var(--color-ink-soft)] mb-10 max-w-3xl leading-snug italic" data-reveal="fade-up" data-reveal-delay="3">
+        A 14-minute case for how Wonderful wins Japan. Written in Tokyo, for the three people who decide the play.
+      </p>
 
-      <!-- Three-claim intro cards — replaces the wall of prose with a scannable trio -->
-      <div class="grid lg:grid-cols-3 gap-4 max-w-5xl mb-10" data-reveal="fade-up" data-reveal-delay="3">
-        <!-- Claim 01 · The fact (survival) -->
-        <div class="claim-card relative rounded-xl bg-[var(--color-paper)] border border-[var(--color-line)] p-6 overflow-hidden">
-          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-warning)] to-[var(--color-accent)]"></span>
-          <div class="flex items-center gap-2 mb-3">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
-              <Mountain class="w-4 h-4" />
-            </span>
-            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">01 · The fact</span>
-          </div>
-          <h3 class="font-display text-lg leading-tight mb-2 text-[var(--color-ink)]">AI is not cost-cutting. It is survival.</h3>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            Contact centers cannot hire. Knowledge workers are retiring faster than they can be replaced. The Cabinet Office's demographic forecasts make the math undeniable. Enterprise AI is the only way Japan's largest organizations stay operational past 2030.
-          </p>
-        </div>
-
-        <!-- Claim 02 · The shift (how Japan buys) -->
-        <div class="claim-card relative rounded-xl bg-[var(--color-paper)] border border-[var(--color-line)] p-6 overflow-hidden">
-          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-success)]"></span>
-          <div class="flex items-center gap-2 mb-3">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
-              <Compass class="w-4 h-4" />
-            </span>
-            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">02 · The shift</span>
-          </div>
-          <h3 class="font-display text-lg leading-tight mb-2 text-[var(--color-ink)]">The question changed.</h3>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-            No longer <em class="not-italic font-semibold text-[var(--color-ink)]">"can we afford to wait?"</em> It is <em class="not-italic font-semibold text-[var(--color-ink)]">"who do we trust before the door closes?"</em> Huge, friendly, finally moving. Most foreign vendors will lose it the same way they always have, by letting HQ write the Japan plan.
-          </p>
-        </div>
-
-        <!-- Claim 03 · The plan (Japan-led) -->
-        <div class="claim-card relative rounded-xl bg-[var(--color-ink)] text-[var(--color-paper)] p-6 overflow-hidden">
-          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-paper)]/40"></span>
-          <div class="flex items-center gap-2 mb-3">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
-              <Flag class="w-4 h-4" />
-            </span>
-            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">03 · The play</span>
-          </div>
-          <h3 class="font-display text-lg leading-tight mb-2">Written in Tokyo. Carried by Asia. Backed by HQ.</h3>
-          <p class="text-sm text-[var(--color-paper)]/75 leading-relaxed">
-            Hosoi-san leads Japan. Anthony and Henek carry it through regional. Tel Aviv provides air cover, capital, and platform velocity. Every foreign vendor that did this in reverse got pushed out. Procurement closes the door on the next one to try.
-          </p>
-        </div>
-      </div>
-
-      <!-- Acts roadmap — pill strip -->
-      <div class="mb-12 max-w-5xl" data-reveal="fade-up" data-reveal-delay="4">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-3 flex items-center gap-2">
-          <ListChecks class="w-3.5 h-3.5" />
-          The writeup, five acts
-        </div>
-        <div class="flex flex-wrap items-stretch gap-2">
-          <a href="#shift" class="act-pill group">
-            <span class="act-num">01</span>
-            <span class="act-label">The shift</span>
-          </a>
-          <span class="act-sep" aria-hidden="true">→</span>
-          <a href="#winners-losers" class="act-pill group">
-            <span class="act-num">02</span>
-            <span class="act-label">Winners / losers</span>
-          </a>
-          <span class="act-sep" aria-hidden="true">→</span>
-          <a href="#promised-land" class="act-pill group">
-            <span class="act-num">03</span>
-            <span class="act-label">Promised land</span>
-          </a>
-          <span class="act-sep" aria-hidden="true">→</span>
-          <a href="#magic-gifts" class="act-pill act-pill-accent group">
-            <span class="act-num">04</span>
-            <span class="act-label">Magic gifts</span>
-          </a>
-          <span class="act-sep" aria-hidden="true">→</span>
-          <a href="#evidence" class="act-pill group">
-            <span class="act-num">05</span>
-            <span class="act-label">Evidence</span>
-          </a>
-        </div>
-        <p class="mt-3 text-xs text-[var(--color-ink-faint)] leading-relaxed">
-          Then the 90-day plan, six open questions, and a path forward.
+      <!-- Narrative lede — flowing prose, the story opens here -->
+      <div class="story-prose max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="4">
+        <p class="first-para">
+          In Japan, AI is not a cost-cutting story. <strong>It is survival.</strong> Contact centers cannot hire. Knowledge workers are retiring faster than they are being replaced. The Cabinet Office's own demographic forecasts make the math undeniable. Enterprise AI in Japan is not a margin lever. It is the only way the country's largest organizations stay operational past 2030.
+        </p>
+        <p>
+          That changes how Japan buys. The question is no longer <em>"can we afford to wait?"</em> It is <em>"who do we trust to land before the door closes?"</em> The market is huge, friendly, and finally moving. Most foreign vendors will lose it the same way they have lost it before, by letting HQ write the Japan plan.
+        </p>
+        <p>
+          The Japan strategy has to be <strong>written in Tokyo</strong>. Asia regional carries it outward. HQ in Tel Aviv provides air cover, capital, and platform velocity. Every foreign vendor that tried this in reverse got pushed out, and the procurement reality of this market will close the door on the next foreign vendor that does the same.
+        </p>
+        <p>
+          This writeup follows that thesis through five acts. <span class="story-act">The shift</span>. <span class="story-act">Winners and losers</span>. <span class="story-act">The promised land</span>. <span class="story-act">Magic gifts</span> (the platform plus the operator). <span class="story-act">Evidence</span>. Then a 90-day plan, six open questions for leadership, and a path forward.
         </p>
       </div>
 
-      <!-- TL;DR card — upgraded to icon-led 4-up grid for stronger visual scan -->
-      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 sm:p-8 mb-12 max-w-5xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.18)]" data-reveal="fade-up" data-reveal-delay="5">
-        <div class="flex items-center justify-between gap-3 flex-wrap mb-5">
-          <div class="flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent)] text-[var(--color-paper)]">
-              <Sparkles class="w-4 h-4" />
-            </span>
-            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">TL;DR · 60 seconds</span>
-          </div>
-          <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-mono">4 claims · scan each</span>
+      <!-- Quiet executive summary — prose-style, no card grid -->
+      <div class="max-w-3xl mb-12 pl-6 border-l-2 border-[var(--color-accent)]" data-reveal="fade-up" data-reveal-delay="5">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-3 flex items-center gap-2">
+          <Sparkles class="w-3.5 h-3.5" />
+          The argument in one paragraph
         </div>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <!-- 01 platform real -->
-          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
-            <div class="flex items-center gap-2 mb-1.5">
-              <CheckCircle2 class="w-4 h-4 text-[var(--color-success)]" />
-              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-success)]">01 · Platform real</span>
-            </div>
-            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
-              <strong>Agentic OS, voice, Bezeq-scale reference.</strong> The core 80% is shipped.
-            </p>
-          </div>
-          <!-- 02 the 20% gap -->
-          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
-            <div class="flex items-center gap-2 mb-1.5">
-              <AlertTriangle class="w-4 h-4 text-[var(--color-warning)]" />
-              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-warning)]">02 · The 20% gap</span>
-            </div>
-            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
-              Keigo, dialect, PII, on-prem, robustness, SLA, encoding. <strong>Without these, no SI stakes their JP relationship on Wonderful.</strong>
-            </p>
-          </div>
-          <!-- 03 beachhead -->
-          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
-            <div class="flex items-center gap-2 mb-1.5">
-              <Anchor class="w-4 h-4 text-[var(--color-accent)]" />
-              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">03 · Beachhead · Hosoi-aligned</span>
-            </div>
-            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
-              Sell PoC on the 80% now. Internal workflow at old-guard logos. Close the 20% in the procurement window. <strong>12-month cycle compressed.</strong>
-            </p>
-          </div>
-          <!-- 04 Tokyo-written -->
-          <div class="rounded-lg border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)] p-4">
-            <div class="flex items-center gap-2 mb-1.5">
-              <Flag class="w-4 h-4 text-[var(--color-accent-ink)]" />
-              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)]">04 · Written in Tokyo</span>
-            </div>
-            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
-              <strong>Hosoi-san leads. Asia regional bridges. HQ provides air cover.</strong> Inversion of the foreign-vendor default.
-            </p>
-          </div>
-        </div>
+        <p class="text-base text-[var(--color-ink)] leading-relaxed">
+          <strong>Wonderful's platform is real.</strong> Agentic OS, voice, the Bezeq-scale reference. The core 80% is shipped. <strong>The remaining 20% is what Japan tests for</strong>, keigo and dialect and PII and on-prem and document encoding, and without it no SI will stake their JP enterprise relationship on Wonderful. <strong>The way through is the beachhead Hosoi-san and I are aligned on:</strong> sell the PoC on the 80% now, internal workflow at one old-guard logo, close the 20% in parallel during the procurement window. By production time, the platform is JP-tuned and the customer is committed. The 12-month sales cycle runs in parallel with the engineering work instead of after it. <strong>And the strategy gets written in Tokyo</strong>, with regional and HQ in their right roles. That inversion is the whole play.
+        </p>
       </div>
 
       <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="5">
@@ -873,9 +763,14 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   >
     <!-- PART A: Wonderful's platform features (the strengths) -->
     <div class="mb-16">
-      <div class="flex items-center gap-2 mb-6">
+      <div class="flex items-center gap-2 mb-3">
         <Gift class="w-4 h-4 text-[var(--color-accent)]" />
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">A · Wonderful's platform · the 80% that's already shipped</h3>
+      </div>
+      <div class="story-prose max-w-3xl mb-8">
+        <p>
+          I watched the demo end to end. What works is rare. Bezeq is a 2,000-agent telco running real production traffic, with an ~80% resolution rate, on Wonderful's stack. Almost no foreign agentic-AI vendor landing in Japan today can point to a reference of this shape. The platform itself, the agentic OS, voice, multimodal, the forward-deployed engineering posture, is the right shape for the largest JP enterprise rooms. Eight things in particular travel well to Japan, and Bezeq leads the list.
+        </p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
         {strengths.map((s, i) => {
@@ -924,9 +819,11 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Operator-in-residence · the 20% that decides whether Japan is winnable</h3>
         <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">04 areas</span>
       </div>
-      <p class="text-sm text-[var(--color-ink-soft)] mb-8 max-w-3xl leading-relaxed">
-        Four practice areas mapped directly to what Wonderful needs in Japan. Each one matches a high-severity gap in §05 (the audit). Each one is what I have just done, not what I am proposing to learn.
-      </p>
+      <div class="story-prose max-w-3xl mb-8">
+        <p>
+          That platform is the gift Wonderful brings. The second gift is operator-grade execution on the part of Japan that the platform cannot ship on its own. The list below is not a menu of services I am offering to learn. It is a list of things I am actively doing right now, in this market, for this kind of platform. Each one maps to a high-severity gap that procurement will find in §05.
+        </p>
+      </div>
       <div class="grid sm:grid-cols-2 gap-4 max-w-6xl">
         {practiceAreas.map((p, i) => {
           const IconC = Icon(p.icon);
@@ -1467,6 +1364,13 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     title="90 days to pilot terms. Beachhead in internal workflow automation. Customer service after the 20% is closed."
     lede="The deliverables that match what Wonderful needs in Japan, sequenced into a 90-day plan. Plus the beachhead strategy that Hosoi-san and I are aligned on, and the operational logic that compresses the JP enterprise sales cycle."
   >
+    <!-- Narrative bridge into the plan -->
+    <div class="story-prose max-w-3xl mb-10">
+      <p>
+        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. Instead the first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run in parallel, not sequenced. By the end of week twelve, the goal is pilot terms with the first big-logo internal-workflow customer, a credible hiring framework, and a decision memo on the primary motion (direct, SI-led, or BPO-channel).
+      </p>
+    </div>
+
     <!-- 90-day plan timeline — animated horizontal SVG + compact phase strip below -->
     <div class="mb-14 max-w-6xl">
       <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-5" data-reveal="fade-up">
