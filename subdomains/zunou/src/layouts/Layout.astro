@@ -6,12 +6,17 @@ import TableOfContents from "../components/TableOfContents.astro";
 interface Props {
   title?: string;
   description?: string;
+  /** "long" renders the full TOC + section nav (default). "scan" hides TOC and swaps nav for a single full-version link. */
+  kind?: "long" | "scan";
 }
 
 const {
   title = "Zunou — Japan-Led GTM Strategy",
   description = "Japan-led 12-month GTM strategy for Zunou AI. Internal proposal.",
+  kind = "long",
 } = Astro.props;
+
+const isScan = kind === "scan";
 ---
 
 <!doctype html>
@@ -61,11 +66,23 @@ const {
         </a>
 
         <nav class="hidden md:flex items-center gap-6 text-sm text-[var(--color-ink-soft)]">
-          <a href="#trends" class="hover:text-[var(--color-ink)] transition-colors">Trends</a>
-          <a href="#moat" class="hover:text-[var(--color-ink)] transition-colors">MCP moat</a>
-          <a href="#mechanic" class="hover:text-[var(--color-ink)] transition-colors">Mechanic</a>
-          <a href="#case-studies" class="hover:text-[var(--color-ink)] transition-colors">Case studies</a>
-          <a href="#decisions" class="hover:text-[var(--color-ink)] transition-colors">Decisions</a>
+          {isScan ? (
+            <>
+              <a href="/" class="hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1.5">
+                <span>Full version</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="/scan" class="hover:text-[var(--color-ink)] transition-colors font-semibold">90-second scan</a>
+              <a href="#trends" class="hover:text-[var(--color-ink)] transition-colors">Trends</a>
+              <a href="#moat" class="hover:text-[var(--color-ink)] transition-colors">MCP moat</a>
+              <a href="#mechanic" class="hover:text-[var(--color-ink)] transition-colors">Mechanic</a>
+              <a href="#case-studies" class="hover:text-[var(--color-ink)] transition-colors">Case studies</a>
+              <a href="#decisions" class="hover:text-[var(--color-ink)] transition-colors">Decisions</a>
+            </>
+          )}
         </nav>
 
         <div class="flex items-center gap-2">
@@ -77,7 +94,7 @@ const {
       </div>
     </header>
 
-    <TableOfContents />
+    {!isScan && <TableOfContents />}
 
     <main>
       <slot />
