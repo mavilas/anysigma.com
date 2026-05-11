@@ -1,0 +1,224 @@
+---
+import "../styles/tailwind.css";
+import { Lock, Shield } from "@lucide/astro";
+import TableOfContents from "../components/TableOfContents.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Zunou — Japan-Led GTM Strategy",
+  description = "Japan-led 12-month GTM strategy for Zunou AI. Internal proposal.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafaf7" />
+
+    <!-- Zunou brand favicon (sourced from zunou.ai) -->
+    <link rel="icon" type="image/png" href="/zunou-logo-light.png" />
+
+    <!-- Zunou brand fonts: Bree Serif (display) + Bricolage Grotesque (sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-grain min-h-screen">
+    <!-- READ PROGRESS BAR (top, accent-colored, scroll-linked) -->
+    <div id="read-progress" class="progress-bar"></div>
+
+    <!-- HEADER -->
+    <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 group" aria-label="Zunou — Japan-Led GTM Strategy">
+          <img
+            src="/zunou-logo-light.png"
+            alt=""
+            width="32"
+            height="32"
+            class="w-8 h-8 rounded-md group-hover:scale-105 transition-transform"
+          />
+          <div class="leading-tight">
+            <div class="font-display text-xl text-[var(--color-ink)]">Zunou</div>
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-medium">
+              Japan-Led GTM Strategy
+            </div>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm text-[var(--color-ink-soft)]">
+          <a href="#trends" class="hover:text-[var(--color-ink)] transition-colors">Trends</a>
+          <a href="#moat" class="hover:text-[var(--color-ink)] transition-colors">MCP moat</a>
+          <a href="#mechanic" class="hover:text-[var(--color-ink)] transition-colors">Mechanic</a>
+          <a href="#case-studies" class="hover:text-[var(--color-ink)] transition-colors">Case studies</a>
+          <a href="#decisions" class="hover:text-[var(--color-ink)] transition-colors">Decisions</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-[var(--color-success-soft)] text-[var(--color-success)] font-medium">
+            <Shield class="w-3 h-3" />
+            <span class="hidden sm:inline">Authenticated</span>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <TableOfContents />
+
+    <main>
+      <slot />
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-[var(--color-line)] mt-24">
+      <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between text-sm text-[var(--color-ink-soft)]">
+        <div class="flex items-center gap-2.5">
+          <img
+            src="/zunou-logo-light.png"
+            alt=""
+            width="20"
+            height="20"
+            class="w-5 h-5 rounded"
+          />
+          <span><span class="font-display text-base text-[var(--color-ink)]">Zunou</span> · Japan-Led GTM Strategy</span>
+        </div>
+        <div class="flex items-center gap-5 text-xs">
+          <div class="flex items-center gap-1.5">
+            <Lock class="w-3 h-3" />
+            <span>Cloudflare Access · 14-day session</span>
+          </div>
+          <span>Last updated 2026-05-11</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Reveal-on-scroll + read-progress bar -->
+    <script is:inline>
+      (function () {
+        // Reveal observer
+        const els = document.querySelectorAll("[data-reveal]");
+        if ("IntersectionObserver" in window && els.length) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const delay = parseInt(entry.target.dataset.revealDelay || "0", 10);
+                  entry.target.style.transitionDelay = `${delay * 80}ms`;
+                  entry.target.classList.add("is-visible");
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+          );
+          els.forEach((el) => io.observe(el));
+        } else {
+          els.forEach((el) => el.classList.add("is-visible"));
+        }
+
+        // Read-progress bar
+        const bar = document.getElementById("read-progress");
+        if (bar) {
+          const update = () => {
+            const h = document.documentElement;
+            const scrolled = h.scrollTop;
+            const max = h.scrollHeight - h.clientHeight;
+            const pct = max > 0 ? Math.min(1, scrolled / max) : 0;
+            bar.style.transform = `scaleX(${pct})`;
+          };
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        }
+
+        // === Voting ===
+        const STORAGE_KEY = "zunou-votes-v1";
+        const loadLocal = () => {
+          try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+          catch { return {}; }
+        };
+        const saveLocal = (votes) =>
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(votes));
+
+        const applyActive = (decisionId, vote) => {
+          const buttons = document.querySelectorAll(`.vote-btn[data-decision="${decisionId}"]`);
+          buttons.forEach((b) => {
+            b.setAttribute("data-active", b.dataset.vote === vote ? "true" : "false");
+          });
+          const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+          if (status && vote) {
+            const label = vote === "on-board" ? "On board ·" : vote === "concern" ? "Concern ·" : "Object ·";
+            status.textContent = `${label} saved`;
+            status.style.opacity = "1";
+          }
+        };
+
+        // Restore from server (authoritative) first, fall back to localStorage
+        const local = loadLocal();
+        Object.entries(local).forEach(([k, v]) => applyActive(k, v));
+
+        fetch("/api/vote", { method: "GET", credentials: "same-origin" })
+          .then((r) => r.ok ? r.json() : null)
+          .then((data) => {
+            if (!data || !data.votes) return;
+            const merged = { ...local, ...data.votes };
+            saveLocal(merged);
+            Object.entries(merged).forEach(([k, v]) => applyActive(k, v));
+          })
+          .catch(() => {});
+
+        // Click handler
+        document.querySelectorAll(".vote-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const decisionId = btn.dataset.decision;
+            const vote = btn.dataset.vote;
+            if (!decisionId || !vote) return;
+
+            // Optimistic UI
+            applyActive(decisionId, vote);
+            const votes = loadLocal();
+            votes[decisionId] = vote;
+            saveLocal(votes);
+
+            // Server write
+            try {
+              const r = await fetch("/api/vote", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ decision: decisionId, vote }),
+              });
+              if (!r.ok) {
+                const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+                if (status) {
+                  status.textContent = `Saved locally · server returned ${r.status}`;
+                  status.style.opacity = "1";
+                }
+              }
+            } catch (err) {
+              const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+              if (status) {
+                status.textContent = "Saved locally · offline";
+                status.style.opacity = "1";
+              }
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

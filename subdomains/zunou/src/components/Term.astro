@@ -1,0 +1,103 @@
+---
+// Term.astro — inline definition tooltip for acronyms/jargon.
+// Renders as <abbr> for accessibility (native browser title) PLUS a
+// custom CSS tooltip on hover/focus for a branded, readable display.
+
+import { glossary } from "../data/glossary";
+
+interface Props {
+  name: string;            // glossary key (e.g. "KGI")
+  display?: string;        // optional — render different text (e.g. "key goal indicator")
+}
+
+const { name, display } = Astro.props;
+const entry = glossary[name];
+const label = display || name;
+
+if (!entry) {
+  // graceful fallback — just render the label as plain text in dev
+  console.warn(`[Term] no glossary entry for "${name}"`);
+}
+
+const tooltipText = entry ? entry.short : label;
+---
+
+<span class="term-wrapper">
+  <abbr
+    title={tooltipText}
+    class="term cursor-help underline decoration-dotted decoration-[var(--color-accent)]/40 decoration-2 underline-offset-[3px] hover:decoration-[var(--color-accent)] hover:text-[var(--color-accent-ink)] transition-colors"
+    tabindex="0"
+  >{label}</abbr>
+  {
+    entry && (
+      <span class="term-tooltip" role="tooltip">
+        <span class="term-tooltip-name">{name}</span>
+        {entry.jp && <span class="term-tooltip-jp">{entry.jp}</span>}
+        <span class="term-tooltip-def">{entry.short}</span>
+      </span>
+    )
+  }
+</span>
+
+<style>
+  .term-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  .term {
+    text-decoration: underline dotted;
+  }
+  .term-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    width: max-content;
+    max-width: 320px;
+    padding: 0.75rem 0.9rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    text-align: left;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .term-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--color-ink);
+  }
+  .term-tooltip-name {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+  .term-tooltip-jp {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-paper);
+    opacity: 0.9;
+  }
+  .term-tooltip-def {
+    color: oklch(0.85 0.005 90);
+  }
+  .term-wrapper:hover .term-tooltip,
+  .term-wrapper:focus-within .term-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
