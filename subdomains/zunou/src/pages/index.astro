@@ -35,7 +35,7 @@ const decisions = [
   { n: 3, title: "NSM — WAU past magic number, in a partner community", desc: "Knowing it grows slowly at first.", group: "core" },
   { n: 4, title: "Magic number (v0) — 5 / 1 / 3 in 14 days", desc: "5 colleagues from same community + 1 calendar + 3 AI actions accepted, in 14 days. Refit monthly.", group: "core" },
   { n: 5, title: "Synchronized 4-community launch", desc: "Yes, or phase 2+2?", group: "core" },
-  { n: 6, title: "Sponsored-seat cap — ¥720k worst case", desc: "50 members × ¥600 × 6 months × 4 communities. Bounded liability vs blanket 'free for a year'.", group: "core" },
+  { n: 6, title: "Sponsored-seat cap + free-trial duration — open for discussion", desc: "Working estimate: 50 members × ¥600 × N months × 4 communities. Two candidate Ns: 3 months (tighter runway, faster conversion test) vs 6 months (more generous, gives the magic-number cycle time to fire twice). Question to test with community owners themselves: what duration feels generous to their members vs feels like a teaser? Bounded liability either way, not 'free forever'.", group: "core" },
   { n: 7, title: "Public events feed — before / with / after waitlist?", desc: "Connpass + Doorkeeper APIs + Lu.ma at launch.", group: "core" },
   { n: 8, title: "Calendar as gate", desc: "Accept that users without calendar see a deliberately broken-feeling product.", group: "core" },
   { n: 9, title: "Budget approach — methodology over total", desc: "Per-user inference math + sponsored-seat caps + line-item placeholders. Total ~¥18–24M is a working estimate, not a commitment.", group: "core" },
@@ -466,10 +466,45 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
       </div>
     </div>
 
-    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl" data-reveal="fade-up" data-reveal-delay="2">
+    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl mb-12" data-reveal="fade-up" data-reveal-delay="2">
       <p class="pull-quote">
         MCP is the bridge — not the moat. The moat is the unified workspace that compounds once we're landed.
       </p>
+    </div>
+
+    <!-- Model-agnostic AI posture -->
+    <div
+      class="max-w-4xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6"
+      data-reveal="fade-up"
+      data-reveal-delay="3"
+    >
+      <div class="flex items-start gap-4 flex-wrap">
+        <div class="flex items-center gap-3 shrink-0">
+          <span class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold">
+            Same posture · the AI layer itself
+          </span>
+        </div>
+      </div>
+      <h4 class="font-display text-2xl mt-3 mb-3 text-[var(--color-ink)]">
+        Model-agnostic by design.
+      </h4>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4">
+        Zunou is not built on one provider. The product routes between <strong class="text-[var(--color-ink)]">Anthropic (Claude)</strong>, <strong class="text-[var(--color-ink)]">OpenAI (GPT)</strong>, <strong class="text-[var(--color-ink)]">Google (Gemini)</strong> — and others as they prove competitive — based on cost-per-task, latency, and quality benchmarks. Cheap models handle high-volume work (summarisation, classification); premium models handle heavy reasoning. The user never sees which one ran their query.
+      </p>
+      <div class="grid sm:grid-cols-3 gap-3 text-xs text-[var(--color-ink-soft)]">
+        <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
+          <div class="font-bold text-[var(--color-ink)] mb-1">Why agnostic?</div>
+          One provider outage doesn't down the product. We're not locked to a roadmap we can't see.
+        </div>
+        <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
+          <div class="font-bold text-[var(--color-ink)] mb-1">Why this matters for cost</div>
+          Routing per task can cut inference spend 40–70% vs single-provider — material at the scale Zunou is targeting.
+        </div>
+        <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
+          <div class="font-bold text-[var(--color-ink)] mb-1">Why this matters for Japan</div>
+          Future-proofs against bringing JP-domestic providers (Sakana, Rakuten 7B, ELYZA) into the stack for sovereign-data customers.
+        </div>
+      </div>
     </div>
   </Section>
 
@@ -1117,7 +1152,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 0 · Foundations</div>
         <h3 class="font-display text-2xl mb-2">Ship the cost guardrails and platform readiness checks.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Token budget meter + Haiku/Sonnet routing tier (M5). JP landing page on <code class="inline-code">zunou.anysigma.com</code>. Magic-number counters in the PWA. Events-feed v0 (Connpass + Doorkeeper public APIs). Validate 4 launch communities have ≥30% member overlap via roster sampling. <strong class="text-[var(--color-ink)]">Gate: all six items shipped, or no launch.</strong>
+          Token budget meter + multi-model routing tier — cheap model for high-volume work, premium for heavy reasoning, model-agnostic (Claude / GPT / Gemini routable based on cost-per-task). JP landing page on <code class="inline-code">zunou.anysigma.com</code>. Magic-number counters in the PWA. Events-feed v0 (Connpass + Doorkeeper public APIs). Validate community overlap via roster sampling. <strong class="text-[var(--color-ink)]">Gate: all six items shipped, or no pilot.</strong>
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="1">
@@ -1139,7 +1174,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
       <li data-reveal="fade-up" data-reveal-delay="3">
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
         <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 3 · Density compound + first paying logos</div>
-        <h3 class="font-display text-2xl mb-2">Prove paid conversion before the 6-month free runway expires.</h3>
+        <h3 class="font-display text-2xl mb-2">Prove paid conversion before the free runway expires.</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
           First paid logo + PR Times release. Akai Wagon / Indelible portfolio rollouts. "This Week in Tokyo" digest hits 5,000 weekly uniques. Ringi automation alpha to 3 enterprise design partners. Apply for METI IT subsidy. <strong class="text-[var(--color-ink)]">Gate: ≥5 paid logos, MoM growth ≥ 20%.</strong>
         </p>
@@ -1456,7 +1491,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
           <li>· Single-founder dependency contingency</li>
           <li>· Competitive-event response (Notion AI launch, etc.)</li>
           <li>· Launch-community-cancellation backup</li>
-          <li>· Anthropic API outage graceful degradation</li>
+          <li>· AI provider outage graceful degradation (multi-provider failover: Anthropic / OpenAI / Gemini)</li>
         </ul>
       </div>
     </div>
@@ -1656,12 +1691,13 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
       </div>
 
       <div>
-        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">AI cost & infrastructure</h3>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">AI cost & infrastructure (model-agnostic routing)</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener noreferrer">Anthropic — Claude API pricing (Haiku / Sonnet / Opus)</a></li>
-          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">OpenAI — API pricing (GPT-5 family)</a></li>
-          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">Google — Gemini API pricing</a></li>
-          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://benchlm.ai/blog/posts/claude-api-pricing" target="_blank" rel="noopener noreferrer">BenchLM — Claude API pricing 2026 reference</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">OpenAI — API pricing (GPT-5 family · GPT-5 Nano / mini / standard / Pro)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.anthropic.com/api" target="_blank" rel="noopener noreferrer">Anthropic — Claude API pricing (Haiku / Sonnet / Opus)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">Google — Gemini API pricing (Flash / Pro / Ultra)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://artificialanalysis.ai/" target="_blank" rel="noopener noreferrer">Artificial Analysis — multi-provider model price + speed + quality comparisons</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://openrouter.ai/" target="_blank" rel="noopener noreferrer">OpenRouter — unified API across 100+ models for cost-optimised routing</a></li>
         </ul>
 
         <h3 class="font-semibold mt-6 mb-3 text-[var(--color-ink)]">Behavioral design</h3>
