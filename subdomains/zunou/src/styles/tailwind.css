@@ -1,27 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  /* Typography — Fraunces (variable display serif, soft+wonk tuned for screens)
-     paired with Inter Display for headlines and Inter for body.
-     JP fallbacks: Hiragino Mincho / Noto Serif JP for serif,
-     Hiragino Kaku Gothic ProN / Noto Sans JP for sans. */
-  --font-sans: "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
-  --font-display: "Fraunces", "Hiragino Mincho ProN", "Noto Serif JP", Georgia, serif;
+  /* Typography — Zunou brand: Bree Serif (display) + Bricolage Grotesque (sans)
+     extracted from zunou.ai. JP fallbacks for bilingual rendering. */
+  --font-sans: "Bricolage Grotesque", "Inter", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", system-ui, sans-serif;
+  --font-display: "Bree Serif", "Hiragino Mincho ProN", "Noto Serif JP",
+    Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-  /* Editorial palette */
-  --color-ink: oklch(0.16 0.012 250);
-  --color-ink-soft: oklch(0.40 0.012 250);
-  --color-ink-faint: oklch(0.58 0.008 250);
-  --color-paper: oklch(0.985 0.005 90);
-  --color-paper-soft: oklch(0.955 0.012 88);
-  --color-paper-warm: oklch(0.965 0.022 68);
-  --color-line: oklch(0.86 0.012 90);
-  --color-line-soft: oklch(0.92 0.006 90);
+  /* Zunou brand palette (sourced from zunou.ai)
+     #4A00E0 primary purple · #2B2D2D ink · #F1F0F2 page · #F7F7F7 soft
+     #E6E6E6 line · #666 ink-soft · #8C8C8C ink-faint */
+  --color-ink: #2b2d2d;
+  --color-ink-soft: #666666;
+  --color-ink-faint: #8c8c8c;
+  --color-paper: #f7f7f7;
+  --color-paper-soft: #f1f0f2;
+  --color-paper-warm: #e7e6e4;
+  --color-line: #e6e6e6;
+  --color-line-soft: #f2f2f2;
 
-  --color-accent: oklch(0.60 0.18 28);
-  --color-accent-soft: oklch(0.94 0.04 28);
-  --color-accent-ink: oklch(0.40 0.16 28);
+  --color-accent: #4a00e0;
+  --color-accent-soft: #ece5fb;
+  --color-accent-ink: #3700a8;
 
   --color-success: oklch(0.58 0.14 155);
   --color-success-soft: oklch(0.93 0.04 155);
@@ -30,7 +32,7 @@
   --color-danger: oklch(0.58 0.2 25);
   --color-danger-soft: oklch(0.95 0.04 25);
 
-  --color-ink-inverse: oklch(0.98 0.005 90);
+  --color-ink-inverse: #fafafa;
 }
 
 html {
@@ -54,21 +56,19 @@ body {
   color: var(--color-ink);
 }
 
-/* === Display type — Fraunces tuned for screen ===
-   Fraunces has variable axes; we set SOFT=50 (slightly softer terminals)
-   and WONK=0 (no quirky alts) for clean editorial feel. */
+/* === Display type — Bree Serif (Zunou brand) ===
+   Bree Serif is a single-weight (400) friendly editorial serif.
+   It reads warm and confident at large sizes without being decorative. */
 .font-display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 144;
   font-weight: 400;
-  letter-spacing: -0.018em;
+  letter-spacing: -0.012em;
 }
 
 .font-display-medium {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 96;
-  font-weight: 500;
-  letter-spacing: -0.014em;
+  font-weight: 400;
+  letter-spacing: -0.008em;
 }
 
 /* === Subtle grain — adds tactile depth without being a 2010s skeumorph === */
@@ -151,12 +151,11 @@ body {
 /* === Pull quote === */
 .pull-quote {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 96;
   font-weight: 400;
   font-style: italic;
   font-size: clamp(1.25rem, 2.5vw, 1.625rem);
   line-height: 1.4;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.008em;
   color: var(--color-ink);
 }
 
@@ -224,7 +223,6 @@ code, .font-mono {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 24;
 }
 
 /* Status dot pulse */

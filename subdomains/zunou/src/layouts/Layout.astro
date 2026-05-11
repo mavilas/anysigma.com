@@ -1,6 +1,6 @@
 ---
 import "../styles/tailwind.css";
-import { Zap, Lock, Shield } from "@lucide/astro";
+import { Lock, Shield } from "@lucide/astro";
 import TableOfContents from "../components/TableOfContents.astro";
 
 interface Props {
@@ -24,10 +24,14 @@ const {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafaf7" />
 
+    <!-- Zunou brand favicon (sourced from zunou.ai) -->
+    <link rel="icon" type="image/png" href="/zunou-logo-light.png" />
+
+    <!-- Zunou brand fonts: Bree Serif (display) + Bricolage Grotesque (sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
@@ -40,14 +44,18 @@ const {
     <!-- HEADER -->
     <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20">
       <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 group">
-          <span class="w-8 h-8 rounded-md bg-[var(--color-ink)] flex items-center justify-center group-hover:bg-[var(--color-accent)] transition-colors">
-            <Zap class="w-4 h-4 text-[var(--color-paper)]" />
-          </span>
+        <a href="/" class="flex items-center gap-2.5 group" aria-label="Zunou — Japan-Led GTM Strategy">
+          <img
+            src="/zunou-logo-light.png"
+            alt=""
+            width="32"
+            height="32"
+            class="w-8 h-8 rounded-md group-hover:scale-105 transition-transform"
+          />
           <div class="leading-tight">
-            <div class="font-display text-lg">Zunou</div>
-            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)]">
-              Japan-Led GTM
+            <div class="font-display text-xl text-[var(--color-ink)]">Zunou</div>
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-medium">
+              Japan-Led GTM · presented by Anysigma
             </div>
           </div>
         </a>
@@ -78,9 +86,15 @@ const {
     <!-- FOOTER -->
     <footer class="border-t border-[var(--color-line)] mt-24">
       <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between text-sm text-[var(--color-ink-soft)]">
-        <div class="flex items-center gap-2">
-          <Zap class="w-4 h-4 text-[var(--color-accent)]" />
-          <span>Zunou · Japan-Led GTM Strategy</span>
+        <div class="flex items-center gap-2.5">
+          <img
+            src="/zunou-logo-light.png"
+            alt=""
+            width="20"
+            height="20"
+            class="w-5 h-5 rounded"
+          />
+          <span><span class="font-display text-base text-[var(--color-ink)]">Zunou</span> · Japan-Led GTM · presented by Anysigma</span>
         </div>
         <div class="flex items-center gap-5 text-xs">
           <div class="flex items-center gap-1.5">
