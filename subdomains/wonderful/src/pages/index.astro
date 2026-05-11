@@ -149,9 +149,9 @@ const practiceAreas = [
   {
     title: "Talent & Recruiting",
     icon: "users-round",
-    week: "Wk 5–12",
+    week: "Underway",
     blurb:
-      "Find, evaluate, and close the team in Japan. Engineering judgment that recruiters cannot provide.",
+      "Already running. Engineering screens, recruiter calibration, and shortlist work for the Japan team are active today and continue from week one.",
     bullets: [
       "Technical screening at engineering depth. Architecture, system design, code quality, production readiness.",
       "Interview process design calibrated for JP candidates' multiple offers.",
@@ -520,6 +520,15 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   footerNote="Cloudflare Access · 24h session · Confidential to Anthony · Henek · Hosoi-san"
   lastUpdated="2026-05-12"
 >
+  <Fragment slot="nav">
+    <a href="#shift" class="hover:text-[var(--color-ink)] transition-colors">Shift</a>
+    <a href="#winners-losers" class="hover:text-[var(--color-ink)] transition-colors">Winners</a>
+    <a href="#magic-gifts" class="hover:text-[var(--color-ink)] transition-colors">Magic gifts</a>
+    <a href="#evidence" class="hover:text-[var(--color-ink)] transition-colors">Evidence</a>
+    <a href="#plan" class="hover:text-[var(--color-ink)] transition-colors">Plan</a>
+    <a href="#references" class="hover:text-[var(--color-ink)] transition-colors">References</a>
+  </Fragment>
+
   <!-- ============================================================ -->
   <!-- HERO -->
   <!-- ============================================================ -->
@@ -538,45 +547,149 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
         The shift
       </p>
-      <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-8 max-w-5xl" data-reveal="fade-up" data-reveal-delay="2">
-        Japan-led,<br />not Japan-translated.
+      <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-8 max-w-5xl relative" data-reveal="fade-up" data-reveal-delay="2">
+        <span class="standout">Japan-led</span>,<br />not Japan-translated.
+        <span aria-hidden="true" class="absolute -left-3 sm:-left-5 top-2 bottom-2 w-[3px] sm:w-[5px] rounded-full bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)] to-transparent"></span>
       </h1>
 
-      <div class="prose-block max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="3">
-        <p>
-          <strong>In Japan, AI is not a cost-cutting story. It is survival.</strong> Contact centers cannot hire. Knowledge workers are retiring faster than they are being replaced. The Cabinet Office's own demographic forecasts make the math undeniable. Enterprise AI in Japan is not a margin lever. It is the only way the country's largest organizations stay operational past 2030.
-        </p>
-        <p>
-          That changes how Japan buys. The question is no longer <em>"can we afford to wait?"</em> It is <em>"who do we trust to land before the door closes?"</em> The market is huge, friendly, and finally moving. Most foreign vendors will lose it the same way they have lost it before, by letting HQ write the Japan plan.
-        </p>
-        <p>
-          The Japan strategy has to be <strong>written in Tokyo</strong>. Asia regional carries it outward. HQ in Tel Aviv provides air cover, capital, and platform velocity. Every foreign vendor that tried this in reverse got pushed out, and the procurement reality of this market will close the door on the next foreign vendor that does the same.
-        </p>
-        <p>
-          This writeup follows that thesis through five acts. <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">The shift</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Winners and losers</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">The promised land</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Magic gifts (platform + operator)</span> · <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">Evidence</span>. Then a 90-day plan and a path forward.
+      <!-- Three-claim intro cards — replaces the wall of prose with a scannable trio -->
+      <div class="grid lg:grid-cols-3 gap-4 max-w-5xl mb-10" data-reveal="fade-up" data-reveal-delay="3">
+        <!-- Claim 01 · The fact (survival) -->
+        <div class="claim-card relative rounded-xl bg-[var(--color-paper)] border border-[var(--color-line)] p-6 overflow-hidden">
+          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-warning)] to-[var(--color-accent)]"></span>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
+              <Mountain class="w-4 h-4" />
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">01 · The fact</span>
+          </div>
+          <h3 class="font-display text-lg leading-tight mb-2 text-[var(--color-ink)]">AI is not cost-cutting. It is survival.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Contact centers cannot hire. Knowledge workers are retiring faster than they can be replaced. The Cabinet Office's demographic forecasts make the math undeniable. Enterprise AI is the only way Japan's largest organizations stay operational past 2030.
+          </p>
+        </div>
+
+        <!-- Claim 02 · The shift (how Japan buys) -->
+        <div class="claim-card relative rounded-xl bg-[var(--color-paper)] border border-[var(--color-line)] p-6 overflow-hidden">
+          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-success)]"></span>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+              <Compass class="w-4 h-4" />
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">02 · The shift</span>
+          </div>
+          <h3 class="font-display text-lg leading-tight mb-2 text-[var(--color-ink)]">The question changed.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            No longer <em class="not-italic font-semibold text-[var(--color-ink)]">"can we afford to wait?"</em> It is <em class="not-italic font-semibold text-[var(--color-ink)]">"who do we trust before the door closes?"</em> Huge, friendly, finally moving. Most foreign vendors will lose it the same way they always have, by letting HQ write the Japan plan.
+          </p>
+        </div>
+
+        <!-- Claim 03 · The plan (Japan-led) -->
+        <div class="claim-card relative rounded-xl bg-[var(--color-ink)] text-[var(--color-paper)] p-6 overflow-hidden">
+          <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-paper)]/40"></span>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
+              <Flag class="w-4 h-4" />
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">03 · The play</span>
+          </div>
+          <h3 class="font-display text-lg leading-tight mb-2">Written in Tokyo. Carried by Asia. Backed by HQ.</h3>
+          <p class="text-sm text-[var(--color-paper)]/75 leading-relaxed">
+            Hosoi-san leads Japan. Anthony and Henek carry it through regional. Tel Aviv provides air cover, capital, and platform velocity. Every foreign vendor that did this in reverse got pushed out. Procurement closes the door on the next one to try.
+          </p>
+        </div>
+      </div>
+
+      <!-- Acts roadmap — pill strip -->
+      <div class="mb-12 max-w-5xl" data-reveal="fade-up" data-reveal-delay="4">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-3 flex items-center gap-2">
+          <ListChecks class="w-3.5 h-3.5" />
+          The writeup, five acts
+        </div>
+        <div class="flex flex-wrap items-stretch gap-2">
+          <a href="#shift" class="act-pill group">
+            <span class="act-num">01</span>
+            <span class="act-label">The shift</span>
+          </a>
+          <span class="act-sep" aria-hidden="true">→</span>
+          <a href="#winners-losers" class="act-pill group">
+            <span class="act-num">02</span>
+            <span class="act-label">Winners / losers</span>
+          </a>
+          <span class="act-sep" aria-hidden="true">→</span>
+          <a href="#promised-land" class="act-pill group">
+            <span class="act-num">03</span>
+            <span class="act-label">Promised land</span>
+          </a>
+          <span class="act-sep" aria-hidden="true">→</span>
+          <a href="#magic-gifts" class="act-pill act-pill-accent group">
+            <span class="act-num">04</span>
+            <span class="act-label">Magic gifts</span>
+          </a>
+          <span class="act-sep" aria-hidden="true">→</span>
+          <a href="#evidence" class="act-pill group">
+            <span class="act-num">05</span>
+            <span class="act-label">Evidence</span>
+          </a>
+        </div>
+        <p class="mt-3 text-xs text-[var(--color-ink-faint)] leading-relaxed">
+          Then the 90-day plan, six open questions, and a path forward.
         </p>
       </div>
 
-      <!-- TL;DR card -->
-      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-7 mb-12 max-w-4xl" data-reveal="fade-up" data-reveal-delay="4">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3 flex items-center gap-2">
-          <Sparkles class="w-3.5 h-3.5" />
-          TL;DR · 60 seconds
+      <!-- TL;DR card — upgraded to icon-led 4-up grid for stronger visual scan -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 sm:p-8 mb-12 max-w-5xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.18)]" data-reveal="fade-up" data-reveal-delay="5">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-5">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent)] text-[var(--color-paper)]">
+              <Sparkles class="w-4 h-4" />
+            </span>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">TL;DR · 60 seconds</span>
+          </div>
+          <span class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-mono">4 claims · scan each</span>
         </div>
-        <ul class="text-base text-[var(--color-ink)] leading-relaxed space-y-2.5">
-          <li>
-            <strong>The platform is real.</strong> Agentic OS, voice, Bezeq-scale reference. The core 80% is shipped.
-          </li>
-          <li>
-            <strong>The 20% is what Japan tests for.</strong> Keigo, dialect, PII, on-prem, robustness, SLA, document encoding. Without these, no SI partner will stake their JP enterprise relationship on Wonderful.
-          </li>
-          <li>
-            <strong>Beachhead, Hosoi-san aligned.</strong> Sell PoC on the 80% now. Internal workflow automation at old-guard logos. Close the 20% in parallel during procurement. By production time, Wonderful is JP-tuned and the customer is committed. 12-month sales cycle compressed to engineering-and-sales-in-parallel.
-          </li>
-          <li>
-            <strong>The strategy gets written in Tokyo.</strong> Hosoi-san leads. Asia regional bridges. HQ provides air cover. Inversion of the foreign-vendor default.
-          </li>
-        </ul>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <!-- 01 platform real -->
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+            <div class="flex items-center gap-2 mb-1.5">
+              <CheckCircle2 class="w-4 h-4 text-[var(--color-success)]" />
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-success)]">01 · Platform real</span>
+            </div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+              <strong>Agentic OS, voice, Bezeq-scale reference.</strong> The core 80% is shipped.
+            </p>
+          </div>
+          <!-- 02 the 20% gap -->
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+            <div class="flex items-center gap-2 mb-1.5">
+              <AlertTriangle class="w-4 h-4 text-[var(--color-warning)]" />
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-warning)]">02 · The 20% gap</span>
+            </div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+              Keigo, dialect, PII, on-prem, robustness, SLA, encoding. <strong>Without these, no SI stakes their JP relationship on Wonderful.</strong>
+            </p>
+          </div>
+          <!-- 03 beachhead -->
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+            <div class="flex items-center gap-2 mb-1.5">
+              <Anchor class="w-4 h-4 text-[var(--color-accent)]" />
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">03 · Beachhead · Hosoi-aligned</span>
+            </div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+              Sell PoC on the 80% now. Internal workflow at old-guard logos. Close the 20% in the procurement window. <strong>12-month cycle compressed.</strong>
+            </p>
+          </div>
+          <!-- 04 Tokyo-written -->
+          <div class="rounded-lg border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)] p-4">
+            <div class="flex items-center gap-2 mb-1.5">
+              <Flag class="w-4 h-4 text-[var(--color-accent-ink)]" />
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)]">04 · Written in Tokyo</span>
+            </div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+              <strong>Hosoi-san leads. Asia regional bridges. HQ provides air cover.</strong> Inversion of the foreign-vendor default.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="5">
@@ -927,68 +1040,125 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         Six categories most foreign vendors discover at PoC, six months in. None of these came up in the demo session itself. They are my post-session assessment grounded in what every other foreign vendor has hit on this market.
       </p>
 
-      <!-- Radial SVG · 6 failure modes radiating from "JP enterprise procurement" -->
-      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 sm:p-8 mb-6 max-w-5xl" data-reveal="fade-up">
-        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-1">The procurement filter</div>
-        <h4 class="font-display text-xl mb-5 leading-tight">What JP enterprise procurement tests for before evaluating the product itself.</h4>
-        <div class="overflow-x-auto">
+      <!-- Radial SVG · 6 failure modes radiating from "JP enterprise procurement" — animated -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-6 max-w-5xl" data-reveal="fade-up">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+              <Target class="w-4 h-4" />
+            </span>
+            <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold">The procurement filter</div>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">
+            <span class="status-dot inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>
+            <span>Live scan · 6 vectors</span>
+          </div>
+        </div>
+        <h4 class="font-display text-2xl mb-1 leading-tight">
+          <span class="standout">What JP enterprise procurement tests for</span>
+          <span class="text-[var(--color-ink-soft)] font-normal block text-base mt-1">before evaluating the product itself.</span>
+        </h4>
+        <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-5 max-w-2xl">
+          Six categories. Three meetings. Fail one — you fail the procurement, before they ever try the product.
+        </p>
+        <div class="overflow-x-auto radial-stage is-visible">
           <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" class="w-full max-w-2xl mx-auto block" role="img" aria-labelledby="radial-title radial-desc">
             <title id="radial-title">JP enterprise procurement filter — 6 failure modes</title>
-            <desc id="radial-desc">Radial diagram showing 6 Japan-specific failure modes radiating from "JP enterprise procurement" at center: keigo, dialect, encoding, documents, characters, compliance.</desc>
+            <desc id="radial-desc">Animated radial diagram showing 6 Japan-specific failure modes radiating from "JP enterprise procurement" at center: keigo, dialect, encoding, documents, characters, compliance.</desc>
 
-            <!-- spokes (drawn first, behind nodes) -->
-            <g stroke="var(--color-line)" stroke-width="1.2" stroke-dasharray="4 4">
-              <line x1="300" y1="230" x2="300" y2="100" data-reveal="fade-up" data-reveal-delay="0"/>
-              <line x1="300" y1="230" x2="412" y2="165" data-reveal="fade-up" data-reveal-delay="1"/>
-              <line x1="300" y1="230" x2="412" y2="295" data-reveal="fade-up" data-reveal-delay="2"/>
-              <line x1="300" y1="230" x2="300" y2="360" data-reveal="fade-up" data-reveal-delay="3"/>
-              <line x1="300" y1="230" x2="188" y2="295" data-reveal="fade-up" data-reveal-delay="4"/>
-              <line x1="300" y1="230" x2="188" y2="165" data-reveal="fade-up" data-reveal-delay="5"/>
+            <defs>
+              <radialGradient id="center-grad" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.35"/>
+                <stop offset="65%" stop-color="var(--color-accent)" stop-opacity="0.05"/>
+                <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="scanner-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0"/>
+                <stop offset="80%" stop-color="var(--color-accent)" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.45"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Concentric breathing rings -->
+            <circle cx="300" cy="230" r="95" fill="none" stroke="var(--color-line)" stroke-width="1" class="radial-ring-pulse" />
+            <circle cx="300" cy="230" r="135" fill="none" stroke="var(--color-line-soft)" stroke-width="1" stroke-dasharray="2 6" />
+            <circle cx="300" cy="230" r="175" fill="none" stroke="var(--color-line-soft)" stroke-width="1" stroke-dasharray="2 8" opacity="0.65" />
+
+            <!-- Radial scanner sweep (the radar arc) -->
+            <g class="radial-scanner">
+              <path d="M 300 230 L 475 230 A 175 175 0 0 0 461 152 Z" fill="url(#scanner-grad)" />
             </g>
 
-            <!-- center node -->
+            <!-- Soft glow behind center -->
+            <circle cx="300" cy="230" r="100" fill="url(#center-grad)" class="radial-center-glow" />
+
+            <!-- Spokes -->
+            <g stroke="var(--color-accent)" stroke-width="1.4" fill="none" opacity="0.55">
+              <line x1="300" y1="230" x2="300" y2="100" class="radial-spoke" style="animation-delay:0.05s" />
+              <line x1="300" y1="230" x2="412" y2="165" class="radial-spoke" style="animation-delay:0.15s" />
+              <line x1="300" y1="230" x2="412" y2="295" class="radial-spoke" style="animation-delay:0.25s" />
+              <line x1="300" y1="230" x2="300" y2="360" class="radial-spoke" style="animation-delay:0.35s" />
+              <line x1="300" y1="230" x2="188" y2="295" class="radial-spoke" style="animation-delay:0.45s" />
+              <line x1="300" y1="230" x2="188" y2="165" class="radial-spoke" style="animation-delay:0.55s" />
+            </g>
+
+            <!-- Orbit marker dots (small dots circling the center on the inner ring) -->
+            <g class="radial-orbit-marker">
+              <circle cx="395" cy="230" r="2.5" fill="var(--color-accent)" opacity="0.7" />
+            </g>
+
+            <!-- Center node -->
             <g>
-              <circle cx="300" cy="230" r="55" fill="var(--color-ink)" />
-              <text x="300" y="223" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent-soft)" style="letter-spacing:0.12em">JP ENTERPRISE</text>
-              <text x="300" y="240" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent-soft)" style="letter-spacing:0.12em">PROCUREMENT</text>
+              <circle cx="300" cy="230" r="58" fill="var(--color-ink)" />
+              <circle cx="300" cy="230" r="58" fill="none" stroke="var(--color-accent)" stroke-width="2" opacity="0.6" />
+              <text x="300" y="221" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.14em">JP ENTERPRISE</text>
+              <text x="300" y="237" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.14em">PROCUREMENT</text>
+              <line x1="280" y1="245" x2="320" y2="245" stroke="var(--color-accent)" stroke-width="0.6" opacity="0.5" />
+              <text x="300" y="256" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="var(--color-paper)" opacity="0.7" style="letter-spacing:0.18em">FILTER · 6</text>
             </g>
 
-            <!-- outer nodes -->
-            <!-- Keigo (top) -->
-            <g data-reveal="scale" data-reveal-delay="2">
-              <circle cx="300" cy="100" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="300" y="96" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Keigo</text>
-              <text x="300" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">formality</text>
+            <!-- Outer nodes with numbered ring -->
+            <!-- 01 Keigo (top) -->
+            <g class="radial-node" style="animation-delay:0.8s">
+              <circle cx="300" cy="100" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="300" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">01</text>
+              <text x="300" y="98" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Keigo</text>
+              <text x="300" y="112" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">formality</text>
             </g>
-            <!-- Dialect (top-right) -->
-            <g data-reveal="scale" data-reveal-delay="3">
-              <circle cx="424" cy="158" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="424" y="154" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Dialect</text>
-              <text x="424" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">ASR</text>
+            <!-- 02 Dialect (top-right) -->
+            <g class="radial-node" style="animation-delay:0.95s">
+              <circle cx="424" cy="158" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="424" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">02</text>
+              <text x="424" y="156" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Dialect</text>
+              <text x="424" y="170" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">ASR</text>
             </g>
-            <!-- Encoding (bottom-right) -->
-            <g data-reveal="scale" data-reveal-delay="4">
-              <circle cx="424" cy="302" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="424" y="298" text-anchor="middle" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">Encoding</text>
-              <text x="424" y="312" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Shift-JIS</text>
+            <!-- 03 Encoding (bottom-right) -->
+            <g class="radial-node" style="animation-delay:1.1s">
+              <circle cx="424" cy="302" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="424" y="282" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">03</text>
+              <text x="424" y="300" text-anchor="middle" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">Encoding</text>
+              <text x="424" y="314" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Shift-JIS</text>
             </g>
-            <!-- Documents (bottom) -->
-            <g data-reveal="scale" data-reveal-delay="5">
-              <circle cx="300" cy="360" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="300" y="356" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Documents</text>
-              <text x="300" y="370" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Kami-Excel</text>
+            <!-- 04 Documents (bottom) -->
+            <g class="radial-node" style="animation-delay:1.25s">
+              <circle cx="300" cy="360" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="300" y="340" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">04</text>
+              <text x="300" y="358" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Documents</text>
+              <text x="300" y="372" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Kami-Excel</text>
             </g>
-            <!-- Characters (bottom-left) -->
-            <g data-reveal="scale" data-reveal-delay="6">
-              <circle cx="176" cy="302" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="176" y="298" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Characters</text>
-              <text x="176" y="312" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Furigana/Gaiji</text>
+            <!-- 05 Characters (bottom-left) -->
+            <g class="radial-node" style="animation-delay:1.4s">
+              <circle cx="176" cy="302" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="176" y="282" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">05</text>
+              <text x="176" y="300" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Characters</text>
+              <text x="176" y="314" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Furigana/Gaiji</text>
             </g>
-            <!-- Compliance (top-left) -->
-            <g data-reveal="scale" data-reveal-delay="7">
-              <circle cx="176" cy="158" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
-              <text x="176" y="154" text-anchor="middle" font-family="Bree Serif, serif" font-size="11" fill="var(--color-ink)">Compliance</text>
-              <text x="176" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">APPI/ISMAP</text>
+            <!-- 06 Compliance (top-left) -->
+            <g class="radial-node" style="animation-delay:1.55s">
+              <circle cx="176" cy="158" r="36" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="176" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">06</text>
+              <text x="176" y="156" text-anchor="middle" font-family="Bree Serif, serif" font-size="11" fill="var(--color-ink)">Compliance</text>
+              <text x="176" y="170" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">APPI/ISMAP</text>
             </g>
 
             <!-- bottom caption -->
@@ -998,6 +1168,15 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
               </text>
             </g>
           </svg>
+        </div>
+        <!-- Legend strip below SVG -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-5 text-[10px] uppercase tracking-[0.12em] font-mono">
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">01</span> Keigo</div>
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">02</span> Dialect</div>
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">03</span> Encoding</div>
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">04</span> Documents</div>
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">05</span> Characters</div>
+          <div class="flex items-center gap-1.5 text-[var(--color-ink-soft)]"><span class="num-badge !w-5 !h-5 !text-[8px]">06</span> Compliance</div>
         </div>
       </div>
 
@@ -1079,13 +1258,44 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         })}
       </div>
 
-      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 max-w-4xl">
-        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">My background, in one line</div>
-        <p class="text-sm text-[var(--color-ink) leading-relaxed mb-2">
-          <strong class="text-[var(--color-ink)]">Marco Avila · Tokyo · 20+ years operating, 10+ in Tokyo.</strong> Rakuten (CEO's Office) · Delivery Hero Japan (CTO) · Flexport (Chief of Staff to CTO) · Rocket Internet (Head of BD, Asia) · Jurin AI (Deputy CEO).
-        </p>
+      <!-- Marco bio block — upgraded to a header + chip strip + executive line -->
+      <div class="rounded-xl border-2 border-[var(--color-ink)]/10 bg-[var(--color-paper)] p-6 sm:p-7 max-w-5xl shadow-[0_18px_60px_-32px_rgba(0,0,0,0.18)]" data-reveal="fade-up">
+        <div class="flex items-start gap-4 mb-4">
+          <span class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--color-ink)] text-[var(--color-accent)] shrink-0">
+            <UsersRound class="w-6 h-6" />
+          </span>
+          <div class="flex-1">
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-1">The operator · in one line</div>
+            <h4 class="font-display text-xl sm:text-2xl leading-tight text-[var(--color-ink)]">
+              <span class="standout">Marco Avila</span> · Tokyo · 20+ years operating, 10+ in Tokyo
+            </h4>
+          </div>
+        </div>
+        <!-- Career chip strip -->
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
+            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
+            <span class="font-semibold">Rakuten</span><span class="text-[var(--color-ink-soft)]">· CEO's Office</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
+            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
+            <span class="font-semibold">Delivery Hero Japan</span><span class="text-[var(--color-ink-soft)]">· Logistics · Localization · CTO</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
+            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
+            <span class="font-semibold">Flexport</span><span class="text-[var(--color-ink-soft)]">· CoS to CTO</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
+            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
+            <span class="font-semibold">Rocket Internet</span><span class="text-[var(--color-ink-soft)]">· Head of BD, Asia</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-accent-soft)] border border-[var(--color-accent)]/40 text-xs">
+            <Crown class="w-3 h-3 text-[var(--color-accent)]" />
+            <span class="font-semibold text-[var(--color-accent-ink)]">Jurin AI</span><span class="text-[var(--color-ink-soft)]">· Deputy CEO</span>
+          </span>
+        </div>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          JP business executive and working engineer. Can sit in a ringi conversation in the morning and pressure-test an ASR pipeline in the afternoon. Bilingual at exec register. The rare profile that can stand in for the President on either side of the table.
+          JP business executive <span class="text-[var(--color-ink-faint)]">+</span> working engineer. Ringi conversation in the morning. Pressure-test an ASR pipeline in the afternoon. Bilingual at exec register. <strong class="text-[var(--color-ink)]">The rare profile that can stand in for the President on either side of the table.</strong>
         </p>
       </div>
     </div>
@@ -1139,6 +1349,173 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <p>
           The sharper move is internal first. Wonderful's strengths (agentic OS, multi-agent orchestration, dynamic dashboards, Wonderful Apps auto-UI, voice where it works today) map cleanly to what JP old-guard industrials need for <em>internal</em> workflow automation. Shorter procurement cycles. Fewer regulatory traps. More forgiving language requirements. A single big-logo internal win earns the right and the reference story to re-enter customer service later, on Wonderful's terms.
         </p>
+      </div>
+
+      <!-- ===================== BEACHHEAD EXPANSION FLOW · animated cascade ===================== -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-8" data-reveal="fade-up">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+              <GitFork class="w-4 h-4" />
+            </span>
+            <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold">The beachhead cascade</div>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">
+            <span class="status-dot inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>
+            <span>1 PoC · 3 compounds · 3 wins</span>
+          </div>
+        </div>
+        <h4 class="font-display text-2xl mb-1 leading-tight">
+          <span class="standout">One internal-workflow PoC</span> compounds into a market position.
+        </h4>
+        <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-6 max-w-3xl">
+          The beachhead is one logo, one internal use case, on the 80% Wonderful has today. The production window is where three things compound in parallel. By Y2, those compounds become three durable wins.
+        </p>
+
+        <div class="overflow-x-auto flow-stage">
+          <svg viewBox="0 0 940 420" preserveAspectRatio="xMidYMid meet" class="w-full max-w-4xl mx-auto block" role="img" aria-labelledby="flow-title flow-desc">
+            <title id="flow-title">Beachhead cascade — how one PoC compounds into a market position</title>
+            <desc id="flow-desc">Three-column flow: single beachhead PoC on the left, three parallel compounds in the middle (workflow expansion, JP-fit closure, SI relationship), three downstream wins on the right (reference, customer-service re-entry, SI channel).</desc>
+
+            <defs>
+              <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-accent)" />
+              </marker>
+              <marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-ink-soft)" />
+              </marker>
+              <linearGradient id="flow-bg" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--color-ink)" stop-opacity="0"/>
+                <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.05"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Background flow gradient (subtle direction-of-travel) -->
+            <rect x="0" y="0" width="940" height="420" fill="url(#flow-bg)" />
+
+            <!-- Column headers -->
+            <g font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.18em" text-anchor="middle">
+              <text x="120" y="34">NOW · Q1–Q2</text>
+              <text x="470" y="34">WINDOW · Q2–Q4</text>
+              <text x="820" y="34">OUTCOME · Y2+</text>
+            </g>
+            <g font-family="Bricolage Grotesque, sans-serif" font-size="10" fill="var(--color-ink-soft)" text-anchor="middle">
+              <text x="120" y="52">Land the PoC</text>
+              <text x="470" y="52">Compound in parallel</text>
+              <text x="820" y="52">Durable position</text>
+            </g>
+
+            <!-- Vertical separators (decorative) -->
+            <line x1="290" y1="65" x2="290" y2="395" stroke="var(--color-line-soft)" stroke-width="1" stroke-dasharray="2 6" />
+            <line x1="660" y1="65" x2="660" y2="395" stroke="var(--color-line-soft)" stroke-width="1" stroke-dasharray="2 6" />
+
+            <!-- ============== COLUMN 1: BEACHHEAD ============== -->
+            <g class="flow-node" style="animation-delay:0.1s">
+              <rect x="40" y="170" width="160" height="100" rx="14" fill="var(--color-ink)" />
+              <rect x="40" y="170" width="160" height="100" rx="14" fill="none" stroke="var(--color-accent)" stroke-width="2" class="flow-pulse" />
+              <text x="120" y="198" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.16em">BEACHHEAD</text>
+              <text x="120" y="222" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)">Internal-workflow</text>
+              <text x="120" y="240" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)">PoC</text>
+              <text x="120" y="258" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-paper)" opacity="0.65" style="letter-spacing:0.1em">one old-guard logo</text>
+            </g>
+
+            <!-- Paths from Beachhead to Column 2 (3 lines fanning out) -->
+            <g fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" opacity="0.7">
+              <path d="M 200 220 C 280 220, 320 110, 390 110" class="flow-path" style="animation-delay:0.55s" marker-end="url(#arrow-accent)" />
+              <path d="M 200 220 C 280 220, 320 220, 390 220" class="flow-path" style="animation-delay:0.7s" marker-end="url(#arrow-accent)" />
+              <path d="M 200 220 C 280 220, 320 330, 390 330" class="flow-path" style="animation-delay:0.85s" marker-end="url(#arrow-accent)" />
+            </g>
+
+            <!-- ============== COLUMN 2: COMPOUNDS ============== -->
+            <!-- 2A · Workflow expansion (top) -->
+            <g class="flow-node" style="animation-delay:0.9s">
+              <rect x="390" y="80" width="160" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="1.5" />
+              <text x="404" y="100" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">A</text>
+              <text x="404" y="120" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">Workflow expansion</text>
+              <text x="404" y="136" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">same logo · adjacent use cases</text>
+            </g>
+            <!-- 2B · JP-fit closure (middle) -->
+            <g class="flow-node" style="animation-delay:1.05s">
+              <rect x="390" y="186" width="160" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="1.5" />
+              <text x="404" y="206" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">B</text>
+              <text x="404" y="226" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">JP-fit 20% closes</text>
+              <text x="404" y="242" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">in the procurement window</text>
+            </g>
+            <!-- 2C · SI relationship build (bottom) -->
+            <g class="flow-node" style="animation-delay:1.2s">
+              <rect x="390" y="298" width="160" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="1.5" />
+              <text x="404" y="318" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent)" style="letter-spacing:0.12em">C</text>
+              <text x="404" y="338" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">SI relationship</text>
+              <text x="404" y="354" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">NRI · NTT Data · Accenture JP</text>
+            </g>
+
+            <!-- Inter-column-2 cross links (showing compounds reinforce each other) -->
+            <g fill="none" stroke="var(--color-line)" stroke-width="1" stroke-dasharray="3 4" opacity="0.7">
+              <path d="M 470 148 L 470 186" class="flow-path" style="animation-delay:1.35s" />
+              <path d="M 470 254 L 470 298" class="flow-path" style="animation-delay:1.45s" />
+            </g>
+
+            <!-- Paths from Column 2 to Column 3 -->
+            <g fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" opacity="0.7">
+              <path d="M 550 114 C 620 114, 660 114, 740 114" class="flow-path" style="animation-delay:1.55s" marker-end="url(#arrow-accent)" />
+              <path d="M 550 220 C 620 220, 660 220, 740 220" class="flow-path" style="animation-delay:1.7s" marker-end="url(#arrow-accent)" />
+              <path d="M 550 332 C 620 332, 660 332, 740 332" class="flow-path" style="animation-delay:1.85s" marker-end="url(#arrow-accent)" />
+            </g>
+
+            <!-- ============== COLUMN 3: OUTCOMES ============== -->
+            <!-- 3A · Reference -->
+            <g class="flow-node" style="animation-delay:1.9s">
+              <rect x="740" y="80" width="170" height="68" rx="10" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="755" y="100" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.12em">WIN · 01</text>
+              <text x="755" y="120" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)" font-weight="600">JP big-logo reference</text>
+              <text x="755" y="136" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">production-grade · in-market</text>
+            </g>
+            <!-- 3B · Customer-service re-entry -->
+            <g class="flow-node" style="animation-delay:2.05s">
+              <rect x="740" y="186" width="170" height="68" rx="10" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="755" y="206" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.12em">WIN · 02</text>
+              <text x="755" y="226" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)" font-weight="600">CS re-entry, our terms</text>
+              <text x="755" y="242" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">JP-fit 20% closed · de-risked</text>
+            </g>
+            <!-- 3C · SI channel locked -->
+            <g class="flow-node" style="animation-delay:2.2s">
+              <rect x="740" y="298" width="170" height="68" rx="10" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="2" />
+              <text x="755" y="318" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.12em">WIN · 03</text>
+              <text x="755" y="338" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)" font-weight="600">SI channel locked</text>
+              <text x="755" y="354" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">repeatable enterprise distribution</text>
+            </g>
+
+            <!-- Bottom caption strip -->
+            <g font-family="Bricolage Grotesque, sans-serif" font-size="10" fill="var(--color-ink-soft)" text-anchor="middle">
+              <text x="470" y="404" font-style="italic">PoC → production runs in parallel with sales. By production time, Wonderful is JP-tuned and the customer is committed.</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Plain-language legend strip -->
+        <div class="grid sm:grid-cols-3 gap-3 mt-6 text-xs">
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-3">
+            <div class="flex items-center gap-1.5 mb-1">
+              <Anchor class="w-3 h-3 text-[var(--color-accent)]" />
+              <span class="text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Start small</span>
+            </div>
+            <p class="text-[var(--color-ink-soft)] leading-relaxed">One internal-workflow PoC. The 80% Wonderful already has, deployed inside one trusted logo.</p>
+          </div>
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-3">
+            <div class="flex items-center gap-1.5 mb-1">
+              <ActivitySquare class="w-3 h-3 text-[var(--color-accent)]" />
+              <span class="text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Compound</span>
+            </div>
+            <p class="text-[var(--color-ink-soft)] leading-relaxed">During PoC-to-production: workflow expands, the JP-fit 20% closes, SI partners stake the relationship.</p>
+          </div>
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-3">
+            <div class="flex items-center gap-1.5 mb-1">
+              <Trophy class="w-3 h-3 text-[var(--color-accent)]" />
+              <span class="text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Position</span>
+            </div>
+            <p class="text-[var(--color-ink-soft)] leading-relaxed">By Y2: big-logo reference, customer service unlocked on our terms, SI channel as repeatable distribution.</p>
+          </div>
+        </div>
       </div>
 
       <!-- The 80/20 reality -->
@@ -1291,7 +1668,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">My background</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
           <li>· Rakuten · CEO's Office · enterprise AI + ecosystem</li>
-          <li>· Delivery Hero Japan · CTO · platform + voice</li>
+          <li>· Delivery Hero Japan · Logistics, Localization, and CTO roles</li>
           <li>· Flexport · Chief of Staff to CTO · global engineering ops</li>
           <li>· Rocket Internet · Head of BD, Asia · enterprise growth</li>
           <li>· Jurin AI · Deputy CEO · JP enterprise AI · 4 voice-AI deals · SOC II Type I</li>
