@@ -167,7 +167,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
           <strong>The opening:</strong> "AI Chief of Staff" is a 2023–24 category that hasn't consolidated. The US individual-tier tools — <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">alfred_</a>, <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Klaio</a>, <a href="https://askashley.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Ashley AI</a>, <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Alyna</a> — are personal productivity assistants, not team workspaces. The category's most-funded team-focused entrant, <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Xembly</a>, shut down in 2024. Meanwhile the deeper-pocketed incumbents — <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion AI</a>, <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack AI</a>, <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Microsoft Copilot</a> — have each shipped AI surfaces bounded to their own platforms (no cross-app context).
         </p>
         <p>
-          <strong>What no one ships today:</strong> a team-focused AI Chief of Staff with cross-app context AND Japanese-localized affordances (<Term name="Keigo" />, <Term name="Ringi" />). That's the gap Zunou is positioned to close — provided we ship and distribute before any incumbent breaks out of their walled garden. The window isn't a fixed countdown; it closes when one of the incumbents (or a well-funded new entrant) decides to build exactly this.
+          <strong>What no one ships today:</strong> a unified workspace — chat that rivals Slack + task management + AI native — that <em class="font-display">lands via integrations</em> rather than asking teams to migrate cold, AND speaks fluent Japanese (<Term name="Keigo" />, <Term name="Ringi" />). That's the gap Zunou is positioned to close — provided we ship + distribute before any incumbent decides to unify their own stack. The window isn't a fixed countdown; it closes when an incumbent breaks out of its walled garden.
         </p>
         <p>
           <strong>The proposal you're about to read</strong> answers one question: <em class="font-display">how do we manufacture density inside small Tokyo communities, fast enough to matter, while that window is still open?</em>
@@ -388,9 +388,9 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <Section
     id="moat"
     number="03"
-    eyebrow="The architectural moat"
-    title="MCP-native. The cross-app moat is in the protocol, not in marketing copy."
-    lede="Notion AI sees Notion. Slack AI sees Slack. Microsoft Copilot sees M365. Zunou sees the entire Model Context Protocol ecosystem."
+    eyebrow="The architectural strategy"
+    title="MCP-native. Land in their stack while it gets replaced."
+    lede="Zunou is a full workspace — chat that rivals Slack, task management, AI assistant. People won't migrate from their existing tools overnight. MCP is the bridge."
     tone="warm"
   >
     <div class="grid md:grid-cols-3 gap-4 mb-12">
@@ -421,16 +421,54 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
 
     <div class="prose-block mb-10" data-reveal="fade-up">
       <p>
-        MCP went from <em>"Anthropic-led standard"</em> to <strong>industry-default standard</strong> between mid-2025 and early 2026. Anthropic donated the protocol to the Linux Foundation's Agentic AI Foundation in December 2025 — co-founded by Anthropic, Block, and OpenAI. Building bespoke OAuth clients per integration in 2026 is like building bespoke auth in 2018.
+        <strong>What Zunou actually competes with:</strong> Slack at the chat layer · Notion / Linear at the task layer · alfred_ / Klaio at the personal-AI layer · Otter / Fireflies at the meeting layer. Zunou does what all of these do, in one place, with AI native. That's the <em>end state</em>.
       </p>
       <p>
-        We adopt the protocol as a <strong>host</strong> and inherit the entire server ecosystem. Engineering effort to support our top 25 integrations collapses from <strong>~25 OAuth implementations to 1 MCP host + 25 documentation pages</strong>.
+        <strong>The starting state is different.</strong> Most teams already have years of context in Slack, Notion, Asana, email, calendar. Telling them "switch to Zunou" on day one loses every conversation. They won't migrate overnight — and we shouldn't ask them to.
+      </p>
+      <p>
+        <strong>MCP solves this.</strong> We adopt the protocol as a <em>host</em> and inherit the entire <a href="https://www.digitalapplied.com/blog/mcp-adoption-statistics-2026-model-context-protocol" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">10,000+ server ecosystem</a> on day one. Day-1 users keep their existing tools and use Zunou's AI on top of them. Day-90 users find themselves opening Zunou first because the context is already there. Day-365 users use Slack only for external comms — because internal happened in Zunou.
       </p>
     </div>
 
-    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl" data-reveal="fade-up" data-reveal-delay="1">
+    <!-- The land-and-expand mechanic, made concrete -->
+    <div
+      class="grid md:grid-cols-3 gap-4 mb-12 max-w-5xl"
+      data-reveal="fade-up"
+      data-reveal-delay="1"
+    >
+      <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
+          Land · day 1
+        </div>
+        <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Integrate, don't ask</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Connect Slack + Notion + calendar + email via MCP. Zunou's AI works across them immediately. Zero migration friction. The user keeps every habit they have.
+        </p>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
+          Compound · day 30–90
+        </div>
+        <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Context lives here now</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Decisions, action items, follow-ups all surface in Zunou. The morning brief becomes the first surface opened. Slack becomes the second.
+        </p>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
+          Expand · day 180+
+        </div>
+        <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Zunou is the workspace</h4>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Internal chat happens in Zunou. Tasks live in Zunou. Slack stays for external comms; Notion becomes the public-doc archive. The team's center of gravity has shifted.
+        </p>
+      </div>
+    </div>
+
+    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl" data-reveal="fade-up" data-reveal-delay="2">
       <p class="pull-quote">
-        Notion will not expose Slack via MCP. Slack will not expose Notion via MCP. <span class="not-italic font-semibold">We aggregate them.</span>
+        MCP is the bridge — not the moat. The moat is the unified workspace that compounds once we're landed.
       </p>
     </div>
   </Section>
@@ -504,7 +542,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
       <div data-reveal="fade-up" data-reveal-delay="1">
         <h3 class="font-display text-xl mb-3">What we can credibly own</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          The category is competitive but no one has built exactly Zunou's product. Defensibility comes from three things the incumbents have weak incentives to build: cross-app context (architectural — see §03 MCP moat), Japanese-localized affordances like <Term name="Keigo" /> and <Term name="Ringi" />, and the community-distributed habit loop. The window stays open as long as none of them decides this is worth breaking their walled garden for.
+          The category is competitive but no one has built exactly Zunou's product: <strong class="text-[var(--color-ink)]">a unified workspace that lands via MCP integrations</strong> before asking for migration. Defensibility comes from three things the incumbents have weak incentives to build: the land-and-expand strategy via cross-app integrations (see §03), Japanese-localized affordances like <Term name="Keigo" /> and <Term name="Ringi" />, and the community-distributed habit loop. The window stays open as long as no incumbent decides to break its walled garden.
         </p>
       </div>
     </div>
