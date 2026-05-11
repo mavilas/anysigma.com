@@ -30,27 +30,34 @@ import {
 } from "@lucide/astro";
 
 const decisions = [
-  { n: 1, title: "Geographic focus — Japan-led for 12 months", desc: "Home market; second geography sequenced post-PMF, not preemptively.", group: "core" },
-  { n: 2, title: "KGI — ¥30M ARR within 12 months of synchronized launch", desc: "≥20% MoM in the second half. Open: when the 12-month clock starts, given platform readiness gates Phase 1.", group: "core" },
-  { n: 3, title: "NSM — WAU past magic number, in a partner community", desc: "Knowing it grows slowly at first.", group: "core" },
-  { n: 4, title: "Magic number (v0) — 5 / 1 / 3 in 14 days", desc: "5 colleagues from same community + 1 calendar + 3 AI actions accepted, in 14 days. Refit monthly.", group: "core" },
-  { n: 5, title: "Synchronized 4-community launch", desc: "Yes, or phase 2+2?", group: "core" },
-  { n: 6, title: "Sponsored-seat cap + free-trial duration — open for discussion", desc: "Working estimate: 50 members × ¥600 × N months × 4 communities. Two candidate Ns: 3 months (tighter runway, faster conversion test) vs 6 months (more generous, gives the magic-number cycle time to fire twice). Question to test with community owners themselves: what duration feels generous to their members vs feels like a teaser? Bounded liability either way, not 'free forever'.", group: "core" },
-  { n: 7, title: "Public events feed — before / with / after waitlist?", desc: "Connpass + Doorkeeper APIs + Lu.ma at launch.", group: "core" },
-  { n: 8, title: "Calendar as gate", desc: "Accept that users without calendar see a deliberately broken-feeling product.", group: "core" },
-  { n: 9, title: "Budget approach — methodology over total", desc: "Per-user inference math + sponsored-seat caps + line-item placeholders. Total ~¥18–24M is a working estimate, not a commitment.", group: "core" },
-  { n: 10, title: "Stage-gate rule — ~6 months after Phase 1 launch", desc: "≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend 60 days.", group: "core" },
-  { n: 11, title: "Adopt Masaru's positioning angle as the lead message", desc: "“Strategy in Notion. Tasks in Asana. Decisions in Slack. Good luck.”", group: "core" },
-  { n: 12, title: "Retire HN / PH / IH and cold-LinkedIn", desc: "Replace with warm-intro + community + earned media.", group: "core" },
-  { n: 13, title: "Community-discovery direction (A / B / C)", desc: "A = passive emergence (default); B = lightweight in-product recs (Phase 3+ test); C = community discovery as core surface.", group: "core" },
-  { n: 14, title: "Pricing v0 — adopt tier shape + self-serve upgrade flow", desc: "From §16.5 gap audit (S1). Free + ≥¥3,500/mo paid. Refined via validation calls.", group: "gap" },
-  { n: 15, title: "Support model v0 — Marco + Malek covering JP/EN business hours", desc: "From §16.5 (S2). In-app widget + Slack channel. First CSM hire post-day-180 if Phase 5a fuel.", group: "gap" },
-  { n: 16, title: "Attribution v0 — last-touch for cohort analysis", desc: "From §16.5 (M2). Revisit at day 90 once data flows.", group: "gap" },
-  { n: 17, title: "Loop 6 commitment — invest product eng in meeting-prep viral loop", desc: "From §4.6 Loop 6. Loom rode this exact loop to 25M users — every shared video is an ad.", group: "gap" },
+  // SETTLED — already ratified; shown for context, no vote
+  { n: 1, title: "Geographic focus — Japan-led for 12 months", desc: "Home market; second geography sequenced post-PMF, not preemptively.", group: "core", status: "settled" },
+  { n: 2, title: "NSM = WAU past magic number, in a partner community", desc: "Knowing it grows slowly at first.", group: "core", status: "settled" },
+  { n: 3, title: "Calendar as gate", desc: "Accept that users without calendar see a deliberately broken-feeling product.", group: "core", status: "settled" },
+  { n: 4, title: "Stage-gate rule — ~6 months after Phase 1 launch", desc: "≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend 60 days.", group: "core", status: "settled" },
+  { n: 5, title: "Retire HN / PH / IH and cold-LinkedIn", desc: "Replace with warm-intro + community + earned media.", group: "core", status: "settled" },
+
+  // OPEN — pending team ratification
+  { n: 6, title: "KGI — what's the year-1 ARR target?", desc: "Working estimate ~¥11.5M (math in §09 panel A). Original aspiration was ¥30M. Stretch ~¥65M. Which scenario do we ratify?", group: "core", status: "open" },
+  { n: 7, title: "Magic number (v0) — 5 / 1 / 3 in 14 days", desc: "Working hypothesis. Derivation in §05. Refit monthly against real cohort data once pilot starts. Pushback now if you think the inputs are off.", group: "core", status: "open" },
+  { n: 8, title: "Launch shape — pilot-first vs synchronized 4-community?", desc: "Current recommendation in §06: pilot one community deep first (TAI), learn, then double. Original §05 plan was 4-at-once synchronized. Pilot-first means slower but lower risk. Vote on which approach.", group: "core", status: "open" },
+  { n: 9, title: "Sponsored-seat cap + free-trial duration", desc: "Working estimate: 50 members × ¥600 × N months × 4 communities. Candidate Ns: 3 months vs 6 months. Question to test with community owners. Bounded liability either way — not 'free forever'.", group: "core", status: "open" },
+  { n: 10, title: "Public events feed — before / with / after waitlist?", desc: "Connpass + Doorkeeper APIs + Lu.ma at launch. The discovery question (§06.7): do we put this in front of unsigned-in users to drive top-of-funnel?", group: "core", status: "open" },
+  { n: 11, title: "Budget approach — methodology over total", desc: "Per-user inference math + sponsored-seat caps + line-item placeholders. §09 panel D shows ¥15–25M working envelope. Ratify the methodology, not the total.", group: "core", status: "open" },
+  { n: 12, title: "Adopt Masaru's positioning angle as the lead message", desc: "“Strategy in Notion. Tasks in Asana. Decisions in Slack. Good luck.” Effective for builders / operators; less so for enterprise.", group: "core", status: "open" },
+  { n: 13, title: "Community-discovery direction (A / B / C)", desc: "A = passive emergence (default); B = lightweight in-product recs (Phase 3+ test); C = community discovery as a core surface.", group: "core", status: "open" },
+
+  // OPEN — from §16.5 gap audit
+  { n: 14, title: "Pricing v0 — what tier shape + price point?", desc: "Three patterns spec'd in §09 panel B (Notion-style / Linear-style / usage-metered). Validate with community owners + early users before locking.", group: "gap", status: "open" },
+  { n: 15, title: "Support model v0 — Marco + Malek covering JP/EN business hours", desc: "In-app widget + Slack channel. First CSM hire post-day-180 if Phase 5a fuel.", group: "gap", status: "open" },
+  { n: 16, title: "Attribution v0 — last-touch for cohort analysis", desc: "Revisit at day 90 once data flows.", group: "gap", status: "open" },
+  { n: 17, title: "Loop 6 commitment — invest product eng in meeting-prep viral loop", desc: "Loom rode this exact loop to 25M users — every shared video is an ad.", group: "gap", status: "open" },
 ];
 
-const coreDecisions = decisions.filter((d) => d.group === "core");
-const gapDecisions = decisions.filter((d) => d.group === "gap");
+const settledDecisions = decisions.filter((d) => d.status === "settled");
+const openCoreDecisions = decisions.filter((d) => d.status === "open" && d.group === "core");
+const openGapDecisions = decisions.filter((d) => d.status === "open" && d.group === "gap");
+const openCount = decisions.filter((d) => d.status === "open").length;
 ---
 
 <Layout title="Zunou — Japan-Led GTM Strategy">
@@ -1138,6 +1145,243 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </p>
   </Section>
 
+  <!-- 06.7 · PUBLIC SURFACE / DRIVERS / STICKINESS / ANALYTICS -->
+  <Section
+    id="surface-and-drivers"
+    eyebrow="What they see · what makes them stay · what we watch"
+    title="Discovery surface, driver tree, stickiness mechanics, analytics dashboard."
+    lede="Four design questions that determine whether the pilot converts: how do unsigned-in visitors discover us, what makes people open Zunou again on day 2, what makes them open it on day 30, and how do we actually see whether any of it's working?"
+  >
+
+    <!-- A · Public surface -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          A · the discovery question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">what shows before sign-in</span>
+      </div>
+      <h3 class="font-display text-3xl mb-4">
+        Should we have something public before sign-in?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed mb-6">
+        Right now <a href="https://zunou.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">zunou.ai</a> is a waitlist-only landing page. Anyone who hears about Zunou from a TAI demo, a friend, or a Tweet hits the same wall. <strong class="text-[var(--color-ink)]">No discovery surface = no organic top-of-funnel.</strong> This is the most concrete blocker we can fix early. Three options, none mutually exclusive:
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-4 mb-5">
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2">
+            Option 1 · marketing-only
+          </div>
+          <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Status quo</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Keep zunou.ai as it is. Email capture for waitlist.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Risk: 0% discovery. Every user requires manual intro or community-event channel.
+          </p>
+        </div>
+        <div class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">
+            Option 2 · public utility ★
+          </div>
+          <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Free useful surface</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            A genuinely useful free tool that doesn't require sign-in: Tokyo AI events feed · meeting-summary template gallery · public showcase of community digests · weekly AI roundup.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Brings non-users to a Zunou-branded surface. Converts on trust + utility. SEO-indexable. Open question: which utility resonates with TAI / AI Tinkerers ICP enough to be worth building?
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-2">
+            Option 3 · social proof
+          </div>
+          <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">"Built with Zunou"</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Public testimonial wall · case studies · a "see how teams use it" page anchored on real workflows from pilot users (with permission).
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Builds credibility but useless until we have pilot users. <strong>Defer to Phase 2.</strong>
+          </p>
+        </div>
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
+        <strong class="not-italic text-[var(--color-ink-soft)]">Recommendation:</strong> ship Option 2 in Phase 0 as a focused public utility — events feed is the obvious choice given TAI / AI Tinkerers / Venture Café cluster events on Connpass + Lu.ma. Cost is low (data already public, just aggregate + render). Open question for the team is which utility to lead with.
+      </p>
+    </div>
+
+    <!-- B · Driver tree -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          B · the driver question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">what we actually control</span>
+      </div>
+      <h3 class="font-display text-3xl mb-4">
+        What are the levers we pull?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed mb-6">
+        The KGI (ARR) breaks down into a driver tree. Each leaf is something Marco or the team can actually do something about. Bold the controllable nodes.
+      </p>
+
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 max-w-4xl overflow-x-auto">
+        <pre class="font-mono text-xs sm:text-sm leading-relaxed text-[var(--color-ink-soft)] whitespace-pre">
+<strong class="text-[var(--color-ink)]">ARR</strong>
+ │
+ ├─ <strong class="text-[var(--color-ink)]">Active users</strong>
+ │   ├─ <strong class="text-[var(--color-accent)]">Discovery surface traffic</strong> ← ship public utility (panel A)
+ │   ├─ <strong class="text-[var(--color-accent)]">Community demos / events</strong>     ← Marco runs the calendar
+ │   ├─ <strong class="text-[var(--color-accent)]">Word-of-mouth virality</strong>       ← engineered via shareable artifacts
+ │   └─ <strong class="text-[var(--color-accent)]">Sign-up → activation rate</strong>    ← onboarding (§06.5)
+ │
+ ├─ <strong class="text-[var(--color-ink)]">Paid conversion rate</strong>
+ │   ├─ <strong class="text-[var(--color-accent)]">Magic-number completion</strong>       ← product mechanic
+ │   ├─ <strong class="text-[var(--color-accent)]">Free-tier limits hit</strong>          ← pricing design
+ │   └─ <strong class="text-[var(--color-accent)]">Upgrade prompt timing</strong>         ← UX
+ │
+ └─ <strong class="text-[var(--color-ink)]">¥ per paid user / mo</strong>
+     ├─ <strong class="text-[var(--color-accent)]">Tier pricing</strong>                  ← decision §12 #14
+     ├─ <strong class="text-[var(--color-accent)]">Tier mix</strong>                      ← upsell path
+     └─ <strong class="text-[var(--color-accent)]">Add-ons / AI overage</strong>          ← future revenue lever
+        </pre>
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl mt-5 leading-relaxed">
+        <strong class="not-italic text-[var(--color-ink-soft)]">Why this matters:</strong> if ARR isn't growing, we look at the driver tree and ask "which node is broken?" — not "let's try harder." Each driver maps to a KPI (panel D). When we say "the platform isn't ready" we mean a specific node, not a vibe.
+      </p>
+    </div>
+
+    <!-- C · Stickiness mechanics -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          C · the stickiness question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">why do they come back tomorrow</span>
+      </div>
+      <h3 class="font-display text-3xl mb-4">
+        What makes users love it, not just try it?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed mb-6">
+        Trial-to-stick conversion is where most AI tools die — Gartner's 88% pilot-failure rate is exactly this gap. Five mechanics we design for explicitly:
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-3 max-w-5xl">
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl text-[var(--color-accent)]">1</span>
+            First-session "aha"
+          </h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            User sees something they couldn't get elsewhere within their first 5 minutes. For Zunou: the meeting summary that catches a follow-up they would have missed.
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl text-[var(--color-accent)]">2</span>
+            Daily ritual hook
+          </h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Morning brief at 8 AM with today's calendar + pending follow-ups + cross-context signals. <strong>One reason to open the app every day at the same time.</strong>
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl text-[var(--color-accent)]">3</span>
+            Compounding context
+          </h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Every meeting / chat / decision makes the next AI output better. Switching cost goes up over time — leaving Zunou means losing months of trained context.
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl text-[var(--color-accent)]">4</span>
+            Social proof loop
+          </h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            "5 colleagues from your community are on Zunou." Visible, ambient, real. The magic-number's social dimension — you don't want to be the one who left.
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 md:col-span-2">
+          <h4 class="font-semibold text-[var(--color-ink)] mb-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl text-[var(--color-accent)]">5</span>
+            Shareable artifacts
+          </h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Meeting summaries → Slack DMs to non-users. "Here's what we decided" prep docs → emailed to collaborators. Every shared artifact is an ad for Zunou. Loom did this with video; we do it with structured outputs. <strong>This is decision #17 in §12.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- D · Analytics dashboard -->
+    <div class="max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          D · the analytics question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">what we look at daily</span>
+      </div>
+      <h3 class="font-display text-3xl mb-4">
+        How do we actually know what's working?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed mb-6">
+        Without a daily-monitored dashboard, the strategy operates on vibes. The minimum we need before pilot launch:
+      </p>
+
+      <div class="overflow-x-auto -mx-6 px-6 mb-5">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+          <thead class="bg-[var(--color-paper-soft)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Cadence</th>
+              <th class="text-left p-3 font-semibold">What we watch</th>
+              <th class="text-left p-3 font-semibold">What it tells us</th>
+              <th class="text-left p-3 font-semibold">Lever if off</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[var(--color-paper)]">
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">Daily</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Sign-ups · activations · first-session completions · errors</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Onboarding health · platform stability</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Marco / Malek personally onboard problem signups</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">Weekly</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">WAU · magic-number completion · cohort retention W1 / W2 / W4 · NPS pulse</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Whether pilot mechanics are firing</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Adjust onboarding · re-run pilot demo · tune nudges</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">Monthly</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Magic-number refit · paid conversion · Member-of-N · inference ¥/AU · CAC payback</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Economics + hypothesis validation</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">Refit magic-number numbers · adjust pricing</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-accent-soft)]/30">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">Stage-gate</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">All 6 PMF criteria (§11)</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top"><strong class="text-[var(--color-ink)]">Fuel · extend · pivot</strong></td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">The big decision</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
+        <strong class="not-italic text-[var(--color-ink-soft)]">Tool stack:</strong> PostHog or Mixpanel for product analytics · Linear for the issue tracker · a simple shared Notion or Linear-doc as the public dashboard so the team sees the same numbers daily. <strong>The dashboard itself is a Phase 0 deliverable — without it the pilot has no nervous system.</strong>
+      </p>
+    </div>
+  </Section>
+
   <!-- 07 · PHASED ROLLOUT -->
   <Section
     id="phases"
@@ -1612,34 +1856,58 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     id="decisions"
     number="12"
     eyebrow="The ask"
-    title="Seventeen decisions. Default = ship."
-    lede="We don't need consensus — we need explicit objections so we can address them or proceed with the disagreement noted. React on each."
+    title={`${openCount} open decisions. Click your vote on each.`}
+    lede="We don't need consensus — we need explicit objections so we can address them or proceed with the disagreement noted. Five decisions are already settled and shown for context. The rest are open."
     tone="soft"
   >
+
+    <!-- Settled decisions — read-only context -->
+    <div class="mb-8" data-reveal="fade-up">
+      <div class="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.18em] text-[var(--color-success)] font-semibold">
+        <CircleCheck class="w-4 h-4" />
+        <span>Settled · for context, no vote needed</span>
+      </div>
+      <div class="border border-[var(--color-line)] rounded-xl bg-[var(--color-paper)] p-3 sm:p-5">
+        {settledDecisions.map((d) => (
+          <Decision number={d.n} title={d.title} description={d.desc} group="core" status="settled" />
+        ))}
+      </div>
+    </div>
+
+    <!-- Open decisions — votable -->
     <div class="grid lg:grid-cols-2 gap-x-10 gap-y-6 max-w-6xl">
       <div data-reveal="fade-up">
-        <div class="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-semibold">
-          <span>Strategy & launch · 1–13</span>
+        <div class="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.18em] text-[var(--color-ink)] font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-warning)] status-dot" />
+          <span>Open · strategy & launch</span>
         </div>
         <div class="border border-[var(--color-line)] rounded-xl bg-[var(--color-paper)] p-3 sm:p-5">
-          {coreDecisions.map((d) => (
-            <Decision number={d.n} title={d.title} description={d.desc} group="core" />
+          {openCoreDecisions.map((d) => (
+            <Decision number={d.n} title={d.title} description={d.desc} group="core" status="open" />
           ))}
         </div>
       </div>
 
       <div data-reveal="fade-up" data-reveal-delay="1">
         <div class="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-semibold">
-          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
-          <span>Operational gaps · 14–17</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] status-dot" />
+          <span>Open · operational gaps</span>
         </div>
         <div class="border border-[var(--color-line)] rounded-xl bg-[var(--color-paper)] p-3 sm:p-5">
-          {gapDecisions.map((d) => (
-            <Decision number={d.n} title={d.title} description={d.desc} group="gap" />
+          {openGapDecisions.map((d) => (
+            <Decision number={d.n} title={d.title} description={d.desc} group="gap" status="open" />
           ))}
         </div>
       </div>
     </div>
+
+    <!-- Voting status indicator -->
+    <p
+      class="mt-6 max-w-3xl text-xs text-[var(--color-ink-faint)] leading-relaxed"
+      data-reveal="fade-up"
+    >
+      <strong class="text-[var(--color-ink-soft)]">How voting works:</strong> click any chip below an open decision. Your vote is saved to your authenticated session — Cloudflare Access already knows who you are, so no separate login. Marco sees the aggregated results at <code class="inline-code">/admin/votes</code>. You can change your vote any time; the most recent click wins. Hover the chip after clicking to confirm the saved state.
+    </p>
   </Section>
 
   <!-- 11 · GAPS -->

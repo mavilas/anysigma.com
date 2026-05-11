@@ -1,27 +1,29 @@
 ---
-import { Check, AlertTriangle, X } from "@lucide/astro";
+import { Check, AlertTriangle, X, CircleCheck } from "@lucide/astro";
 
 interface Props {
   number: number;
   title: string;
   description?: string;
   group?: "core" | "gap";
+  status?: "open" | "settled";
 }
 
-const { number, title, description, group = "core" } = Astro.props;
+const { number, title, description, group = "core", status = "open" } = Astro.props;
 const decisionId = `d${number}`;
+const isSettled = status === "settled";
 ---
 
 <div
-  class="decision-row flex gap-4 py-5 border-b border-[var(--color-line-soft)] last:border-b-0"
+  class={`decision-row flex gap-4 py-5 border-b border-[var(--color-line-soft)] last:border-b-0 ${isSettled ? "opacity-90" : ""}`}
   data-decision-id={decisionId}
 >
   <div class="shrink-0 flex flex-col items-center pt-0.5 w-7">
-    <span class="font-mono text-[11px] text-[var(--color-ink-faint)] font-semibold mb-1.5">
+    <span class={`font-mono text-[11px] font-semibold mb-1.5 ${isSettled ? "text-[var(--color-success)]" : "text-[var(--color-ink-faint)]"}`}>
       {String(number).padStart(2, "0")}
     </span>
     {
-      group === "gap" && (
+      !isSettled && group === "gap" && (
         <span
           class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"
           title="Added from §16.5 honest gap audit"
@@ -31,8 +33,16 @@ const decisionId = `d${number}`;
   </div>
 
   <div class="flex-1 min-w-0">
-    <div class="font-semibold text-[var(--color-ink)] mb-1 leading-snug">
-      {title}
+    <div class="font-semibold text-[var(--color-ink)] mb-1 leading-snug flex items-baseline gap-2 flex-wrap">
+      <span>{title}</span>
+      {
+        isSettled && (
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[var(--color-success-soft)] text-[var(--color-success)] text-[10px] uppercase tracking-[0.14em] font-bold">
+            <CircleCheck class="w-3 h-3" />
+            Ratified
+          </span>
+        )
+      }
     </div>
     {
       description && (
@@ -41,42 +51,47 @@ const decisionId = `d${number}`;
         </p>
       )
     }
-    <div class="flex flex-wrap items-center gap-2 text-xs">
-      <button
-        type="button"
-        class="vote-btn group inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[var(--color-success-soft)] text-[var(--color-success)] font-semibold transition-all hover:scale-105 active:scale-95 ring-0 ring-[var(--color-success)] data-[active=true]:ring-2"
-        data-decision={decisionId}
-        data-vote="on-board"
-        aria-label={`Vote on board for decision ${number}`}
-      >
-        <Check class="w-3.5 h-3.5" />
-        <span>On board</span>
-      </button>
-      <button
-        type="button"
-        class="vote-btn group inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-semibold transition-all hover:scale-105 active:scale-95 ring-0 ring-[var(--color-warning)] data-[active=true]:ring-2"
-        data-decision={decisionId}
-        data-vote="concern"
-        aria-label={`Vote concern for decision ${number}`}
-      >
-        <AlertTriangle class="w-3.5 h-3.5" />
-        <span>Concern</span>
-      </button>
-      <button
-        type="button"
-        class="vote-btn group inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[var(--color-danger-soft)] text-[var(--color-danger)] font-semibold transition-all hover:scale-105 active:scale-95 ring-0 ring-[var(--color-danger)] data-[active=true]:ring-2"
-        data-decision={decisionId}
-        data-vote="object"
-        aria-label={`Vote object for decision ${number}`}
-      >
-        <X class="w-3.5 h-3.5" />
-        <span>Object</span>
-      </button>
-      <span class="italic text-[var(--color-ink-faint)] ml-1">default = ship</span>
-      <span
-        class="vote-status text-[var(--color-ink-faint)] ml-2 opacity-0 transition-opacity"
-        data-status-for={decisionId}
-      ></span>
-    </div>
+
+    {
+      !isSettled && (
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <button
+            type="button"
+            class="vote-btn group cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--color-success-soft)] text-[var(--color-success)] font-semibold transition-all hover:bg-[var(--color-success)] hover:text-[var(--color-paper)] active:scale-95 border-2 border-transparent data-[active=true]:border-[var(--color-success)] data-[active=true]:bg-[var(--color-success)] data-[active=true]:text-[var(--color-paper)]"
+            data-decision={decisionId}
+            data-vote="on-board"
+            aria-label={`Vote on board for decision ${number}`}
+          >
+            <Check class="w-3.5 h-3.5" />
+            <span>On board</span>
+          </button>
+          <button
+            type="button"
+            class="vote-btn group cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-semibold transition-all hover:bg-[var(--color-warning)] hover:text-[var(--color-paper)] active:scale-95 border-2 border-transparent data-[active=true]:border-[var(--color-warning)] data-[active=true]:bg-[var(--color-warning)] data-[active=true]:text-[var(--color-paper)]"
+            data-decision={decisionId}
+            data-vote="concern"
+            aria-label={`Vote concern for decision ${number}`}
+          >
+            <AlertTriangle class="w-3.5 h-3.5" />
+            <span>Concern</span>
+          </button>
+          <button
+            type="button"
+            class="vote-btn group cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--color-danger-soft)] text-[var(--color-danger)] font-semibold transition-all hover:bg-[var(--color-danger)] hover:text-[var(--color-paper)] active:scale-95 border-2 border-transparent data-[active=true]:border-[var(--color-danger)] data-[active=true]:bg-[var(--color-danger)] data-[active=true]:text-[var(--color-paper)]"
+            data-decision={decisionId}
+            data-vote="object"
+            aria-label={`Vote object for decision ${number}`}
+          >
+            <X class="w-3.5 h-3.5" />
+            <span>Object</span>
+          </button>
+          <span class="italic text-[var(--color-ink-faint)] ml-1">default = ship</span>
+          <span
+            class="vote-status text-[var(--color-ink-faint)] ml-2 opacity-0 transition-opacity"
+            data-status-for={decisionId}
+          ></span>
+        </div>
+      )
+    }
   </div>
 </div>
