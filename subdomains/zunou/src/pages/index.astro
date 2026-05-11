@@ -164,7 +164,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
 
       <div class="prose-block max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
         <p>
-          <strong>The opening:</strong> "AI Chief of Staff" is a 2023–24 category that hasn't consolidated. The US individual-tier tools — <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">alfred_</a>, <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Klaio</a>, <a href="https://askashley.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Ashley AI</a>, <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Alyna</a> — are personal productivity assistants, not team workspaces. The category's most-funded team-focused entrant, <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Xembly</a>, shut down in 2024. Meanwhile the deeper-pocketed incumbents — <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion AI</a>, <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack AI</a>, <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Microsoft Copilot</a> — have each shipped AI surfaces bounded to their own platforms (no cross-app context).
+          <strong>The opening:</strong> the AI productivity stack is fragmenting, not consolidating. Personal-tier exec assistants — <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">alfred_</a>, <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Klaio</a>, <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Alyna</a> — solve email + scheduling for one person, not teams. AI workspace tools — <a href="https://glean.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Glean</a>, <a href="https://mem.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Mem</a>, <a href="https://lindy.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Lindy</a> — solve search and agents for English-speaking enterprise. Meeting tools — <a href="https://otter.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Otter</a>, <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Fireflies</a>, <a href="https://granola.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Granola</a> — transcribe but don't act. The category's most-funded team-focused AI Chief of Staff, <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Xembly</a>, shut down in 2024. The platform incumbents — <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion AI</a>, <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack AI</a>, <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Microsoft Copilot</a> — have each shipped AI surfaces bounded to their own walled gardens.
         </p>
         <p>
           <strong>What no one ships today:</strong> a unified workspace — chat that rivals Slack + task management + AI native — that <em class="font-display">lands via integrations</em> rather than asking teams to migrate cold, AND speaks fluent Japanese (<Term name="Keigo" />, <Term name="Ringi" />). That's the gap Zunou is positioned to close — provided we ship + distribute before any incumbent decides to unify their own stack. The window isn't a fixed countdown; it closes when an incumbent breaks out of its walled garden.
@@ -478,59 +478,156 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     id="competitive"
     number="04"
     eyebrow="The category right now"
-    title="An empty seat in Japan. Six commoditising entrants globally. Three incumbents that will eventually compete."
-    lede="The accurate answer to 'who else is doing this in Japan' is short. The answer to 'who could do this from a position of distribution' is longer."
+    title="No one builds exactly Zunou's product. Many build pieces of it."
+    lede="Honest audit: who's a direct competitor, who's adjacent, who's a platform threat. Not everyone with 'AI' in their tagline is in our lane."
   >
     <div class="overflow-x-auto -mx-6 px-6" data-reveal="fade-up">
       <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
         <thead class="bg-[var(--color-paper-soft)]">
           <tr>
-            <th class="text-left p-3 font-semibold">Competitor</th>
-            <th class="text-left p-3 font-semibold">Where</th>
-            <th class="text-left p-3 font-semibold">Status (May 2026)</th>
+            <th class="text-left p-3 font-semibold">Lane / Competitor</th>
+            <th class="text-left p-3 font-semibold">What it actually does</th>
             <th class="text-left p-3 font-semibold">Threat to Zunou</th>
           </tr>
         </thead>
         <tbody class="bg-[var(--color-paper)]">
-          <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3"><a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Xembly ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">US</td>
-            <td class="p-3"><span class="inline-block px-2 py-0.5 rounded bg-[var(--color-danger-soft)] text-[var(--color-danger)] text-xs font-semibold">Discontinued June 2024</span></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">None — exited the market</td>
+          <!-- Direct (closest fit) -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td colspan="3" class="p-2.5 bg-[var(--color-danger-soft)]/30 text-[10px] uppercase tracking-[0.18em] text-[var(--color-danger)] font-bold">
+              Direct · team-focused AI Chief of Staff
+            </td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3"><a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">alfred_ ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">US / global</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">$24.99/mo · individual</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Low — personal tool, not a team workspace</td>
+            <td class="p-3 align-top">
+              <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Xembly ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">US · $20M raised</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">
+              Was the closest direct competitor: meeting recording + action items + follow-ups for teams.
+              <span class="block mt-1 inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[var(--color-danger-soft)] text-[var(--color-danger)] text-xs font-semibold">
+                Shut down June 2024
+              </span>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">None — exited the market. Cautionary tale, not a threat.</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3"><a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Klaio ↗</a> · <a href="https://askashley.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Ashley ↗</a> · <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Alyna ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">US / EU</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Active · individual tier</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Low — personal productivity, not team-focused</td>
-          </tr>
-          <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
-            <td class="p-3"><a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Notion AI ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Global · JP language ✓</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Notion-internal data only</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">High on in-Notion · cannot cross to Slack / email / calendar</td>
-          </tr>
-          <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
-            <td class="p-3"><a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Slack AI ↗</a> · <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">MS Copilot ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Global · APAC growing 19% YoY</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Single-app surface · embedded distribution</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Highest long-run threat · neither localized for <Term name="Keigo" /> / <Term name="Ringi" /></td>
+            <td class="p-3 align-top">
+              <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Klaio ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">EU · early</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">"AI Chief of Staff" branded; chat-style assistant for ops + tasks. Small team, individual + small-team tier.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — no JP presence, no MCP-native land-and-expand story, no full workspace surface.</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3"><a href="https://otter.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Otter ↗</a> · <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Fireflies ↗</a> · <a href="https://granola.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Granola ↗</a></td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Global · partial JP</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Meeting transcription / notes</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">High on transcription · adjacent, not direct</td>
+            <td class="p-3 align-top">
+              <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Alyna ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">US · early</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI productivity assistant marketed as "AI Chief of Staff" for individuals + small teams.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — individual-first, no team workspace, no JP.</td>
+          </tr>
+
+          <!-- Personal-tier (adjacent / not direct) -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td colspan="3" class="p-2.5 bg-[var(--color-warning-soft)]/30 text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">
+              Adjacent · personal exec assistant (1 user, email + calendar)
+            </td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">alfred_ ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">$24.99/mo · individual</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Email triage + scheduling + voice-matched drafts for one executive. Personal CoS.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — single-user tool. Different category. Doesn't address team density.</td>
+          </tr>
+
+          <!-- AI workspace tools (adjacent — different angle, similar surface) -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td colspan="3" class="p-2.5 bg-[var(--color-warning-soft)]/30 text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">
+              Adjacent · AI workspace tools (search + agents, enterprise lean)
+            </td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://glean.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Glean ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">$7B+ valuation</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Enterprise AI work assistant — unified search across all company apps, custom agents. Sells top-down to large enterprises.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Medium long-term — but they sell to 1,000+ seat enterprises through procurement. Different motion. No JP focus.</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://mem.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Mem ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">Personal-first AI</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI-native note-taking and knowledge management. Personal use evolving to teams.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — knowledge-base oriented, not workflow/operations.</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://www.lindy.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Lindy ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">Agent builder</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI agent platform — users build custom agents for email, calendar, follow-ups. DIY composability.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — power-user tool, not a turnkey workspace. Different ICP.</td>
+          </tr>
+
+          <!-- Meeting tools (adjacent — transcribe but don't act) -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td colspan="3" class="p-2.5 bg-[var(--color-warning-soft)]/30 text-[10px] uppercase tracking-[0.18em] text-[var(--color-warning)] font-bold">
+              Adjacent · meeting AI (transcribe + note, don't act)
+            </td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://otter.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Otter ↗</a> · <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Fireflies ↗</a> · <a href="https://granola.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Granola ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">Mature category</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Meeting transcription + AI summaries. Granola is the most loved by execs (notepad-style, no bot in room).</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Medium — Granola in particular is a feature competitor for Zunou's meeting-AI surface. We compete by going broader (chat + tasks + AI in one).</td>
+          </tr>
+
+          <!-- Platform incumbents (the real long-run threat) -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td colspan="3" class="p-2.5 bg-[var(--color-ink)] text-[10px] uppercase tracking-[0.18em] text-[var(--color-paper)] font-bold">
+              Platform incumbents · the long-run threat
+            </td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Slack AI ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">Salesforce · APAC +19% YoY</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI summaries + search inside Slack. Distribution = every Slack workspace.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High long-run — but bounded to Slack. Can't see calendar / Notion / Linear. No <Term name="Keigo" /> / <Term name="Ringi" /> nuance.</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Notion AI ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">JP language ✓</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI inside Notion — write, summarise, find. Distribution = every Notion workspace.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High long-run · bounded to Notion. Limited cross-app reach.</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 align-top">
+              <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">MS Copilot ↗</a>
+              <div class="text-xs text-[var(--color-ink-faint)] mt-0.5">M365 + Teams</div>
+            </td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI woven through M365 + Teams. Strong in JP enterprise on the Microsoft stack.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High long-run for the Microsoft-stack share of JP enterprise. Limited reach on Slack-native + Google-native teams.</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <p
+      class="mt-6 text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed"
+      data-reveal="fade-up"
+    >
+      Notably <em class="font-display">not</em> in this table: Ashley AI (askashley.com) — a retail/customer-service conversational AI, not exec ops; different category entirely. Other "AI Chief of Staff" branded tools that emerged in 2023 have either pivoted to consumer or gone quiet. Audit refreshed monthly; flag additions to Marco if a new entrant launches in this space.
+    </p>
 
     <div class="mt-10 grid md:grid-cols-2 gap-6 max-w-4xl">
       <div data-reveal="fade-up">
@@ -556,19 +653,103 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     title="Density manufactures product-market fit."
     lede="Not features. Not virality. Density — the threshold past which a small group's behavior changes."
   >
-    <div class="prose-block mb-12" data-reveal="fade-up">
-      <p>
-        Slack only becomes Slack at ~2,000 team messages — past that, retention jumps to 93%. Facebook only became Facebook when users hit 7 friends in 10 days. Below that threshold, users churn. Above it, they stay for life.
-      </p>
-      <p>
-        Zunou's working hypothesis — refit monthly against real cohort data:
-      </p>
+    <!-- Precedent — the threshold pattern from companies the team already trusts -->
+    <p
+      class="mt-4 text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5"
+      data-reveal="fade-up"
+    >
+      Precedent · the threshold pattern
+    </p>
+
+    <div
+      class="grid md:grid-cols-2 gap-4 mb-12 max-w-4xl"
+      data-reveal="fade-up"
+      data-reveal-delay="1"
+    >
+      <div class="tile rounded-xl border-l-4 border-[var(--color-accent)] border-y border-r border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-3">
+          Slack
+        </div>
+        <div class="font-display text-4xl mb-2 text-[var(--color-ink)] tracking-tight">
+          ~2,000 <span class="text-[var(--color-ink-faint)] text-xl font-sans font-normal">team messages</span>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Past this threshold, retention jumps to <strong class="text-[var(--color-ink)]">93%</strong>. Below it, teams churn. The product itself doesn't change — the team's behavior does.
+        </p>
+      </div>
+      <div class="tile rounded-xl border-l-4 border-[var(--color-accent)] border-y border-r border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-3">
+          Facebook
+        </div>
+        <div class="font-display text-4xl mb-2 text-[var(--color-ink)] tracking-tight">
+          7 friends <span class="text-[var(--color-ink-faint)] text-xl font-sans font-normal">in 10 days</span>
+        </div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Chamath Palihapitiya's growth team identified this exact number. Cross it and the user retained for life. Miss it and they churned. Every product roadmap decision was filtered through it.
+        </p>
+      </div>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-4 mb-14">
-      <Stat icon="users-round" value="5" label="Colleagues from the same community, active" />
-      <Stat icon="calendar-check" value="1" label="Connected calendar" revealDelay={1} />
-      <Stat icon="sparkles" value="3" label="AI actions accepted within 14 days" revealDelay={2} />
+    <!-- Zunou's hypothesis — derived, not invented -->
+    <p
+      class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5"
+      data-reveal="fade-up"
+    >
+      Zunou's hypothesis · derived from how the product creates value
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-4 mb-8" data-reveal="fade-up" data-reveal-delay="1">
+      <Stat
+        icon="users-round"
+        value="5"
+        label="Colleagues from the same community, active"
+      />
+      <Stat
+        icon="calendar-check"
+        value="1"
+        label="Connected calendar"
+        revealDelay={1}
+      />
+      <Stat
+        icon="sparkles"
+        value="3"
+        label="AI actions accepted within 14 days"
+        revealDelay={2}
+      />
+    </div>
+
+    <!-- The logic — why these numbers, where they came from -->
+    <div
+      class="mb-14 max-w-4xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6"
+      data-reveal="fade-up"
+      data-reveal-delay="2"
+    >
+      <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-4">
+        Why these numbers — the derivation
+      </h4>
+      <dl class="space-y-4 text-sm leading-relaxed">
+        <div class="grid grid-cols-[auto_1fr] gap-x-5 items-baseline">
+          <dt class="font-display text-3xl text-[var(--color-accent)] tracking-tight">5</dt>
+          <dd class="text-[var(--color-ink-soft)]">
+            <strong class="text-[var(--color-ink)]">Colleagues from the same community.</strong> Zunou's value compounds when cross-context exists — when your AI knows what others in your circle decided this week. Below ~5, the AI has thin context and reads as a chat box. At 5+, the cross-references start producing insights you couldn't get elsewhere. <em class="font-display">Why not 3 or 10:</em> Slack's network-effect studies cluster around 4-7 as the activation band; we set 5 as a defensible mid-point to refit.
+          </dd>
+        </div>
+        <div class="grid grid-cols-[auto_1fr] gap-x-5 items-baseline pt-4 border-t border-[var(--color-line)]">
+          <dt class="font-display text-3xl text-[var(--color-accent)] tracking-tight">1</dt>
+          <dd class="text-[var(--color-ink-soft)]">
+            <strong class="text-[var(--color-ink)]">Calendar connected.</strong> Without the calendar, Zunou can't surface meetings, prep, decisions, or follow-ups — and 80%+ of the product surface is dark. Calendar is the single integration that unlocks daily utility. <em class="font-display">Why exactly 1:</em> empirical — every PLG study on calendar-adjacent products (Cron, Calendly, Reclaim) ties activation to first OAuth connection. There's no fractional version.
+          </dd>
+        </div>
+        <div class="grid grid-cols-[auto_1fr] gap-x-5 items-baseline pt-4 border-t border-[var(--color-line)]">
+          <dt class="font-display text-3xl text-[var(--color-accent)] tracking-tight">3</dt>
+          <dd class="text-[var(--color-ink-soft)]">
+            <strong class="text-[var(--color-ink)]">AI actions accepted.</strong> One accepted action is a fluke. Two is a coincidence. Three within 14 days is a habit. Acceptance (rather than impression / view) is what tells us the AI's output is actually trusted. <em class="font-display">Why 14 days:</em> matches industry SaaS-onboarding studies showing the first 2 weeks predict W4 retention with ~80% confidence (Mode, Amplitude). <em class="font-display">Why 3:</em> below this users haven't internalized the value; above this they reach for Zunou unprompted.
+          </dd>
+        </div>
+      </dl>
+      <p class="mt-5 pt-5 border-t border-[var(--color-line)] text-xs text-[var(--color-ink-faint)] italic leading-relaxed">
+        These specific numbers are a starting hypothesis, not a commitment. We instrument them on day 1 and refit monthly against real cohort data. If at month 2 the actual threshold is 7/1/4 — we update. If at month 3 only 5/1/3 in 21 days correlates with W4 retention — we update the window too. <strong class="not-italic text-[var(--color-ink-soft)]">The contract is the framework; the numbers are an iteration.</strong>
+      </p>
     </div>
 
     <div class="prose-block mb-10" data-reveal="fade-up">
