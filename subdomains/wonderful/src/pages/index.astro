@@ -119,16 +119,16 @@ const practiceAreas = [
     ],
   },
   {
-    title: "Talent & Recruiting",
+    title: "Hiring calibration & screening depth",
     icon: "users-round",
-    week: "Underway",
+    week: "In flight",
     blurb:
-      "Already running. Engineering screens, recruiter calibration, and shortlist work for the Japan team are active today and continue from week one.",
+      "Wonderful's Japan hiring is already in motion. Where I add value sits on top of that engine: depth of technical screening on senior eng, calibration of briefs and interview close-rate, and access to people I have shipped with.",
     bullets: [
-      "Technical screening at engineering depth. Architecture, system design, code quality, production readiness.",
-      "Interview process design calibrated for JP candidates' multiple offers.",
+      "Technical screening at engineering depth for the senior eng roles where pattern-match matters most. Architecture, system design, production readiness.",
+      "Interview process calibration for JP candidates who hold multiple offers. Close rate matters more than top-of-funnel volume.",
+      "JP-specific brief sharpening for recruiters already engaged. Better signal per call.",
       "Engineering network access. Current, not database. People I have shipped with.",
-      "Recruiter alignment. Sharper briefs, calibrated comp benchmarks, JP-specific screening criteria.",
     ],
   },
 ];
@@ -143,7 +143,7 @@ const ninetyDayPlan = [
       "Japan positioning playbook",
       "Enterprise demo playbook",
       "Target account map",
-      "Candidate sourcing strategy",
+      "JP hiring brief calibration · sits on top of recruiters already engaged",
     ],
   },
   {
@@ -163,18 +163,18 @@ const ninetyDayPlan = [
     icon: "rocket",
     deliverables: [
       "First enterprise meetings · warm introductions",
-      "Candidate pipeline delivery to JP recruiters",
-      "Recruiter activation with vetted Japan firms",
+      "Senior eng technical screening at depth",
+      "Interview process calibration for JP close-rate",
     ],
   },
   {
     weeks: "Weeks 9–12",
-    title: "Pilot terms + hiring",
+    title: "Pilot terms + first closes",
     icon: "trophy",
     deliverables: [
       "Pilot terms with first enterprise customer",
-      "Hiring framework + comp strategy",
       "Decision memo: direct vs SI-led vs BPO-channel primary motion",
+      "Calibrated framework for the next senior closes",
     ],
   },
 ];
@@ -404,7 +404,9 @@ const japanFailureModes = [
 
 // Competitor matrix — JP procurement cohort
 const competitors = [
+  // === JP-native cohort · who procurement compares Wonderful against today ===
   {
+    cohort: "jp",
     name: "PKSHA Tech",
     role: "Old guard",
     strength: "Massive installed base · existing enterprise relationships",
@@ -412,6 +414,7 @@ const competitors = [
     wonderfulWedge: "Voice + autonomy + multimodal. Step-changes PKSHA can't match operationally.",
   },
   {
+    cohort: "jp",
     name: "Karakuri",
     role: "The sniper",
     strength: "95%+ accuracy on chat · clean product",
@@ -419,6 +422,7 @@ const competitors = [
     wonderfulWedge: "Voice is the wedge. Karakuri's customers are also Wonderful's TAM.",
   },
   {
+    cohort: "jp",
     name: "AI Shift",
     role: "Marketer",
     strength: "Strong UX · solid sales motion",
@@ -426,6 +430,7 @@ const competitors = [
     wonderfulWedge: "Platform depth + forward-deployed eng = procurement edge for larger logos",
   },
   {
+    cohort: "jp",
     name: "Mobius (Mobilus)",
     role: "Telco veteran",
     strength: "Deployed across JP telco contact centers",
@@ -433,11 +438,45 @@ const competitors = [
     wonderfulWedge: "Use as the baseline customers are migrating from. Replacement story is real.",
   },
   {
+    cohort: "jp",
     name: "Sakana AI",
     role: "Local hero",
     strength: "World-class models · Japan-native · brand halo",
     weakness: "No application layer · model-first · long enterprise cycles",
     wonderfulWedge: "Wonderful is the last mile Sakana doesn't build. Co-marketing potential, not direct competition.",
+  },
+  {
+    cohort: "jp",
+    name: "Jurin AI",
+    role: "JP-native startup",
+    strength: "Native Tokyo team · JP enterprise instincts · fast iteration on JP-specific failure modes",
+    weakness: "Startup-scale gaps. No Bezeq-grade production reference. Narrower platform breadth, less mature security posture, smaller FDE bench, no multi-region deployment story. The things JP procurement at the largest-logo tier asks for that startups have not yet built.",
+    wonderfulWedge: "Wonderful has the platform depth and scale proof Jurin does not yet have. Jurin has JP-native operator instinct. Different stages of the same curve. Complementary at JP mid-market, competitive once Jurin scales.",
+  },
+  // === Global + platform entrants · the widening cohort, showing up in JP RFPs now ===
+  {
+    cohort: "global",
+    name: "Sierra",
+    role: "Global agentic platform (US)",
+    strength: "Bret Taylor brand + Series-C capital · sophisticated agentic platform · enterprise CS at SiriusXM / ADT-class logos · raising the global bar.",
+    weakness: "English-first, no JP-native team. HQ-driven foreign-vendor pattern. Generic localization. No keigo / dialect / APPI / ISMAP track record. JP procurement will read Sierra the same way it read every prior foreign vendor that walked away.",
+    wonderfulWedge: "Sierra is the threat that proves the thesis: HQ-driven loses Japan even when the platform is excellent. Wonderful's JP-led inversion is what beats Sierra in this market.",
+  },
+  {
+    cohort: "global",
+    name: "Decagon",
+    role: "Agentic CS (US, similar shape)",
+    strength: "Closest platform shape to Wonderful · agentic enterprise CS · just raised Series C · explicit Japan ambitions · text-channel polished.",
+    weakness: "Text-first, weaker voice story. No production-scale telco reference at Bezeq's level. Same HQ-driven foreign-vendor pattern risk as Sierra. No keigo / dialect / on-prem story.",
+    wonderfulWedge: "Voice + Bezeq scale + multimodal. Decagon's wedge is text. Wonderful's wedge for JP enterprise (voice + scale) lands where Decagon has not invested.",
+  },
+  {
+    cohort: "global",
+    name: "Salesforce Agentforce",
+    role: "Platform-vendor entry (channel threat)",
+    strength: "Pulls through Salesforce JP install base · vendor incumbency · existing security + procurement relationships · CRM data gravity.",
+    weakness: "Bolted-on agentic, not native. Locked to the Salesforce stack. Tries to do everything; depth on none. Foreign vendor under JP procurement scrutiny just like the rest. The Einstein-JP customer-attrition pattern is the precedent procurement remembers.",
+    wonderfulWedge: "Wonderful is purpose-built agentic. JP enterprise wants a platform, not a CRM extension. Where Salesforce already owns CRM, Wonderful coexists as the agentic layer above it.",
   },
 ];
 
@@ -1094,10 +1133,10 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <Swords class="w-5 h-5" />
         </span>
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">C · Competitive cohort · who JP procurement compares Wonderful against</h3>
-        <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">05 names</span>
+        <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">9 names · 2 cohorts</span>
       </div>
       <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        Five names that come up in JP enterprise vendor reviews. The right framing in customer conversations: Wonderful is the only one in this cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference]. That combination is the wedge.
+        Nine names, split across two cohorts. The JP-native incumbents (PKSHA, Karakuri, AI Shift, Mobius, Sakana, Jurin AI) are who procurement compares against in vendor reviews today. The widening cohort (Sierra, Decagon, Salesforce Agentforce) is showing up in current RFPs and proves the foreign-vendor pattern is intensifying. The right framing in customer conversations: Wonderful is the only one in either cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference] and a JP-led plan. That combination is the wedge.
       </p>
 
       <!-- Wedge radar SVG · 5 dimensions · Wonderful filled + competitor outlines -->
@@ -1249,7 +1288,28 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             </tr>
           </thead>
           <tbody class="bg-[var(--color-paper)] align-top">
-            {competitors.map((c) => (
+            <!-- COHORT HEADER · JP-native -->
+            <tr class="bg-[var(--color-paper-soft)]">
+              <td colspan="5" class="px-3 py-2 text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink-faint)] border-t-2 border-[var(--color-line)]">
+                JP-native cohort · who procurement compares Wonderful against today
+              </td>
+            </tr>
+            {competitors.filter((c) => c.cohort === "jp").map((c) => (
+              <tr class="border-t border-[var(--color-line-soft)]">
+                <td class="p-3 font-semibold text-[var(--color-ink)]">{c.name}</td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs uppercase tracking-[0.1em]">{c.role}</td>
+                <td class="p-3 text-[var(--color-ink-soft)]">{c.strength}</td>
+                <td class="p-3 text-[var(--color-ink-soft)]">{c.weakness}</td>
+                <td class="p-3 text-[var(--color-ink)] font-medium">{c.wonderfulWedge}</td>
+              </tr>
+            ))}
+            <!-- COHORT HEADER · Global + platform entrants -->
+            <tr class="bg-[var(--color-accent-soft)]/30">
+              <td colspan="5" class="px-3 py-2 text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent-ink)] border-t-2 border-[var(--color-accent)]">
+                Global + platform entrants · the widening cohort · showing up in JP RFPs now
+              </td>
+            </tr>
+            {competitors.filter((c) => c.cohort === "global").map((c) => (
               <tr class="border-t border-[var(--color-line-soft)]">
                 <td class="p-3 font-semibold text-[var(--color-ink)]">{c.name}</td>
                 <td class="p-3 text-[var(--color-ink-soft)] text-xs uppercase tracking-[0.1em]">{c.role}</td>
@@ -1260,6 +1320,11 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             ))}
           </tbody>
         </table>
+      </div>
+
+      <!-- Note about radar scope -->
+      <div class="mt-4 max-w-3xl text-xs text-[var(--color-ink-faint)] italic leading-relaxed">
+        Note on the radar above: scoped to the 5 JP-native incumbents JP procurement compares against most actively today. Jurin AI, Sierra, Decagon, and Salesforce Agentforce are the widening cohort surfacing in current RFPs but not yet the dominant comparison set.
       </div>
     </div>
 
@@ -1277,7 +1342,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     <!-- Narrative bridge into the plan -->
     <div class="story-prose max-w-3xl mb-10">
       <p>
-        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. Instead the first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run in parallel, not sequenced. By the end of week twelve, the goal is pilot terms with the first big-logo internal-workflow customer, a credible hiring framework, and a decision memo on the primary motion (direct, SI-led, or BPO-channel).
+        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. Instead the first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run in parallel, not sequenced. Wonderful's hiring engine is already in flight, so the hiring deliverables here are calibration and screening depth on top of work already happening, not a new recruiter pipeline. By the end of week twelve, the goal is pilot terms with the first big-logo internal-workflow customer, a calibrated framework for the next senior closes, and a decision memo on the primary motion (direct, SI-led, or BPO-channel).
       </p>
     </div>
 
@@ -1300,13 +1365,13 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <span class="standout">First enterprise pilot terms</span> by week 12.
         </h4>
         <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-6 max-w-3xl">
-          Four phases. Engineering and sales run in parallel, not sequenced. By week 12, pilot terms with the first big-logo customer and a credible hiring framework for the Japan team.
+          Four phases. Engineering and sales run in parallel, not sequenced. By week 12, pilot terms with the first big-logo customer plus calibrated screening depth on top of Wonderful's existing hiring engine.
         </p>
 
         <div class="overflow-x-auto flow-stage">
           <svg viewBox="0 0 940 280" preserveAspectRatio="xMidYMid meet" class="w-full max-w-5xl mx-auto block" role="img" aria-labelledby="timeline-title timeline-desc">
             <title id="timeline-title">90-day delivery plan — animated timeline</title>
-            <desc id="timeline-desc">Horizontal timeline with four phases over twelve weeks: Land + playbook (Wk 1–2), Roadmap + compliance (Wk 3–4), Open the funnel (Wk 5–8), Pilot terms + hiring (Wk 9–12). Final milestone at week 12 is pilot terms with the first enterprise customer.</desc>
+            <desc id="timeline-desc">Horizontal timeline with four phases over twelve weeks: Land + playbook (Wk 1–2), Roadmap + compliance (Wk 3–4), Open the funnel (Wk 5–8), Pilot terms + first closes (Wk 9–12). Final milestone at week 12 is pilot terms with the first enterprise customer.</desc>
 
             <defs>
               <linearGradient id="track-grad" x1="0" y1="0" x2="1" y2="0">
@@ -1361,18 +1426,18 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
               <rect x="360" y="100" width="220" height="68" rx="10" fill="url(#phase-grad)" stroke="var(--color-accent)" stroke-width="1.5" />
               <text x="372" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.16em">PHASE 03 · W5–W8</text>
               <text x="372" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Open the funnel</text>
-              <text x="372" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">enterprise meetings · candidate pipeline</text>
+              <text x="372" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">enterprise meetings · senior eng screening</text>
               <line x1="470" y1="168" x2="470" y2="195" stroke="var(--color-accent)" stroke-width="1.5" stroke-dasharray="2 3" />
               <circle cx="470" cy="200" r="8" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="2" />
             </g>
 
-            <!-- Phase 4 · Wk 9-12 · Pilot terms + hiring (THE WIN) -->
+            <!-- Phase 4 · Wk 9-12 · Pilot terms + first closes (THE WIN) -->
             <g class="flow-node" style="animation-delay:1.0s">
               <rect x="590" y="100" width="270" height="68" rx="10" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" />
               <rect x="590" y="100" width="270" height="68" rx="10" fill="none" stroke="var(--color-paper)" stroke-width="0.5" opacity="0.4" stroke-dasharray="3 3" />
               <text x="602" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-paper)" style="letter-spacing:0.16em">PHASE 04 · W9–W12 · TARGET</text>
-              <text x="602" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)" font-weight="600">Pilot terms + hiring</text>
-              <text x="602" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-paper)" opacity="0.85" style="letter-spacing:0.06em">first enterprise pilot · decision memo · hiring framework</text>
+              <text x="602" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)" font-weight="600">Pilot terms + first closes</text>
+              <text x="602" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-paper)" opacity="0.85" style="letter-spacing:0.06em">first enterprise pilot · decision memo · senior closes calibrated</text>
               <line x1="725" y1="168" x2="725" y2="190" stroke="var(--color-accent)" stroke-width="2" />
               <!-- Trophy marker at week 12 -->
               <circle cx="860" cy="200" r="14" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="3" class="flow-pulse" />
