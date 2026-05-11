@@ -21,6 +21,8 @@ import {
   AlertTriangle,
   CircleCheck,
   CheckCircle2,
+  Check,
+  X,
   Send,
   MessagesSquare,
   Calendar,
@@ -162,20 +164,23 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
 
       <div class="prose-block max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
         <p>
-          <strong>The opening:</strong> the "AI Chief of Staff" category has an empty seat in Japan. Xembly (the US category leader, $20M raised) shut down in June 2024. The remaining US entrants (alfred_, Klaio, Ashley AI) are consumer-priced individual tools with no Japanese localization. The category window in Japan is open for roughly 6–9 months before Notion AI / Slack AI / Microsoft Copilot ship comparable cross-app surfaces.
+          <strong>The opening:</strong> "AI Chief of Staff" is a 2023–24 category that hasn't consolidated. The US individual-tier tools — <a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">alfred_</a>, <a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Klaio</a>, <a href="https://askashley.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Ashley AI</a>, <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Alyna</a> — are personal productivity assistants, not team workspaces. The category's most-funded team-focused entrant, <a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Xembly</a>, shut down in 2024. Meanwhile the deeper-pocketed incumbents — <a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion AI</a>, <a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack AI</a>, <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Microsoft Copilot</a> — have each shipped AI surfaces bounded to their own platforms (no cross-app context).
         </p>
         <p>
-          <strong>The proposal you're about to read</strong> answers one question: <em class="font-display">how do we manufacture density inside small Tokyo communities, fast enough to matter, before that window closes?</em>
+          <strong>What no one ships today:</strong> a team-focused AI Chief of Staff with cross-app context AND Japanese-localized affordances (<Term name="Keigo" />, <Term name="Ringi" />). That's the gap Zunou is positioned to close — provided we ship and distribute before any incumbent breaks out of their walled garden. The window isn't a fixed countdown; it closes when one of the incumbents (or a well-funded new entrant) decides to build exactly this.
+        </p>
+        <p>
+          <strong>The proposal you're about to read</strong> answers one question: <em class="font-display">how do we manufacture density inside small Tokyo communities, fast enough to matter, while that window is still open?</em>
         </p>
       </div>
 
-      <!-- Zunou's two use cases — sourced verbatim from zunou.ai -->
+      <!-- Zunou's two product use cases (verbatim from zunou.ai) + our launch audience -->
       <div
         class="mt-12 grid md:grid-cols-2 gap-4 max-w-4xl"
         data-reveal="fade-up"
         data-reveal-delay="3"
       >
-        <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]">
+        <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)] flex flex-col">
           <div class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-3">
             zunou.ai use case · 1
           </div>
@@ -183,27 +188,32 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
           <p class="text-sm text-[var(--color-ink)] italic mb-3 font-display">
             "Routine tasks are now automated."
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4 flex-1">
             Intelligent agents run in the background — route tasks, approvals, follow-ups. Approve / review only when human input is needed.
           </p>
-          <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 mt-auto">
-            <strong class="text-[var(--color-ink-soft)]">Launch plan lands here first.</strong> The 4 Tokyo communities (TAI, AI Tinkerers, Tokyo Founders, Venture Café) are all founder/builder spaces — Phase 1.
+          <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 leading-relaxed">
+            <strong class="text-[var(--color-ink-soft)]">Phase 1 launch audience — broader than the use-case name.</strong> The 4 communities cover Tokyo's <strong class="text-[var(--color-ink-soft)]">builder, operator, and founder population</strong>: TAI = AI engineers / researchers / PMs (mostly builders, not founders); AI Tinkerers = shipping builders; Tokyo Founders = operator-founders; Venture Café = the mix on a weekly rotation. The magic-number mechanic applies wherever there's a small team + many meetings + decisions to track — which is everyone in those rooms.
           </div>
         </div>
 
-        <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]">
-          <div class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-3">
-            zunou.ai use case · 2
+        <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)] flex flex-col">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold">
+              zunou.ai use case · 2
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.14em] px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">
+              Not now
+            </span>
           </div>
           <h3 class="font-display text-2xl mb-2">For Enterprises</h3>
           <p class="text-sm text-[var(--color-ink)] italic mb-3 font-display">
             "Strategic decisions are now real-time."
           </p>
-          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4 flex-1">
             Live exec dashboard — progress, workload, and outcomes across teams, projects, priorities. No more chasing updates.
           </p>
-          <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 mt-auto">
-            <strong class="text-[var(--color-ink-soft)]">Sequenced for Phase 3+.</strong> Bilingual JP scale-ups (Mercari, SmartHR, LayerX, Money Forward) open after the founder community gives us logos to credential against.
+          <div class="text-xs text-[var(--color-ink-faint)] border-t border-[var(--color-line-soft)] pt-3 leading-relaxed">
+            <strong class="text-[var(--color-ink-soft)]">Deliberately out of scope until the platform is proven.</strong> Enterprises buy validated tools, not waitlist betas. Selling here credibly requires: (a) several paying logos from the community phase, (b) operational maturity from Phases 1–3, (c) <Term name="APPI" /> compliance posture, (d) referenceable customers. <strong class="text-[var(--color-ink-soft)]">Realistic open: Phase 5a, conditional on the day-180 stage-gate.</strong> Pre-building relationships earlier (warm intros, advisor introductions) is fine — selling is not.
           </div>
         </div>
       </div>
@@ -221,27 +231,77 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     lede="Every number here is a hypothesis. Every choice a defensible best-guess. If you finish reading and have no objections, we haven't written it well enough."
     tone="soft"
   >
-    <div class="grid sm:grid-cols-2 gap-8 max-w-4xl">
-      <div data-reveal="fade-up">
-        <div class="flex items-center gap-2 mb-4">
+    <div class="grid lg:grid-cols-2 gap-5 max-w-5xl">
+      <!-- IS card -->
+      <div
+        class="tile rounded-xl border border-[var(--color-success)]/25 bg-[var(--color-success-soft)]/30 p-7"
+        data-reveal="fade-up"
+      >
+        <div class="flex items-center gap-2.5 mb-6">
           <CircleCheck class="w-5 h-5 text-[var(--color-success)]" />
-          <h3 class="font-semibold">What this <em class="font-display">is</em></h3>
+          <h3 class="text-[11px] uppercase tracking-[0.18em] font-bold text-[var(--color-success)]">
+            What this <em class="font-display normal-case tracking-normal text-sm">is</em>
+          </h3>
         </div>
-        <ul class="space-y-2.5 text-[var(--color-ink-soft)] leading-relaxed">
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A proposal grounded in evidence, with citations.</span></li>
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A framework with a stop-or-go decision built in.</span></li>
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A contract for what we instrument from week one.</span></li>
+        <ul class="space-y-5">
+          <li class="flex gap-3">
+            <Check class="w-4 h-4 mt-1 shrink-0 text-[var(--color-success)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">Evidence-grounded</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">Every numerical claim is sourced and verifiable. The References section at the end is exhaustive.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <Check class="w-4 h-4 mt-1 shrink-0 text-[var(--color-success)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">Stop-or-go-able</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">A pre-committed <Term name="PMF" /> stage-gate at ~6 months. Three explicit outcomes, agreed in advance.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <Check class="w-4 h-4 mt-1 shrink-0 text-[var(--color-success)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">Instrumented week one</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">The <Term name="KPI" /> tree is the implementation contract. If we can't measure it, we don't claim it.</p>
+            </div>
+          </li>
         </ul>
       </div>
-      <div data-reveal="fade-up" data-reveal-delay="1">
-        <div class="flex items-center gap-2 mb-4">
+
+      <!-- ISN'T card -->
+      <div
+        class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-7"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        <div class="flex items-center gap-2.5 mb-6">
           <AlertTriangle class="w-5 h-5 text-[var(--color-ink-soft)]" />
-          <h3 class="font-semibold">What this <em class="font-display">isn't</em></h3>
+          <h3 class="text-[11px] uppercase tracking-[0.18em] font-bold text-[var(--color-ink-soft)]">
+            What this <em class="font-display normal-case tracking-normal text-sm">isn't</em>
+          </h3>
         </div>
-        <ul class="space-y-2.5 text-[var(--color-ink-soft)] leading-relaxed">
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A final answer — strategy is a living document.</span></li>
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A request for consensus — explicit objections preferred.</span></li>
-          <li class="flex gap-2"><span class="text-[var(--color-ink-faint)]">·</span><span>A sales pitch — this is internal alignment.</span></li>
+        <ul class="space-y-5">
+          <li class="flex gap-3">
+            <X class="w-4 h-4 mt-1 shrink-0 text-[var(--color-ink-soft)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">A final answer</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">Strategy is a living document. We refit the magic number monthly against real cohort data.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <X class="w-4 h-4 mt-1 shrink-0 text-[var(--color-ink-soft)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">A request for consensus</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">Explicit objections are more useful than reluctant nods. Use the vote chips on each decision.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <X class="w-4 h-4 mt-1 shrink-0 text-[var(--color-ink-soft)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-ink)] mb-0.5">A sales pitch</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">This is internal alignment. The external-facing version comes after the 17 decisions are ratified.</p>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -363,40 +423,40 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         </thead>
         <tbody class="bg-[var(--color-paper)]">
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3 font-semibold">Xembly</td>
+            <td class="p-3"><a href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Xembly ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">US</td>
             <td class="p-3"><span class="inline-block px-2 py-0.5 rounded bg-[var(--color-danger-soft)] text-[var(--color-danger)] text-xs font-semibold">Discontinued June 2024</span></td>
             <td class="p-3 text-[var(--color-ink-soft)]">None — exited the market</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3 font-semibold">alfred_</td>
+            <td class="p-3"><a href="https://get-alfred.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">alfred_ ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">US / global</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">$24.99/mo, individual</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Low — wrong price point, no JP localization</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">$24.99/mo · individual</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — personal tool, not a team workspace</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3 font-semibold">Ashley AI · Klaio · Alyna</td>
+            <td class="p-3"><a href="https://klaio.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Klaio ↗</a> · <a href="https://askashley.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Ashley ↗</a> · <a href="https://tryalyna.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Alyna ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">US / EU</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Active, individual-tier</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Low — no JP presence</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Active · individual tier</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — personal productivity, not team-focused</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
-            <td class="p-3 font-semibold">Notion AI</td>
+            <td class="p-3"><a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Notion AI ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">Global · JP language ✓</td>
             <td class="p-3 text-[var(--color-ink-soft)]">Notion-internal data only</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">High on commodity surfaces · low on cross-app agentic</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High on in-Notion · cannot cross to Slack / email / calendar</td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
-            <td class="p-3 font-semibold">Slack AI · MS Copilot</td>
+            <td class="p-3"><a href="https://slack.com/features/ai" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Slack AI ↗</a> · <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">MS Copilot ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">Global · APAC growing 19% YoY</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Single-app surface; embedded distribution</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Highest long-run threat — but neither will localize Keigo / Ringi</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Single-app surface · embedded distribution</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Highest long-run threat · neither localized for <Term name="Keigo" /> / <Term name="Ringi" /></td>
           </tr>
           <tr class="border-t border-[var(--color-line-soft)]">
-            <td class="p-3 font-semibold">Otter · Fireflies</td>
+            <td class="p-3"><a href="https://otter.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Otter ↗</a> · <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Fireflies ↗</a> · <a href="https://granola.ai/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)]">Granola ↗</a></td>
             <td class="p-3 text-[var(--color-ink-soft)]">Global · partial JP</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">Meeting transcription</td>
-            <td class="p-3 text-[var(--color-ink-soft)]">High on transcription · low on agentic CoS</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Meeting transcription / notes</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High on transcription · adjacent, not direct</td>
           </tr>
         </tbody>
       </table>
@@ -410,9 +470,9 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         </p>
       </div>
       <div data-reveal="fade-up" data-reveal-delay="1">
-        <h3 class="font-display text-xl mb-3">The 6–9 month window</h3>
+        <h3 class="font-display text-xl mb-3">What we can credibly own</h3>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Notion AI / Slack AI / Microsoft Copilot will ship cross-app agentic surfaces in the medium term. Zunou's defensibility is three things they will not build: cross-app context (architectural — see §03 MCP moat), JP-localized affordances (Keigo, Ringi), and the community-distributed habit loop.
+          The category is competitive but no one has built exactly Zunou's product. Defensibility comes from three things the incumbents have weak incentives to build: cross-app context (architectural — see §03 MCP moat), Japanese-localized affordances like <Term name="Keigo" /> and <Term name="Ringi" />, and the community-distributed habit loop. The window stays open as long as none of them decides this is worth breaking their walled garden for.
         </p>
       </div>
     </div>
