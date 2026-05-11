@@ -566,7 +566,11 @@ code, .font-mono {
   50%      { opacity: 0.45; }
 }
 
-/* Reduced motion */
+/* Reduced motion — the universal *,*::before,*::after rule below is enough.
+   Animation-duration becomes 0.01ms, fill-mode: forwards still reaches the
+   final state. No percolation-specific overrides needed (and putting them
+   here breaks under Tailwind v4 / Lightning CSS — the rules get lifted out
+   of the media query and apply globally, masking the animation entirely). */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -574,8 +578,4 @@ code, .font-mono {
     transition-duration: 0.01ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
-  .percolation-stage .node { fill: #4a00e0; }
-  .percolation-stage .edge { stroke: #4a00e0; stroke-opacity: 0.85; }
-  .percolation-stage .bridge { stroke: #4a00e0; }
-  .percolation-stage .cluster-label { fill: var(--color-ink); }
 }
