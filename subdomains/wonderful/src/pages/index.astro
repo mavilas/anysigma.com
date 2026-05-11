@@ -78,34 +78,6 @@ const iconToPascal = (s: string) =>
 // CONTENT — kept as data so individual sections stay clean to read
 // =====================================================================
 
-// Marco's track-record credentials (for §05 Evidence)
-const marcoCredentials = [
-  {
-    icon: "phone",
-    headline: "4 enterprise voice-AI deals in Japan",
-    detail:
-      "Sold first, built the product after the deal was signed. Contact centers, real estate, logistics, partner ops. Current Japanese enterprise buyers, current conversations.",
-  },
-  {
-    icon: "shield-check",
-    headline: "SOC II Type I led end-to-end",
-    detail:
-      "In Japan, security review is meeting one. I have the documentation, the playbook, and the answers procurement teams ask for before they evaluate the product itself.",
-  },
-  {
-    icon: "languages",
-    headline: "Voice AI built for 4 JP writing systems",
-    detail:
-      "From scratch, not translated. Hiragana, Katakana, Kanji, Romaji. Keigo speech levels (Sonkeigo, Kenjogo, Teineigo). Cultural silence patterns. Found and fixed the predictable breaking points.",
-  },
-  {
-    icon: "fast-forward",
-    headline: "Japanese enterprise procurement: 12 mo → 3 mo",
-    detail:
-      "Demo in meeting one, security in two, pilot terms in three. Skip a step and the deal dies. I have just run this sequence. The current intel is current.",
-  },
-];
-
 // Four practice areas that map to Wonderful's specific gaps
 const practiceAreas = [
   {
@@ -761,8 +733,8 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   <Section
     id="magic-gifts"
     eyebrow="04 · Magic gifts"
-    title="What bridges old world to promised land. The product plus the operator."
-    lede="Two parts. Wonderful's platform delivers the core 80%. The remaining 20% is JP execution. I bring operator-grade execution on the 20% that determines whether Japan is winnable."
+    title="What bridges old world to promised land. The platform plus the execution."
+    lede="Two parts. The platform delivers the core 80% Wonderful has already shipped. The remaining 20% is execution work that closes the JP-fit gap. Both have to land for Japan to be winnable."
   >
     <!-- PART A: Wonderful's platform features (the strengths) -->
     <div class="mb-16">
@@ -819,12 +791,12 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
           <Briefcase class="w-5 h-5" />
         </span>
-        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Operator-in-residence · the 20% that decides whether Japan is winnable</h3>
+        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · The execution work · what closes the JP-fit gap</h3>
         <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">04 areas</span>
       </div>
       <div class="story-prose max-w-3xl mb-8">
         <p>
-          That platform is the gift Wonderful brings. The second gift is operator-grade execution on the part of Japan that the platform cannot ship on its own. The list below is not a menu of services I am offering to learn. It is a list of things I am actively doing right now, in this market, for this kind of platform. Each one maps to a high-severity gap that procurement will find in §05.
+          Four practice areas close the 20% the platform cannot ship on its own. Each one maps to a high-severity gap that procurement will find in §05. The point of the list is to make the work concrete and finite, not infinite or abstract. Whether the operator who runs each area is internal, contracted, or split across roles is a separate decision (§07).
         </p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4 max-w-6xl">
@@ -869,13 +841,13 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   </Section>
 
   <!-- ============================================================ -->
-  <!-- §05 EVIDENCE — Wonderful's gaps + Japan failure modes + Marco's track record -->
+  <!-- §05 EVIDENCE — Wonderful's gaps + Japan failure modes + competitive cohort -->
   <!-- ============================================================ -->
   <Section
     id="evidence"
     eyebrow="05 · Evidence"
-    title="What works, what doesn't yet, and what I have already shipped."
-    lede="Three lenses. The gaps in Wonderful's current platform that procurement will surface. The Japan-specific failure modes that kill foreign vendors at PoC. And what I have built and sold in this exact market in the past months."
+    title="What works, what doesn't yet, and how procurement reads it."
+    lede="Three lenses. The gaps in Wonderful's current platform that JP procurement will surface. The Japan-specific failure modes that kill foreign vendors at PoC. And the competitive cohort Wonderful gets compared against in JP enterprise vendor reviews."
     tone="soft"
   >
     <!-- PII pull-quote — the procurement reality nobody pre-empts -->
@@ -1291,71 +1263,6 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       </div>
     </div>
 
-    <!-- D · Marco's track record -->
-    <div>
-      <div class="flex items-center gap-2 mb-2">
-        <Award class="w-4 h-4 text-[var(--color-accent)]" />
-        <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">D · My track record · in this exact market, in the past months</h3>
-      </div>
-      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        Not consulting credentials from ten years ago. Current intel from JP enterprise rooms I have been in this quarter. The four facts below are the four reasons I can de-risk the 20% gap that decides whether Japan is winnable.
-      </p>
-      <div class="grid sm:grid-cols-2 gap-4 max-w-5xl mb-8">
-        {marcoCredentials.map((c, i) => {
-          const IconC = Icon(c.icon);
-          return (
-            <div class="rounded-xl border-2 border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/15 p-5" data-reveal="fade-up" data-reveal-delay={i % 2}>
-              <div class="flex items-start gap-3 mb-2">
-                {IconC && <IconC class="w-6 h-6 text-[var(--color-accent)] shrink-0 mt-0.5" />}
-                <h4 class="font-display text-lg leading-tight">{c.headline}</h4>
-              </div>
-              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.detail}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      <!-- Marco bio block — upgraded to a header + chip strip + executive line -->
-      <div class="rounded-xl border-2 border-[var(--color-ink)]/10 bg-[var(--color-paper)] p-6 sm:p-7 max-w-5xl shadow-[0_18px_60px_-32px_rgba(0,0,0,0.18)]" data-reveal="fade-up">
-        <div class="flex items-start gap-4 mb-4">
-          <span class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--color-ink)] text-[var(--color-accent)] shrink-0">
-            <UsersRound class="w-6 h-6" />
-          </span>
-          <div class="flex-1">
-            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-1">The operator · in one line</div>
-            <h4 class="font-display text-xl sm:text-2xl leading-tight text-[var(--color-ink)]">
-              <span class="standout">Marco Avila</span> · Tokyo · 20+ years operating, 10+ in Tokyo
-            </h4>
-          </div>
-        </div>
-        <!-- Career chip strip -->
-        <div class="flex flex-wrap gap-2 mb-4">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
-            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
-            <span class="font-semibold">Rakuten</span><span class="text-[var(--color-ink-soft)]">· CEO's Office</span>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
-            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
-            <span class="font-semibold">Delivery Hero Japan</span><span class="text-[var(--color-ink-soft)]">· Logistics · Localization · CTO</span>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
-            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
-            <span class="font-semibold">Flexport</span><span class="text-[var(--color-ink-soft)]">· CoS to CTO</span>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs">
-            <Building2 class="w-3 h-3 text-[var(--color-ink-faint)]" />
-            <span class="font-semibold">Rocket Internet</span><span class="text-[var(--color-ink-soft)]">· Head of BD, Asia</span>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--color-accent-soft)] border border-[var(--color-accent)]/40 text-xs">
-            <Crown class="w-3 h-3 text-[var(--color-accent)]" />
-            <span class="font-semibold text-[var(--color-accent-ink)]">Jurin AI</span><span class="text-[var(--color-ink-soft)]">· Deputy CEO</span>
-          </span>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          JP business executive <span class="text-[var(--color-ink-faint)]">+</span> working engineer. Ringi conversation in the morning. Pressure-test an ASR pipeline in the afternoon. Bilingual at exec register. <strong class="text-[var(--color-ink)]">The rare profile that can stand in for the President on either side of the table.</strong>
-        </p>
-      </div>
-    </div>
   </Section>
 
   <!-- ============================================================ -->
@@ -1841,16 +1748,6 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <li>· IBM Japan public disclosures · Watson Health JP transition</li>
           <li>· IDC Japan AI follow-up reports · 2020–24</li>
           <li>· Salesforce Einstein JP customer disclosure (public earnings + case studies)</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">My background</h3>
-        <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· Rakuten · CEO's Office · enterprise AI + ecosystem</li>
-          <li>· Delivery Hero Japan · Logistics, Localization, and CTO roles</li>
-          <li>· Flexport · Chief of Staff to CTO · global engineering ops</li>
-          <li>· Rocket Internet · Head of BD, Asia · enterprise growth</li>
-          <li>· Jurin AI · Deputy CEO · JP enterprise AI · 4 voice-AI deals · SOC II Type I</li>
         </ul>
       </div>
     </div>
