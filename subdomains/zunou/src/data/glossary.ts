@@ -13,7 +13,7 @@ export interface GlossaryEntry {
   short: string;
   long: string;
   jp?: string;
-  group: "metric" | "japanese" | "growth" | "product" | "physics" | "ai";
+  group: "metric" | "japanese" | "growth" | "product" | "physics" | "ai" | "zunou";
 }
 
 export const glossary: Record<string, GlossaryEntry> = {
@@ -122,6 +122,80 @@ export const glossary: Record<string, GlossaryEntry> = {
     group: "physics",
   },
 
+  // === Zunou product surfaces & features (from internal codebase) ===
+  Nova: {
+    short:
+      "Zunou's flagship mobile client — iOS, Android, Web. Expo / React Native. 30,000+ LOC across 50+ screens.",
+    long: "Nova is Zunou's next-generation mobile client: Voice Agent · Meeting Intelligence · Relays · cross-org connections · customizable home dashboard (12+ widgets, 3 hero styles, 5 templates). Designed as a 'personal AI command center' with an always-present AI bubble inspired by iOS AssistiveTouch.",
+    group: "zunou",
+  },
+  Dashboard: {
+    short:
+      "Zunou's desktop power-user surface. Full React SPA. Where heavy users live during the workday.",
+    long: "Zunou Dashboard is the desktop web client — Vitals home, 6-view task management (List · Table · Calendar · Kanban · Gantt · Timeline), full meeting replay with transcripts + sentiment + talk time, rich-text Slate-based chat, Quill-based notes, org chart, billing.",
+    group: "zunou",
+  },
+  Scout: {
+    short:
+      "Zunou's pioneering mobile hybrid (Capacitor). Being superseded by Nova for new features; still serves existing users.",
+    long: "Scout is the original Capacitor-based hybrid client that proved the concept. Wraps the web experience with native auth, push notifications, voice. New product investment now flows to Nova; Scout continues serving existing users.",
+    group: "zunou",
+  },
+  Relays: {
+    short:
+      "Zunou's autonomous AI delegation feature. Send an agent to gather info from a teammate; it has the conversation and reports back.",
+    long: "Relays are Zunou's most differentiated capability. An executive creates a Relay with an objective; the recipient receives a push notification and converses with Zunou's AI (voice or text); the AI synthesizes the findings and reports back. DynamoDB-backed (scout-errand-service Lambda) with Pusher real-time status. No major competitor ships anything analogous.",
+    group: "zunou",
+  },
+  "Daily Debrief": {
+    short:
+      "Zunou's signature AI experience. Starts the day with a comprehensive voice or text briefing.",
+    long: "Daily Debrief gathers today's + tomorrow's calendar, overdue tasks, recent actionables, and pending insights into a comprehensive briefing — voice (immersive) or text (efficient). Available as a home widget or a full session. The daily-ritual hook in our stickiness mechanics (§06.7 panel C).",
+    group: "zunou",
+  },
+  "Brain Dump": {
+    short:
+      "Zunou Nova's one-tap voice capture. Speak your thoughts; Zunou creates a structured event with summary + action items.",
+    long: "Brain Dump is one-tap voice recording on Nova with real-time AssemblyAI transcription. Speak your thoughts; Zunou creates an event with AI-generated summary, action items, insights, takeaways. Competitive with Otter.ai but with full business-context integration.",
+    group: "zunou",
+  },
+  "Instant Meeting": {
+    short:
+      "Zunou Nova's 2-tap impromptu meeting recording. Faster than Otter (3 taps). Auto speaker diarization + retroactive calendar entry.",
+    long: "Instant Meeting records impromptu meetings with attendee tracking and speaker diarization. 2 taps to start (Otter is 3). Post-recording: AI assigns speakers, generates per-speaker transcripts, creates retroactive calendar entries, extracts insights.",
+    group: "zunou",
+  },
+  Spaces: {
+    short:
+      "Zunou's white-label platform play. Three types: Event Spaces (conferences) · Community Spaces (ongoing groups) · Managed Spaces (enterprise).",
+    long: "Spaces transform Zunou from a team tool into a platform. Event Spaces (time-bound: conferences scan a QR code; Nova rebrands; auto-channels per track). Community Spaces (permanent: alumni networks, professional guilds). Managed Spaces (enterprise white-label: admins push config). Spaces is the Zoom-playbook viral mechanic for Phase 2 GTM.",
+    group: "zunou",
+  },
+  Pulse: {
+    short:
+      "Zunou's per-workspace command center. Tracks workspace health: overdue tasks, pending insights, unread.",
+    long: "Pulses are Zunou's workspace-health dashboard — overdue tasks, pending insights, unread messages, 'Needs Attention' signals. Not a chat inbox — a project-health surface. Each cross-org connection also gets its own dedicated Pulse with tasks / notes / messaging scoped to that relationship.",
+    group: "zunou",
+  },
+  "Lambda AI Proxy": {
+    short:
+      "Zunou's server-side prompt + tool engine. All prompts, tool definitions, behavioral rules live here — never on the client.",
+    long: "The Lambda AI Proxy is Zunou's server-side IP: prompts, tool definitions, 11 shared behavioral rules across Voice and Text agents, session-type-based tool access. Competitors can't reverse-engineer our behavioral tuning. Improvements deploy in minutes, server-side — no app updates needed.",
+    group: "zunou",
+  },
+  "Tool-based selective retrieval": {
+    short:
+      "Zunou's MIT-aligned AI architecture. Targeted tool calls instead of stuffing everything into context. ~100× token reduction.",
+    long: "Tool-based selective retrieval is Zunou's core architectural choice: the agent decides what to look up via 136+ production tools (calendar / tasks / meetings / notes / chats / insights / relays / contacts / etc.) and retrieves only what's relevant. MIT (Dec 2025) research showed context-stuffing collapses to ~0.04% accuracy on relational reasoning at scale. Zunou independently developed an architecture aligned with MIT's Recursive Language Model research before it was published.",
+    group: "ai",
+  },
+  "Realtime API": {
+    short:
+      "OpenAI's sub-second voice-AI WebSocket. The 'iPhone moment' for enterprise voice. Powers Zunou's Voice Agent.",
+    long: "OpenAI Realtime API (late 2024) made sub-second conversational AI possible. Zunou's Voice Agent is built on it: VAD (voice activity detection), interruption handling, 18 languages with dialect support, 8 voice options, speed/style control, camera integration mid-conversation. Voice session cost ~$0.90 vs text ~$0.02 — 50–100× cheaper to keep most usage in Text Agent.",
+    group: "ai",
+  },
+
   // === AI / technical ===
   MCP: {
     short:
@@ -190,7 +264,7 @@ export const glossary: Record<string, GlossaryEntry> = {
   TAI: {
     short:
       "Tokyo AI — Japan's largest technical AI community. 4,000+ members. Launch community #1.",
-    long: "Tokyo AI (TAI) — the largest technical AI community in Japan. Engineers, researchers, investors, PMs. Founded by Ilya Kulyatin. Monthly meetups + Connpass + Slack. 4,000+ members as of May 2026.",
+    long: "Tokyo AI (TAI) — the largest technical AI community in Japan. Engineers, researchers, investors, PMs. Founded by Ilya Kulyatin. Recurring meetups + Connpass + WhatsApp as the persistent community channel. 4,000+ members as of May 2026.",
     group: "japanese",
   },
   AiSalon: {
@@ -257,6 +331,7 @@ export const groupTitles: Record<GlossaryEntry["group"], string> = {
   growth: "Growth & product",
   physics: "Physics & network theory",
   ai: "AI & technical",
+  zunou: "Zunou product surfaces & features",
   japanese: "Japan-specific",
   product: "Business & process",
 };
@@ -266,6 +341,7 @@ export const groupOrder: GlossaryEntry["group"][] = [
   "growth",
   "physics",
   "ai",
+  "zunou",
   "japanese",
   "product",
 ];

@@ -234,6 +234,338 @@ code, .font-mono {
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
+/* === Big-number stat block (replaces overuse of small text-lg numbers) ===
+   For headline figures the reader should scan first.
+   Use sparingly — these are anchors, not decoration. */
+.stat-xl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.25rem 1.4rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: var(--color-paper);
+  transition: border-color 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stat-xl:hover {
+  border-color: var(--color-ink-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.1);
+}
+.stat-xl .stat-xl-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  font-weight: 600;
+}
+.stat-xl .stat-xl-figure {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.stat-xl .stat-xl-figure.accent { color: var(--color-accent); }
+.stat-xl .stat-xl-label {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-ink-soft);
+}
+.stat-xl .stat-xl-caveat {
+  font-size: 0.75rem;
+  color: var(--color-ink-faint);
+  line-height: 1.5;
+}
+.stat-xl.featured {
+  border-color: var(--color-accent);
+  border-width: 2px;
+}
+
+/* === Callout patterns — consolidated to 3 roles ===
+   .callout-stripe : neutral panel with a thin left accent — for "important but not the ask"
+   .callout-quiet  : flat paper-soft panel — for asides, glossary cross-refs, notes
+   .callout-proposal: keep existing accent-bordered pattern in markup — for the actual asks
+   Most existing colored callouts should migrate to .callout-stripe. */
+.callout-stripe {
+  position: relative;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+.callout-stripe.tone-warn   { border-left-color: var(--color-warning); }
+.callout-stripe.tone-danger { border-left-color: var(--color-danger); }
+.callout-stripe.tone-ok     { border-left-color: var(--color-success); }
+
+.callout-quiet {
+  background: var(--color-paper-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+
+/* === Tables: two purposes, two styles ===
+   .data-table : capability matrices, pricing tiers, sensitivity tables.
+                 Tabular numerals, alternating row tint, stronger header.
+   .ref-table  : long reference lists (community attack list, budgets, analytics cadence).
+                 Calmer header, no row tint, more rows visible. */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.data-table thead th {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.875rem 1rem;
+}
+.data-table tbody td {
+  padding: 0.875rem 1rem;
+  vertical-align: top;
+  font-size: 0.9375rem;
+  color: var(--color-ink-soft);
+  border-top: 1px solid var(--color-line-soft);
+}
+.data-table tbody tr:nth-child(even) td {
+  background: var(--color-paper-soft);
+}
+.data-table tbody tr td:first-child {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.data-table .col-emphasis {
+  background: var(--color-accent-soft) !important;
+  color: var(--color-accent-ink) !important;
+  font-weight: 700;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.ref-table thead th {
+  background: var(--color-paper-soft);
+  color: var(--color-ink);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  padding: 0.75rem 0.875rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.ref-table tbody td {
+  padding: 0.75rem 0.875rem;
+  vertical-align: top;
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+  border-top: 1px solid var(--color-line-soft);
+  line-height: 1.55;
+}
+.ref-table tbody tr td:first-child {
+  color: var(--color-ink);
+}
+
+/* === Percolation / sympathetic-detonation animation (§05) ===
+   4 community clusters ignite in sequence; bridge edges between
+   adjacent clusters activate as ignition spreads.
+   The animation plays once when scrolled into view (triggered by
+   the .is-visible class added by the existing IntersectionObserver). */
+.percolation-stage .node {
+  fill: #d4d4d4;
+  transition: fill 0.5s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.percolation-stage .node.label {
+  fill: var(--color-ink-faint);
+}
+.percolation-stage .edge {
+  stroke: #d4d4d4;
+  stroke-width: 1;
+  stroke-opacity: 0.55;
+  transition: stroke 0.4s ease, stroke-opacity 0.4s ease;
+}
+.percolation-stage .bridge {
+  stroke: transparent;
+  stroke-width: 1.8;
+  stroke-dasharray: 5 3;
+  stroke-linecap: round;
+  transition: stroke 0.4s ease;
+}
+
+.percolation-stage.is-visible .node {
+  animation: percolation-ignite 0.6s var(--ignite-delay, 0s) forwards
+             cubic-bezier(0.16, 1, 0.3, 1);
+}
+.percolation-stage.is-visible .node.epicenter {
+  animation: percolation-ignite-epicenter 0.7s var(--ignite-delay, 0s) forwards
+             cubic-bezier(0.16, 1, 0.3, 1);
+}
+.percolation-stage.is-visible .edge {
+  animation: percolation-edge 0.5s var(--ignite-delay, 0s) forwards;
+}
+.percolation-stage.is-visible .bridge {
+  animation: percolation-bridge 0.7s var(--bridge-delay, 0s) forwards;
+}
+.percolation-stage.is-visible .cluster-label {
+  animation: percolation-label 0.6s var(--ignite-delay, 0s) forwards;
+}
+
+@keyframes percolation-ignite {
+  0%   { fill: #d4d4d4; }
+  50%  { fill: #ece5fb; }
+  100% { fill: #4a00e0; }
+}
+
+@keyframes percolation-ignite-epicenter {
+  0%   { fill: #d4d4d4; transform: scale(1); }
+  30%  { fill: oklch(0.68 0.18 75); transform: scale(1.35); }
+  60%  { fill: #4a00e0; transform: scale(1.15); }
+  100% { fill: #4a00e0; transform: scale(1); }
+}
+
+@keyframes percolation-edge {
+  0%   { stroke: #d4d4d4; stroke-opacity: 0.55; }
+  100% { stroke: #4a00e0; stroke-opacity: 0.85; }
+}
+
+@keyframes percolation-bridge {
+  0%   { stroke: transparent; stroke-dashoffset: 24; }
+  50%  { stroke: oklch(0.68 0.18 75 / 0.9); stroke-dashoffset: 12; }
+  100% { stroke: #4a00e0; stroke-dashoffset: 0; }
+}
+
+@keyframes percolation-label {
+  0%   { fill: var(--color-ink-faint); }
+  100% { fill: var(--color-ink); }
+}
+
+/* === Gap status badges (§13) ===
+   ● built · ◐ partial · ○ open
+   Drawn as circles using border + gradient so they survive theme tweaks. */
+.gap-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.gap-status::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gap-status.built {
+  background: var(--color-success);
+}
+.gap-status.partial {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-warning);
+  /* half-fill via conic-gradient */
+  background-image: conic-gradient(
+    from 270deg,
+    var(--color-warning) 0deg 180deg,
+    transparent 180deg 360deg
+  );
+}
+.gap-status.open {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-ink-faint);
+}
+
+.gap-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.625rem;
+  align-items: flex-start;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-line-soft);
+}
+.gap-row:last-child { border-bottom: 0; }
+.gap-row .gap-status { margin-top: 0.2rem; }
+.gap-row .gap-title { font-weight: 600; color: var(--color-ink); font-size: 0.875rem; line-height: 1.4; }
+.gap-row .gap-detail { font-size: 0.78rem; color: var(--color-ink-faint); line-height: 1.5; margin-top: 0.2rem; }
+.gap-row .gap-detail code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  padding: 0.05em 0.3em;
+  background: var(--color-paper-soft);
+  border-radius: 3px;
+}
+
+.gap-summary-strip {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-ink-soft);
+  align-items: center;
+}
+.gap-summary-strip .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.55rem;
+  background: var(--color-paper-soft);
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* === Staggered reveal for child elements (funnel stages, timeline bars) === */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal-stagger].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal-stagger].is-visible > *:nth-child(1) { transition-delay: 0ms; }
+[data-reveal-stagger].is-visible > *:nth-child(2) { transition-delay: 100ms; }
+[data-reveal-stagger].is-visible > *:nth-child(3) { transition-delay: 200ms; }
+[data-reveal-stagger].is-visible > *:nth-child(4) { transition-delay: 300ms; }
+[data-reveal-stagger].is-visible > *:nth-child(5) { transition-delay: 400ms; }
+[data-reveal-stagger].is-visible > *:nth-child(6) { transition-delay: 500ms; }
+
+/* TODAY-marker pulse on the phase-timeline */
+.today-pulse {
+  animation: today-pulse 2s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes today-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -242,4 +574,8 @@ code, .font-mono {
     transition-duration: 0.01ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .percolation-stage .node { fill: #4a00e0; }
+  .percolation-stage .edge { stroke: #4a00e0; stroke-opacity: 0.85; }
+  .percolation-stage .bridge { stroke: #4a00e0; }
+  .percolation-stage .cluster-label { fill: var(--color-ink); }
 }
