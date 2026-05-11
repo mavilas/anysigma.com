@@ -4,35 +4,17 @@ import Section from "../components/Section.astro";
 import Stat from "../components/Stat.astro";
 import CaseStudy from "../components/CaseStudy.astro";
 import Decision from "../components/Decision.astro";
+import Community from "../components/Community.astro";
 import {
   Flag,
   CheckSquare,
   BookOpen,
-  ArrowUpRight,
-  Skull,
-  TrendingUp,
-  Bot,
   AlertTriangle,
-  Plug,
-  Globe,
-  Network,
-  UsersRound,
-  CalendarCheck,
-  Sparkles,
-  Target,
-  CircleDollarSign,
-  ReceiptText,
-  GitPullRequestArrow,
   CircleCheck,
-  Layout as LayoutIcon,
-  MessageCircle,
-  Figma,
-  Mail,
-  UserCog,
-  Cpu,
-  Lightbulb,
-  FilePenLine,
-  Zap,
+  CheckCircle2,
+  Send,
+  MessagesSquare,
+  Calendar,
 } from "@lucide/astro";
 
 const decisions = [
@@ -377,6 +359,51 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
+  <!-- LAUNCH COMMUNITIES -->
+  <Section
+    id="communities"
+    eyebrow="The four"
+    title="Tokyo. Same week. Synchronized."
+    lede="Not picked for prestige. Picked for member overlap — so a launch attendee at AI Tinkerers Ginza on Tuesday sees three people from the launch at Venture Café Toranomon on Thursday."
+  >
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <Community
+        name="TAI (Tokyo AI)"
+        members="4,000+ members"
+        channel="Monthly meetup + Connpass + Slack"
+        rationale="Largest technical AI community in Japan. Engineers, researchers, investors, PMs. Cross-cuts every other community in our launch graph."
+        url="https://www.tokyoai.jp/"
+        icon="layers"
+      />
+      <Community
+        name="AI Tinkerers Ginza"
+        members="~200 selective"
+        channel="Monthly demo nights"
+        rationale="Highest-signal builders — the people who write the tools other engineers adopt. If they pick up Zunou, it spreads from there."
+        url="https://tokyo.aitinkerers.org/"
+        icon="wrench"
+        revealDelay={1}
+      />
+      <Community
+        name="Tokyo Founders Group"
+        members="~150 operators"
+        channel="Private list"
+        rationale="Operator-founders — exactly Beachhead A ICP. Bilingual, English-first leadership at Tokyo scale-ups."
+        icon="rocket"
+        revealDelay={2}
+      />
+      <Community
+        name="Venture Café Toranomon"
+        members="Weekly rotating"
+        channel="Thursday physical gathering"
+        rationale="Highest-frequency repeated touchpoint in Tokyo. Same place every Thursday — compounding density through repetition."
+        url="https://venturecafetokyo.org/"
+        icon="coffee"
+        revealDelay={3}
+      />
+    </div>
+  </Section>
+
   <!-- CASE STUDIES -->
   <Section
     id="case-studies"
@@ -596,95 +623,186 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
-  <!-- READ MORE -->
+  <!-- HONEST GAPS -->
   <Section
-    eyebrow="Where to go from here"
-    title="Read by role."
-    lede="The depth lives in the GitHub research repo — different sections for different readers."
+    eyebrow="Honest about what's missing"
+    title="What we still need to build before launch."
+    lede="A real plan names its gaps. Four operational gaps surfaced in the audit became Decisions 14–17 above. Here's what stays open between now and Phase 1."
   >
     <div class="grid md:grid-cols-2 gap-4 max-w-4xl">
-      <a
-        href="https://github.com/mavilas/zunou/blob/staging/rollout-strategy.md"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
         data-reveal="fade-up"
       >
-        <div class="flex items-start justify-between mb-3">
-          <UserCog class="w-5 h-5 text-[var(--color-accent)]" />
-          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">
+            Strategic — 5 gaps
+          </span>
         </div>
-        <h3 class="font-medium mb-1.5">Malek (founder / CEO)</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
-          §0 executive summary + §19 the 17 decisions. ~30 min.
-        </p>
-        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
-          rollout-strategy.md
-        </code>
-      </a>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+          <li>· Pricing v0 (tier shape + self-serve upgrade)</li>
+          <li>· Customer support model (who answers in JP/EN, on what channel)</li>
+          <li>· Crisis / outage playbook for launch week</li>
+          <li>· Hiring plan tied to day-180 stage-gate</li>
+          <li>· Advisor / investor update cadence</li>
+        </ul>
+      </div>
 
-      <a
-        href="https://github.com/mavilas/zunou/blob/staging/product-requirements.md"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
         data-reveal="fade-up"
         data-reveal-delay="1"
       >
-        <div class="flex items-start justify-between mb-3">
-          <Cpu class="w-5 h-5 text-[var(--color-accent)]" />
-          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">
+            Product — 7 gaps
+          </span>
         </div>
-        <h3 class="font-medium mb-1.5">Engineering / Product</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
-          MoSCoW spec, 14-day onboarding, i18n M7, nudge mechanics §11. ~60 min.
-        </p>
-        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
-          product-requirements.md
-        </code>
-      </a>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+          <li>· Mobile / PWA experience details</li>
+          <li>· Account deletion + data export (APPI)</li>
+          <li>· Team admin / permissions UX</li>
+          <li>· Notification preferences</li>
+          <li>· Performance budget + JP CDN</li>
+          <li>· Accessibility (WCAG AA)</li>
+          <li>· Error recovery during meetings</li>
+        </ul>
+      </div>
 
-      <a
-        href="https://github.com/mavilas/zunou/blob/staging/rollout-strategy.md#3-2026-trends-shaping-this-play"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
         data-reveal="fade-up"
         data-reveal-delay="2"
       >
-        <div class="flex items-start justify-between mb-3">
-          <Lightbulb class="w-5 h-5 text-[var(--color-accent)]" />
-          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">
+            GTM artifacts — 8 gaps
+          </span>
         </div>
-        <h3 class="font-medium mb-1.5">Advisor</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
-          §3 trends + §4.4 case studies + §15 risks + §16 FAQ. ~45 min.
-        </p>
-        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
-          rollout-strategy.md
-        </code>
-      </a>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+          <li>· Onboarding email copy (cadence ready)</li>
+          <li>· Founder demo script for AI Tinkerers</li>
+          <li>· Community-owner pitch deck (separate from this)</li>
+          <li>· Investor pitch deck</li>
+          <li>· Partnership MoU template</li>
+          <li>· PR Times release calendar</li>
+          <li>· JP press relationships</li>
+          <li>· Customer reference library (Phase 2)</li>
+        </ul>
+      </div>
 
-      <a
-        href="https://github.com/mavilas/zunou/blob/staging/content-engine.md"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
         data-reveal="fade-up"
         data-reveal-delay="3"
       >
-        <div class="flex items-start justify-between mb-3">
-          <FilePenLine class="w-5 h-5 text-[var(--color-accent)]" />
-          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">
+            Measurement + risk — 8 gaps
+          </span>
         </div>
-        <h3 class="font-medium mb-1.5">Content / SEO</h3>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
-          3-stream model, JP+EN keywords, IndexNow, SpamBrain risk. ~30 min.
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 leading-relaxed">
+          <li>· Cohort analysis cadence (Mon / first Friday)</li>
+          <li>· Attribution model (last-touch v0)</li>
+          <li>· Qualitative feedback loop post-launch</li>
+          <li>· Churn / exit interview process</li>
+          <li>· Single-founder dependency contingency</li>
+          <li>· Competitive-event response (Notion AI launch, etc.)</li>
+          <li>· Launch-community-cancellation backup</li>
+          <li>· Anthropic API outage graceful degradation</li>
+        </ul>
+      </div>
+    </div>
+
+    <p
+      class="mt-8 text-sm text-[var(--color-ink-soft)] max-w-3xl italic leading-relaxed"
+      data-reveal="fade-up"
+    >
+      Tagged: <strong class="text-[var(--color-ink)]">MUST</strong> before Phase 1 · <strong class="text-[var(--color-ink)]">SHOULD</strong> before Phase 2 · <strong class="text-[var(--color-ink)]">DEFER</strong> to Phase 3+. The 17 decisions above resolve the highest-priority of these. The remaining 24 need owners, dates, and tracking — Phase 0 work items.
+    </p>
+  </Section>
+
+  <!-- HOW TO ENGAGE -->
+  <Section
+    eyebrow="How to engage"
+    title="React on the 17. Push back specifically. Default = ship."
+    lede="We don't need consensus — we need explicit objections so we can address them or proceed with the disagreement noted."
+    tone="ink"
+  >
+    <div class="grid md:grid-cols-2 gap-4 max-w-4xl">
+      <div
+        class="rounded-xl p-6 border border-[var(--color-paper-soft)]/20 bg-[var(--color-paper)]/5"
+        data-reveal="fade-up"
+      >
+        <CheckCircle2 class="w-5 h-5 text-[var(--color-accent)] mb-4" />
+        <h3 class="font-medium mb-2 text-[var(--color-paper)]">
+          If you're on board
+        </h3>
+        <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">
+          A single thumbs-up reply on the 17 is enough. We move forward and lock the Phase 0 owners + dates.
         </p>
-        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
-          content-engine.md
-        </code>
-      </a>
+      </div>
+
+      <div
+        class="rounded-xl p-6 border border-[var(--color-warning)]/40 bg-[var(--color-warning)]/5"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        <AlertTriangle class="w-5 h-5 text-[var(--color-warning)] mb-4" />
+        <h3 class="font-medium mb-2 text-[var(--color-paper)]">
+          If you have a concern
+        </h3>
+        <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">
+          Name the specific decision number + the alternative you'd ratify instead. We'll add it to the agenda for the live discussion.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-[var(--color-paper-soft)]/15 pt-10" data-reveal="fade-up" data-reveal-delay="2">
+      <h3 class="font-display text-2xl mb-6 text-[var(--color-paper)]">
+        Three ways to respond
+      </h3>
+      <div class="grid sm:grid-cols-3 gap-6 max-w-4xl">
+        <div class="flex gap-3">
+          <Send class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-0.5" />
+          <div>
+            <div class="text-sm font-medium text-[var(--color-paper)] mb-1">
+              Reply to Marco
+            </div>
+            <p class="text-xs text-[var(--color-paper-soft)] leading-relaxed">
+              Email or Slack DM. Decision number + ✅ / ⚠️ / ❌. One line each is fine.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <MessagesSquare class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-0.5" />
+          <div>
+            <div class="text-sm font-medium text-[var(--color-paper)] mb-1">
+              Drop into the team thread
+            </div>
+            <p class="text-xs text-[var(--color-paper-soft)] leading-relaxed">
+              Slack thread on the launch channel. Everyone sees the reactions at once — fastest path to alignment.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <Calendar class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-0.5" />
+          <div>
+            <div class="text-sm font-medium text-[var(--color-paper)] mb-1">
+              Take a slot in the live review
+            </div>
+            <p class="text-xs text-[var(--color-paper-soft)] leading-relaxed">
+              30-min decision meeting once we have written reactions. Calendar link from Marco when scheduled.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 max-w-3xl" data-reveal="fade-up" data-reveal-delay="3">
+      <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed italic">
+        "If you finish reading this and have no objections, we haven't written it well enough."
+      </p>
     </div>
   </Section>
 </Layout>
