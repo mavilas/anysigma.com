@@ -2,25 +2,30 @@
 import Layout from "../layouts/Layout.astro";
 import { getDictionary } from "../i18n";
 
-const lang = "ja";
-const t = getDictionary(lang);
+const t = getDictionary("ja"); // Using the shared schema
 ---
 
-<Layout lang={lang}>
+<Layout lang="ja">
   <div class="content wrap">
     <div class="status-badge" data-reveal="fade-up">{t.parking.status}</div>
-    <h1 data-reveal="fade-up" data-reveal-delay="1">
-      <span class="accent-text">any</span>sigma
-    </h1>
-    <p class="lead" data-reveal="fade-up" data-reveal-delay="2">
-      {t.parking.message}
-    </p>
-    <p class="submessage" data-reveal="fade-up" data-reveal-delay="3">
-      {t.parking.submessage}
-    </p>
-    <div class="actions" data-reveal="fade-up" data-reveal-delay="4">
-      <a href="mailto:hello@anysigma.com" class="button">{t.parking.cta}</a>
-      <a href="/en/" class="lang-switch">English</a>
+    
+    <div class="brand-block" data-reveal="fade-up" data-reveal-delay="1">
+      <h1><span class="accent-text">any</span>sigma</h1>
+    </div>
+
+    <!-- Bilingual Message Stack -->
+    <div class="message-stack">
+      <div class="message-group" data-reveal="fade-up" data-reveal-delay="2">
+        <p class="lead">{t.parking.ja.message}</p>
+        <p class="submessage">{t.parking.ja.submessage}</p>
+      </div>
+
+      <div class="divider" data-reveal="fade-up" data-reveal-delay="3"></div>
+
+      <div class="message-group" data-reveal="fade-up" data-reveal-delay="4">
+        <p class="lead en-text">{t.parking.en.message}</p>
+        <p class="submessage en-text">{t.parking.en.submessage}</p>
+      </div>
     </div>
   </div>
 </Layout>
@@ -31,43 +36,65 @@ const t = getDictionary(lang);
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-block: 2rem;
   }
 
   .status-badge {
     background: color-mix(in oklch, var(--accent), transparent 85%);
     color: var(--accent);
-    padding: 0.25rem 0.75rem;
+    padding: 0.35rem 1rem;
     border-radius: 99px;
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 2rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 3rem;
     border: 1px solid color-mix(in oklch, var(--accent), transparent 70%);
+  }
+
+  .message-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 4rem;
+  }
+
+  .message-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--line-strong);
+    opacity: 0.5;
   }
 
   .submessage {
     color: var(--muted);
-    margin-top: 1rem;
-    font-size: 1.125rem;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    max-width: 40ch;
+    font-weight: 400;
   }
 
-  .actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+  .en-text {
+    font-family: var(--font);
+    letter-spacing: -0.01em;
   }
 
-  .lang-switch {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
+  .lead.en-text {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    opacity: 0.9;
   }
 
-  .lang-switch:hover {
-    color: var(--accent);
+  @media (max-width: 640px) {
+    .message-stack {
+      margin-top: 2.5rem;
+      gap: 2rem;
+    }
   }
 </style>

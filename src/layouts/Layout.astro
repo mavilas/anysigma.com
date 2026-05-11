@@ -59,16 +59,7 @@ const ogImageUrl = new URL(ogImage, "https://anysigma.com").toString();
   <body>
     <!-- The Tokyo Background SVG -->
     <div class="background-storm"></div>
-    
-    <header class="header wrap">
-      <a href={lang === "ja" ? "/" : "/en/"} class="logo" aria-label={t.accessibility.home}>
-        <img src="/anysigma-mark.svg" alt="" width="32" height="32" class="logo-mark" />
-        <span class="logo-text"><span>any</span>sigma</span>
-      </a>
-      <div class="nav-actions">
-        <a href={t.language.switchHref} class="btn-lang">{t.language.switchLabel}</a>
-      </div>
-    </header>
+    <div class="scanlines"></div>
 
     <main id="main">
       <slot />
