@@ -1255,40 +1255,263 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
-  <!-- 07 · COMMITMENT -->
+  <!-- 09 · COMMITMENT -->
   <Section
     id="commitment"
     number="09"
-    eyebrow="What we're committing"
-    title="One number is a commitment. The rest are working hypotheses."
-    lede="We're explicit about which is which. Pretending the budget envelope or per-user cost is locked-in would be dishonest at this stage."
+    eyebrow="Showing the math"
+    title="Where the numbers come from — none of them are locked."
+    lede="Three financial questions the team needs to discuss: the KGI ARR target, the inference cost ceiling, and the budget envelope. Below: how the working estimates were derived, plus alternate scenarios. Numbers ratified together in §12 decisions, not unilaterally here."
   >
-    <div class="grid md:grid-cols-3 gap-4 mb-10">
-      <Stat
-        icon="target"
-        value="¥30M ARR"
-        label="Aspirational KGI"
-        caveat="Within 12 months of synchronized launch · ≥20% MoM in second half"
-      />
-      <Stat
-        icon="circle-dollar-sign"
-        value="¥600 / user / mo"
-        label="Working free-tier inference cap"
-        caveat="Hypothesis to test against real consumption. Will refit at month 1."
-        revealDelay={1}
-      />
-      <Stat
-        icon="receipt-text"
-        value="¥18–24M"
-        label="Working budget envelope (TBD)"
-        caveat="Refine after Phase 0 produces real usage data."
-        revealDelay={2}
-      />
+
+    <!-- KGI / ARR scenarios -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          A · the KGI question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">how much ARR by month 12</span>
+      </div>
+      <h3 class="font-display text-3xl mb-5">
+        How much paid revenue in year 1 is "we're working"?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        The KGI signals whether the launch is producing real business, not just signups. Three scenarios — each derived from a different community-conversion assumption against the same launch funnel.
+      </p>
+
+      <!-- Scenario table -->
+      <div class="overflow-x-auto -mx-6 px-6 mb-5">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+          <thead class="bg-[var(--color-paper-soft)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Scenario</th>
+              <th class="text-left p-3 font-semibold">Active users by month 12</th>
+              <th class="text-left p-3 font-semibold">Paid conversion</th>
+              <th class="text-left p-3 font-semibold">Avg ¥/paid user/mo</th>
+              <th class="text-left p-3 font-semibold">Implied ARR</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[var(--color-paper)]">
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Cautious</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~1,500</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">8%</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥1,500</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥2.2M ARR</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-accent-soft)]/30">
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Working estimate</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~4,000</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">12%</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,000</td>
+              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">~¥11.5M ARR</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Original aspiration</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~6,250</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">15%</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,500</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥28M ARR ≈ ¥30M</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Stretch</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~10,000</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">18%</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥3,000</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥65M ARR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-5 max-w-4xl"
+      >
+        <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-3">
+          What each input rests on
+        </h4>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>· <strong class="text-[var(--color-ink)]">Active users by month 12:</strong> pilot → adjacent → scale. Starts with ~50 TAI pilot users, expands by 1.5–2× per community at each phase. <strong>~4,000</strong> is "if we onboard P1+P2+P3 communities and hit ~25% magic-number conversion on cumulative signups."</li>
+          <li>· <strong class="text-[var(--color-ink)]">Paid conversion:</strong> 12% is a typical Notion / Linear free-to-paid for engaged users. SaaS benchmark range 5–25%; ours is mid because most users start free, the magic-number gates paid features.</li>
+          <li>· <strong class="text-[var(--color-ink)]">¥/paid user/mo:</strong> see pricing scenarios in panel B. ¥2,000 = ~$13 — bottom of Slack Pro / Notion Plus range. Discussion needed.</li>
+          <li>· <strong class="text-[var(--color-ink)]">¥30M ARR original number:</strong> came from an aspirational founder-set goal. The working estimate is ~¥11.5M because it's the math the inputs actually produce. <em>Both numbers are on the table.</em></li>
+        </ul>
+      </div>
     </div>
 
-    <div class="prose-block max-w-3xl" data-reveal="fade-up">
-      <p class="text-[var(--color-ink-soft)] italic">
-        Real envelope = (observed per-user inference × user count) + (community partnerships we choose to fund) + (line items we ratify). Don't make hasty assumptions.
+    <!-- Pricing scenarios -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          B · the pricing question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">how much to charge · open for discussion</span>
+      </div>
+      <h3 class="font-display text-3xl mb-5">
+        Free tier + paid · what shape, what price?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Pricing isn't decided. The point of this panel is to expose the trade-offs and benchmarks — final decision belongs in §12 with input from community owners + early users. Three patterns worth considering, none locked.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-4 mb-5">
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-3">
+            Pattern A · Notion-style
+          </div>
+          <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Generous free · AI extra</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Free tier: basic chat + tasks, limited AI calls. <strong class="text-[var(--color-ink)]">Plus: ~¥1,200/mo</strong>. <strong class="text-[var(--color-ink)]">AI add-on: ~¥1,500/mo</strong> on top of any paid tier.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Lets users feel value before paying anything. Risk: heavy AI users on free tier burn inference cost — needs the per-user cap (panel C).
+          </p>
+        </div>
+        <div class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-3">
+            Pattern B · Linear-style ★
+          </div>
+          <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Per-user · AI included</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Free tier: solo / hobby use, capped at 1 workspace. <strong class="text-[var(--color-ink)]">Standard: ~¥2,000/mo per user</strong>, AI fully included. <strong class="text-[var(--color-ink)]">Pro / Business: ~¥3,500/mo</strong> with team features.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Pricing is simple. AI cost rolled into per-seat. Working estimate uses this. ¥2,000 = ~$13 USD, well below Slack Business ($12.50) + an AI add-on combined.
+          </p>
+        </div>
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-bold mb-3">
+            Pattern C · usage-metered
+          </div>
+          <h4 class="font-display text-xl mb-2 text-[var(--color-ink)]">Pay for AI actions</h4>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Free seat ~unlimited; <strong class="text-[var(--color-ink)]">AI actions metered at ~¥10–40 each</strong>. Heavy users pay more, light users pay nothing.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] leading-relaxed">
+            Aligns cost with value perfectly. Risk: usage-anxiety friction; users hesitate to use AI freely. Unconventional for the workspace category.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-5 max-w-4xl"
+      >
+        <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-3">
+          Reference: what comparable tools charge (US$, per user per month)
+        </h4>
+        <div class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          <div>· <a href="https://www.notion.com/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Notion</a>: Free → Plus $10 → Business $18 + Notion AI $10/seat</div>
+          <div>· <a href="https://linear.app/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Linear</a>: Free → Standard $8 → Plus $14 (AI included)</div>
+          <div>· <a href="https://slack.com/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Slack</a>: Pro $7.25 → Business+ $12.50 → Enterprise (AI extra)</div>
+          <div>· <a href="https://www.cursor.com/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Cursor</a>: Free → Pro $20 → Business $40 (AI-native)</div>
+          <div>· <a href="https://www.glean.com/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Glean</a>: Enterprise only, ~$40+/user typically</div>
+          <div>· <a href="https://otter.ai/pricing" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Otter</a>: Free → Pro $17 → Business $30</div>
+        </div>
+        <p class="text-xs text-[var(--color-ink-faint)] italic mt-4 leading-relaxed">
+          Zunou competes with all of these stacked. Charging less than each individual tool is the obvious early posture; charging more later (once we're indispensable across the stack) is the obvious longer arc.
+        </p>
+      </div>
+    </div>
+
+    <!-- Inference cost ceiling -->
+    <div class="mb-14 max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          C · the inference-cost question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">what we pay providers per user per month</span>
+      </div>
+      <h3 class="font-display text-3xl mb-5">
+        How much AI usage can we afford to give away?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        The free tier needs an inference budget per user so cost stays predictable. ¥600/user/mo is a working estimate, not a target. Below: how it was derived, and where the actual ceiling will land.
+      </p>
+
+      <div
+        class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 max-w-4xl mb-5"
+      >
+        <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-4">
+          Where ¥600 came from
+        </h4>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2.5 leading-relaxed">
+          <li>· Free-tier user activity assumption: ~30 AI actions/month (mix of summaries, prep, follow-ups, chat)</li>
+          <li>· Average cost-per-action assumption: ~¥20 (¥10 for cheap model, ¥40 for premium · routed by complexity)</li>
+          <li>· <strong class="text-[var(--color-ink)]">30 × ¥20 = ¥600 baseline</strong></li>
+          <li>· <strong class="text-[var(--color-ink)]">All of these inputs are guesses</strong> until we measure real usage in the pilot. Could be ¥300. Could be ¥1,200. We won't know until ~50 real users in week 4.</li>
+          <li>· The cap matters more than the number: <strong class="text-[var(--color-ink)]">free tier inference cost stays bounded per user.</strong> Heavy users hit a soft limit and either upgrade or wait until next month.</li>
+        </ul>
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
+        Model-agnostic routing (§03) reduces this further: same workload on Gemini Flash vs GPT-5 vs Claude Sonnet swings cost by 5–10×. We route to the cheapest model that meets quality bar per task type. The ceiling is set, the floor moves with our routing intelligence.
+      </p>
+    </div>
+
+    <!-- Budget envelope -->
+    <div class="max-w-5xl" data-reveal="fade-up" data-reveal-delay="1">
+      <div class="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
+          D · the budget question
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">total launch-year spend · TBD</span>
+      </div>
+      <h3 class="font-display text-3xl mb-5">
+        What does the launch year cost?
+      </h3>
+
+      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
+        Three line items dominate. None of them is "buy ads." This isn't a paid-acquisition budget; it's an operational + sponsored-seat budget for a community-led launch.
+      </p>
+
+      <div class="overflow-x-auto -mx-6 px-6 mb-5">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+          <thead class="bg-[var(--color-paper-soft)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Line item</th>
+              <th class="text-left p-3 font-semibold">Working estimate</th>
+              <th class="text-left p-3 font-semibold">How we got there</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[var(--color-paper)]">
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">
+                Sponsored inference<br/>
+                <span class="text-xs font-normal text-[var(--color-ink-faint)]">(free tier of paying users + waitlist)</span>
+              </td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono align-top">¥4–7M</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">~3,500 avg free users × ¥600 cap × 12 months — actual lands lower because not everyone hits cap.</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">
+                Pilot community partnerships<br/>
+                <span class="text-xs font-normal text-[var(--color-ink-faint)]">(sponsored seats + events + marketing)</span>
+              </td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono align-top">¥3–6M</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">50 sponsored seats × ¥600 × N months × 4 communities <em>if we run synchronized at scale</em>. Pilot-only is much less (~¥360k).</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold text-[var(--color-ink)] align-top">
+                Ops + content + advisor<br/>
+                <span class="text-xs font-normal text-[var(--color-ink-faint)]">(Marco contract · content · legal · advisor compensation)</span>
+              </td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono align-top">¥8–12M</td>
+              <td class="p-3 text-[var(--color-ink-soft)] align-top">The biggest single bucket. Includes Marco's contract, JP advisor fees, content production, APPI legal review, founder-dinner expenses.</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-accent-soft)]/30">
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Total working envelope</td>
+              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">¥15–25M</td>
+              <td class="p-3 text-[var(--color-ink-soft)]">A range — actual depends on (a) how many communities we activate, (b) duration of free runway, (c) how much advisor / content we choose to fund.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed">
+        ¥15–25M ≈ $100–165k USD. This is consistent with what a Tokyo seed-stage SaaS spends on a community-led launch year — but we should test it against Zunou's actual cash runway and prioritisation before treating it as the plan.
       </p>
     </div>
   </Section>
