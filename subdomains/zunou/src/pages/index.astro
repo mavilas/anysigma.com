@@ -126,6 +126,43 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
 
   <hr class="section-rule max-w-6xl mx-auto" />
 
+  <!-- BACKGROUND -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-6" data-reveal="fade-up">
+        <span class="section-number">
+          <span>00 · Background</span>
+        </span>
+      </div>
+
+      <h2
+        class="font-display text-3xl sm:text-4xl mb-6 max-w-3xl leading-tight"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        Zunou is a Japanese AI Chief of Staff company.<br />
+        <span class="text-[var(--color-ink-soft)]">Anysigma is a partner working on its go-to-market.</span>
+      </h2>
+
+      <div class="prose-block max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        <p>
+          <strong>The product:</strong> Zunou records executive-team meetings, extracts decisions and action items, surfaces commitments, and routes follow-ups via adaptive agents. Voice + chat assistant on the front end. Multi-team workspace on the back end. Currently waitlist-only with a PWA shipped end-April 2026.
+        </p>
+        <p>
+          <strong>Company nationality:</strong> Japanese. Founder Malek Nasser is based in Japan. The team is international. Japan isn't an "expansion target" — it's the home market. This proposal is about how a Japan-based company should launch in Japan, where the leverage is highest.
+        </p>
+        <p>
+          <strong>The opening:</strong> the "AI Chief of Staff" category has an empty seat in Japan. Xembly (the US category leader, $20M raised) shut down in June 2024. The remaining US entrants (alfred_, Klaio, Ashley AI) are consumer-priced individual tools with no Japanese localization. The category window in Japan is open for roughly 6–9 months before Notion AI / Slack AI / Microsoft Copilot ship comparable cross-app surfaces.
+        </p>
+        <p>
+          <strong>The proposal you're about to read</strong> answers one question: <em class="font-display">how do we manufacture density inside small Tokyo communities, fast enough to matter, before that window closes?</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
   <!-- 01 · POSTURE -->
   <Section
     id="posture"
@@ -174,20 +211,23 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         icon="skull"
         value="Xembly"
         label="US category leader exited"
-        caveat="June 2024 — $20M raised, customers Salesforce / Twilio"
+        caveat="June 2024 — $20M raised, customers Salesforce / Qualtrics / Twilio."
+        source={{ label: "GeekWire", url: "https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" }}
       />
       <Stat
         icon="trending-up"
         value="34.6%"
-        label="JP firms now use generative AI"
-        caveat="March 2026, Yomiuri / Teikoku Databank survey · n = 23,349 · +14.2% considering"
+        label="Japanese firms now use generative AI"
+        caveat="March 2026 · Yomiuri Shimbun / Teikoku Databank · n = 23,349 firms · +14.2% considering."
+        source={{ label: "BigGo Finance summary", url: "https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" }}
         revealDelay={1}
       />
       <Stat
         icon="bot"
         value="40%"
         label="Of enterprise apps will embed AI agents by EOY 2026"
-        caveat="Up from < 5% in 2025 (Gartner)"
+        caveat="Up from < 5% in 2025."
+        source={{ label: "Gartner press release", url: "https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025" }}
         revealDelay={2}
       />
     </div>
@@ -217,20 +257,23 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         icon="plug"
         value="10,000+"
         label="Public MCP servers (Mar 2026)"
-        caveat="Slack · Notion · Linear · Salesforce · GitHub · Google Workspace · M365 · Stripe · Sentry · Vercel · Supabase · Figma"
+        caveat="Slack · Notion · Linear · Salesforce · GitHub · Google Workspace · M365 · Stripe · Sentry · Vercel · Supabase · Figma."
+        source={{ label: "DigitalApplied adoption stats", url: "https://www.digitalapplied.com/blog/mcp-adoption-statistics-2026-model-context-protocol" }}
       />
       <Stat
         icon="trending-up"
         value="4,750%"
         label="MCP SDK download growth in 16 months"
-        caveat="2M / month at launch (Nov 2024) → 97M / month (Mar 2026)"
+        caveat="2M / month at launch (Nov 2024) → 97M / month (Mar 2026)."
+        source={{ label: "Pento — Year of MCP", url: "https://www.pento.ai/blog/a-year-of-mcp-2025-review" }}
         revealDelay={1}
       />
       <Stat
         icon="globe"
         value="92%"
         label="Of new agent frameworks ship with MCP built-in"
-        caveat="LangGraph · CrewAI · AutoGen + OpenAI / Microsoft / Google all on board"
+        caveat="LangGraph · CrewAI · AutoGen + OpenAI / Microsoft / Google all on board."
+        source={{ label: "The New Stack — Why MCP won", url: "https://thenewstack.io/why-the-model-context-protocol-won/" }}
         revealDelay={2}
       />
     </div>
@@ -251,10 +294,85 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
-  <!-- 04 · MECHANIC -->
+  <!-- 04 · COMPETITIVE -->
+  <Section
+    id="competitive"
+    number="04"
+    eyebrow="The category right now"
+    title="An empty seat in Japan. Six commoditising entrants globally. Three incumbents that will eventually compete."
+    lede="The accurate answer to 'who else is doing this in Japan' is short. The answer to 'who could do this from a position of distribution' is longer."
+  >
+    <div class="overflow-x-auto -mx-6 px-6" data-reveal="fade-up">
+      <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+        <thead class="bg-[var(--color-paper-soft)]">
+          <tr>
+            <th class="text-left p-3 font-semibold">Competitor</th>
+            <th class="text-left p-3 font-semibold">Where</th>
+            <th class="text-left p-3 font-semibold">Status (May 2026)</th>
+            <th class="text-left p-3 font-semibold">Threat to Zunou</th>
+          </tr>
+        </thead>
+        <tbody class="bg-[var(--color-paper)]">
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 font-semibold">Xembly</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">US</td>
+            <td class="p-3"><span class="inline-block px-2 py-0.5 rounded bg-[var(--color-danger-soft)] text-[var(--color-danger)] text-xs font-semibold">Discontinued June 2024</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">None — exited the market</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 font-semibold">alfred_</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">US / global</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">$24.99/mo, individual</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — wrong price point, no JP localization</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 font-semibold">Ashley AI · Klaio · Alyna</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">US / EU</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Active, individual-tier</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Low — no JP presence</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
+            <td class="p-3 font-semibold">Notion AI</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Global · JP language ✓</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Notion-internal data only</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High on commodity surfaces · low on cross-app agentic</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/20">
+            <td class="p-3 font-semibold">Slack AI · MS Copilot</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Global · APAC growing 19% YoY</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Single-app surface; embedded distribution</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Highest long-run threat — but neither will localize Keigo / Ringi</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3 font-semibold">Otter · Fireflies</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Global · partial JP</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Meeting transcription</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">High on transcription · low on agentic CoS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-2 gap-6 max-w-4xl">
+      <div data-reveal="fade-up">
+        <h3 class="font-display text-xl mb-3">Japanese AI companies = partners, not competitors</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Sakana AI ($135M Series B, Nov 2025), LayerX ($100M Series B, Sep 2025), ELYZA (KDDI-backed), Rakuten AI 3.0 — all sell foundation models or back-office automation. None compete with the exec CoS surface. The right move is co-marketing (joint PR Times release, joint AiSalon Tokyo demo) — not competing.
+        </p>
+      </div>
+      <div data-reveal="fade-up" data-reveal-delay="1">
+        <h3 class="font-display text-xl mb-3">The 6–9 month window</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Notion AI / Slack AI / Microsoft Copilot will ship cross-app agentic surfaces in the medium term. Zunou's defensibility is three things they will not build: cross-app context (architectural — see §03 MCP moat), JP-localized affordances (Keigo, Ringi), and the community-distributed habit loop.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 05 · MECHANIC -->
   <Section
     id="mechanic"
-    number="04"
+    number="05"
     eyebrow="The mechanic"
     title="Density manufactures product-market fit."
     lede="Not features. Not virality. Density — the threshold past which a small group's behavior changes."
@@ -298,7 +416,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 05 · COMMUNITIES -->
   <Section
     id="communities"
-    number="05"
+    number="06"
     eyebrow="The four"
     title="Tokyo. Same week. Synchronized."
     lede="Not picked for prestige. Picked because their members already overlap — verified by roster sampling before launch."
@@ -341,10 +459,78 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
     </div>
   </Section>
 
-  <!-- 06 · CASE STUDIES -->
+  <!-- 07 · PHASED ROLLOUT -->
+  <Section
+    id="phases"
+    number="07"
+    eyebrow="How it actually unfolds"
+    title="Five phases. Each gated on readiness, not on the calendar."
+    lede="We don't promise dates we can't keep. We promise readiness gates the team agrees on in advance. Earliest plausible launch is summer 2026; later is fine if Phase 0 isn't clean."
+  >
+    <ol class="relative border-l-2 border-[var(--color-line)] pl-6 space-y-10 max-w-4xl">
+      <li data-reveal="fade-up">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 0 · Foundations</div>
+        <h3 class="font-display text-2xl mb-2">Ship the cost guardrails and platform readiness checks.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Token budget meter + Haiku/Sonnet routing tier (M5). JP landing page on <code class="inline-code">zunou.anysigma.com</code>. Magic-number counters in the PWA. Events-feed v0 (Connpass + Doorkeeper public APIs). Validate 4 launch communities have ≥30% member overlap via roster sampling. <strong class="text-[var(--color-ink)]">Gate: all six items shipped, or no launch.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="1">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 1 · The synchronized launch</div>
+        <h3 class="font-display text-2xl mb-2">Four Tokyo communities, same week.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Week 1: AI Tinkerers Ginza demo + Tokyo Founders private launch. Week 2: TAI presentation + Venture Café Thursday Gathering. Same-week PR Times release. Member-of-N badge live in product. <strong class="text-[var(--color-ink)]">Gate: 100 signups across the four, ≥30% calendar-connected.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="2">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 2 · IVS Kyoto + density push</div>
+        <h3 class="font-display text-2xl mb-2">Convert the conference into ARR-credible logos.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          IVS LAUNCHPAD pitch (or side-event regardless). Booth with live "summarize this booth's pitches" demo. Pre-conference auto-prep emailed to RSVP'd attendees who connect calendar. <strong class="text-[var(--color-ink)]">Gate: NSM ≥ 60 WAU past magic number by end of phase.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="3">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 3 · Density compound + first paying logos</div>
+        <h3 class="font-display text-2xl mb-2">Prove paid conversion before the 6-month free runway expires.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          First paid logo + PR Times release. Akai Wagon / Indelible portfolio rollouts. "This Week in Tokyo" digest hits 5,000 weekly uniques. Ringi automation alpha to 3 enterprise design partners. Apply for METI IT subsidy. <strong class="text-[var(--color-ink)]">Gate: ≥5 paid logos, MoM growth ≥ 20%.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="4">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)] status-dot"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-accent)] mb-1.5">Phase 4 · Stage-gate review</div>
+        <h3 class="font-display text-2xl mb-2">The single yes/no/extend decision against six PMF criteria.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          ~6 months after Phase 1 launch. NSM ≥ 200 · One launch community at 25%+ density · 35%+ activation in 14 days · ≥3 paid logos · Inference ≤¥600/AU/mo · Member-of-N ≥ 15%. <strong class="text-[var(--color-ink)]">Hit ≥4 → fuel. ≤2 → pivot. 3 → extend 60 days.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="5">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-line)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 5a · If PMF — fuel</div>
+        <h3 class="font-display text-2xl mb-2">Raise sponsored-seat caps · open communities #5–10 · begin SI partner conversations.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          NTT Data / Fujitsu / Itochu for the year-2 enterprise lane. Akai Wagon + Indelible portfolios fully active. Reach ¥30M ARR by month 12 of active rollout. <strong class="text-[var(--color-ink)]">Goal: KGI hit.</strong>
+        </p>
+      </li>
+      <li data-reveal="fade-up" data-reveal-delay="6">
+        <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-line)]"></span>
+        <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 5b · If pivot</div>
+        <h3 class="font-display text-2xl mb-2">Rotate the wedge — most likely Ringi-first vertical or events-only product.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Re-run validation (10 calls in 4 weeks) on the new wedge. Keep the four community partnerships warm; don't burn them. Aim to re-launch a focused product within 90 days.
+        </p>
+      </li>
+    </ol>
+  </Section>
+
+  <!-- 08 · CASE STUDIES -->
   <Section
     id="case-studies"
-    number="06"
+    number="08"
     eyebrow="Prior art"
     title="The pattern repeats. We're not improvising."
     lede="Four billion-dollar outcomes. Each manufactured density inside overlapping groups before going broad."
@@ -392,7 +578,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 07 · COMMITMENT -->
   <Section
     id="commitment"
-    number="07"
+    number="09"
     eyebrow="What we're committing"
     title="One number is a commitment. The rest are working hypotheses."
     lede="We're explicit about which is which. Pretending the budget envelope or per-user cost is locked-in would be dishonest at this stage."
@@ -430,7 +616,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 08 · TENSION -->
   <Section
     id="tension"
-    number="08"
+    number="10"
     eyebrow="What could break this"
     title="88% of AI agent pilots fail to graduate to production."
     lede="That's the Gartner finding for 2026. Most enterprise buyers have been burned, or seen peers burned. Our discipline is the response."
@@ -464,7 +650,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 09 · STAGE-GATE -->
   <Section
     id="stage-gate"
-    number="09"
+    number="11"
     eyebrow="The moment we'll know"
     title="A pre-committed stop-or-go decision in ~6 months."
     lede="No 18-month death march. Six PMF criteria; three possible outcomes; one explicit rule we agree to in advance."
@@ -521,7 +707,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 10 · DECISIONS -->
   <Section
     id="decisions"
-    number="10"
+    number="12"
     eyebrow="The ask"
     title="Seventeen decisions. Default = ship."
     lede="We don't need consensus — we need explicit objections so we can address them or proceed with the disagreement noted. React on each."
@@ -556,7 +742,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 11 · GAPS -->
   <Section
     id="gaps"
-    number="11"
+    number="13"
     eyebrow="Honest about what's missing"
     title="What we still need to build before launch."
     lede="A real plan names its gaps. Four operational gaps surfaced in the audit became Decisions 14–17 above. Here's the rest of the list."
@@ -642,7 +828,7 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
   <!-- 12 · ENGAGE -->
   <Section
     id="engage"
-    number="12"
+    number="14"
     eyebrow="How to engage"
     title="React on the 17. Push back specifically. Default = ship."
     lede="We don't need consensus — we need explicit objections so we can address them or proceed with the disagreement noted."
@@ -723,5 +909,91 @@ const gapDecisions = decisions.filter((d) => d.group === "gap");
         "If you finish reading this and have no objections, we haven't written it well enough."
       </p>
     </div>
+  </Section>
+
+  <!-- 15 · REFERENCES -->
+  <Section
+    id="references"
+    number="15"
+    eyebrow="The receipts"
+    title="References."
+    lede="Every numerical claim above traces back to a public source. Listed here for anyone who wants to verify or go deeper."
+  >
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-sm leading-relaxed" data-reveal="fade-up">
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Market & competitive</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire — Xembly discontinued service June 2024</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">BigGo Finance — Yomiuri/Teikoku JP gen-AI adoption 34.6%</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025" target="_blank" rel="noopener noreferrer">Gartner — 40% of enterprise apps will embed AI agents by EOY 2026</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://joget.com/ai-agent-adoption-in-2026-what-the-analysts-data-shows/" target="_blank" rel="noopener noreferrer">Joget summary — 88% of AI agent pilots fail to graduate to production (Gartner)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch — Sakana AI Series B ($135M at $2.65B valuation)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">TechCrunch — LayerX Series B ($100M)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Model Context Protocol</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener noreferrer">Anthropic — Introducing the Model Context Protocol (Nov 2024)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation" target="_blank" rel="noopener noreferrer">Anthropic — Donating MCP to the Linux Foundation (Dec 2025)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.pento.ai/blog/a-year-of-mcp-2025-review" target="_blank" rel="noopener noreferrer">Pento — A Year of MCP: from internal experiment to industry standard</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://thenewstack.io/why-the-model-context-protocol-won/" target="_blank" rel="noopener noreferrer">The New Stack — Why the Model Context Protocol won</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.digitalapplied.com/blog/mcp-adoption-statistics-2026-model-context-protocol" target="_blank" rel="noopener noreferrer">DigitalApplied — MCP adoption statistics 2026 (10,000+ servers, 97M SDK downloads)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://en.wikipedia.org/wiki/Model_Context_Protocol" target="_blank" rel="noopener noreferrer">Wikipedia — Model Context Protocol (neutral overview)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Growth & PLG benchmarks</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://mode.com/blog/facebook-aha-moment-simpler-than-you-think/" target="_blank" rel="noopener noreferrer">Mode — Facebook's "7 friends in 10 days" aha moment</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://review.firstround.com/how-notion-does-marketing-a-deep-dive-into-its-community-influencers-growth-playbooks/" target="_blank" rel="noopener noreferrer">First Round Review — Notion marketing playbook (YC + designer Twitter seed)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://growthcurve.co/how-discord-grew-to-hundreds-of-millions-of-users" target="_blank" rel="noopener noreferrer">Growthcurve — How Discord grew (133% MoM at 3M users)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://review.firstround.com/the-5-phases-of-figmas-community-led-growth-from-stealth-to-enterprise/" target="_blank" rel="noopener noreferrer">First Round Review — Figma's 5 phases of community-led growth</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://growthinreverse.com/lenny/" target="_blank" rel="noopener noreferrer">Growth In Reverse — Lenny Rachitsky's path to 1M subscribers</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://en.wikipedia.org/wiki/Sympathetic_detonation" target="_blank" rel="noopener noreferrer">Wikipedia — Sympathetic detonation (physics)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://en.wikipedia.org/wiki/Percolation_threshold" target="_blank" rel="noopener noreferrer">Wikipedia — Percolation threshold (statistical physics)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Japan-specific context</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.whitecase.com/insight-alert/japans-first-ai-legislation-becomes-law-focus-promoting-research-and-development-no" target="_blank" rel="noopener noreferrer">White & Case — Japan's first AI law (2025, promotion-focused)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://oecd.ai/en/dashboards/policy-initiatives/meti-subsidies-for-ai-computational-resources-under-the-economic-security-promotion-act" target="_blank" rel="noopener noreferrer">OECD.AI — METI subsidies for AI (50–66% of project cost reimbursed)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.idc.com/resource-center/blog/7x-growth-in-just-three-years-japans-ai-infrastructure-will-surge-past-5-5-billion-in-2026-idc-reveals/" target="_blank" rel="noopener noreferrer">IDC — Japan AI infrastructure 7× growth ($5.5B by 2026)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://secureprivacy.ai/blog/appi-japan-privacy-compliance" target="_blank" rel="noopener noreferrer">SecurePrivacy — Japan APPI compliance (2025–26 enforcement)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.demandsage.com/slack-statistics/" target="_blank" rel="noopener noreferrer">DemandSage — Slack statistics 2026 (APAC 19% YoY, Japan 24.46% of traffic)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.tokyoai.jp/" target="_blank" rel="noopener noreferrer">Tokyo AI (TAI) — community page (4,000+ members)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://tokyo.aitinkerers.org/" target="_blank" rel="noopener noreferrer">AI Tinkerers Tokyo (Ginza chapter)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://venturecafetokyo.org/" target="_blank" rel="noopener noreferrer">Venture Café Tokyo (Toranomon Thursday Gathering)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold mb-3 text-[var(--color-ink)]">AI cost & infrastructure</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener noreferrer">Anthropic — Claude API pricing (Haiku / Sonnet / Opus)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">OpenAI — API pricing (GPT-5 family)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">Google — Gemini API pricing</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://benchlm.ai/blog/posts/claude-api-pricing" target="_blank" rel="noopener noreferrer">BenchLM — Claude API pricing 2026 reference</a></li>
+        </ul>
+
+        <h3 class="font-semibold mt-6 mb-3 text-[var(--color-ink)]">Behavioral design</h3>
+        <ul class="space-y-2 text-[var(--color-ink-soft)]">
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.shno.co/marketing-statistics/saas-onboarding-statistics" target="_blank" rel="noopener noreferrer">Shno — SaaS onboarding statistics 2026 (AI/ML SaaS = 54.8% activation)</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://productled.com/blog/the-bj-fogg-behavior-model-in-saas" target="_blank" rel="noopener noreferrer">ProductLed — BJ Fogg Behavior Model applied to SaaS</a></li>
+          <li><a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.strata.io/blog/agentic-identity/practicing-the-human-in-the-loop/" target="_blank" rel="noopener noreferrer">Strata — Human-in-the-Loop AI 2026 guide</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p
+      class="mt-12 text-xs text-[var(--color-ink-faint)] max-w-3xl italic leading-relaxed font-mono"
+      data-reveal="fade-up"
+    >
+      Last verified: 2026-05-11. If a source url is broken or you want a section traced to a specific footnote, ask Marco. The detailed source-by-claim mapping lives in the internal strategy markdown.
+    </p>
   </Section>
 </Layout>
