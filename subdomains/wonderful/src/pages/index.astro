@@ -222,43 +222,63 @@ const losers = [
   { name: "Xembly (US AI Chief of Staff)", what: "$20M raised. Salesforce + Qualtrics customers. Shut down June 2024. Same archetype, US edition.", url: "https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" },
 ];
 
-// Wonderful platform strengths (from V2)
+// Wonderful platform strengths — proven scale leads, then platform depth
 const strengths = [
   {
-    title: "Agentic OS, not chat-on-top",
+    title: "Proven at production scale",
+    badge: "Front and center",
+    icon: "building-2",
+    detail:
+      "Bezeq · 2,000-agent telco · ~80% resolution · millions of calls a month. Almost no foreign agentic-AI vendor landing in Japan can point to a reference of this scale. Lead every conversation with this.",
+  },
+  {
+    title: "Agentic OS · not chat-on-top",
+    badge: "Architecture",
     icon: "cpu",
     detail:
-      "The demo showed real plumbing. The platform bridges a billing dispute on a legacy stack with no human handoff. Not a chatbot in platform costume.",
+      "The demo showed real plumbing. Real workflow autonomy that bridges a billing dispute on a legacy stack with no human handoff. Not a chatbot in platform costume.",
   },
   {
     title: "Deepdub eTTS voice",
+    badge: "Voice",
     icon: "mic",
     detail:
-      "Human-grade voice with proper barge-in and interruption handling. Closest competitor on voice in the JP-targeting cohort. Voice matters more here than anywhere.",
+      "Human-grade voice with proper barge-in and interruption handling. Closest competitor on voice in the JP-targeting cohort. Voice matters more in Japan than anywhere.",
   },
   {
-    title: "Bezeq production reference",
-    icon: "building-2",
+    title: "SIP / IVR + telephony integrations",
+    badge: "Carrier-ready",
+    icon: "phone",
     detail:
-      "2,000-agent telco, around 80% resolution, millions of calls a month. Most foreign vendors landing in Japan have no production reference at this scale.",
+      "Direct carrier integration, not a recorded-line wrapper. This is what makes a JP contact-center PoC physically possible without a six-month integration project. Major moat vs chat-first competitors.",
+  },
+  {
+    title: "Agent builder + extensibility",
+    badge: "Builder",
+    icon: "package-2",
+    detail:
+      "Customers can build, modify, and combine agents inside the platform. Channel integrations, MCP, third-party tools. The system the customer's own engineers will use is the system the customer will keep.",
   },
   {
     title: "Forward-Deployed Engineering",
+    badge: "Embedded posture",
     icon: "users-round",
     detail:
-      "Embedded country teams. Local CTO plus agentic engineers inside the customer. This is the posture JP enterprises expect. PKSHA and AI Shift cannot match it operationally.",
+      "Embedded country teams. Local CTO plus agentic engineers inside the customer. The posture JP enterprises expect. PKSHA and AI Shift cannot match it operationally.",
   },
   {
-    title: "Multimodal agents + Wonderful Apps",
+    title: "Multimodal + Wonderful Apps",
+    badge: "Surface",
     icon: "layout-dashboard",
     detail:
       "End-user, employee, and platform views landed as one product. Auto-generated UIs are a credible wedge into internal DX, not just CS.",
   },
   {
     title: "Enterprise-grade governance + audit",
+    badge: "Table-stakes covered",
     icon: "shield-check",
     detail:
-      "Permissioning, audit logs, channel integrations, telephony, MCP. The table-stakes for JP enterprise procurement are checked. Hard-won, not easy to fake.",
+      "Permissioning, audit logs, channel integrations, telephony, MCP. The procurement table-stakes are already checked. Hard-won, not easy to fake.",
   },
 ];
 
@@ -307,6 +327,13 @@ const gaps = [
       "JP enterprise treats SLAs contractually. Specific uptime (99.9 / 99.95 / four-nines), credit terms, defined incident-response cadence. \"Best effort\" does not survive procurement.",
   },
   {
+    title: "Legacy integrations · mainframe · COBOL · old EDI",
+    severity: "high",
+    icon: "binary",
+    detail:
+      "JP old-guard industrials (Panasonic, Hitachi, NEC, Fujitsu, the big banks) run agents-of-record on COBOL mainframes, AS/400 / IBM i, SOAP, and old EDI. The demo did not surface how Wonderful's agents reach into those systems. For internal-workflow PoCs at the named beachhead targets, this is mission-critical, not optional.",
+  },
+  {
     title: "Dashboard UX",
     severity: "medium",
     icon: "layout-dashboard",
@@ -328,11 +355,18 @@ const gaps = [
       "JP enterprise wants oversight over autonomy. Without explicit accept / reject capture on every recommendation, the platform reads as autopilot-y in procurement.",
   },
   {
-    title: "Configuration over customization",
-    severity: "medium",
+    title: "Configuration · full control · platform influence",
+    severity: "high",
     icon: "sliders-horizontal",
     detail:
-      "Forward-Deployed Engineering is a strength. Risk: customer-specific customization becomes one-off engineering creating tech debt. JP enterprises prefer 80% via configuration, 20% custom.",
+      "JP enterprise wants 80% via configuration, not customization. And they want full visibility, full control, and meaningful influence on the platform roadmap. Forward-Deployed Engineering is a strength but the configuration surface (settings, dashboard widgets, role-based defaults, customer-facing config UIs) needs to do the heavy lifting before bespoke eng cycles. Customization without a strong config surface creates tech debt + lock-in + customer fatigue.",
+  },
+  {
+    title: "Ease of use · admin + builder UX",
+    severity: "high",
+    icon: "wrench",
+    detail:
+      "Agent builder, admin tools, and configuration UIs need to be operable by the customer's own team, not just Wonderful FDEs. JP customers grade ease-of-use harshly. Anthony surfaced UX gaps already; this category is the one to invest in next.",
   },
   {
     title: "Activity / task UI",
@@ -465,7 +499,12 @@ const openQuestions = [
   {
     audience: "HQ engineering",
     icon: "wrench",
-    question: "Roadmap for §03 high-severity gaps. Keigo eval set, dialect ASR fidelity, transcoding, repeat-number guardrail, PII handling, SLA terms.",
+    question: "Roadmap for the high-severity gaps in §05. Keigo eval set, dialect ASR fidelity, transcoding, repeat-number guardrail, PII handling, SLA terms.",
+  },
+  {
+    audience: "HQ engineering",
+    icon: "binary",
+    question: "Legacy integration story. How does the agent reach a COBOL mainframe / AS-400 / SOAP / old EDI system at Panasonic, Hitachi, or a major JP bank. Did not come up in the demo. Critical for any old-guard PoC.",
   },
 ];
 
@@ -728,11 +767,35 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div class="grid sm:grid-cols-2 gap-4 max-w-5xl">
         {strengths.map((s, i) => {
           const IconC = Icon(s.icon);
+          const isLead = i === 0;
           return (
-            <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay={i % 3}>
-              {IconC && <IconC class="w-5 h-5 text-[var(--color-success)] mb-4" />}
-              <h4 class="font-display text-xl mb-2 leading-tight">{s.title}</h4>
-              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{s.detail}</p>
+            <div
+              class={`tile rounded-xl p-6 relative overflow-hidden ${isLead ? 'border-2 border-[var(--color-accent)] bg-[var(--color-paper)] sm:col-span-2' : 'border border-[var(--color-line)] bg-[var(--color-paper)]'}`}
+              data-reveal="fade-up"
+              data-reveal-delay={i % 3}
+            >
+              {isLead && (
+                <div class="absolute top-0 right-0 w-32 h-32 -translate-y-12 translate-x-12 rounded-full bg-[var(--color-accent)]/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+              )}
+              <div class="flex items-start gap-4 mb-3 relative">
+                <div class={`shrink-0 flex items-center justify-center w-12 h-12 rounded-xl ${isLead ? 'bg-[var(--color-accent)] text-[var(--color-paper)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]'}`}>
+                  {IconC && <IconC class="w-6 h-6" />}
+                </div>
+                <div class="flex-1 min-w-0 pt-1">
+                  <div class="flex items-baseline gap-2 mb-1 flex-wrap">
+                    <span class="font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {s.badge && (
+                      <span class={`text-[9px] uppercase tracking-[0.14em] font-bold px-1.5 py-0.5 rounded ${isLead ? 'bg-[var(--color-accent)] text-[var(--color-paper)]' : 'text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)]'}`}>
+                        {s.badge}
+                      </span>
+                    )}
+                  </div>
+                  <h4 class={`font-display leading-tight ${isLead ? 'text-2xl sm:text-3xl' : 'text-xl'}`}>{s.title}</h4>
+                </div>
+              </div>
+              <p class={`text-sm text-[var(--color-ink-soft)] leading-relaxed relative ${isLead ? 'sm:max-w-2xl' : ''}`}>{s.detail}</p>
             </div>
           );
         })}
@@ -796,7 +859,21 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <span class="text-[var(--color-accent)] mr-1">"</span>Pseudonymization in transit. Redaction at rest. Role-based PII view. Audit logging on every touch.<span class="text-[var(--color-accent)] ml-1">"</span>
       </blockquote>
       <p class="mt-6 text-sm text-[var(--color-paper-soft)]/80 max-w-3xl leading-relaxed">
-        That is the literal sentence Japanese procurement asks in the first 30 minutes. <strong class="text-[var(--color-paper)]">"Encrypted" is not the answer they want.</strong> APPI 2025–26 enforcement amendments added administrative penalties, which makes this contractual rather than aspirational. PII handling is one of the high-severity items below. It is also the one most foreign vendors mis-handle by treating it as a checkbox instead of a process. The procurement teams who reviewed Wonderful would test this question first.
+        That is the literal sentence Japanese procurement asks in the first 30 minutes. <strong class="text-[var(--color-paper)]">"Encrypted" is not the answer they want.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://www.ppc.go.jp/en/" target="_blank" rel="noopener noreferrer">APPI 2025–26 enforcement</a> amendments added administrative penalties, which makes this contractual rather than aspirational. PII handling is one of the high-severity items below. It is also the one most foreign vendors mis-handle by treating it as a checkbox instead of a process.
+      </p>
+    </div>
+
+    <!-- JP-control insight callout -->
+    <div class="my-10 rounded-xl border-l-4 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 max-w-4xl" data-reveal="fade-up">
+      <div class="flex items-baseline gap-2 mb-2 flex-wrap">
+        <SlidersHorizontal class="w-4 h-4 text-[var(--color-accent)]" />
+        <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">Configuration, not customization · JP wants the controls</span>
+      </div>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+        Japanese enterprise buyers ask for <strong class="text-[var(--color-ink)]">configuration, full visibility, and influence on the platform itself</strong>. They want a strong configuration surface so 80% of their needs are met without bespoke engineering. They want to see how the agent decides. They want a seat at the roadmap table because they expect the platform to grow with their business, not separately from it.
+      </p>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+        The Forward-Deployed Engineering posture is right for the relationship. The risk is that customer-specific customization becomes the answer to every gap, accumulating tech debt that no JP enterprise wants to inherit. <strong class="text-[var(--color-ink)]">The fix is to invest in the configuration + admin + builder UI surface</strong> so customer teams can operate the platform without an FDE in the room.
       </p>
     </div>
 
@@ -847,8 +924,83 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">B · Japan failure modes · what kills vendors at PoC</h3>
       </div>
       <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        Six categories most foreign vendors discover at PoC, six months in. None of these came up in the session itself. They are my post-session assessment grounded in what every other foreign vendor has hit on this market.
+        Six categories most foreign vendors discover at PoC, six months in. None of these came up in the demo session itself. They are my post-session assessment grounded in what every other foreign vendor has hit on this market.
       </p>
+
+      <!-- Radial SVG · 6 failure modes radiating from "JP enterprise procurement" -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 sm:p-8 mb-6 max-w-5xl" data-reveal="fade-up">
+        <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-1">The procurement filter</div>
+        <h4 class="font-display text-xl mb-5 leading-tight">What JP enterprise procurement tests for before evaluating the product itself.</h4>
+        <div class="overflow-x-auto">
+          <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" class="w-full max-w-2xl mx-auto block" role="img" aria-labelledby="radial-title radial-desc">
+            <title id="radial-title">JP enterprise procurement filter — 6 failure modes</title>
+            <desc id="radial-desc">Radial diagram showing 6 Japan-specific failure modes radiating from "JP enterprise procurement" at center: keigo, dialect, encoding, documents, characters, compliance.</desc>
+
+            <!-- spokes (drawn first, behind nodes) -->
+            <g stroke="var(--color-line)" stroke-width="1.2" stroke-dasharray="4 4">
+              <line x1="300" y1="230" x2="300" y2="100" data-reveal="fade-up" data-reveal-delay="0"/>
+              <line x1="300" y1="230" x2="412" y2="165" data-reveal="fade-up" data-reveal-delay="1"/>
+              <line x1="300" y1="230" x2="412" y2="295" data-reveal="fade-up" data-reveal-delay="2"/>
+              <line x1="300" y1="230" x2="300" y2="360" data-reveal="fade-up" data-reveal-delay="3"/>
+              <line x1="300" y1="230" x2="188" y2="295" data-reveal="fade-up" data-reveal-delay="4"/>
+              <line x1="300" y1="230" x2="188" y2="165" data-reveal="fade-up" data-reveal-delay="5"/>
+            </g>
+
+            <!-- center node -->
+            <g>
+              <circle cx="300" cy="230" r="55" fill="var(--color-ink)" />
+              <text x="300" y="223" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent-soft)" style="letter-spacing:0.12em">JP ENTERPRISE</text>
+              <text x="300" y="240" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="700" fill="var(--color-accent-soft)" style="letter-spacing:0.12em">PROCUREMENT</text>
+            </g>
+
+            <!-- outer nodes -->
+            <!-- Keigo (top) -->
+            <g data-reveal="scale" data-reveal-delay="2">
+              <circle cx="300" cy="100" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="300" y="96" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Keigo</text>
+              <text x="300" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">formality</text>
+            </g>
+            <!-- Dialect (top-right) -->
+            <g data-reveal="scale" data-reveal-delay="3">
+              <circle cx="424" cy="158" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="424" y="154" text-anchor="middle" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Dialect</text>
+              <text x="424" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">ASR</text>
+            </g>
+            <!-- Encoding (bottom-right) -->
+            <g data-reveal="scale" data-reveal-delay="4">
+              <circle cx="424" cy="302" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="424" y="298" text-anchor="middle" font-family="Bree Serif, serif" font-size="13" fill="var(--color-ink)">Encoding</text>
+              <text x="424" y="312" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Shift-JIS</text>
+            </g>
+            <!-- Documents (bottom) -->
+            <g data-reveal="scale" data-reveal-delay="5">
+              <circle cx="300" cy="360" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="300" y="356" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Documents</text>
+              <text x="300" y="370" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Kami-Excel</text>
+            </g>
+            <!-- Characters (bottom-left) -->
+            <g data-reveal="scale" data-reveal-delay="6">
+              <circle cx="176" cy="302" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="176" y="298" text-anchor="middle" font-family="Bree Serif, serif" font-size="12" fill="var(--color-ink)">Characters</text>
+              <text x="176" y="312" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">Furigana/Gaiji</text>
+            </g>
+            <!-- Compliance (top-left) -->
+            <g data-reveal="scale" data-reveal-delay="7">
+              <circle cx="176" cy="158" r="32" fill="var(--color-paper)" stroke="var(--color-accent)" stroke-width="2"/>
+              <text x="176" y="154" text-anchor="middle" font-family="Bree Serif, serif" font-size="11" fill="var(--color-ink)">Compliance</text>
+              <text x="176" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.1em">APPI/ISMAP</text>
+            </g>
+
+            <!-- bottom caption -->
+            <g>
+              <text x="300" y="420" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="11" fill="var(--color-ink-soft)" font-style="italic">
+                Six categories evaluated in the first three meetings. Foreign vendors that fail one fail the procurement.
+              </text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
       <div class="grid md:grid-cols-2 gap-3 max-w-5xl">
         {japanFailureModes.map((m, i) => {
           const IconC = Icon(m.icon);
