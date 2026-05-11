@@ -1,0 +1,64 @@
+---
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  tone?: "default" | "soft" | "warm" | "ink";
+}
+
+const { id, eyebrow, title, lede, tone = "default" } = Astro.props;
+
+const toneClass = {
+  default: "",
+  soft: "bg-[var(--color-paper-soft)]",
+  warm: "bg-[var(--color-paper-warm)]",
+  ink: "bg-[var(--color-ink)] text-[var(--color-paper)]",
+}[tone];
+
+const ledeClass =
+  tone === "ink"
+    ? "text-[var(--color-paper-soft)]"
+    : "text-[var(--color-ink-soft)]";
+
+const eyebrowClass =
+  tone === "ink"
+    ? "text-[var(--color-accent)]"
+    : "text-[var(--color-accent)]";
+---
+
+<section id={id} class={`py-16 sm:py-24 ${toneClass}`}>
+  <div class="max-w-6xl mx-auto px-6">
+    {
+      eyebrow && (
+        <div
+          data-reveal="fade-up"
+          class={`text-xs uppercase tracking-[0.18em] font-medium mb-4 ${eyebrowClass}`}
+        >
+          {eyebrow}
+        </div>
+      )
+    }
+    <h2
+      data-reveal="fade-up"
+      data-reveal-delay="1"
+      class="font-display text-3xl sm:text-5xl mb-5 max-w-3xl leading-tight"
+    >
+      {title}
+    </h2>
+    {
+      lede && (
+        <p
+          data-reveal="fade-up"
+          data-reveal-delay="2"
+          class={`text-lg max-w-2xl leading-relaxed ${ledeClass}`}
+        >
+          {lede}
+        </p>
+      )
+    }
+    <div class="mt-12">
+      <slot />
+    </div>
+  </div>
+</section>

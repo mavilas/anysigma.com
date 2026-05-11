@@ -1,52 +1,690 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Lock, CheckCircle2 } from "@lucide/astro";
+import Section from "../components/Section.astro";
+import Stat from "../components/Stat.astro";
+import CaseStudy from "../components/CaseStudy.astro";
+import Decision from "../components/Decision.astro";
+import {
+  Flag,
+  CheckSquare,
+  BookOpen,
+  ArrowUpRight,
+  Skull,
+  TrendingUp,
+  Bot,
+  AlertTriangle,
+  Plug,
+  Globe,
+  Network,
+  UsersRound,
+  CalendarCheck,
+  Sparkles,
+  Target,
+  CircleDollarSign,
+  ReceiptText,
+  GitPullRequestArrow,
+  CircleCheck,
+  Layout as LayoutIcon,
+  MessageCircle,
+  Figma,
+  Mail,
+  UserCog,
+  Cpu,
+  Lightbulb,
+  FilePenLine,
+  Zap,
+} from "@lucide/astro";
+
+const decisions = [
+  {
+    n: 1,
+    title: "Geographic focus — Japan-led for 12 months",
+    desc: "Home market; second geography sequenced post-PMF, not preemptively.",
+    group: "core",
+  },
+  {
+    n: 2,
+    title: "KGI — ¥30M ARR within 12 months of synchronized launch",
+    desc: "≥20% MoM in the second half. Open: when does the 12-month clock start, given platform-readiness gates Phase 1.",
+    group: "core",
+  },
+  {
+    n: 3,
+    title: "NSM — WAU past magic number, in a partner community",
+    desc: "Knowing it grows slowly at first.",
+    group: "core",
+  },
+  {
+    n: 4,
+    title: "Magic number (v0) — 5 / 1 / 3 in 14 days",
+    desc: "5 colleagues from same community + 1 calendar + 3 AI actions accepted, in 14 days. Refit monthly.",
+    group: "core",
+  },
+  {
+    n: 5,
+    title: "Synchronized 4-community launch",
+    desc: "Yes, or phase 2+2?",
+    group: "core",
+  },
+  {
+    n: 6,
+    title: "Sponsored-seat cap — ¥720k worst case",
+    desc: "50 members × ¥600 × 6 months × 4 communities. Bounded liability vs blanket 'free for a year'.",
+    group: "core",
+  },
+  {
+    n: 7,
+    title: "Public events feed — before / with / after waitlist?",
+    desc: "Connpass + Doorkeeper APIs + Lu.ma at launch.",
+    group: "core",
+  },
+  {
+    n: 8,
+    title: "Calendar as gate",
+    desc: "Accept that users without calendar see a deliberately broken-feeling product.",
+    group: "core",
+  },
+  {
+    n: 9,
+    title: "Budget approach — methodology over total",
+    desc: "Per-user inference math + sponsored-seat caps + line-item placeholders. Total ~¥18–24M is a working estimate, not a commitment.",
+    group: "core",
+  },
+  {
+    n: 10,
+    title: "Stage-gate rule — ~6 months after Phase 1 launch",
+    desc: "≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend 60 days.",
+    group: "core",
+  },
+  {
+    n: 11,
+    title: "Adopt Masaru's positioning angle as the lead message",
+    desc: "“Strategy in Notion. Tasks in Asana. Decisions in Slack. Good luck.”",
+    group: "core",
+  },
+  {
+    n: 12,
+    title: "Retire HN/PH/IH and cold-LinkedIn",
+    desc: "Replace with warm-intro + community + earned media.",
+    group: "core",
+  },
+  {
+    n: 13,
+    title: "Community-discovery direction (A / B / C)",
+    desc: "A = passive emergence (default); B = lightweight in-product recs (Phase 3+ test); C = community discovery as core surface (category expansion).",
+    group: "core",
+  },
+  {
+    n: 14,
+    title: "Pricing v0 — adopt tier shape + self-serve upgrade flow",
+    desc: "From §16.5 gap audit (S1). Free + ≥¥3,500/mo paid. Refined via validation calls.",
+    group: "gap",
+  },
+  {
+    n: 15,
+    title: "Support model v0 — Marco + Malek covering JP/EN business hours",
+    desc: "From §16.5 (S2). In-app widget + Slack channel. First CSM hire post-day-180 if Phase 5a fuel.",
+    group: "gap",
+  },
+  {
+    n: 16,
+    title: "Attribution v0 — last-touch for cohort analysis",
+    desc: "From §16.5 (M2). Revisit at day 90 once data flows.",
+    group: "gap",
+  },
+  {
+    n: 17,
+    title: "Loop 6 commitment — invest product eng in meeting-prep viral loop",
+    desc: "From §4.6 Loop 6. Loom rode this exact loop to 25M users — every shared video is an ad. Fold into S-tier features.",
+    group: "gap",
+  },
+];
+
+const coreDecisions = decisions.filter((d) => d.group === "core");
+const gapDecisions = decisions.filter((d) => d.group === "gap");
 ---
 
-<Layout title="Zunou · auth test">
-  <main class="max-w-lg mx-auto px-6 py-16 text-center">
-    <div class="flex items-center justify-center gap-2 mb-8 text-[var(--color-success)]">
-      <CheckCircle2 size={20} />
-      <span class="text-sm font-medium uppercase tracking-[0.18em]">
-        Authenticated
-      </span>
-    </div>
-
-    <h1 class="font-display text-5xl sm:text-6xl mb-4">
-      You're in.
-    </h1>
-
-    <p class="text-lg text-[var(--color-ink-soft)] mb-8 leading-relaxed">
-      This is the <code class="font-mono text-sm px-1.5 py-0.5 bg-[var(--color-paper-soft)] rounded border border-[var(--color-line)]">zunou.anysigma.com</code> security-test placeholder. If you can read this, Cloudflare Access is correctly gating the subdomain and your email is on the allowlist.
-    </p>
-
-    <div class="border border-[var(--color-line)] rounded-lg p-5 bg-[var(--color-paper-soft)] text-left text-sm">
-      <div class="flex items-center gap-2 mb-3 text-[var(--color-ink)]">
-        <Lock size={14} />
-        <span class="font-medium">Access checks</span>
+<Layout title="Zunou — Japan-Led GTM Strategy">
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-28 pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-8" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-medium">
+          <Flag class="w-3.5 h-3.5" />
+          Internal — for review
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Marco Avila · 2026-05-11
+        </span>
       </div>
-      <ul class="space-y-2 text-[var(--color-ink-soft)]">
-        <li class="flex gap-2">
-          <span class="text-[var(--color-success)]">✓</span>
-          <span>Authenticated via Cloudflare Access magic-link.</span>
-        </li>
-        <li class="flex gap-2">
-          <span class="text-[var(--color-success)]">✓</span>
-          <span>Session duration set to 14 days.</span>
-        </li>
-        <li class="flex gap-2">
-          <span class="text-[var(--color-success)]">✓</span>
-          <span>Subdomain-scoped policy — no cross-tenant access.</span>
-        </li>
-        <li class="flex gap-2">
-          <span class="text-[var(--color-ink-soft)] opacity-60">↻</span>
-          <span>Strategy mini-site content lands here once security is verified.</span>
-        </li>
-      </ul>
+
+      <h1
+        class="font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.98] tracking-tight mb-8 max-w-5xl"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        Zunou works inside.<br />
+        <span class="text-[var(--color-ink-soft)]">
+          Now we make it work outside.
+        </span>
+      </h1>
+
+      <p
+        class="text-lg sm:text-xl text-[var(--color-ink-soft)] max-w-3xl leading-relaxed mb-10"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        The product is alive because the <em>density</em> is there — every meeting on the same calendar, every chat in the same workspace. The 12-month question: <strong class="text-[var(--color-ink)]">how do we manufacture that density inside small, defined groups in our home market — fast enough to matter?</strong>
+      </p>
+
+      <div
+        class="flex flex-wrap items-center gap-3 mb-14"
+        data-reveal="fade-up"
+        data-reveal-delay="3"
+      >
+        <a
+          href="#decisions"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-medium hover:bg-[var(--color-accent)] transition-colors"
+        >
+          <CheckSquare class="w-4 h-4" />
+          Jump to the 17 decisions
+        </a>
+        <a
+          href="#story"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-[var(--color-line)] text-sm font-medium hover:border-[var(--color-ink)] transition-colors"
+        >
+          <BookOpen class="w-4 h-4" />
+          Read the story
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Stat
+          icon="target"
+          value="¥30M ARR"
+          label="Aspirational KGI"
+          caveat="Within 12 mo of synchronized launch"
+          revealDelay={4}
+        />
+        <Stat
+          icon="users-round"
+          value="4 + 4,000"
+          label="Communities × TAI alone"
+          caveat="Synchronized launch — sympathetic detonation"
+          revealDelay={5}
+        />
+        <Stat
+          icon="git-pull-request-arrow"
+          value="~6 months"
+          label="To stop-or-go decision"
+          caveat="Pre-committed PMF stage-gate"
+          revealDelay={6}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- POSTURE -->
+  <Section
+    id="posture"
+    eyebrow="What this is"
+    title="A proposal, not a verdict."
+    lede="Every number here is a hypothesis. Every choice a defensible best-guess. If you finish reading and have no objections, we haven't written it well enough."
+    tone="soft"
+  >
+    <div class="grid sm:grid-cols-2 gap-6 max-w-3xl">
+      <div data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-3">
+          <CircleCheck class="w-4 h-4 text-[var(--color-success)]" />
+          <h3 class="font-medium">What this <em>is</em></h3>
+        </div>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>A proposal grounded in evidence, with citations.</li>
+          <li>A framework with a stop-or-go decision built in.</li>
+          <li>A contract for what we instrument from week one.</li>
+        </ul>
+      </div>
+      <div data-reveal="fade-up" data-reveal-delay="1">
+        <div class="flex items-center gap-2 mb-3">
+          <AlertTriangle class="w-4 h-4 text-[var(--color-ink-soft)]" />
+          <h3 class="font-medium">What this <em>isn't</em></h3>
+        </div>
+        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+          <li>A final answer — strategy is a living document.</li>
+          <li>A request for consensus — explicit objections preferred.</li>
+          <li>A sales pitch — this is internal alignment.</li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- TRENDS -->
+  <Section
+    id="trends"
+    eyebrow="Three things changed"
+    title="The window is open right now. It won't be in 12 months."
+    lede="A category leader exited. Japan's adoption tipped. Every productivity app is racing to embed agents."
+  >
+    <div class="grid md:grid-cols-3 gap-4">
+      <Stat
+        icon="skull"
+        value="Xembly"
+        label="US category leader exited"
+        caveat="June 2024 — $20M raised, customers Salesforce / Twilio"
+      />
+      <Stat
+        icon="trending-up"
+        value="34.6%"
+        label="JP firms now use generative AI"
+        caveat="Mar 2026, Yomiuri/Teikoku, n=23,349 + 14.2% considering"
+        revealDelay={1}
+      />
+      <Stat
+        icon="bot"
+        value="40%"
+        label="Of enterprise apps will embed AI agents"
+        caveat="By EOY 2026, up from <5% in 2025 (Gartner)"
+        revealDelay={2}
+      />
     </div>
 
-    <p class="mt-8 text-xs text-[var(--color-ink-soft)] font-mono opacity-70">
-      Build: zunou.anysigma.com / placeholder / 2026-05-11
+    <div
+      class="mt-10 border-l-4 border-[var(--color-warning)] pl-5 py-3 bg-[var(--color-warning-soft)]/40 rounded-r"
+      data-reveal="fade-up"
+    >
+      <p class="text-sm leading-relaxed">
+        <strong class="text-[var(--color-ink)]">The counter-pressure:</strong>
+        Gartner reports <strong class="text-[var(--color-ink)]">88% of AI agent pilots fail to graduate to production</strong> — evaluation gaps (64%), governance (57%), reliability (51%). Most buyers have been burned. Our positioning is the response to that wound: <em>not another agent pilot — the morning briefing your team will use tomorrow.</em>
+      </p>
+    </div>
+  </Section>
+
+  <!-- MCP MOAT -->
+  <Section
+    id="moat"
+    eyebrow="The architectural moat"
+    title="MCP-native. The cross-app moat is in the protocol, not in marketing copy."
+    lede="Notion AI sees Notion. Slack AI sees Slack. Microsoft Copilot sees M365. Zunou sees the entire Model Context Protocol ecosystem."
+    tone="warm"
+  >
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
+      <Stat
+        icon="plug"
+        value="10,000+"
+        label="Public MCP servers (Mar 2026)"
+        caveat="Slack, Notion, Linear, Salesforce, GitHub, Google Workspace, M365, Stripe, Sentry, Vercel, Supabase, Figma…"
+      />
+      <Stat
+        icon="trending-up"
+        value="4,750%"
+        label="MCP SDK download growth in 16 months"
+        caveat="2M/mo at launch (Nov 2024) → 97M/mo (Mar 2026)"
+        revealDelay={1}
+      />
+      <Stat
+        icon="globe"
+        value="92%"
+        label="Of new agent frameworks ship with MCP built-in"
+        caveat="LangGraph, CrewAI, AutoGen + OpenAI / Microsoft / Google all on board"
+        revealDelay={2}
+      />
+    </div>
+
+    <div class="max-w-3xl text-[var(--color-ink)] leading-relaxed space-y-4" data-reveal="fade-up">
+      <p>
+        MCP went from "Anthropic-led standard" to <strong>industry-default standard</strong> between mid-2025 and early 2026. Anthropic donated the protocol to the Linux Foundation's Agentic AI Foundation in December 2025 — co-founded by Anthropic, Block, and OpenAI. Building bespoke OAuth clients per integration in 2026 is like building bespoke auth in 2018.
+      </p>
+      <p>
+        We adopt the protocol as a <strong>host</strong> and inherit the entire server ecosystem. Engineering effort to support our top 25 integrations collapses from <strong>~25 OAuth implementations to 1 MCP host + 25 documentation pages</strong>. Notion will not expose Slack via MCP. Slack will not expose Notion via MCP. <em>We aggregate them.</em>
+      </p>
+    </div>
+  </Section>
+
+  <!-- MECHANIC -->
+  <Section
+    id="mechanic"
+    eyebrow="The mechanic"
+    title="Density manufactures product-market fit."
+    lede="Slack works at ~2,000 messages. Facebook at 7 friends in 10 days. Zunou's hypothesis: 5 colleagues + 1 calendar + 3 AI actions, in 14 days."
+  >
+    <div class="grid md:grid-cols-3 gap-4 mb-12">
+      <Stat
+        icon="users-round"
+        value="5"
+        label="Colleagues from the same community active"
+      />
+      <Stat
+        icon="calendar-check"
+        value="1"
+        label="Connected calendar"
+        revealDelay={1}
+      />
+      <Stat
+        icon="sparkles"
+        value="3"
+        label="AI actions accepted in 14 days"
+        revealDelay={2}
+      />
+    </div>
+
+    <div class="max-w-3xl text-[var(--color-ink)] leading-relaxed space-y-4" data-reveal="fade-up">
+      <p>
+        Instead of launching one Tokyo community at a time, we light <strong>four overlapping communities the same week</strong>, picked specifically for member overlap. The physics term is <strong>sympathetic detonation</strong> — adjacent charges igniting each other through shockwave coupling.
+      </p>
+      <p>
+        The growth-theory term is <strong>percolation threshold</strong> — the moment a sparse graph flips into one giant connected component. Tokyo's English-speaking founder/AI graph is small and densely interconnected. One launch leaks. Four overlapping launches chain-react.
+      </p>
+    </div>
+  </Section>
+
+  <!-- CASE STUDIES -->
+  <Section
+    id="case-studies"
+    eyebrow="Prior art"
+    title="The pattern repeats. We're not improvising."
+    lede="Four billion-dollar precedents. Each manufactured density inside overlapping groups before going broad."
+    tone="soft"
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      <CaseStudy
+        company="Notion"
+        year="2018–19"
+        play="Simultaneously seeded YC + 500 Startups + Techstars portfolios + designer Twitter."
+        result="Over half of YC's recent batch became customers. 95% organic traffic."
+        source={{
+          label: "First Round Review",
+          url: "https://review.firstround.com/how-notion-does-marketing-a-deep-dive-into-its-community-influencers-growth-playbooks/",
+        }}
+        icon="layout"
+      />
+      <CaseStudy
+        company="Discord"
+        year="2015–16"
+        play="Won gaming guild leaders ('supernodes') first; shipped Twitch integration as cross-community accelerant."
+        result="133% MoM growth at 3M users."
+        source={{
+          label: "Growthcurve case study",
+          url: "https://growthcurve.co/how-discord-grew-to-hundreds-of-millions-of-users",
+        }}
+        icon="message-circle"
+        revealDelay={1}
+      />
+      <CaseStudy
+        company="Figma Community"
+        year="2019–20"
+        play="Public gallery of design files / templates / plugins → SEO + activation + pull-mechanism."
+        result="300+ creators, 600+ public files. Became how non-users discovered Figma."
+        source={{
+          label: "First Round on Figma's 5 phases",
+          url: "https://review.firstround.com/the-5-phases-of-figmas-community-led-growth-from-stealth-to-enterprise/",
+        }}
+        icon="figma"
+        revealDelay={2}
+      />
+      <CaseStudy
+        company="Lenny's Newsletter"
+        year="2020+"
+        play="Free weekly newsletter for 9 months before charging anything; paid Slack as the dense layer."
+        result="1M subscribers by 2024."
+        source={{
+          label: "Growth In Reverse",
+          url: "https://growthinreverse.com/lenny/",
+        }}
+        icon="mail"
+        revealDelay={3}
+      />
+    </div>
+  </Section>
+
+  <!-- COMMITMENT -->
+  <Section
+    id="commitment"
+    eyebrow="What we're committing"
+    title="One number is a commitment. The rest are working hypotheses."
+  >
+    <div class="grid md:grid-cols-3 gap-4">
+      <Stat
+        icon="target"
+        value="¥30M ARR"
+        label="Aspirational"
+        caveat="Within 12 months of synchronized launch"
+      />
+      <Stat
+        icon="circle-dollar-sign"
+        value="¥600/user/mo"
+        label="Working free-tier inference cap"
+        caveat="Hypothesis to test against real consumption"
+        revealDelay={1}
+      />
+      <Stat
+        icon="receipt-text"
+        value="¥18–24M"
+        label="Working budget envelope (TBD)"
+        caveat="Refine after Phase 0 produces real data"
+        revealDelay={2}
+      />
+    </div>
+
+    <p
+      class="mt-8 text-sm text-[var(--color-ink-soft)] max-w-2xl italic leading-relaxed"
+      data-reveal="fade-up"
+    >
+      Real envelope = (observed per-user inference × user count) + (community partnerships we choose to fund) + (line items we ratify). Don't make hasty assumptions.
     </p>
-  </main>
+  </Section>
+
+  <!-- TENSION -->
+  <Section
+    id="tension"
+    eyebrow="What could break this"
+    title="88% of AI agent pilots fail to graduate to production."
+    lede="That's the Gartner finding. Most enterprise buyers have been burned, or seen peers burned. Our discipline is the response."
+    tone="ink"
+  >
+    <div class="space-y-4 max-w-3xl text-[var(--color-paper-soft)]">
+      <div class="flex gap-3" data-reveal="fade-up">
+        <CircleCheck class="w-5 h-5 mt-0.5 shrink-0 text-[var(--color-accent)]" />
+        <p class="leading-relaxed">
+          <strong class="text-[var(--color-paper)]">Source citations on every AI output.</strong>
+          Addresses Gartner's #1 blocker (evaluation gaps, 64%).
+        </p>
+      </div>
+      <div class="flex gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        <CircleCheck class="w-5 h-5 mt-0.5 shrink-0 text-[var(--color-accent)]" />
+        <p class="leading-relaxed">
+          <strong class="text-[var(--color-paper)]">Human-in-the-loop on every external action.</strong>
+          Addresses governance friction (57%).
+        </p>
+      </div>
+      <div class="flex gap-3" data-reveal="fade-up" data-reveal-delay="2">
+        <CircleCheck class="w-5 h-5 mt-0.5 shrink-0 text-[var(--color-accent)]" />
+        <p class="leading-relaxed">
+          <strong class="text-[var(--color-paper)]">Refuse to ship anything below 65% acceptance in beta.</strong>
+          Addresses model reliability (51%).
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- STAGE-GATE -->
+  <Section
+    id="stage-gate"
+    eyebrow="The moment we'll know"
+    title="A pre-committed stop-or-go decision in ~6 months."
+    lede="No 18-month death march. Six PMF criteria, three possible outcomes."
+  >
+    <div class="grid md:grid-cols-3 gap-4">
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-success-soft)]/40"
+        data-reveal="fade-up"
+      >
+        <div class="font-display text-3xl mb-1.5 text-[var(--color-success)]">
+          ≥ 4 of 6
+        </div>
+        <div class="font-medium mb-2">Fuel</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Open communities #5–10. Raise sponsored-seat caps. Push toward the KGI.
+        </p>
+      </div>
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-warning-soft)]/40"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        <div class="font-display text-3xl mb-1.5 text-[var(--color-warning)]">
+          3 of 6
+        </div>
+        <div class="font-medium mb-2">Extend 60 days</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Then re-decide. Don't force it; don't kill it prematurely.
+        </p>
+      </div>
+      <div
+        class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-danger-soft)]/40"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        <div class="font-display text-3xl mb-1.5 text-[var(--color-danger)]">
+          ≤ 2 of 6
+        </div>
+        <div class="font-medium mb-2">Pivot</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Most likely candidates: Ringi-first vertical, or events-only product.
+        </p>
+      </div>
+    </div>
+    <p
+      class="mt-8 text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed"
+      data-reveal="fade-up"
+    >
+      <strong class="text-[var(--color-ink)]">The six criteria:</strong>
+      NSM ≥ 200 · One launch community at 25%+ density · 35%+ activation in 14 days · ≥3 paid logos · Inference cost ≤¥600/AU/mo · Member-of-N ≥ 15%.
+    </p>
+  </Section>
+
+  <!-- DECISIONS -->
+  <Section
+    id="decisions"
+    eyebrow="The ask"
+    title="Seventeen decisions. Default = ship."
+    lede="React on each: ✅ on board / ⚠️ on board with concern / ❌ object. We don't need consensus — we need explicit objections so we can address them or ship anyway with the disagreement noted."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-2 gap-x-10 gap-y-2 max-w-6xl">
+      <div data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-medium">
+          <span>Strategy & launch (1–13)</span>
+        </div>
+        <div class="border border-[var(--color-line)] rounded-xl bg-[var(--color-paper)] p-2 sm:p-5">
+          {coreDecisions.map((d) => (
+            <Decision number={d.n} title={d.title} description={d.desc} group="core" />
+          ))}
+        </div>
+      </div>
+
+      <div data-reveal="fade-up" data-reveal-delay="1">
+        <div class="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em] text-[var(--color-accent-ink)] font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
+          <span>Operational gaps from §16.5 (14–17)</span>
+        </div>
+        <div class="border border-[var(--color-line)] rounded-xl bg-[var(--color-paper)] p-2 sm:p-5">
+          {gapDecisions.map((d) => (
+            <Decision number={d.n} title={d.title} description={d.desc} group="gap" />
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- READ MORE -->
+  <Section
+    eyebrow="Where to go from here"
+    title="Read by role."
+    lede="The depth lives in the GitHub research repo — different sections for different readers."
+  >
+    <div class="grid md:grid-cols-2 gap-4 max-w-4xl">
+      <a
+        href="https://github.com/mavilas/zunou/blob/staging/rollout-strategy.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+        data-reveal="fade-up"
+      >
+        <div class="flex items-start justify-between mb-3">
+          <UserCog class="w-5 h-5 text-[var(--color-accent)]" />
+          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        </div>
+        <h3 class="font-medium mb-1.5">Malek (founder / CEO)</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          §0 executive summary + §19 the 17 decisions. ~30 min.
+        </p>
+        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
+          rollout-strategy.md
+        </code>
+      </a>
+
+      <a
+        href="https://github.com/mavilas/zunou/blob/staging/product-requirements.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        <div class="flex items-start justify-between mb-3">
+          <Cpu class="w-5 h-5 text-[var(--color-accent)]" />
+          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        </div>
+        <h3 class="font-medium mb-1.5">Engineering / Product</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          MoSCoW spec, 14-day onboarding, i18n M7, nudge mechanics §11. ~60 min.
+        </p>
+        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
+          product-requirements.md
+        </code>
+      </a>
+
+      <a
+        href="https://github.com/mavilas/zunou/blob/staging/rollout-strategy.md#3-2026-trends-shaping-this-play"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        <div class="flex items-start justify-between mb-3">
+          <Lightbulb class="w-5 h-5 text-[var(--color-accent)]" />
+          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        </div>
+        <h3 class="font-medium mb-1.5">Advisor</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          §3 trends + §4.4 case studies + §15 risks + §16 FAQ. ~45 min.
+        </p>
+        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
+          rollout-strategy.md
+        </code>
+      </a>
+
+      <a
+        href="https://github.com/mavilas/zunou/blob/staging/content-engine.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tile group border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]"
+        data-reveal="fade-up"
+        data-reveal-delay="3"
+      >
+        <div class="flex items-start justify-between mb-3">
+          <FilePenLine class="w-5 h-5 text-[var(--color-accent)]" />
+          <ArrowUpRight class="w-4 h-4 text-[var(--color-ink-faint)] arrow-pop group-hover:text-[var(--color-ink)] transition-colors" />
+        </div>
+        <h3 class="font-medium mb-1.5">Content / SEO</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+          3-stream model, JP+EN keywords, IndexNow, SpamBrain risk. ~30 min.
+        </p>
+        <code class="text-xs font-mono text-[var(--color-ink-faint)]">
+          content-engine.md
+        </code>
+      </a>
+    </div>
+  </Section>
 </Layout>
