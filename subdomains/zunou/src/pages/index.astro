@@ -1459,21 +1459,21 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           <title id="perc-title">Sympathetic-detonation animation across four Tokyo communities</title>
           <desc id="perc-desc">Animated SVG: TAI ignites first, then bridges activate to AI Tinkerers Ginza, Venture Café Toranomon, and Le Wagon alumni in sequence. Final state: one connected component.</desc>
 
-          <!-- Bridge edges (between clusters) drawn first so nodes sit on top -->
+          <!-- Bridge edges (between clusters) · each endpoint sits on a real cluster node -->
           <g>
             <!-- TAI ↔ AI Tinkerers (heavy overlap) -->
-            <line class="bridge" x1="280" y1="180" x2="600" y2="120" style="--bridge-delay: 3.4s"/>
-            <line class="bridge" x1="305" y1="155" x2="585" y2="100" style="--bridge-delay: 3.6s"/>
+            <line class="bridge" x1="280" y1="200" x2="600" y2="120" style="--bridge-delay: 3.4s"/>
+            <line class="bridge" x1="260" y1="160" x2="605" y2="155" style="--bridge-delay: 3.6s"/>
             <!-- TAI ↔ Venture Café (medium) -->
-            <line class="bridge" x1="290" y1="240" x2="600" y2="320" style="--bridge-delay: 5.4s"/>
-            <line class="bridge" x1="270" y1="220" x2="580" y2="295" style="--bridge-delay: 5.6s"/>
+            <line class="bridge" x1="280" y1="200" x2="580" y2="295" style="--bridge-delay: 5.4s"/>
+            <line class="bridge" x1="240" y1="240" x2="600" y2="320" style="--bridge-delay: 5.6s"/>
             <!-- TAI ↔ Le Wagon (medium) -->
-            <line class="bridge" x1="225" y1="245" x2="225" y2="345" style="--bridge-delay: 7.4s"/>
-            <line class="bridge" x1="180" y1="240" x2="180" y2="335" style="--bridge-delay: 7.6s"/>
+            <line class="bridge" x1="240" y1="240" x2="225" y2="345" style="--bridge-delay: 7.4s"/>
+            <line class="bridge" x1="180" y1="220" x2="180" y2="335" style="--bridge-delay: 7.6s"/>
             <!-- AI Tinkerers ↔ Venture Café (lighter) -->
-            <line class="bridge" x1="640" y1="155" x2="640" y2="290" style="--bridge-delay: 6.0s"/>
+            <line class="bridge" x1="660" y1="155" x2="640" y2="300" style="--bridge-delay: 6.0s"/>
             <!-- Venture Café ↔ Le Wagon (light) -->
-            <line class="bridge" x1="565" y1="345" x2="280" y2="385" style="--bridge-delay: 8.0s"/>
+            <line class="bridge" x1="580" y1="295" x2="280" y2="385" style="--bridge-delay: 8.0s"/>
           </g>
 
           <!-- ===== Cluster: TAI · epicenter ===== -->
