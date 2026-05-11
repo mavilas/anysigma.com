@@ -67,76 +67,150 @@ const openCount = decisions.filter((d) => d.status === "open").length;
       <div class="flex items-center gap-3 mb-10 flex-wrap" data-reveal="fade-up">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
           <Flag class="w-3.5 h-3.5" />
-          Internal — for review
+          Internal · first proposal · for discussion
         </span>
         <span class="text-xs text-[var(--color-ink-faint)] font-mono">
           Marco Avila · 2026-05-11 · v1
         </span>
       </div>
 
-      <h1
-        class="font-display text-[3.25rem] sm:text-[5rem] lg:text-[6.5rem] leading-[0.95] tracking-tight mb-10 max-w-5xl"
+      <!-- THE SHIFT -->
+      <p
+        class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5"
         data-reveal="fade-up"
         data-reveal-delay="1"
       >
-        Zunou works inside.<br />
-        <span class="text-[var(--color-ink-soft)]">
-          Now we make it work outside.
-        </span>
+        The shift
+      </p>
+      <h1
+        class="font-display text-[3rem] sm:text-[4.5rem] lg:text-[5.5rem] leading-[0.98] tracking-tight mb-8 max-w-5xl"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        Knowledge teams have stopped tolerating <span class="text-[var(--color-accent)]">tool fragmentation.</span>
       </h1>
 
-      <div class="prose-block max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="2">
+      <div class="prose-block max-w-3xl mb-14" data-reveal="fade-up" data-reveal-delay="3">
         <p>
-          The product is alive because the <em>density</em> is there — every meeting on the same calendar, every chat in the same workspace, every decision routed back to the right person. The AI is useful because it has context. Take the context away and the AI is a chat box.
+          For a decade we taught teams that the answer was more apps. Slack for chat. Notion for docs. Linear for tasks. Otter for meetings. A separate AI assistant bolted on top of each one. The cost was hidden in the context-switching tax — and it added up.
         </p>
         <p>
-          The 12-month question, then, is not <em>"how do we sell an AI Chief of Staff"</em> — it is <strong>"how do we manufacture that density inside small, defined groups in our home market, fast enough to matter, before the global incumbents close the window?"</strong>
+          That tolerance just snapped. <strong class="text-[var(--color-ink)]">AI in 2026 made it obvious: when context lives in five places, the AI is useless. When context lives in one place, the AI becomes a chief of staff.</strong> Teams that figure this out compound. Teams that don't fall behind on every cycle — every meeting, every decision, every follow-up.
+        </p>
+      </div>
+
+      <!-- WINNERS & LOSERS -->
+      <div
+        class="grid md:grid-cols-2 gap-4 mb-16 max-w-5xl"
+        data-reveal="fade-up"
+        data-reveal-delay="4"
+      >
+        <div class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-3">
+            The losing path
+          </div>
+          <h3 class="font-semibold text-[var(--color-ink)] mb-2">Stay fragmented · bolt AI on each tool</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Notion AI in Notion. Slack AI in Slack. Copilot in M365. Each one smart in its silo. None of them can connect the meeting decision in Slack to the action item that should live in Linear. The team still does that work manually. The AI is a feature, not a force.
+          </p>
+        </div>
+        <div class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-3">
+            The winning path
+          </div>
+          <h3 class="font-semibold text-[var(--color-ink)] mb-2">One workspace · context compounds</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Chat, tasks, meetings, decisions — one surface. The AI sees everything. Today's meeting becomes tomorrow's prep brief automatically. The team's collective context becomes a competitive advantage. Switching to anything else means losing months of trained context.
+          </p>
+        </div>
+      </div>
+
+      <!-- THE PROMISED LAND -->
+      <p
+        class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5"
+        data-reveal="fade-up"
+        data-reveal-delay="5"
+      >
+        Where we're going
+      </p>
+      <h2
+        class="font-display text-[2.25rem] sm:text-[3.25rem] lg:text-[3.75rem] leading-[1.05] tracking-tight mb-6 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="6"
+      >
+        Tokyo's working teams stop thinking in apps.<br/>
+        <span class="text-[var(--color-ink-soft)]">They think in Zunou.</span>
+      </h2>
+
+      <div class="prose-block max-w-3xl mb-14" data-reveal="fade-up" data-reveal-delay="7">
+        <p>
+          By the end of year 1: small Tokyo teams open Zunou in the morning the way they opened Slack five years ago. Their meeting prep happens automatically. Decisions surface where they need to be acted on. Their AI knows everyone they work with — because everyone they work with is in Zunou too.
+        </p>
+        <p>
+          <strong class="text-[var(--color-ink)]">This isn't sold; it's experienced.</strong> When one Tokyo founder tells another "everyone I know is on Zunou" — that's the moment. From there it spreads passively.
+        </p>
+      </div>
+
+      <!-- WHAT THIS PROPOSAL IS -->
+      <div
+        class="rounded-xl border-2 border-[var(--color-accent)]/30 bg-[var(--color-accent-soft)]/40 p-7 mb-14 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="7"
+      >
+        <p class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3">
+          What I'm proposing we discuss
+        </p>
+        <p class="text-base text-[var(--color-ink)] leading-relaxed mb-4">
+          This is my first GTM proposal at Zunou. <strong>I'm not asking you to ratify a finished plan</strong> — I'm asking you to react to a specific shape, push back where the inputs feel wrong, and shape the next version with me. The strategy below is genuinely good, but it gets twice as good with your judgment in it.
+        </p>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Specifically I want us to align on: <strong class="text-[var(--color-ink)]">the launch shape</strong> (pilot-first vs synchronized), <strong class="text-[var(--color-ink)]">the pilot community</strong> (TAI is my recommendation, others on the attack list), <strong class="text-[var(--color-ink)]">the year-1 ARR target</strong> (math is in §09 — different scenarios, different implications), and <strong class="text-[var(--color-ink)]">what we discover in pilot</strong> that should change the rest of this plan.
         </p>
       </div>
 
       <div
         class="flex flex-wrap items-center gap-3 mb-16"
         data-reveal="fade-up"
-        data-reveal-delay="3"
+        data-reveal-delay="8"
       >
         <a
           href="#decisions"
           class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors"
         >
           <CheckSquare class="w-4 h-4" />
-          Jump to the 17 decisions
+          Vote on the open decisions
         </a>
         <a
           href="#trends"
           class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors"
         >
           <BookOpen class="w-4 h-4" />
-          Read the story
+          Read the full story
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Stat
-          icon="target"
-          value="¥30M ARR"
-          label="Aspirational KGI"
-          caveat="Within 12 mo of synchronized launch"
-          revealDelay={4}
+          icon="users-round"
+          value="6,500"
+          label="Tokyo individuals we can plausibly reach"
+          caveat="Across 13 prioritized communities (§06)"
+          revealDelay={9}
         />
         <Stat
-          icon="users-round"
-          value="4 + 4,000"
-          label="Communities × TAI alone"
-          caveat="Synchronized launch — sympathetic detonation"
-          revealDelay={5}
+          icon="layers"
+          value="One pilot first"
+          label="TAI · 4,000+ AI builders"
+          caveat="Then learn, then double, then scale"
+          revealDelay={10}
         />
         <Stat
           icon="git-pull-request-arrow"
           value="~6 months"
           label="To stop-or-go decision"
-          caveat="Pre-committed PMF stage-gate"
-          revealDelay={6}
+          caveat="Pre-committed PMF stage-gate · §11"
+          revealDelay={11}
         />
       </div>
 
@@ -905,161 +979,149 @@ const openCount = decisions.filter((d) => d.status === "open").length;
       </div>
     </div>
 
-    <!-- Candidate list (ranked) -->
-    <p
-      class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-5"
-      data-reveal="fade-up"
-    >
-      Pilot candidates · ranked by adjacent overlap with our ICP
-    </p>
+    <!-- Attack list — 13 communities, scannable table -->
+    <div class="mb-8" data-reveal="fade-up">
+      <p class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold mb-2">
+        Attack list · 13 community targets across 4 priority tiers
+      </p>
+      <p class="text-sm text-[var(--color-ink-soft)] max-w-3xl leading-relaxed">
+        We pursue P1 first and only commit Marco's time at P2/P3 once pilot signal is validated. <strong class="text-[var(--color-ink)]">But we keep all 13 warm</strong> — community organizers take 2–6 weeks to respond and we don't want to be stuck waiting on a single channel. Backup communities are not afterthoughts; they're the insurance against P1 stalling.
+      </p>
+    </div>
 
-    <div class="space-y-3 max-w-5xl mb-12" data-reveal="fade-up" data-reveal-delay="1">
+    <div class="overflow-x-auto -mx-6 px-6 mb-8" data-reveal="fade-up" data-reveal-delay="1">
+      <table class="w-full text-xs sm:text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+        <thead class="bg-[var(--color-paper-soft)]">
+          <tr>
+            <th class="text-left p-3 font-semibold w-16">Tier</th>
+            <th class="text-left p-3 font-semibold">Community</th>
+            <th class="text-left p-3 font-semibold">Audience · size</th>
+            <th class="text-left p-3 font-semibold">Why us · why now</th>
+            <th class="text-left p-3 font-semibold">Warmth</th>
+            <th class="text-left p-3 font-semibold">Action</th>
+          </tr>
+        </thead>
+        <tbody class="bg-[var(--color-paper)] align-top">
+          <!-- P1 PILOT -->
+          <tr class="border-t-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/15">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-accent)] text-[var(--color-paper)] font-bold">P1</span></td>
+            <td class="p-3"><a href="https://www.tokyoai.jp/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">TAI (Tokyo AI) ↗</a><div class="text-xs text-[var(--color-ink-faint)]">tokyoai.jp</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">AI engineers · researchers · PMs<br/><span class="font-mono">~4,000 members</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Broadest overlap with every other community. Open membership. Builders run the most meetings + are most AI-fluent.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟢 Warm via Tokyo AI advisors</td>
+            <td class="p-3 text-[var(--color-ink)] font-semibold">Demo at monthly meetup → onboard 30–50</td>
+          </tr>
 
-      <!-- P1 — TAI (Tokyo AI) — top pilot pick -->
-      <article class="tile rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-accent)] text-[var(--color-paper)] font-bold">P1 · PILOT</span>
-            <a href="https://www.tokyoai.jp/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
-              TAI (Tokyo AI) ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            4,000+ members · AI engineers / researchers / PMs · monthly meetup + Slack
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-3">
-          <strong>Why first:</strong> the broadest overlap with every other community we'd target (every AI-tech-founder Slack in Tokyo has TAI members in it). Mostly builders, not founders — which matches Zunou's day-1 user (people who run lots of meetings + AI-fluent + curious about new tools). Open membership = lower bar to access than private founder lists.
-        </p>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          <strong class="text-[var(--color-ink)]">Pilot mechanic:</strong> Marco gives a 15-min demo + Q&A at a monthly TAI meetup. Onboard the first 30–50 sign-ups with white-glove support. Six weeks of measured cohort behavior before deciding what comes next.
-        </p>
-      </article>
+          <!-- P2 -->
+          <tr class="border-t-2 border-[var(--color-line)] bg-[var(--color-warning-soft)]/15">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning)] text-[var(--color-paper)] font-bold">P2</span></td>
+            <td class="p-3"><a href="https://tokyo.aitinkerers.org/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">AI Tinkerers Ginza ↗</a><div class="text-xs text-[var(--color-ink-faint)]">tokyo.aitinkerers.org</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Shipping AI builders<br/><span class="font-mono">~200 selective</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Highest-signal users — they build the tools others adopt. Heavy overlap with TAI.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟢 Direct contact possible</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Demo at next demo night</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-warning-soft)]/15">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning)] text-[var(--color-paper)] font-bold">P2</span></td>
+            <td class="p-3"><a href="https://venturecafetokyo.org/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">Venture Café Toranomon ↗</a><div class="text-xs text-[var(--color-ink-faint)]">venturecafetokyo.org · weekly</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Builders + founders + investors mix<br/><span class="font-mono">~500 unique/yr</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Weekly recurring touchpoint. Compound exposure. CIC Tokyo proximity helps later enterprise plays.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Public events — apply</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Speak at Thursday gathering</td>
+          </tr>
 
-      <!-- P2 cluster — adjacent communities to scale into -->
-      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-bold">P2 · DOUBLE</span>
-            <a href="https://tokyo.aitinkerers.org/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
-              AI Tinkerers Ginza ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            ~200 builders · monthly demo nights
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          <strong class="text-[var(--color-ink)]">Highest-signal builders</strong> — the people who write tools other engineers adopt. Heavy overlap with TAI. If pilot data validates, this is the natural "double" community.
-        </p>
-      </article>
+          <!-- P3 SCALE -->
+          <tr class="border-t-2 border-[var(--color-line)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/20 text-[var(--color-ink-soft)] font-bold">P3</span></td>
+            <td class="p-3"><span class="font-display text-lg text-[var(--color-ink)]">Tokyo Founders Group</span><div class="text-xs text-[var(--color-ink-faint)]">private Slack</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Operator-founders<br/><span class="font-mono">~150</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Closer to Zunou's "For Founders" persona. Private list = warm-intro access only.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Need warm intro</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Once pilot is proven</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/20 text-[var(--color-ink-soft)] font-bold">P3</span></td>
+            <td class="p-3"><a href="https://www.startupgrind.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">Startup Grind Tokyo ↗</a><div class="text-xs text-[var(--color-ink-faint)]">startupgrind.com/tokyo</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Founders + investors<br/><span class="font-mono">~400 reachable</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Monthly fireside event rhythm. Established credibility. Overlap with Venture Café.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Apply for speaker slot</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Speak / be a featured guest</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/20 text-[var(--color-ink-soft)] font-bold">P3</span></td>
+            <td class="p-3"><a href="https://blog.lewagon.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">Le Wagon Tokyo alumni ↗</a><div class="text-xs text-[var(--color-ink-faint)]">blog.lewagon.com/tokyo</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Tech bootcamp alumni<br/><span class="font-mono">~300+</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Slack-active, tools-curious. Strong builder overlap with TAI + AI Tinkerers.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟢 Alumni network access</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Workshop at alumni event</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/20 text-[var(--color-ink-soft)] font-bold">P3</span></td>
+            <td class="p-3"><a href="https://www.meetup.com/tokyo-pm-meetup/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">Tokyo Product Meetup ↗</a><div class="text-xs text-[var(--color-ink-faint)]">PMs across Tokyo SaaS</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Product managers<br/><span class="font-mono">~600 active</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">PMs are <Term name="ICP" /> — they run meeting-heavy cross-team work. High intent for Zunou.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Apply to organize a talk</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Talk + demo at meetup</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/20 text-[var(--color-ink-soft)] font-bold">P3</span></td>
+            <td class="p-3"><a href="https://founderslive.com/tokyo" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink)] hover:text-[var(--color-accent)]">Founders Live Tokyo ↗</a><div class="text-xs text-[var(--color-ink-faint)]">founderslive.com</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Founders<br/><span class="font-mono">~200/event</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Pitch-format events. International founder mix. Good warmth-builder before IVS.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Apply or attend</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Sponsor or pitch</td>
+          </tr>
 
-      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-warning-soft)] text-[var(--color-warning)] font-bold">P2 · DOUBLE</span>
-            <a href="https://venturecafetokyo.org/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
-              Venture Café Toranomon ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            Weekly Thursday gathering · CIC Tokyo
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          <strong class="text-[var(--color-ink)]">Highest-frequency repeated touchpoint</strong> in Tokyo's startup graph. Weekly recurring presence = compound exposure. Builders + founders + investors mix.
-        </p>
-      </article>
-
-      <!-- P3 cluster — scale phase -->
-      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
-            <span class="font-display text-2xl text-[var(--color-ink)]">Tokyo Founders Group</span>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            ~150 operator-founders · private list
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Operator-founders — closer to Zunou's marketed "For Founders" persona. Private list, warm-intro access. Reach them after the platform is proven via builders.
-        </p>
-      </article>
-
-      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
-            <a href="https://www.startupgrind.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
-              Startup Grind Tokyo ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            Monthly fireside chats · founders + investors
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Established founder community with monthly event rhythm. Overlap with Venture Café audience. Useful for credentialing speaker spots.
-        </p>
-      </article>
-
-      <article class="tile rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-soft)]/15 text-[var(--color-ink-soft)] font-bold">P3 · SCALE</span>
-            <a href="https://blog.lewagon.com/tokyo/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink)] hover:text-[var(--color-accent)]">
-              Le Wagon Tokyo alumni ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            300+ alumni · technical founders + builders
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Tech bootcamp alumni network in Tokyo. Slack-active, tools-curious. Strong builder overlap with TAI + AI Tinkerers.
-        </p>
-      </article>
-
-      <!-- P4 — speculative -->
-      <article class="tile rounded-xl border border-dashed border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/15 text-[var(--color-ink-faint)] font-bold">P4 · LATER</span>
-            <span class="font-display text-2xl text-[var(--color-ink-soft)]">Headline / Coral / Genesia portfolios</span>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            VC portfolio cohorts · post-platform-proof
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          JP VC portfolios as a community (Headline runs IVS · Coral runs YC-like programs · Genesia Ventures). Wait until Zunou has paying logos to warm-intro at this layer.
-        </p>
-      </article>
-
-      <article class="tile rounded-xl border border-dashed border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-        <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/15 text-[var(--color-ink-faint)] font-bold">P4 · LATER</span>
-            <a href="https://www.ivs.events/" target="_blank" rel="noopener noreferrer" class="font-display text-2xl text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">
-              IVS (Infinity Ventures Summit) ↗
-            </a>
-          </div>
-          <div class="text-xs text-[var(--color-ink-faint)] font-mono">
-            Annual · Kyoto · ~13,000 attendees
-          </div>
-        </div>
-        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Japan's largest startup conference. Anchor event for the year. Aim to demo / pitch only with a working platform + early logos in hand.
-        </p>
-      </article>
+          <!-- P4 LATER -->
+          <tr class="border-t-2 border-dashed border-[var(--color-line)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/20 text-[var(--color-ink-faint)] font-bold">P4</span></td>
+            <td class="p-3"><a href="https://headline.com/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">Headline portfolio ↗</a><div class="text-xs text-[var(--color-ink-faint)]">headline.com · runs IVS</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">JP VC portfolio<br/><span class="font-mono">~80 cos</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Portfolio-wide rollout = scale via VC relationship. Headline also runs IVS.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Advisor warm-intro</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Once we have paying logos</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/20 text-[var(--color-ink-faint)] font-bold">P4</span></td>
+            <td class="p-3"><a href="https://coralcap.co/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">Coral Capital portfolio ↗</a><div class="text-xs text-[var(--color-ink-faint)]">coralcap.co · YC-like program</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">JP VC portfolio<br/><span class="font-mono">~60 cos</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">English-friendly founders. Coral's portfolio program creates community already.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Cold-to-warm via James Riney</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Sponsor a portfolio event</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/20 text-[var(--color-ink-faint)] font-bold">P4</span></td>
+            <td class="p-3"><a href="https://www.genesiaventures.com/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">Genesia Ventures portfolio ↗</a><div class="text-xs text-[var(--color-ink-faint)]">genesiaventures.com · SE Asia + JP</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">SE Asia + JP early-stage<br/><span class="font-mono">~50 cos</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Cross-border founders. Good fit for Zunou's English-tolerant user.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Advisor intro needed</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Investor demo</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/20 text-[var(--color-ink-faint)] font-bold">P4</span></td>
+            <td class="p-3"><a href="https://www.ivs.events/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">IVS Kyoto ↗</a><div class="text-xs text-[var(--color-ink-faint)]">ivs.events · annual July</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">JP startup conference<br/><span class="font-mono">~13,000 attendees</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Anchor event of the year. Launchpad pitch slot is high-leverage with working platform.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🔴 Apply months ahead</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Launchpad / sponsor booth</td>
+          </tr>
+          <tr class="border-t border-[var(--color-line-soft)]">
+            <td class="p-3"><span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-ink-faint)]/20 text-[var(--color-ink-faint)] font-bold">P4</span></td>
+            <td class="p-3"><a href="https://onlab.jp/" target="_blank" rel="noopener noreferrer" class="font-display text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-accent)]">Open Network Lab ↗</a><div class="text-xs text-[var(--color-ink-faint)]">onlab.jp · seed accelerator</div></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Digital Garage accelerator<br/><span class="font-mono">cohort: ~10–15</span></td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Cohort founders need ops tools. Onlab's network gives advisor access.</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">🟡 Direct application</td>
+            <td class="p-3 text-[var(--color-ink-soft)]">Sponsor cohort tooling</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p
       class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl leading-relaxed"
       data-reveal="fade-up"
     >
-      <strong class="not-italic text-[var(--color-ink-soft)]">Why this order:</strong> P1 (TAI) is broad + open + adjacent to everything else. P2 (AI Tinkerers, Venture Café) are the natural double — heavy member overlap with P1. P3 (Tokyo Founders, Startup Grind, Le Wagon) widen the audience to operators + technical founders. P4 (VC portfolios + IVS) needs proof to access. We pick P1, run it deep, and decide P2 based on what we learn — not based on the plan we wrote today.
+      <strong class="not-italic text-[var(--color-ink-soft)]">Warmth legend:</strong> 🟢 immediate access (advisor / direct contact) · 🟡 outreach needed (cold-to-warm in &lt;2 weeks) · 🔴 long lead time (months ahead). <strong class="text-[var(--color-ink-soft)]">Why 13 not 4:</strong> a P1 demo gets scheduled in weeks; P3 takes 2–3 months. Building warm chains across all 13 in parallel means no idle waiting if any one channel stalls. Marco's time-priority is P1; everyone else stays warm via email or one-pager.
     </p>
   </Section>
 
@@ -1508,79 +1570,224 @@ const openCount = decisions.filter((d) => d.status === "open").length;
     lede="Three financial questions the team needs to discuss: the KGI ARR target, the inference cost ceiling, and the budget envelope. Below: how the working estimates were derived, plus alternate scenarios. Numbers ratified together in §12 decisions, not unilaterally here."
   >
 
-    <!-- KGI / ARR scenarios -->
+    <!-- A · KGI / ARR — bottom-up forward build -->
     <div class="mb-14 max-w-5xl" data-reveal="fade-up">
       <div class="flex items-baseline gap-3 mb-1 flex-wrap">
         <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">
           A · the <Term name="KGI" /> question
         </span>
-        <span class="text-xs text-[var(--color-ink-faint)] font-mono">how much <Term name="ARR" /> by month 12</span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">building <Term name="ARR" /> from the ground up</span>
       </div>
-      <h3 class="font-display text-3xl mb-5">
-        How much paid revenue in year 1 is "we're working"?
+      <h3 class="font-display text-3xl mb-4">
+        Working forward from the population, not backward from the goal.
       </h3>
 
-      <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        The KGI signals whether the launch is producing real business, not just signups. Three scenarios — each derived from a different community-conversion assumption against the same launch funnel.
+      <p class="text-sm text-[var(--color-ink-soft)] mb-8 max-w-3xl leading-relaxed">
+        Most pitch decks pick an ARR target and back-solve for users + conversion + price. We do the opposite: start with the actual people we can reach, apply realistic funnel rates, multiply by sensible prices, and see what ARR falls out. <strong class="text-[var(--color-ink)]">If the working estimate disappoints, the answer is to fix specific drivers — not to inflate the inputs.</strong>
       </p>
 
-      <!-- Scenario table -->
-      <div class="overflow-x-auto -mx-6 px-6 mb-5">
+      <!-- The forward build — 5 sequential steps -->
+      <div class="space-y-5 mb-10">
+
+        <!-- Step 1: Population -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+          <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+            <span class="font-display text-3xl text-[var(--color-accent)] tracking-tight">1</span>
+            <h4 class="font-semibold text-[var(--color-ink)]">Start from the reachable population</h4>
+            <span class="ml-auto font-mono text-sm text-[var(--color-ink-faint)]">≈ 6,500 reachable individuals</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            The Tokyo English-speaking AI / tech / founder graph is real and finite. Counting carefully (deduplicating overlap):
+          </p>
+          <div class="grid sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-[var(--color-ink-soft)] font-mono">
+            <div>TAI active members (mostly builders)</div><div>~4,000</div>
+            <div>AI Tinkerers Ginza (selective demos)</div><div>~200</div>
+            <div>Tokyo Founders Group (operators)</div><div>~150</div>
+            <div>Venture Café weekly rotating</div><div>~500 unique annually</div>
+            <div>Le Wagon Tokyo alumni</div><div>~300</div>
+            <div>Startup Grind Tokyo</div><div>~400 reachable</div>
+            <div>Adjacent overlap (already in P1)</div><div>−1,000</div>
+            <div class="text-[var(--color-ink)] font-bold pt-2 border-t border-[var(--color-line) col-span-2">Realistic unique reach (Phase 1–3 communities)</div>
+            <div class="text-[var(--color-ink)] font-bold pt-2 border-t border-[var(--color-line)]"></div>
+            <div class="text-[var(--color-ink)] font-bold col-span-2">≈ 6,500 individuals</div>
+            <div class="text-[var(--color-ink)] font-bold"></div>
+          </div>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 leading-relaxed">
+            P4 layer (VC portfolios, IVS conference) adds ~2–3k more but those are post-stage-gate.
+          </p>
+        </div>
+
+        <!-- Step 2: Sign-ups -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+          <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+            <span class="font-display text-3xl text-[var(--color-accent)] tracking-tight">2</span>
+            <h4 class="font-semibold text-[var(--color-ink)]">Apply realistic awareness × interest funnel</h4>
+            <span class="ml-auto font-mono text-sm text-[var(--color-ink-faint)]">~1,950 sign-ups</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Not everyone in the population will hear about Zunou; not everyone who hears will sign up. Two-step funnel:
+          </p>
+          <div class="font-mono text-sm text-[var(--color-ink-soft)] space-y-1">
+            <div>6,500 reachable × <strong class="text-[var(--color-ink)]">60%</strong> hear about Zunou through Phase 1–3 community demos / digests / word-of-mouth</div>
+            <div>= 3,900 aware</div>
+            <div>3,900 × <strong class="text-[var(--color-ink)]">50%</strong> visit zunou.anysigma.com or sign up after seeing a demo</div>
+            <div class="text-[var(--color-ink)] font-bold">≈ 1,950 sign-ups in year 1</div>
+          </div>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 leading-relaxed">
+            Awareness % is the lever the discovery surface (§06.7) directly moves. Without a public utility, awareness drops closer to 35–40% (only people in demo rooms).
+          </p>
+        </div>
+
+        <!-- Step 3: Activation -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+          <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+            <span class="font-display text-3xl text-[var(--color-accent)] tracking-tight">3</span>
+            <h4 class="font-semibold text-[var(--color-ink)]">Subtract the activation drop-off</h4>
+            <span class="ml-auto font-mono text-sm text-[var(--color-ink-faint)]">~880 active users</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Sign-up is cheap. Hitting the magic number (5 colleagues + 1 calendar + 3 AI actions in 14 days) is the hard part. Industry SaaS benchmark for engaged free → activated is 40–55%:
+          </p>
+          <div class="font-mono text-sm text-[var(--color-ink-soft)] space-y-1">
+            <div>1,950 sign-ups × <strong class="text-[var(--color-ink)]">45%</strong> reach the magic number</div>
+            <div class="text-[var(--color-ink)] font-bold">≈ 880 monthly-active users by month 12</div>
+          </div>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 leading-relaxed">
+            This is the single biggest lever in the whole stack. Activation rate is what onboarding, integrations, and stickiness mechanics (§06.7 panel C) all serve. <strong class="not-italic text-[var(--color-ink-soft)]">+5% activation = +¥1.3M ARR.</strong>
+          </p>
+        </div>
+
+        <!-- Step 4: Paid conversion -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+          <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+            <span class="font-display text-3xl text-[var(--color-accent)] tracking-tight">4</span>
+            <h4 class="font-semibold text-[var(--color-ink)]">Convert activated users to paid</h4>
+            <span class="ml-auto font-mono text-sm text-[var(--color-ink-faint)]">~105 paid seats</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Among activated users (people getting genuine value), free-to-paid conversion in workspace SaaS clusters at 8–15%. Conservative middle:
+          </p>
+          <div class="font-mono text-sm text-[var(--color-ink-soft)] space-y-1">
+            <div>880 active × <strong class="text-[var(--color-ink)]">12%</strong> paid conversion</div>
+            <div class="text-[var(--color-ink)] font-bold">≈ 105 paid seats by month 12</div>
+          </div>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 leading-relaxed">
+            Comparable benchmarks: Notion ~10% (consumer-mixed), Linear ~13% (engineering-focused), Slack ~30% (network-locked-in over time). Year 1 in a new market with a new product trends lower; year 2+ trends higher.
+          </p>
+        </div>
+
+        <!-- Step 5: Price × time → ARR -->
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6">
+          <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+            <span class="font-display text-3xl text-[var(--color-accent)] tracking-tight">5</span>
+            <h4 class="font-semibold text-[var(--color-ink)]">Apply tier mix × price = ARR run-rate</h4>
+            <span class="ml-auto font-mono text-sm text-[var(--color-accent-ink)] font-bold">≈ ¥2.5M ARR run-rate at month 12</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Not all paid users buy the same tier. Assuming Linear-style pricing (panel B option B): 70% on Standard (~¥2,000/mo), 25% on Pro (~¥3,500/mo), 5% on Business (~¥5,000/mo):
+          </p>
+          <div class="font-mono text-sm text-[var(--color-ink-soft)] space-y-1">
+            <div>105 paid × (0.70 × ¥2,000 + 0.25 × ¥3,500 + 0.05 × ¥5,000)</div>
+            <div>= 105 × ¥2,525 avg / user / month</div>
+            <div>= ¥265,000 / month at month 12</div>
+            <div class="text-[var(--color-ink)] font-bold text-base mt-2">→ <strong class="text-[var(--color-accent-ink)]">¥2.5M ARR run-rate</strong> at month 12</div>
+            <div class="text-[var(--color-ink-soft)] mt-1">(But that's not year-1 cumulative — the run-rate <em class="font-display">grew</em> across the year)</div>
+          </div>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 leading-relaxed">
+            Realised year-1 cash collected is ~50–60% of exit-month ARR (revenue ramps as users sign up across the year). Exit-month ARR is the more important number — it's the run-rate going into year 2.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sensitivity table -->
+      <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-3">
+        How exit-month ARR moves with each driver
+      </h4>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-5 max-w-3xl">
+        The forward build above produces ~¥2.5M run-rate. Below: how that moves with each input, holding others constant. <strong class="text-[var(--color-ink)]">The point of this table is to show which driver moves ARR most</strong> — and therefore where to focus.
+      </p>
+
+      <div class="overflow-x-auto -mx-6 px-6 mb-6">
         <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
           <thead class="bg-[var(--color-paper-soft)]">
             <tr>
               <th class="text-left p-3 font-semibold">Scenario</th>
-              <th class="text-left p-3 font-semibold">Active users by month 12</th>
-              <th class="text-left p-3 font-semibold">Paid conversion</th>
-              <th class="text-left p-3 font-semibold">Avg ¥/paid user/mo</th>
-              <th class="text-left p-3 font-semibold">Implied ARR</th>
+              <th class="text-left p-3 font-semibold">Population reached</th>
+              <th class="text-left p-3 font-semibold">Activation rate</th>
+              <th class="text-left p-3 font-semibold">Paid conv.</th>
+              <th class="text-left p-3 font-semibold">Avg ¥/user/mo</th>
+              <th class="text-left p-3 font-semibold">Exit-month ARR</th>
             </tr>
           </thead>
           <tbody class="bg-[var(--color-paper)]">
             <tr class="border-t border-[var(--color-line-soft)]">
-              <td class="p-3 font-semibold text-[var(--color-ink)]">Cautious</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~1,500</td>
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Conservative</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">3,000</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">35%</td>
               <td class="p-3 text-[var(--color-ink-soft)] font-mono">8%</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥1,500</td>
-              <td class="p-3 font-mono text-[var(--color-ink)]">~¥2.2M ARR</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,000</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥800k ARR</td>
             </tr>
             <tr class="border-t border-[var(--color-line-soft)] bg-[var(--color-accent-soft)]/30">
-              <td class="p-3 font-semibold text-[var(--color-ink)]">Working estimate</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~4,000</td>
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Forward-build ★</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">3,900</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">45%</td>
               <td class="p-3 text-[var(--color-ink-soft)] font-mono">12%</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,000</td>
-              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">~¥11.5M ARR</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,525</td>
+              <td class="p-3 font-mono text-[var(--color-accent-ink)] font-bold">~¥2.5M ARR</td>
             </tr>
             <tr class="border-t border-[var(--color-line-soft)]">
-              <td class="p-3 font-semibold text-[var(--color-ink)]">Original aspiration</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~6,250</td>
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Optimistic</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">5,000</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">55%</td>
               <td class="p-3 text-[var(--color-ink-soft)] font-mono">15%</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥2,500</td>
-              <td class="p-3 font-mono text-[var(--color-ink)]">~¥28M ARR ≈ ¥30M</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥3,000</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥7.4M ARR</td>
             </tr>
             <tr class="border-t border-[var(--color-line-soft)]">
-              <td class="p-3 font-semibold text-[var(--color-ink)]">Stretch</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">~10,000</td>
+              <td class="p-3 font-semibold text-[var(--color-ink)]">Stretch (everything works)</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">6,500</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">60%</td>
               <td class="p-3 text-[var(--color-ink-soft)] font-mono">18%</td>
-              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥3,000</td>
-              <td class="p-3 font-mono text-[var(--color-ink)]">~¥65M ARR</td>
+              <td class="p-3 text-[var(--color-ink-soft)] font-mono">¥3,500</td>
+              <td class="p-3 font-mono text-[var(--color-ink)]">~¥14.7M ARR</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- The deeper question -->
       <div
-        class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-5 max-w-4xl"
+        class="rounded-xl border-2 border-[var(--color-warning)]/40 bg-[var(--color-warning-soft)]/30 p-6 max-w-4xl"
       >
-        <h4 class="text-sm font-bold uppercase tracking-[0.14em] text-[var(--color-ink)] mb-3">
-          What each input rests on
-        </h4>
-        <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
-          <li>· <strong class="text-[var(--color-ink)]">Active users by month 12:</strong> pilot → adjacent → scale. Starts with ~50 TAI pilot users, expands by 1.5–2× per community at each phase. <strong>~4,000</strong> is "if we onboard P1+P2+P3 communities and hit ~25% magic-number conversion on cumulative signups."</li>
-          <li>· <strong class="text-[var(--color-ink)]">Paid conversion:</strong> 12% is a typical Notion / Linear free-to-paid for engaged users. SaaS benchmark range 5–25%; ours is mid because most users start free, the magic-number gates paid features.</li>
-          <li>· <strong class="text-[var(--color-ink)]">¥/paid user/mo:</strong> see pricing scenarios in panel B. ¥2,000 = ~$13 — bottom of Slack Pro / Notion Plus range. Discussion needed.</li>
-          <li>· <strong class="text-[var(--color-ink)]">¥30M ARR original number:</strong> came from an aspirational founder-set goal. The working estimate is ~¥11.5M because it's the math the inputs actually produce. <em>Both numbers are on the table.</em></li>
-        </ul>
+        <div class="flex items-start gap-3">
+          <AlertTriangle class="w-5 h-5 text-[var(--color-warning)] shrink-0 mt-0.5" />
+          <div>
+            <h4 class="font-semibold text-[var(--color-ink)] mb-3">
+              The honest reframe — and what to actually discuss
+            </h4>
+            <ul class="text-sm text-[var(--color-ink-soft)] space-y-2 leading-relaxed">
+              <li>
+                · <strong class="text-[var(--color-ink)]">Year 1 isn't where ARR is made.</strong>
+                A community-led launch builds a base, not a balance sheet. The right year-1 question is: <em class="font-display">have we built something that compounds?</em> A ¥2.5M exit-month run-rate with 880 active users and tight unit economics is far more valuable than ¥10M ARR with high churn and lossy retention.
+              </li>
+              <li>
+                · <strong class="text-[var(--color-ink)]">The original ¥30M target requires multiple non-default things to break right at once.</strong>
+                Even the "everything works" stretch ends at ~¥15M. Reaching ¥30M in 12 months would require either bigger initial population (enterprise sales — but we deferred that to year 2), much faster conversion (pricing tested + product unmistakable), or a year-2 horizon.
+              </li>
+              <li>
+                · <strong class="text-[var(--color-ink)]">Why this forward build makes sense:</strong>
+                each step is testable against external benchmarks (TAI size · Notion conversion %s · Linear pricing). If pilot data invalidates any input by month 3, we adjust the next driver instead of pretending the original goal still applies.
+              </li>
+              <li>
+                · <strong class="text-[var(--color-ink)]">What to actually decide in §12:</strong>
+                — Do we ratify the <em class="font-display">forward-build run-rate (¥2.5M)</em> as the working target, with ¥7.4M as upside?<br/>
+                — Or do we commit to the <em class="font-display">¥30M aspiration</em> and accept it requires materially different assumptions (enterprise sales, year-2 trajectory, or higher pricing)?<br/>
+                — Or something else: framework over a single number?
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
