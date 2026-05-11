@@ -169,6 +169,12 @@ export const glossary: Record<string, GlossaryEntry> = {
     long: "Act on the Protection of Personal Information — Japan's primary data privacy law. The 2025–26 amendments add administrative penalties and stricter cross-border transfer rules. Required compliance for any JP enterprise customer.",
     group: "japanese",
   },
+  ISMS: {
+    short:
+      "Information Security Management System — ISO/IEC 27001 certification, table-stakes for Japanese enterprise SaaS contracts.",
+    long: "Information Security Management System — the formal security-management framework defined by ISO/IEC 27001. Required by most Japanese enterprises before they sign a SaaS contract. Independent audit, ~6-month process, ongoing recertification. Together with APPI compliance, this is the gate to enterprise sales.",
+    group: "japanese",
+  },
   METI: {
     short:
       "Japan Ministry of Economy, Trade and Industry — runs national AI policy and SME subsidies.",
