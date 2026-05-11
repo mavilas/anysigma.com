@@ -1,6 +1,7 @@
 ---
 import "../styles/tailwind.css";
-import { Zap, Github, Lock, Shield } from "@lucide/astro";
+import { Zap, Lock, Shield } from "@lucide/astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
 interface Props {
   title?: string;
@@ -26,13 +27,16 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
     <title>{title}</title>
   </head>
   <body class="bg-grain min-h-screen">
+    <!-- READ PROGRESS BAR (top, accent-colored, scroll-linked) -->
+    <div id="read-progress" class="progress-bar"></div>
+
     <!-- HEADER -->
     <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20">
       <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
@@ -65,6 +69,8 @@ const {
       </div>
     </header>
 
+    <TableOfContents />
+
     <main>
       <slot />
     </main>
@@ -86,28 +92,118 @@ const {
       </div>
     </footer>
 
-    <!-- Reveal-on-scroll: lightweight IntersectionObserver -->
+    <!-- Reveal-on-scroll + read-progress bar -->
     <script is:inline>
       (function () {
+        // Reveal observer
         const els = document.querySelectorAll("[data-reveal]");
-        if (!("IntersectionObserver" in window) || !els.length) {
+        if ("IntersectionObserver" in window && els.length) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const delay = parseInt(entry.target.dataset.revealDelay || "0", 10);
+                  entry.target.style.transitionDelay = `${delay * 80}ms`;
+                  entry.target.classList.add("is-visible");
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+          );
+          els.forEach((el) => io.observe(el));
+        } else {
           els.forEach((el) => el.classList.add("is-visible"));
-          return;
         }
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const delay = parseInt(entry.target.dataset.revealDelay || "0", 10);
-                entry.target.style.transitionDelay = `${delay * 80}ms`;
-                entry.target.classList.add("is-visible");
-                io.unobserve(entry.target);
+
+        // Read-progress bar
+        const bar = document.getElementById("read-progress");
+        if (bar) {
+          const update = () => {
+            const h = document.documentElement;
+            const scrolled = h.scrollTop;
+            const max = h.scrollHeight - h.clientHeight;
+            const pct = max > 0 ? Math.min(1, scrolled / max) : 0;
+            bar.style.transform = `scaleX(${pct})`;
+          };
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        }
+
+        // === Voting ===
+        const STORAGE_KEY = "zunou-votes-v1";
+        const loadLocal = () => {
+          try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+          catch { return {}; }
+        };
+        const saveLocal = (votes) =>
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(votes));
+
+        const applyActive = (decisionId, vote) => {
+          const buttons = document.querySelectorAll(`.vote-btn[data-decision="${decisionId}"]`);
+          buttons.forEach((b) => {
+            b.setAttribute("data-active", b.dataset.vote === vote ? "true" : "false");
+          });
+          const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+          if (status && vote) {
+            const label = vote === "on-board" ? "On board ·" : vote === "concern" ? "Concern ·" : "Object ·";
+            status.textContent = `${label} saved`;
+            status.style.opacity = "1";
+          }
+        };
+
+        // Restore from server (authoritative) first, fall back to localStorage
+        const local = loadLocal();
+        Object.entries(local).forEach(([k, v]) => applyActive(k, v));
+
+        fetch("/api/vote", { method: "GET", credentials: "same-origin" })
+          .then((r) => r.ok ? r.json() : null)
+          .then((data) => {
+            if (!data || !data.votes) return;
+            const merged = { ...local, ...data.votes };
+            saveLocal(merged);
+            Object.entries(merged).forEach(([k, v]) => applyActive(k, v));
+          })
+          .catch(() => {});
+
+        // Click handler
+        document.querySelectorAll(".vote-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const decisionId = btn.dataset.decision;
+            const vote = btn.dataset.vote;
+            if (!decisionId || !vote) return;
+
+            // Optimistic UI
+            applyActive(decisionId, vote);
+            const votes = loadLocal();
+            votes[decisionId] = vote;
+            saveLocal(votes);
+
+            // Server write
+            try {
+              const r = await fetch("/api/vote", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ decision: decisionId, vote }),
+              });
+              if (!r.ok) {
+                const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+                if (status) {
+                  status.textContent = `Saved locally · server returned ${r.status}`;
+                  status.style.opacity = "1";
+                }
               }
-            });
-          },
-          { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
-        );
-        els.forEach((el) => io.observe(el));
+            } catch (err) {
+              const status = document.querySelector(`[data-status-for="${decisionId}"]`);
+              if (status) {
+                status.textContent = "Saved locally · offline";
+                status.style.opacity = "1";
+              }
+            }
+          });
+        });
       })();
     </script>
   </body>

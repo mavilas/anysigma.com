@@ -1,13 +1,14 @@
 ---
 interface Props {
   id?: string;
+  number?: string;          // "01", "02", … shown as section badge
   eyebrow?: string;
   title: string;
   lede?: string;
   tone?: "default" | "soft" | "warm" | "ink";
 }
 
-const { id, eyebrow, title, lede, tone = "default" } = Astro.props;
+const { id, number, eyebrow, title, lede, tone = "default" } = Astro.props;
 
 const toneClass = {
   default: "",
@@ -21,43 +22,54 @@ const ledeClass =
     ? "text-[var(--color-paper-soft)]"
     : "text-[var(--color-ink-soft)]";
 
-const eyebrowClass =
-  tone === "ink"
-    ? "text-[var(--color-accent)]"
-    : "text-[var(--color-accent)]";
+const eyebrowClass = "text-[var(--color-accent)]";
+
+const numberClass =
+  tone === "ink" ? "text-[var(--color-paper-soft)]" : "";
 ---
 
-<section id={id} class={`py-16 sm:py-24 ${toneClass}`}>
+<section id={id} class={`py-20 sm:py-28 ${toneClass}`}>
   <div class="max-w-6xl mx-auto px-6">
-    {
-      eyebrow && (
-        <div
-          data-reveal="fade-up"
-          class={`text-xs uppercase tracking-[0.18em] font-medium mb-4 ${eyebrowClass}`}
-        >
-          {eyebrow}
-        </div>
-      )
-    }
-    <h2
-      data-reveal="fade-up"
-      data-reveal-delay="1"
-      class="font-display text-3xl sm:text-5xl mb-5 max-w-3xl leading-tight"
-    >
-      {title}
-    </h2>
-    {
-      lede && (
-        <p
-          data-reveal="fade-up"
-          data-reveal-delay="2"
-          class={`text-lg max-w-2xl leading-relaxed ${ledeClass}`}
-        >
-          {lede}
-        </p>
-      )
-    }
-    <div class="mt-12">
+    <header class="mb-12 sm:mb-14 max-w-3xl">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        {
+          number && (
+            <span class={`section-number ${numberClass}`}>
+              <span>{number}</span>
+            </span>
+          )
+        }
+        {
+          eyebrow && (
+            <span class={`text-xs uppercase tracking-[0.18em] font-semibold ${eyebrowClass}`}>
+              {eyebrow}
+            </span>
+          )
+        }
+      </div>
+
+      <h2
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+        class="font-display text-[2.25rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-[1.08] tracking-tight mb-5"
+      >
+        {title}
+      </h2>
+
+      {
+        lede && (
+          <p
+            data-reveal="fade-up"
+            data-reveal-delay="2"
+            class={`text-lg sm:text-xl leading-[1.6] ${ledeClass} max-w-[60ch]`}
+          >
+            {lede}
+          </p>
+        )
+      }
+    </header>
+
+    <div>
       <slot />
     </div>
   </div>

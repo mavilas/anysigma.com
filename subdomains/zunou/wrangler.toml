@@ -1,3 +1,9 @@
 name = "zunou-anysigma-com"
 compatibility_date = "2026-05-11"
 pages_build_output_dir = "dist"
+
+# Vote storage — only authenticated readers (via Cloudflare Access) can write.
+# Marco-only admin view reads at /admin/votes.
+[[kv_namespaces]]
+binding = "ZUNOU_VOTES"
+id = "bcc04b9485c74651891dfb98604eb8d3"
