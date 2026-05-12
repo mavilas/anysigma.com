@@ -61,6 +61,23 @@ const openCount = decisions.filter((d) => d.status === "open").length;
 ---
 
 <Layout title="Zunou — Japan-Led GTM Strategy">
+  <!-- Top banner · prominent link to the 2-min scan -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-6 py-2.5 flex items-center justify-between gap-4 flex-wrap text-sm">
+      <div class="flex items-center gap-2 text-[var(--color-ink-soft)]">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent-ink)]">Pressed for time?</span>
+        <span class="text-[var(--color-ink)]">Two-minute executive summary available.</span>
+      </div>
+      <a
+        href="/scan"
+        class="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors"
+      >
+        Read the 90-second scan
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
   <!-- HERO -->
   <section class="pt-24 sm:pt-32 pb-20">
     <div class="max-w-6xl mx-auto px-6">
