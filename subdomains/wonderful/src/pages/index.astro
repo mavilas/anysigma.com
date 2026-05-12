@@ -121,7 +121,7 @@ const practiceAreas = [
   {
     title: "Hiring calibration & screening depth",
     icon: "users-round",
-    week: "In flight",
+    week: "Underway",
     blurb:
       "Wonderful's Japan hiring is already in motion. Where I add value sits on top of that engine: depth of technical screening on senior eng, calibration of briefs and interview close-rate, and access to people I have shipped with.",
     bullets: [
@@ -183,13 +183,13 @@ const ninetyDayPlan = [
 const winners = [
   { name: "Sakana AI", what: "$2.65B valuation Nov 2025. JP-native, government-friendly. Local champion.", url: "https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" },
   { name: "LayerX", what: "$100M Series B Sep 2025. JP back-office AI. Embedded customer teams.", url: "https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" },
-  { name: "PKSHA · Karakuri · Mobius", what: "Imperfect but JP-deep. Own the installed base by default. Slow but trusted.", url: "https://www.pkshatech.com/" },
+  { name: "PKSHA · Karakuri · Mobilus", what: "Imperfect but JP-deep. Own the installed base by default. Slow but trusted.", url: "https://www.pkshatech.com/" },
   { name: "Bezeq (Wonderful's own ref)", what: "2,000-agent telco, ~80% resolution, real production. Proof Wonderful can win at scale when the local fit is there.", url: "https://www.bezeq.co.il/en/" },
 ];
 
 const losers = [
   { name: "IBM Watson Japan", what: "2017–19 loud entry. Mizuho · MUFG · Daiichi Sankyo named, then quietly off. The reference accounts walked.", url: "https://www.idc.com/jp" },
-  { name: "Salesforce Einstein", what: "Strong global product. JP customers run on PKSHA, Karakuri, or Mobius for voice + chat. Einstein stays the CRM.", url: "https://www.salesforce.com/jp/products/einstein-ai-solutions/" },
+  { name: "Salesforce Einstein", what: "Strong global product. JP customers run on PKSHA, Karakuri, or Mobilus for voice + chat. Einstein stays the CRM.", url: "https://www.salesforce.com/jp/products/einstein-ai-solutions/" },
   { name: "Generic foreign AI-CX vendors", what: "Translated their pitch, lost POCs in 3 months. No embedded team, no keigo eval, no on-prem option.", url: null },
   { name: "Xembly (US AI Chief of Staff)", what: "$20M raised. Salesforce + Qualtrics customers. Shut down June 2024. Same archetype, US edition.", url: "https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" },
 ];
@@ -431,7 +431,7 @@ const competitors = [
   },
   {
     cohort: "jp",
-    name: "Mobius (Mobilus)",
+    name: "Mobilus",
     role: "Telco veteran",
     strength: "Deployed across JP telco contact centers",
     weakness: "Legacy baggage · less agentic · slow innovation",
@@ -485,7 +485,7 @@ const openQuestions = [
   {
     audience: "HQ + Asia Regional",
     icon: "globe-2",
-    question: "Direct enterprise sales, BPO channel (Transcosmos, Bell System24), or both. Has Tel Aviv decided?",
+    question: "Direct enterprise sales, BPO channel (Transcosmos, Bellsystem24), or both. Has Tel Aviv decided?",
   },
   {
     audience: "HQ + Asia Regional",
@@ -580,7 +580,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           The Japan strategy has to be <strong>written in Tokyo</strong>. Asia regional carries it outward. HQ in Tel Aviv provides air cover, capital, and platform velocity. <em>Japan-led, not Japan-translated.</em> That inversion is the whole play.
         </p>
         <p>
-          The writeup goes in this order. <span class="story-act">Why Japan moves now</span>. <span class="story-act">Who wins, who loses</span>. <span class="story-act">The 12-month position</span>. <span class="story-act">Platform plus execution</span>. <span class="story-act">Evidence</span>. Then a 90-day plan, six open questions for leadership, and a path forward.
+          The writeup goes in this order. <span class="story-act">Why Japan moves now</span>. <span class="story-act">Who wins, who loses</span>. <span class="story-act">The 12-month position</span>. <span class="story-act">Platform plus execution</span>. <span class="story-act">Evidence</span>. Then a 90-day plan, seven open questions for leadership, and a path forward.
         </p>
       </div>
 
@@ -678,7 +678,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <Globe class="w-5 h-5 text-[var(--color-accent)] mb-4" />
         <div class="font-display text-3xl sm:text-4xl mb-1.5 leading-tight tracking-tight">¥1T+</div>
         <div class="text-sm font-medium text-[var(--color-ink)] mb-1.5">JP BPO market size</div>
-        <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">Transcosmos, Bell System24, KDDI Evolva, Relia, Mosaic. Under sustained margin pressure. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.transcosmos.co.jp/english/ir/" target="_blank" rel="noopener noreferrer">Transcosmos IR</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.belle24.co.jp/en/ir/" target="_blank" rel="noopener noreferrer">Bell System24 IR</a>.</div>
+        <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">Transcosmos, Bellsystem24, KDDI Evolva, Relia, Mosaic. Under sustained margin pressure. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.transcosmos.co.jp/english/ir/" target="_blank" rel="noopener noreferrer">Transcosmos IR</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.bellsystem24.jp/en/ir/" target="_blank" rel="noopener noreferrer">Bellsystem24 IR</a>.</div>
       </div>
       <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay="1">
         <TrendingUp class="w-5 h-5 text-[var(--color-accent)] mb-4" />
@@ -716,7 +716,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         </div>
         <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
           <li><strong class="text-[var(--color-ink)]">IBM Watson Japan</strong> · Loud entry 2017–2019. Mizuho, MUFG, Daiichi Sankyo named, then quietly off. <a class="text-[var(--color-accent)] hover:underline" href="https://www.statnews.com/2017/09/05/watson-ibm-cancer/" target="_blank" rel="noopener noreferrer">STAT (Watson Health context)</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a>.</li>
-          <li><strong class="text-[var(--color-ink)]">Salesforce Einstein</strong> · Strong global product. JP customers run on PKSHA, Karakuri, or Mobius for voice and chat. Einstein stays the CRM.</li>
+          <li><strong class="text-[var(--color-ink)]">Salesforce Einstein</strong> · Strong global product. JP customers run on PKSHA, Karakuri, or Mobilus for voice and chat. Einstein stays the CRM.</li>
           <li><strong class="text-[var(--color-ink)]">Generic foreign AI-CX vendors</strong> · Translated their pitch, lost PoCs in 3 months. No embedded team, no keigo eval, no on-prem option. Pattern documented across <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a> annual surveys.</li>
           <li><strong class="text-[var(--color-ink)]">Xembly</strong> · $20M raised, customers Salesforce and Qualtrics. Shutdown June 2024. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire</a>.</li>
         </ul>
@@ -821,7 +821,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       </div>
       <div class="story-prose max-w-3xl mb-8">
         <p>
-          Zooming in on what I called "the platform is real" up top. Anthony walked the platform across the three perspectives it is designed for: <strong>end user, employee user, platform user</strong>. The bank-AI POC showed the end-user perspective integrated into a web and iOS application, the employee perspective surfaced through AI-assisted views with auto-approval and human review, and the platform perspective exposed the orchestration controls underneath. The shape is right for JP enterprise. Centralized platform for creating, managing, and evolving an AI workforce. Horizontal across customer service, but designed for telco, BFSI, travel, hospitality. That horizontal posture is exactly what JP industrials want.
+          Zooming in on what I called "the platform is real" up top. Anthony walked us through the platform across the three perspectives it is designed for: <strong>end user, employee user, platform user</strong>. The bank-AI POC showed the end-user perspective integrated into a web and iOS application, the employee perspective surfaced through AI-assisted views with auto-approval and human review, and the platform perspective exposed the orchestration controls underneath. The shape is right for JP enterprise. Centralized platform for creating, managing, and evolving an AI workforce. Horizontal across customer service, but designed for telco, BFSI, travel, hospitality. That horizontal posture is exactly what JP industrials want.
         </p>
         <p>
           Concretely, what is in production today and what I would lead a JP customer meeting with: Bezeq at 2,000 agents and ~80% resolution. Voice pipeline that logs full session metadata, duration, sentiment, transcripts, words-per-minute, confidence scores. Agent Builder with governance and audit logging on every action. MCPs and multi-channel routing across messaging and telephony stacks. Dynamic dashboards generated against live agent activity. Multimodal agent execution. Forward-deployed engineering posture inside the customer, not pure SaaS from a distance. Eight cards below. Bezeq leads. Everything else compounds with it.
@@ -1177,7 +1177,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-full bg-[var(--color-ink)] text-[var(--color-paper)]">9 names · 2 cohorts</span>
       </div>
       <p class="text-sm text-[var(--color-ink-soft)] mb-6 max-w-3xl leading-relaxed">
-        Nine names, split across two cohorts. The JP-native incumbents (PKSHA, Karakuri, AI Shift, Mobius, Sakana, Jurin AI) are who procurement compares against in vendor reviews today. The widening cohort (Sierra, Decagon, Salesforce Agentforce) is showing up in current RFPs and proves the foreign-vendor pattern is intensifying. The right framing in customer conversations: Wonderful is the only one in either cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference] and a JP-led plan. That combination is the wedge.
+        Nine names, split across two cohorts. The JP-native incumbents (PKSHA, Karakuri, AI Shift, Mobilus, Sakana, Jurin AI) are who procurement compares against in vendor reviews today. The widening cohort (Sierra, Decagon, Salesforce Agentforce) is showing up in current RFPs and proves the foreign-vendor pattern is intensifying. The right framing in customer conversations: Wonderful is the only one in either cohort with all of [voice + autonomy + multimodal + forward-deployed eng + production-scale reference] and a JP-led plan. That combination is the wedge.
       </p>
 
       <!-- Wedge radar SVG · 5 dimensions · Wonderful filled + competitor outlines -->
@@ -1200,7 +1200,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <div class="overflow-x-auto flow-stage">
             <svg viewBox="0 0 600 440" preserveAspectRatio="xMidYMid meet" class="w-full max-w-xl mx-auto block" role="img" aria-labelledby="radar-title radar-desc">
               <title id="radar-title">Competitive wedge radar — 5 dimensions</title>
-              <desc id="radar-desc">Five-axis radar showing Wonderful's coverage (filled accent polygon) vs five JP competitors (PKSHA, Karakuri, AI Shift, Mobius, Sakana) as faded outlines on dimensions: voice, autonomy, multimodal, forward-deployed engineering, production-scale reference.</desc>
+              <desc id="radar-desc">Five-axis radar showing Wonderful's coverage (filled accent polygon) vs five JP competitors (PKSHA, Karakuri, AI Shift, Mobilus, Sakana) as faded outlines on dimensions: voice, autonomy, multimodal, forward-deployed engineering, production-scale reference.</desc>
 
               <!-- Concentric grid rings (1-5) -->
               <g fill="none" stroke="var(--color-line)" stroke-width="0.8">
@@ -1236,7 +1236,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
               <polygon class="flow-node" style="animation-delay:0.55s" points="300,168 374,196 331,262 254,283 226,196" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
               <!-- AI Shift [3,2,3,2,2] -->
               <polygon class="flow-node" style="animation-delay:0.7s" points="300,142 349,204 346,283 269,262 251,204" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
-              <!-- Mobius [3,1,2,2,4] -->
+              <!-- Mobilus [3,1,2,2,4] -->
               <polygon class="flow-node" style="animation-delay:0.85s" points="300,142 325,212 331,262 269,262 201,188" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
               <!-- Sakana [2,1,4,1,2] -->
               <polygon class="flow-node" style="animation-delay:1.0s" points="300,168 325,212 361,304 285,241 251,204" fill="none" stroke="var(--color-ink-soft)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" />
@@ -1301,7 +1301,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
               </div>
               <div class="flex items-baseline gap-2 text-xs">
                 <span class="inline-block w-3 h-3 border border-dashed border-[var(--color-ink-soft)] mt-0.5 shrink-0"></span>
-                <span class="font-semibold text-[var(--color-ink)]">Mobius</span>
+                <span class="font-semibold text-[var(--color-ink)]">Mobilus</span>
                 <span class="text-[var(--color-ink-faint)]">· telco scale, legacy stack</span>
               </div>
               <div class="flex items-baseline gap-2 text-xs">
@@ -1756,7 +1756,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   <Section
     id="open-questions"
     eyebrow="07 · Open questions"
-    title="Six questions worth answering before the next ringi cycle."
+    title="Seven questions worth answering before the next ringi cycle."
     lede="Not for me to answer. Each one is a fork the leadership team decides. Each one shapes the rest of the plan."
     tone="soft"
   >
@@ -1813,7 +1813,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div>
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Wonderful · demo + traction</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· Demo session with Anthony (VP Asia Operations) and Satoshi · 2026</li>
+          <li>· Demo session with Anthony (VP Asia Operations) and Hosoi-san · 2026</li>
           <li>· Wonderful internal collateral on Bezeq deployment (referenced in the demo)</li>
           <li>· Demo video sent post-session by Anthony · reviewed</li>
         </ul>
