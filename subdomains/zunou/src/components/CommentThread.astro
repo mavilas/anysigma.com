@@ -1,0 +1,36 @@
+---
+// CommentThread · marker for an arbitrary anchor.
+// Renders a hidden span that the global comments panel discovers and treats
+// as an anchor (in addition to <Section>s with `id`s). Useful for marking
+// non-Section blocks as commentable.
+//
+// Usage:
+//   <p>Some paragraph.</p>
+//   <CommentThread anchor="hero-thesis" label="Hero · thesis" />
+interface Props {
+  anchor: string;
+  label?: string;
+}
+const { anchor, label } = Astro.props;
+const ariaLabel = label || `Comment on ${anchor}`;
+---
+
+<span
+  class="comment-anchor-inline"
+  data-comment-anchor={anchor}
+  data-comment-anchor-label={label || anchor}
+  aria-hidden="true"
+>
+  <button
+    type="button"
+    class="comment-gutter-indicator comment-gutter-indicator-inline"
+    data-comments-trigger={anchor}
+    data-comments-label={label || anchor}
+    aria-label={ariaLabel}
+  >
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span class="comment-gutter-count" data-comments-count={anchor}>0</span>
+  </button>
+</span>
