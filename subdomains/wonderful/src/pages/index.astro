@@ -555,7 +555,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       </div>
 
       <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
-        The opening · what I saw in your demo
+        Executive brief · what I saw in your demo
       </p>
       <h1 class="font-display text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.0] tracking-tight mb-4 max-w-5xl relative" data-reveal="fade-up" data-reveal-delay="2">
         The platform is real.<br /><span class="text-[var(--color-ink-soft)] italic font-display">Now to win Japan.</span>
@@ -613,21 +613,45 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="7">
         <a href="#shift" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors">
           <BookOpen class="w-4 h-4" />
-          Read the full feedback
+          Continue into the appendix
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
         <a href="#plan" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
-          Skip to the 90-day plan
+          Jump to the 90-day plan
         </a>
       </div>
 
       <p class="mt-6 text-xs text-[var(--color-ink-faint)] max-w-3xl">
-        Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san / Satoshi (President, Japan, in role May 2026). Distributed via the LINE group as the requested feedback writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access.
+        The brief above is self-contained. Everything below this point is the full playbook — depth on demand, not required reading. Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san / Satoshi (President, Japan, in role May 2026). Distributed via the LINE group as the requested feedback writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access.
       </p>
     </div>
   </section>
 
-  <hr class="section-rule max-w-6xl mx-auto" />
+  <!-- ============================================================ -->
+  <!-- APPENDIX BOUNDARY -->
+  <!-- Hard signpost that the executive brief is done. Everything    -->
+  <!-- below is optional depth for readers who want the playbook.    -->
+  <!-- ============================================================ -->
+  <section class="py-16 sm:py-20" aria-label="Appendix boundary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="border-t border-[var(--color-line)] pt-10" data-reveal="fade-up">
+        <div class="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold">
+            End of executive brief
+          </span>
+          <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-mono">
+            Appendix follows · ~14 min
+          </span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl leading-[1.05] tracking-tight mb-3 max-w-3xl">
+          Appendix · the full playbook
+        </h2>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed max-w-3xl">
+          The pages below are the long form behind the brief — market read, winners-and-losers pattern, the 12-month position, platform-plus-execution detail, evidence, and the 90-day plan. Read in order, skim by section heading, or stop at the brief. All of it is depth on demand, not required reading.
+        </p>
+      </div>
+    </div>
+  </section>
 
   <!-- ============================================================ -->
   <!-- §01 THE SHIFT -->
