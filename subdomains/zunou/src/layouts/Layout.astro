@@ -100,6 +100,917 @@ const isScan = kind === "scan";
       <slot />
     </main>
 
+    <!-- ============================================================
+         Comments · selection-based, Google Docs / Notion style
+         Discovery: user selects text inside a [data-comment-block] →
+         floating tooltip appears → click to open a composer near the
+         selection → posted comment highlights the text and shows in
+         the sidebar (which only appears when ≥1 comment exists).
+         ============================================================ -->
+
+    <!-- Floating tooltip near current selection -->
+    <div id="comments-selection-tooltip" class="comments-selection-tooltip" hidden role="tooltip">
+      <button type="button" id="comments-selection-comment" class="comments-selection-tooltip-btn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Comment</span>
+      </button>
+    </div>
+
+    <!-- Floating thread popover (Notion-style inline expand for a highlight) -->
+    <div id="comments-thread-popover" class="comments-thread-popover" hidden role="dialog" aria-label="Comment thread">
+      <div class="comments-thread-popover-arrow" aria-hidden="true"></div>
+      <div class="comments-thread-popover-body" id="comments-thread-popover-body"></div>
+    </div>
+
+    <!-- Floating popover composer anchored to a selection -->
+    <div id="comments-composer" class="comments-composer" hidden>
+      <div class="comments-composer-quote" id="comments-composer-quote"></div>
+      <form id="comments-composer-form">
+        <textarea
+          id="comments-composer-textarea"
+          placeholder="Add a comment…  (⌘/Ctrl+Enter to send)"
+          rows="3"
+          maxlength="4000"
+        ></textarea>
+        <div class="comments-composer-actions">
+          <span class="comments-composer-hint" id="comments-composer-hint"></span>
+          <div class="comments-composer-buttons">
+            <button type="button" id="comments-composer-cancel" class="comments-composer-btn comments-composer-btn-ghost">Cancel</button>
+            <button type="submit" class="comments-composer-btn comments-composer-btn-primary">Post</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Floating tab + sidebar — hidden when there are no comments -->
+    <button
+      type="button"
+      class="comments-tab"
+      id="comments-toggle"
+      aria-label="Open comments"
+      aria-controls="comments-sidebar"
+      aria-expanded="false"
+      hidden
+    >
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span class="comments-tab-label">
+        <span data-comments-total-count>0</span>
+      </span>
+    </button>
+
+    <aside
+      class="comments-sidebar"
+      id="comments-sidebar"
+      aria-labelledby="comments-sidebar-title"
+      data-open="false"
+      hidden
+    >
+      <header class="comments-sidebar-header">
+        <div class="comments-sidebar-header-title">
+          <span class="comments-sidebar-eyebrow">Discussion</span>
+          <span class="comments-sidebar-title" id="comments-sidebar-title">Comments</span>
+        </div>
+        <div class="comments-sidebar-header-actions">
+          <label class="comments-sidebar-show-resolved">
+            <input type="checkbox" id="comments-show-resolved" />
+            <span>Show resolved</span>
+          </label>
+          <button type="button" class="comments-sidebar-close" id="comments-close" aria-label="Close comments">✕</button>
+        </div>
+      </header>
+
+      <div class="comments-sidebar-body" id="comments-sidebar-body"></div>
+
+      <div class="comments-sidebar-footer">
+        <span class="comments-sidebar-footer-hint" id="comments-status"></span>
+      </div>
+    </aside>
+
+    <script is:inline>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+
+        const tab = $("comments-toggle");
+        const sidebar = $("comments-sidebar");
+        const sidebarBody = $("comments-sidebar-body");
+        const closeBtn = $("comments-close");
+        const statusEl = $("comments-status");
+        const showResolvedToggle = $("comments-show-resolved");
+        const totalCountEl = document.querySelector("[data-comments-total-count]");
+
+        const selectionTooltip = $("comments-selection-tooltip");
+        const selectionCommentBtn = $("comments-selection-comment");
+
+        const composer = $("comments-composer");
+        const composerForm = $("comments-composer-form");
+        const composerTextarea = $("comments-composer-textarea");
+        const composerQuote = $("comments-composer-quote");
+        const composerCancel = $("comments-composer-cancel");
+        const composerHint = $("comments-composer-hint");
+
+        if (!tab || !sidebar || !selectionTooltip || !composer) return;
+
+        const ADMIN_EMAILS = new Set([
+          "marco@anysigma.com",
+          "mgmafo@gmail.com",
+          "majin@anysigma.com",
+        ]);
+        const STORAGE_OPEN = "zunou.comments.sidebar.open";
+        const STORAGE_RESOLVED = "zunou.comments.showResolved";
+        const MIN_SELECTION = 2;
+        const MAX_SELECTION = 1000;
+
+        let allComments = [];
+        let currentUserEmail = null;
+        let showResolved = false;
+        let selectionCtx = null;
+        let composerState = null;
+
+        try { showResolved = localStorage.getItem(STORAGE_RESOLVED) === "1"; } catch {}
+        if (showResolvedToggle) showResolvedToggle.checked = showResolved;
+
+        const DEV_EMAIL = new URL(window.location.href).searchParams.get("dev_email");
+        const apiUrl = (path) => {
+          const u = new URL(path, window.location.origin);
+          if (DEV_EMAIL) u.searchParams.set("dev_email", DEV_EMAIL);
+          return u.toString();
+        };
+
+        const escapeHtml = (s) =>
+          String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+        const cssEsc = (s) => (window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/"/g, '\\"'));
+        const initials = (name) => {
+          const parts = String(name || "?").split(/\s+/);
+          const a = parts[0] ? parts[0][0] : "?";
+          const b = parts.length > 1 ? parts[parts.length - 1][0] : "";
+          return (a + b).toUpperCase();
+        };
+        const rel = (ts) => {
+          const diff = Date.now() - ts;
+          if (diff < 30_000) return "just now";
+          if (diff < 60_000) return Math.floor(diff / 1_000) + "s ago";
+          if (diff < 3_600_000) return Math.floor(diff / 60_000) + "m ago";
+          if (diff < 86_400_000) return Math.floor(diff / 3_600_000) + "h ago";
+          if (diff < 7 * 86_400_000) return Math.floor(diff / 86_400_000) + "d ago";
+          return new Date(ts).toISOString().slice(0, 10);
+        };
+        const truncate = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + "…" : s || "");
+
+        const setStatus = (msg, kind) => {
+          if (!statusEl) return;
+          statusEl.textContent = msg || "";
+          statusEl.style.color =
+            kind === "error" ? "var(--color-danger)"
+            : kind === "success" ? "var(--color-success)"
+            : "var(--color-ink-faint)";
+          if (msg && kind !== "error") {
+            setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ""; }, 1800);
+          }
+        };
+
+        // ---- API ----
+        const fetchAll = async () => {
+          try {
+            const r = await fetch(apiUrl("/api/comments"), { credentials: "same-origin" });
+            if (!r.ok) return;
+            const data = await r.json();
+            currentUserEmail = data.email || currentUserEmail;
+            allComments = [];
+            for (const arr of Object.values(data.byAnchor || {})) {
+              for (const c of arr) allComments.push(c);
+            }
+            allComments.sort((a, b) => a.createdAt - b.createdAt);
+          } catch {}
+        };
+
+        const postComment = async (payload) => {
+          const r = await fetch(apiUrl("/api/comments"), {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!r.ok) {
+            const err = await r.json().catch(() => ({}));
+            throw new Error(err.error || ("HTTP " + r.status));
+          }
+          return r.json();
+        };
+
+        const patchComment = async (id, payload) => {
+          const r = await fetch(apiUrl("/api/comments/" + encodeURIComponent(id)), {
+            method: "PATCH",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!r.ok) {
+            const err = await r.json().catch(() => ({}));
+            throw new Error(err.error || ("HTTP " + r.status));
+          }
+          return r.json();
+        };
+
+        const deleteComment = async (id) => {
+          const r = await fetch(apiUrl("/api/comments/" + encodeURIComponent(id)), {
+            method: "DELETE",
+            credentials: "same-origin",
+          });
+          if (!r.ok) {
+            const err = await r.json().catch(() => ({}));
+            throw new Error(err.error || ("HTTP " + r.status));
+          }
+          return r.json();
+        };
+
+        // ---- Highlight rendering ----
+        const clearHighlights = () => {
+          document.querySelectorAll("mark.comment-highlight").forEach((m) => {
+            const parent = m.parentNode;
+            if (!parent) return;
+            parent.replaceChild(document.createTextNode(m.textContent || ""), m);
+          });
+          document.querySelectorAll("[data-comment-block]").forEach((b) => {
+            try { b.normalize(); } catch {}
+          });
+        };
+
+        const findTextInBlock = (blockId, quotedText) => {
+          const block = document.querySelector('[data-comment-block="' + cssEsc(blockId) + '"]');
+          if (!block) return null;
+          const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
+            acceptNode: (n) => {
+              if (n.parentNode && n.parentNode.closest("mark.comment-highlight")) return NodeFilter.FILTER_REJECT;
+              if (n.parentNode && n.parentNode.closest("[data-no-comment]")) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            },
+          });
+          let node;
+          while ((node = walker.nextNode())) {
+            const idx = (node.nodeValue || "").indexOf(quotedText);
+            if (idx !== -1) return { node, start: idx, end: idx + quotedText.length };
+          }
+          return null;
+        };
+
+        const wrapHighlight = (loc, comment, replyCount) => {
+          const { node, start, end } = loc;
+          const text = node.nodeValue || "";
+          const parent = node.parentNode;
+          if (!parent) return null;
+          const before = text.slice(0, start);
+          const middle = text.slice(start, end);
+          const after = text.slice(end);
+          const mark = document.createElement("mark");
+          mark.className = "comment-highlight" + (comment.resolved ? " is-resolved" : "");
+          mark.dataset.commentId = comment.id;
+          mark.dataset.commentAuthor = comment.authorName || "";
+          mark.tabIndex = 0;
+          mark.setAttribute("role", "button");
+          const replyHint = replyCount > 0 ? " (" + replyCount + " " + (replyCount === 1 ? "reply" : "replies") + ")" : "";
+          mark.setAttribute("aria-label", "Comment from " + (comment.authorName || "someone") + replyHint + ": " + truncate(comment.body, 80));
+          mark.textContent = middle;
+          // Inline pin badge so the highlight reads as clickable
+          const pin = document.createElement("button");
+          pin.type = "button";
+          pin.className = "comment-pin";
+          pin.dataset.commentPin = comment.id;
+          pin.setAttribute("aria-label", "Show comment thread");
+          pin.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+          mark.appendChild(pin);
+          if (before) parent.insertBefore(document.createTextNode(before), node);
+          parent.insertBefore(mark, node);
+          if (after) parent.insertBefore(document.createTextNode(after), node);
+          parent.removeChild(node);
+          return mark;
+        };
+
+        const replyCountFor = (commentId) =>
+          allComments.filter((c) => c.parentId === commentId).length;
+
+        const renderAllHighlights = () => {
+          clearHighlights();
+          for (const c of allComments) {
+            if (c.parentId) continue;
+            if (!c.quotedText) continue;
+            if (c.resolved && !showResolved) continue;
+            const loc = findTextInBlock(c.anchorId, c.quotedText);
+            if (loc) wrapHighlight(loc, c, replyCountFor(c.id));
+          }
+        };
+
+        // ---- Visibility ----
+        const updateVisibility = () => {
+          const total = allComments.filter((c) => !c.parentId).length;
+          const visible = allComments.filter((c) => !c.parentId && (showResolved || !c.resolved)).length;
+          if (total === 0) {
+            tab.hidden = true;
+            sidebar.hidden = true;
+            if (sidebar.dataset.open === "true") setOpen(false);
+          } else {
+            tab.hidden = false;
+            sidebar.hidden = false;
+            tab.setAttribute("data-has-comments", visible > 0 ? "true" : "false");
+          }
+          if (totalCountEl) totalCountEl.textContent = String(visible);
+        };
+
+        const blockLabelFor = (blockId) => {
+          const el = document.querySelector('[data-comment-block="' + cssEsc(blockId) + '"]');
+          if (!el) return blockId;
+          return el.getAttribute("data-comment-block-label") || blockId;
+        };
+
+        // ---- Sidebar rendering ----
+        const renderCommentCard = (c, isReply) => {
+          const isSelf = currentUserEmail && c.author === currentUserEmail;
+          const isAdmin = ADMIN_EMAILS.has(c.author);
+          const isAdminViewer = currentUserEmail && ADMIN_EMAILS.has(currentUserEmail);
+          const canDelete = isSelf || isAdminViewer;
+          const canResolve = !isReply && (isSelf || isAdminViewer);
+          return (
+            '<article class="comment-card' +
+              (isReply ? " is-reply" : "") +
+              (isSelf ? " is-self" : "") +
+              (c.resolved ? " is-resolved" : "") +
+              '" data-comment-id="' + escapeHtml(c.id) + '">' +
+              '<span class="comment-avatar" data-admin="' + (isAdmin ? "true" : "false") + '" aria-hidden="true">' +
+                escapeHtml(initials(c.authorName)) + '</span>' +
+              '<div>' +
+                '<div class="comment-meta-row">' +
+                  '<span class="comment-author">' + escapeHtml(c.authorName) + '</span>' +
+                  '<span class="comment-timestamp" title="' + new Date(c.createdAt).toISOString() + '">' + escapeHtml(rel(c.createdAt)) + '</span>' +
+                  (c.editedAt ? '<span class="comment-edited">(edited)</span>' : '') +
+                  (c.resolved ? '<span class="comment-resolved-badge">Resolved</span>' : '') +
+                  '<span class="comment-actions">' +
+                    (canResolve ? '<button type="button" class="comment-action" data-comments-resolve="' + escapeHtml(c.id) + '" data-resolved="' + (c.resolved ? "true" : "false") + '">' + (c.resolved ? "Unresolve" : "Resolve") + '</button>' : '') +
+                    (canDelete ? '<button type="button" class="comment-action comment-action-danger" data-comments-delete="' + escapeHtml(c.id) + '">Delete</button>' : '') +
+                  '</span>' +
+                '</div>' +
+                '<div class="comment-body">' + escapeHtml(c.body) + '</div>' +
+              '</div>' +
+            '</article>'
+          );
+        };
+
+        const renderThread = (top, replies) => {
+          const quoted = top.quotedText
+            ? '<button type="button" class="comment-thread-quote" data-comments-jump="' + escapeHtml(top.id) + '" title="Jump to this text">' +
+                '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                  '<path d="M3 21v-4a4 4 0 0 1 4-4h14"/><path d="M17 17l4-4-4-4"/></svg>' +
+                '<span class="comment-thread-quote-text">' + escapeHtml(truncate(top.quotedText, 140)) + '</span>' +
+              '</button>'
+            : '';
+          return (
+            '<section class="comment-thread" data-thread-id="' + escapeHtml(top.id) + '" data-thread-block="' + escapeHtml(top.anchorId) + '">' +
+              '<div class="comment-thread-meta"><span class="comment-thread-block">' + escapeHtml(blockLabelFor(top.anchorId)) + '</span></div>' +
+              quoted +
+              renderCommentCard(top, false) +
+              replies.map((r) => renderCommentCard(r, true)).join("") +
+              '<button type="button" class="reply-trigger" data-comments-reply="' + escapeHtml(top.id) + '" data-comments-reply-anchor="' + escapeHtml(top.anchorId) + '" data-comments-reply-name="' + escapeHtml(top.authorName) + '">↳ Reply</button>' +
+            '</section>'
+          );
+        };
+
+        const renderSidebar = () => {
+          const visible = allComments.filter((c) => showResolved || !c.resolved);
+          const tops = visible.filter((c) => !c.parentId).sort((a, b) => b.createdAt - a.createdAt);
+          if (tops.length === 0) {
+            sidebarBody.innerHTML = '<div class="comments-sidebar-empty">' +
+              (allComments.length === 0
+                ? "Select text in the page to start a comment."
+                : "No open comments. Toggle 'Show resolved' to see resolved ones.") +
+              '</div>';
+            return;
+          }
+          const repliesByParent = {};
+          for (const c of visible) {
+            if (c.parentId) (repliesByParent[c.parentId] ||= []).push(c);
+          }
+          sidebarBody.innerHTML = tops.map((t) => renderThread(t, repliesByParent[t.id] || [])).join("");
+        };
+
+        // ---- Sidebar open/close ----
+        const setOpen = (open) => {
+          sidebar.dataset.open = open ? "true" : "false";
+          tab.setAttribute("aria-expanded", open ? "true" : "false");
+          document.documentElement.setAttribute("data-comments-open", open ? "true" : "false");
+          try { localStorage.setItem(STORAGE_OPEN, open ? "1" : "0"); } catch {}
+          if (open) renderSidebar();
+        };
+        const isOpen = () => sidebar.dataset.open === "true";
+
+        // ---- Selection tooltip ----
+        const isInsideCommentUi = (node) => {
+          const el = node instanceof Element ? node : (node && node.parentElement);
+          if (!el) return false;
+          return !!el.closest("#comments-sidebar, #comments-composer, #comments-selection-tooltip, .comments-tab");
+        };
+
+        const updateSelectionContext = () => {
+          const sel = window.getSelection();
+          if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+            hideSelectionTooltip();
+            return;
+          }
+          const range = sel.getRangeAt(0);
+          const startEl = range.startContainer.nodeType === 1
+            ? range.startContainer
+            : range.startContainer.parentElement;
+          if (!startEl || isInsideCommentUi(startEl)) {
+            hideSelectionTooltip();
+            return;
+          }
+          const block = startEl.closest("[data-comment-block]");
+          if (!block) {
+            hideSelectionTooltip();
+            return;
+          }
+          const endEl = range.endContainer.nodeType === 1 ? range.endContainer : range.endContainer.parentElement;
+          if (!endEl || !block.contains(endEl)) {
+            hideSelectionTooltip();
+            return;
+          }
+          const text = sel.toString().replace(/\s+/g, " ").trim();
+          if (text.length < MIN_SELECTION || text.length > MAX_SELECTION) {
+            hideSelectionTooltip();
+            return;
+          }
+          const rect = range.getBoundingClientRect();
+          const blockText = (block.textContent || "").replace(/\s+/g, " ");
+          const idx = blockText.indexOf(text);
+          const contextBefore = idx >= 0 ? blockText.slice(Math.max(0, idx - 40), idx) : "";
+          const contextAfter = idx >= 0 ? blockText.slice(idx + text.length, idx + text.length + 40) : "";
+          selectionCtx = {
+            blockId: block.getAttribute("data-comment-block"),
+            blockLabel: block.getAttribute("data-comment-block-label") || "",
+            quotedText: text,
+            contextBefore,
+            contextAfter,
+            rect,
+          };
+          showSelectionTooltip(rect);
+        };
+
+        const showSelectionTooltip = (rect) => {
+          const tt = selectionTooltip;
+          tt.hidden = false;
+          // Measure
+          const ttRect = tt.getBoundingClientRect();
+          const ttW = ttRect.width || 120;
+          const ttH = ttRect.height || 32;
+          let top = rect.top - ttH - 10 + window.scrollY;
+          let left = rect.left + rect.width / 2 - ttW / 2 + window.scrollX;
+          if (top < window.scrollY + 4) {
+            top = rect.bottom + 10 + window.scrollY;
+            tt.classList.add("below");
+          } else {
+            tt.classList.remove("below");
+          }
+          const maxLeft = window.scrollX + document.documentElement.clientWidth - ttW - 8;
+          if (left > maxLeft) left = maxLeft;
+          if (left < window.scrollX + 8) left = window.scrollX + 8;
+          tt.style.top = top + "px";
+          tt.style.left = left + "px";
+        };
+
+        const hideSelectionTooltip = () => {
+          if (selectionTooltip) selectionTooltip.hidden = true;
+          selectionCtx = null;
+        };
+
+        // ---- Composer ----
+        const positionComposer = (rect) => {
+          composer.style.visibility = "hidden";
+          composer.hidden = false;
+          const cRect = composer.getBoundingClientRect();
+          composer.style.visibility = "";
+          if (!rect) {
+            composer.style.top = (window.scrollY + window.innerHeight / 2 - cRect.height / 2) + "px";
+            composer.style.left = (window.scrollX + (window.innerWidth - cRect.width) / 2) + "px";
+            return;
+          }
+          let top = rect.bottom + 10 + window.scrollY;
+          let left = rect.left + window.scrollX;
+          if (top + cRect.height > window.scrollY + window.innerHeight - 16) {
+            top = Math.max(window.scrollY + 16, rect.top - cRect.height - 10 + window.scrollY);
+          }
+          const maxLeft = window.scrollX + document.documentElement.clientWidth - cRect.width - 8;
+          if (left > maxLeft) left = maxLeft;
+          if (left < window.scrollX + 8) left = window.scrollX + 8;
+          composer.style.top = top + "px";
+          composer.style.left = left + "px";
+        };
+
+        const openComposer = ({ mode, ctx }) => {
+          composerState = {
+            mode,
+            blockId: ctx.blockId,
+            parentId: ctx.parentId || null,
+            quotedText: ctx.quotedText || null,
+            contextBefore: ctx.contextBefore || null,
+            contextAfter: ctx.contextAfter || null,
+            rect: ctx.rect || null,
+            parentName: ctx.parentName || null,
+          };
+          composerTextarea.value = "";
+          if (composerState.quotedText) {
+            composerQuote.innerHTML =
+              '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<path d="M3 21v-4a4 4 0 0 1 4-4h14"/><path d="M17 17l4-4-4-4"/></svg>' +
+              '<span>' + escapeHtml(truncate(composerState.quotedText, 140)) + '</span>';
+            composerQuote.hidden = false;
+          } else if (composerState.parentName) {
+            composerQuote.innerHTML = '<span class="comments-composer-quote-reply">Replying to <strong>' + escapeHtml(composerState.parentName) + '</strong></span>';
+            composerQuote.hidden = false;
+          } else {
+            composerQuote.hidden = true;
+          }
+          composerHint.textContent = "Posting as " + (currentUserEmail || "you");
+          positionComposer(composerState.rect);
+          setTimeout(() => composerTextarea.focus(), 30);
+        };
+
+        const closeComposer = () => {
+          composer.hidden = true;
+          composerState = null;
+          composerTextarea.value = "";
+        };
+
+        // ---- Inline thread popover (Notion-style on highlight click) ----
+        const threadPopover = $("comments-thread-popover");
+        const threadPopoverBody = $("comments-thread-popover-body");
+        let popoverThreadId = null;
+
+        const renderThreadPopover = (topId) => {
+          const top = allComments.find((c) => c.id === topId);
+          if (!top) return;
+          const replies = allComments.filter((c) => c.parentId === top.id);
+          const isSelf = currentUserEmail && top.author === currentUserEmail;
+          const isAdminViewer = currentUserEmail && ADMIN_EMAILS.has(currentUserEmail);
+          const canResolve = isSelf || isAdminViewer;
+          const canDelete = isSelf || isAdminViewer;
+          threadPopoverBody.innerHTML =
+            '<div class="comments-thread-popover-header">' +
+              '<span class="comments-thread-popover-header-label">' + escapeHtml(blockLabelFor(top.anchorId)) + '</span>' +
+              '<button type="button" class="comments-thread-popover-close" data-thread-popover-close aria-label="Close">✕</button>' +
+            '</div>' +
+            (top.quotedText
+              ? '<div class="comments-composer-quote">' +
+                  '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21v-4a4 4 0 0 1 4-4h14"/><path d="M17 17l4-4-4-4"/></svg>' +
+                  '<span>' + escapeHtml(truncate(top.quotedText, 140)) + '</span>' +
+                '</div>'
+              : '') +
+            renderCommentCard(top, false) +
+            replies.map((r) => renderCommentCard(r, true)).join("") +
+            '<button type="button" class="reply-trigger" data-comments-reply="' + escapeHtml(top.id) + '" data-comments-reply-anchor="' + escapeHtml(top.anchorId) + '" data-comments-reply-name="' + escapeHtml(top.authorName) + '">↳ Reply</button>' +
+            '<div class="comments-thread-popover-footer">' +
+              '<span class="comments-anchor-form-hint">Posting as ' + escapeHtml(currentUserEmail || "you") + '</span>' +
+              '<button type="button" class="comments-thread-popover-link" data-open-sidebar>Open in sidebar →</button>' +
+            '</div>';
+        };
+
+        const positionThreadPopover = (rect) => {
+          // Render to measure
+          threadPopover.style.visibility = "hidden";
+          threadPopover.hidden = false;
+          const pRect = threadPopover.getBoundingClientRect();
+          threadPopover.style.visibility = "";
+
+          if (!rect) {
+            threadPopover.style.top = (window.scrollY + window.innerHeight / 2 - pRect.height / 2) + "px";
+            threadPopover.style.left = (window.scrollX + (window.innerWidth - pRect.width) / 2) + "px";
+            return;
+          }
+          let top = rect.bottom + 12 + window.scrollY;
+          let left = rect.left + window.scrollX - 16;
+          if (top + pRect.height > window.scrollY + window.innerHeight - 16) {
+            // No room below — show above
+            top = Math.max(window.scrollY + 16, rect.top - pRect.height - 12 + window.scrollY);
+          }
+          const maxLeft = window.scrollX + document.documentElement.clientWidth - pRect.width - 8;
+          if (left > maxLeft) left = maxLeft;
+          if (left < window.scrollX + 8) left = window.scrollX + 8;
+          threadPopover.style.top = top + "px";
+          threadPopover.style.left = left + "px";
+        };
+
+        const openThreadPopover = (topId, rect) => {
+          popoverThreadId = topId;
+          renderThreadPopover(topId);
+          positionThreadPopover(rect);
+        };
+
+        const closeThreadPopover = () => {
+          threadPopover.hidden = true;
+          popoverThreadId = null;
+        };
+
+        const refreshThreadPopover = () => {
+          if (!popoverThreadId) return;
+          const top = allComments.find((c) => c.id === popoverThreadId);
+          if (!top) { closeThreadPopover(); return; }
+          renderThreadPopover(popoverThreadId);
+        };
+
+        // ---- Navigation helpers ----
+        const jumpToHighlight = (id) => {
+          const mark = document.querySelector('mark.comment-highlight[data-comment-id="' + cssEsc(id) + '"]');
+          if (!mark) {
+            setStatus("That text isn't on this page anymore.", "error");
+            return;
+          }
+          mark.scrollIntoView({ behavior: "smooth", block: "center" });
+          mark.classList.add("flash");
+          setTimeout(() => mark.classList.remove("flash"), 1400);
+        };
+
+        const scrollSidebarToComment = (id) => {
+          const card = sidebarBody.querySelector('[data-comment-id="' + cssEsc(id) + '"]');
+          if (!card) return;
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.classList.add("flash");
+          setTimeout(() => card.classList.remove("flash"), 1200);
+        };
+
+        // ---- Event wiring ----
+        selectionCommentBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!selectionCtx) return;
+          openComposer({
+            mode: "top",
+            ctx: {
+              blockId: selectionCtx.blockId,
+              quotedText: selectionCtx.quotedText,
+              contextBefore: selectionCtx.contextBefore,
+              contextAfter: selectionCtx.contextAfter,
+              rect: selectionCtx.rect,
+            },
+          });
+          hideSelectionTooltip();
+        });
+
+        composerCancel.addEventListener("click", (e) => {
+          e.preventDefault();
+          closeComposer();
+        });
+
+        composerForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!composerState) return;
+          const text = composerTextarea.value.trim();
+          if (!text) return;
+          const submitBtn = composerForm.querySelector('button[type="submit"]');
+          if (submitBtn) submitBtn.disabled = true;
+          const wasReply = !!composerState.parentId;
+          setStatus("Posting…");
+          try {
+            const result = await postComment({
+              anchor: composerState.blockId,
+              body: text,
+              parentId: composerState.parentId,
+              quotedText: composerState.quotedText || undefined,
+              contextBefore: composerState.contextBefore || undefined,
+              contextAfter: composerState.contextAfter || undefined,
+            });
+            const newComment = result && result.comment;
+            closeComposer();
+            await fetchAll();
+            renderAllHighlights();
+            updateVisibility();
+            if (wasReply) {
+              // Refresh the inline popover (now shows the new reply)
+              refreshThreadPopover();
+              if (sidebar.dataset.open === "true") renderSidebar();
+            } else if (newComment) {
+              // New top-level: open the inline thread popover anchored to the new highlight
+              const mark = document.querySelector('mark.comment-highlight[data-comment-id="' + cssEsc(newComment.id) + '"]');
+              if (mark) {
+                const rect = mark.getBoundingClientRect();
+                openThreadPopover(newComment.id, rect);
+              } else if (sidebar.dataset.open === "true") {
+                renderSidebar();
+              }
+            }
+            setStatus("Posted.", "success");
+          } catch (err) {
+            setStatus("Couldn't post: " + err.message, "error");
+          } finally {
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        });
+
+        composerTextarea.addEventListener("keydown", (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === "Enter") composerForm.requestSubmit();
+          if (e.key === "Escape") { e.stopPropagation(); closeComposer(); }
+        });
+
+        tab.addEventListener("click", () => setOpen(!isOpen()));
+        closeBtn.addEventListener("click", () => setOpen(false));
+
+        if (showResolvedToggle) {
+          showResolvedToggle.addEventListener("change", () => {
+            showResolved = showResolvedToggle.checked;
+            try { localStorage.setItem(STORAGE_RESOLVED, showResolved ? "1" : "0"); } catch {}
+            renderAllHighlights();
+            renderSidebar();
+            updateVisibility();
+          });
+        }
+
+        document.addEventListener("click", (e) => {
+          // Inline pin → open thread popover anchored to the highlight
+          const pin = e.target.closest("[data-comment-pin]");
+          if (pin) {
+            e.preventDefault();
+            e.stopPropagation();
+            const id = pin.getAttribute("data-comment-pin");
+            const mark = pin.closest("mark.comment-highlight");
+            const rect = (mark || pin).getBoundingClientRect();
+            openThreadPopover(id, rect);
+            return;
+          }
+          // Highlight body click → also open thread popover
+          const mark = e.target.closest("mark.comment-highlight");
+          if (mark) {
+            e.preventDefault();
+            const id = mark.dataset.commentId;
+            const rect = mark.getBoundingClientRect();
+            openThreadPopover(id, rect);
+            return;
+          }
+          // Sidebar quote → jump to highlight in document
+          const jump = e.target.closest("[data-comments-jump]");
+          if (jump) {
+            e.preventDefault();
+            jumpToHighlight(jump.getAttribute("data-comments-jump"));
+            return;
+          }
+          // Reply button (sidebar or popover)
+          const reply = e.target.closest("[data-comments-reply]");
+          if (reply) {
+            e.preventDefault();
+            openComposer({
+              mode: "reply",
+              ctx: {
+                blockId: reply.getAttribute("data-comments-reply-anchor"),
+                parentId: reply.getAttribute("data-comments-reply"),
+                parentName: reply.getAttribute("data-comments-reply-name"),
+                rect: reply.getBoundingClientRect(),
+              },
+            });
+            return;
+          }
+          // Resolve toggle (sidebar or popover)
+          const resolveBtn = e.target.closest("[data-comments-resolve]");
+          if (resolveBtn) {
+            e.preventDefault();
+            const id = resolveBtn.getAttribute("data-comments-resolve");
+            const isResolved = resolveBtn.getAttribute("data-resolved") === "true";
+            (async () => {
+              setStatus(isResolved ? "Unresolving…" : "Resolving…");
+              try {
+                await patchComment(id, { resolved: !isResolved });
+                await fetchAll();
+                renderAllHighlights();
+                renderSidebar();
+                refreshThreadPopover();
+                updateVisibility();
+                setStatus(isResolved ? "Reopened." : "Resolved.", "success");
+              } catch (err) {
+                setStatus("Couldn't update: " + err.message, "error");
+              }
+            })();
+            return;
+          }
+          // Delete (sidebar or popover)
+          const del = e.target.closest("[data-comments-delete]");
+          if (del) {
+            e.preventDefault();
+            const id = del.getAttribute("data-comments-delete");
+            if (!window.confirm("Delete this comment?")) return;
+            (async () => {
+              setStatus("Deleting…");
+              try {
+                await deleteComment(id);
+                const wasOpenId = popoverThreadId;
+                await fetchAll();
+                renderAllHighlights();
+                renderSidebar();
+                // If the deleted comment was the popover's top, close it
+                if (wasOpenId && !allComments.find((c) => c.id === wasOpenId)) {
+                  closeThreadPopover();
+                } else {
+                  refreshThreadPopover();
+                }
+                updateVisibility();
+                setStatus("Deleted.", "success");
+              } catch (err) {
+                setStatus("Couldn't delete: " + err.message, "error");
+              }
+            })();
+            return;
+          }
+          // Popover close
+          const popClose = e.target.closest("[data-thread-popover-close]");
+          if (popClose) {
+            e.preventDefault();
+            closeThreadPopover();
+            return;
+          }
+          // Popover → open sidebar
+          const openSb = e.target.closest("[data-open-sidebar]");
+          if (openSb) {
+            e.preventDefault();
+            const id = popoverThreadId;
+            setOpen(true);
+            if (id) setTimeout(() => scrollSidebarToComment(id), 240);
+            closeThreadPopover();
+            return;
+          }
+          // Click outside popover → close (but not on composer/sidebar/tooltip)
+          if (!threadPopover.hidden) {
+            if (!threadPopover.contains(e.target)
+                && !composer.contains(e.target)
+                && !sidebar.contains(e.target)
+                && !selectionTooltip.contains(e.target)) {
+              closeThreadPopover();
+            }
+          }
+          // Click outside composer → close
+          if (!composer.hidden) {
+            if (!composer.contains(e.target)
+                && !selectionTooltip.contains(e.target)
+                && !threadPopover.contains(e.target)) {
+              closeComposer();
+            }
+          }
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            const target = e.target instanceof Element ? e.target : null;
+            if (target && target.matches("mark.comment-highlight")) {
+              e.preventDefault();
+              const id = target.dataset.commentId;
+              const rect = target.getBoundingClientRect();
+              openThreadPopover(id, rect);
+            }
+          }
+          if (e.key === "Escape") {
+            if (!composer.hidden) { closeComposer(); return; }
+            if (!threadPopover.hidden) { closeThreadPopover(); return; }
+            if (isOpen()) setOpen(false);
+          }
+        });
+
+        document.addEventListener("mouseup", () => setTimeout(updateSelectionContext, 10));
+        document.addEventListener("keyup", (e) => {
+          if (["Shift","ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)) {
+            setTimeout(updateSelectionContext, 10);
+          }
+        });
+        document.addEventListener("selectionchange", () => {
+          const sel = window.getSelection();
+          if (!sel || sel.isCollapsed) hideSelectionTooltip();
+        });
+        document.addEventListener("mousedown", (e) => {
+          if (selectionTooltip.hidden) return;
+          if (!selectionTooltip.contains(e.target)) hideSelectionTooltip();
+        });
+        window.addEventListener("scroll", () => {
+          if (selectionCtx && !selectionTooltip.hidden) {
+            const sel = window.getSelection();
+            if (sel && !sel.isCollapsed && sel.rangeCount) {
+              const rect = sel.getRangeAt(0).getBoundingClientRect();
+              showSelectionTooltip(rect);
+              selectionCtx.rect = rect;
+            }
+          }
+        }, { passive: true });
+
+        // Boot
+        const boot = async () => {
+          await fetchAll();
+          renderAllHighlights();
+          updateVisibility();
+          let openOnLoad = false;
+          try { openOnLoad = localStorage.getItem(STORAGE_OPEN) === "1"; } catch {}
+          if (openOnLoad && !tab.hidden) setOpen(true);
+        };
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", boot);
+        } else {
+          boot();
+        }
+      })();
+    </script>
+
     <!-- FOOTER -->
     <footer class="border-t border-[var(--color-line)] mt-24">
       <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between text-sm text-[var(--color-ink-soft)]">

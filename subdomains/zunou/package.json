@@ -13,6 +13,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "dev:pages": "pnpm run build && wrangler pages dev dist --port 8788",
+    "test": "node --test test/comments.test.mjs",
     "deploy": "pnpm run build && wrangler deploy",
     "astro": "astro"
   },

@@ -1,14 +1,18 @@
 ---
 interface Props {
   id?: string;
-  number?: string;          // "01", "02", … shown as section badge
+  number?: string;
   eyebrow?: string;
   title: string;
   lede?: string;
   tone?: "default" | "soft" | "warm" | "ink";
+  /** Allow comments on this section. Default true when id is set. */
+  comments?: boolean;
 }
 
-const { id, number, eyebrow, title, lede, tone = "default" } = Astro.props;
+const { id, number, eyebrow, title, lede, tone = "default", comments = true } = Astro.props;
+const commentLabel = (eyebrow ? `${eyebrow} · ` : "") + title;
+const isCommentable = !!id && comments;
 
 const toneClass = {
   default: "",
@@ -28,10 +32,15 @@ const numberClass =
   tone === "ink" ? "text-[var(--color-paper-soft)]" : "";
 ---
 
-<section id={id} class={`py-20 sm:py-28 ${toneClass}`}>
+<section
+  id={id}
+  class:list={["py-20 sm:py-28 relative", toneClass]}
+  data-comment-block={isCommentable ? id : undefined}
+  data-comment-block-label={isCommentable ? commentLabel : undefined}
+>
   <div class="max-w-6xl mx-auto px-6">
     <header class="mb-12 sm:mb-14 max-w-3xl">
-      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+      <div class="flex items-center gap-4 mb-5 flex-wrap" data-reveal="fade-up">
         {
           number && (
             <span class={`section-number ${numberClass}`}>
