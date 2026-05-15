@@ -152,10 +152,10 @@ const journeys: Journey[] = [
       },
     ],
     recommendations: [
-      { title: "Consolidate native iOS auth onto a single SDK path", why: "PWA works because Auth0's React SDK handles token storage, silent refresh, and AppState transitions correctly. Native iOS reimplements all three manually and gets each one slightly wrong. Either (a) move Nova to Capacitor + Auth0 SDK for parity, or (b) wrap the manual flow with: AppState listener → silent refresh on foreground; retry-with-backoff on the refresh POST; deferred Keychain reads gated on `isReady`. Pilot-blocker because it's the bug users feel most.", effort: "1 day (option b) · 2–3 days (option a)", fixPath: "services/nova/src/contexts/AuthContext.tsx (restore + refresh) · expo-secure-store calls · add AppState.addEventListener" },
-      { title: "Drop `prompt: 'login'`", why: "Returning users with valid refresh tokens should not see Auth0's login screen. This is the single biggest fix for the 'sign in twice' report.", effort: "1 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:88 · nova/src/contexts/AuthContext.tsx:314" },
+      { title: "Consolidate native iOS auth onto a single SDK path", why: 'PWA works because Auth0\'s React SDK handles token storage, silent refresh, and AppState transitions correctly. Native iOS reimplements all three manually and gets each one slightly wrong. Either (a) move Nova to Capacitor + Auth0 SDK for parity, or (b) wrap the manual flow with: AppState listener → silent refresh on foreground; retry-with-backoff on the refresh POST; deferred Keychain reads gated on `isReady`. The Keychain timing race is community-tracked at <a href="https://github.com/expo/expo/issues/23924" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">expo issue #23924</a>. Pilot-blocker because it\'s the bug users feel most.', effort: "1 day (option b) · 2–3 days (option a)", fixPath: "services/nova/src/contexts/AuthContext.tsx (restore + refresh) · expo-secure-store calls · add AppState.addEventListener" },
+      { title: "Drop `prompt: 'login'`", why: 'Returning users with valid refresh tokens should not see Auth0\'s login screen. This is the single biggest fix for the "sign in twice" report. Auth0 also recommends validating the <a href="https://auth0.com/docs/authenticate/login/max-age-reauthentication" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]"><code>auth_time</code> claim</a> to confirm freshness rather than relying on the prompt parameter alone.', effort: "1 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:88 · nova/src/contexts/AuthContext.tsx:314" },
       { title: "Cache Auth0 Management API token", why: "24-hour TTL. Saves 2 HTTP calls per login (~700ms on iOS).", effort: "2 hr", fixPath: "services/api/app/Services/Auth0RoleService.php:24–32 · SignInUserMutation.php:425–434" },
-      { title: "Make `ensureUserHasPersonalPulses` a background job", why: "Today it blocks the sign-in response with N+1 DB queries. The user's first session doesn't need pulses provisioned synchronously — the bootstrap query fetches them on demand.", effort: "3 hr", fixPath: "services/api/app/GraphQL/Mutations/SignInUserMutation.php:407,585–605 → new Job class" },
+      { title: "Make `ensureUserHasPersonalPulses` a background job", why: 'Today it blocks the sign-in response with N+1 DB queries. The user\'s first session doesn\'t need pulses provisioned synchronously — the bootstrap query fetches them on demand. Tracked in <a href="/foundation#tier-1" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] font-semibold">Foundation Tier-1</a> as part of the notification-outbox + queueing rebuild.', effort: "3 hr", fixPath: "services/api/app/GraphQL/Mutations/SignInUserMutation.php:407,585–605 → new Job class" },
       { title: "Remove the redundant `getMeQuery`", why: "`signInUserMutation` already returns the user. The second call is dead weight — saves a full roundtrip.", effort: "30 min", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:286–342" },
       { title: "Don't reset `isInitialized` on every `auth0IsAuthenticated` flip", why: "Use a one-shot ref to gate `handleAuthFlow`. Eliminates the double sign-in.", effort: "2 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:417–426" },
       { title: "Replace `loginWithRedirect` fallback with a typed retry toast", why: "Transient errors should surface a 'try again' UI, not silently bounce the user back through Auth0.", effort: "3 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:218–247" },
@@ -771,7 +771,7 @@ function maxStepMs(steps: Step[]): number {
                         <span class="bug-num">{String(i + 1).padStart(2, "0")}</span>
                         <h4 class="bug-title">{b.title}</h4>
                       </div>
-                      <p class="bug-detail">{b.detail}</p>
+                      <p class="bug-detail" set:html={b.detail}></p>
                     </div>
                     <div class="bug-evidence">
                       <Bug class="w-3 h-3" />
@@ -804,7 +804,7 @@ function maxStepMs(steps: Step[]): number {
                       </div>
                       <div class="rec-body">
                         <h4 class="rec-title">{r.title}</h4>
-                        <p class="rec-why"><strong>Why:</strong> {r.why}</p>
+                        <p class="rec-why"><strong>Why:</strong> <span set:html={r.why}></span></p>
                       </div>
                       <div class="rec-effort">
                         <span class="rec-effort-chip">

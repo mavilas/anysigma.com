@@ -52,7 +52,7 @@ const tier1: BlockerRow[] = [
     rank: 1,
     area: "UX",
     title: "Verify onboarding end-to-end with a fresh pilot account",
-    why: "Onboarding was rebuilt in the last 157 commits and the invite-only wall was removed — but production behavior hasn't been validated by a non-team user. A broken first session means the user never starts. Highest-mortality bug.",
+    why: 'Onboarding was rebuilt in the last 157 commits and the invite-only wall was removed — but production behavior hasn\'t been validated by a non-team user. A broken first session means the user never starts. Highest-mortality bug. <a href="/journeys#j-onboarding" class="text-[var(--color-accent-ink)] hover:underline font-semibold">See full journey →</a>',
     effort: "1 day",
     roi: "★★★★★",
     pilot: true,
@@ -63,7 +63,7 @@ const tier1: BlockerRow[] = [
     rank: 2,
     area: "UX",
     title: "Restore web DM flow",
-    why: "DirectMessagesPage import + route both commented out in App.tsx. Web users have no DM path at all. Pilot buyers will demo on a laptop.",
+    why: 'DirectMessagesPage import + route both commented out in App.tsx. Web users have no DM path at all. Pilot buyers will demo on a laptop. <a href="/journeys#j-first-message" class="text-[var(--color-accent-ink)] hover:underline font-semibold">See in Journey 4 →</a>',
     effort: "2–3 days",
     roi: "★★★★★",
     pilot: true,
@@ -85,7 +85,7 @@ const tier1: BlockerRow[] = [
     rank: 4,
     area: "UX",
     title: "Calendar timezone labels (JST / PST)",
-    why: "EventDetailScreen.tsx has zero TZ display. JP↔US scheduling is the killer case — one screenshot of an off-by-hours invite ends the deal.",
+    why: 'EventDetailScreen.tsx has zero TZ display. JP↔US scheduling is the killer case — one screenshot of an off-by-hours invite ends the deal. <a href="/journeys#j-calendar-setup" class="text-[var(--color-accent-ink)] hover:underline font-semibold">See in Journey 3 →</a>',
     effort: "2 days",
     roi: "★★★★★",
     pilot: true,
@@ -109,7 +109,7 @@ const tier1: BlockerRow[] = [
     rank: 6,
     area: "Security",
     title: "Fail-closed JWT validation",
-    why: "auth.mjs:43–44 silently skips JWT validation if AUTH0_DOMAIN env is unset. A misconfigured deploy = totally open notification hub. Same pattern in ai-proxy.",
+    why: 'auth.mjs:43–44 silently skips JWT validation if AUTH0_DOMAIN env is unset. A misconfigured deploy = totally open notification hub. Same pattern in ai-proxy. <a href="/journeys#j-sign-in" class="text-[var(--color-accent-ink)] hover:underline font-semibold">See in Journey 1 →</a>',
     effort: "1 day",
     roi: "★★★★★",
     pilot: true,
@@ -131,7 +131,7 @@ const tier1: BlockerRow[] = [
     rank: 8,
     area: "Security",
     title: "HMAC for API → Lambda calls",
-    why: "Today the API authenticates to the notification Lambda using a user JWT. A compromised JWT can fan notifications to arbitrary recipients.",
+    why: 'Today the API authenticates to the notification Lambda using a user JWT. A compromised JWT can fan notifications to arbitrary recipients. Industry pattern: <a href="https://www.authgear.com/post/hmac-api-security/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-ink)] hover:underline">HMAC for service-to-service</a> (forwarding user JWTs across service boundaries is an anti-pattern).',
     effort: "3 days",
     roi: "★★★★",
     pilot: true,
@@ -155,7 +155,7 @@ const tier1: BlockerRow[] = [
     rank: 10,
     area: "Reliability",
     title: "Notification outbox + idempotency + DLQ",
-    why: "Today every transient failure is a permanent miss. The biggest reliability win in the audit — but its consequences land on day-7+, not day-1. Extends the existing live_insight_outbox pattern: copy-paste, not invent.",
+    why: 'Today every transient failure is a permanent miss. The biggest reliability win in the audit — but its consequences land on day-7+, not day-1. Extends the existing <code class="inline-code">live_insight_outbox</code> pattern: copy-paste, not invent. Pattern reference: <a href="https://microservices.io/patterns/data/transactional-outbox.html" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-ink)] hover:underline">microservices.io · Transactional Outbox</a>.',
     effort: "1–2 wk",
     roi: "★★★★★",
     pilot: true,
@@ -188,7 +188,7 @@ const tier1: BlockerRow[] = [
     rank: 13,
     area: "Observability",
     title: "Delivery SLO dashboard + CloudWatch alarms",
-    why: "% of @mentions delivered within 5s, last 24h. One number, checked daily. Today there are zero CloudWatch alarms in any CFN file.",
+    why: '% of @mentions delivered within 5s, last 24h. One number, checked daily. Today there are zero CloudWatch alarms in any CFN file. Becomes <a href="/dashboard#five-dashboards" class="text-[var(--color-accent-ink)] hover:underline font-semibold">Dashboard #02 →</a>',
     effort: "3 days",
     roi: "★★★★",
     pilot: true,
@@ -668,7 +668,7 @@ const pillars = [
 
             <div class="col-span-2 sm:col-span-1 min-w-0">
               <h3 class="font-display text-lg leading-tight mb-1">{b.title}</h3>
-              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">{b.why}</p>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2" set:html={b.why}></p>
               <p class="text-[10px] font-mono text-[var(--color-ink-faint)] tracking-wide">{b.evidence}</p>
             </div>
 
@@ -697,7 +697,7 @@ const pillars = [
               <div class="grid grid-cols-[1fr_auto] gap-3 items-center rounded-lg border border-dashed border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
                 <div>
                   <div class="text-sm font-semibold text-[var(--color-ink)]">{b.title}</div>
-                  <div class="text-xs text-[var(--color-ink-soft)] mt-0.5">{b.why}</div>
+                  <div class="text-xs text-[var(--color-ink-soft)] mt-0.5" set:html={b.why}></div>
                 </div>
                 <div class="text-xs text-[var(--color-ink-faint)] font-mono whitespace-nowrap">{b.effort}</div>
               </div>
