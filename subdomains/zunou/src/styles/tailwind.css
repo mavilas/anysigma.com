@@ -1023,3 +1023,87 @@ nav a:focus-visible {
 .gtm-tie-chip-label { font-weight: 500; }
 .gtm-tie-chip-arrow { opacity: 0; margin-left: -2px; transition: opacity 200ms ease, transform 200ms ease; }
 .gtm-tie-chip:hover .gtm-tie-chip-arrow { opacity: 0.85; transform: translateX(2px); }
+
+/* === Mobile / tablet horizontal agenda (< xl) === */
+.agenda-mobile {
+  position: sticky;
+  top: 65px; /* below the main nav */
+  z-index: 6;
+  background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--color-line);
+  border-top: 1px solid var(--color-line-soft);
+}
+
+.agenda-mobile-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+.agenda-mobile-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-faint);
+  font-weight: 700;
+  padding: 0.2rem 0.5rem 0.2rem 0;
+  border-right: 1px solid var(--color-line);
+  margin-right: 0.25rem;
+}
+.agenda-mobile-label svg { color: var(--color-accent); }
+
+.agenda-mobile-track {
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-right: 0.75rem;
+  scroll-snap-type: x proximity;
+}
+.agenda-mobile-track::-webkit-scrollbar { display: none; }
+
+.agenda-mobile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  color: var(--color-ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  transition: all 200ms ease;
+}
+.agenda-mobile-link:hover {
+  border-color: var(--color-ink-faint);
+  color: var(--color-ink);
+  background: var(--color-paper-soft);
+}
+.agenda-mobile-link svg { opacity: 0.55; }
+.agenda-mobile-link.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-paper);
+}
+.agenda-mobile-link.is-active svg { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .agenda-mobile-track { scroll-behavior: auto; }
+}

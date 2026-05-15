@@ -89,9 +89,9 @@ const journeys: Journey[] = [
     recTime: "<1 s",
     magicTie: 'Mobile users abandon pages taking >3s at <a href="https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]"><strong>53%</strong> (Google)</a>. Today the iOS cold-start sits squarely in that range.',
     gtmRefs: [
-      { ref: "§05", label: "Magic numbers — 5 / 1 / 3", href: "/#tldr" },
-      { ref: "§06", label: "TAI pilot · activation gate", href: "/#communities" },
-      { ref: "Posture", label: "Engineering posture", href: "/#posture" },
+      { ref: "§05", label: "Magic numbers — 5 / 1 / 3", href: "/gtm#tldr" },
+      { ref: "§06", label: "TAI pilot · activation gate", href: "/gtm#communities" },
+      { ref: "Posture", label: "Engineering posture", href: "/gtm#posture" },
     ],
     icon: "key-round",
     steps: [
@@ -160,9 +160,9 @@ const journeys: Journey[] = [
     recTime: "30–60 s",
     magicTie: "Onboarding's job is to deliver the first 5 events + 1 magic moment in this session.",
     gtmRefs: [
-      { ref: "§05", label: "Magic number — first-session activation", href: "/#tldr" },
-      { ref: "§06", label: "Mechanic — funnel into 5/1/3", href: "/#mechanic" },
-      { ref: "Decision #3", label: "Calendar as gate", href: "/#decisions" },
+      { ref: "§05", label: "Magic number — first-session activation", href: "/gtm#tldr" },
+      { ref: "§06", label: "Mechanic — funnel into 5/1/3", href: "/gtm#mechanic" },
+      { ref: "Decision #3", label: "Calendar as gate", href: "/gtm#decisions" },
     ],
     icon: "user-plus",
     steps: [
@@ -220,9 +220,9 @@ const journeys: Journey[] = [
     recTime: "8–15 s",
     magicTie: "Without calendar, the user sees an empty Schedule tab — the magic moment that Granola wins on.",
     gtmRefs: [
-      { ref: "Decision #3", label: "Calendar as gate (settled)", href: "/#decisions" },
-      { ref: "§06.4", label: "Hybrid sponsorship · per-user-join", href: "/#organizer-value" },
-      { ref: "§05", label: "Magic moment — auto-prep brief", href: "/#tldr" },
+      { ref: "Decision #3", label: "Calendar as gate (settled)", href: "/gtm#decisions" },
+      { ref: "§06.4", label: "Hybrid sponsorship · per-user-join", href: "/gtm#organizer-value" },
+      { ref: "§05", label: "Magic moment — auto-prep brief", href: "/gtm#tldr" },
     ],
     icon: "calendar",
     steps: [
@@ -269,8 +269,8 @@ const journeys: Journey[] = [
     recTime: "<8 s",
     magicTie: "Sending a first message = +1 event toward the 5/1/3 magic number.",
     gtmRefs: [
-      { ref: "§05", label: "5 events in 14 days", href: "/#tldr" },
-      { ref: "§06", label: "Community-led activation mechanic", href: "/#mechanic" },
+      { ref: "§05", label: "5 events in 14 days", href: "/gtm#tldr" },
+      { ref: "§06", label: "Community-led activation mechanic", href: "/gtm#mechanic" },
     ],
     icon: "message-square",
     steps: [
@@ -310,8 +310,8 @@ const journeys: Journey[] = [
     recTime: "8–15 s",
     magicTie: "A user who creates a channel is forming the social graph — strongest predictor of week-2 retention.",
     gtmRefs: [
-      { ref: "§05", label: "3 returns in 14 days · social graph", href: "/#tldr" },
-      { ref: "§06", label: "Community sponsored seats", href: "/#communities" },
+      { ref: "§05", label: "3 returns in 14 days · social graph", href: "/gtm#tldr" },
+      { ref: "§06", label: "Community sponsored seats", href: "/gtm#communities" },
     ],
     icon: "hash",
     steps: [
@@ -350,8 +350,8 @@ const journeys: Journey[] = [
     recTime: "<5 s",
     magicTie: "Captured tasks = ongoing engagement events. Linear-level capture speed = Linear-level retention.",
     gtmRefs: [
-      { ref: "§05", label: "5 events in 14 days · capture velocity", href: "/#tldr" },
-      { ref: "§16.5", label: "Decision #17 · meeting-prep viral loop", href: "/#decisions" },
+      { ref: "§05", label: "5 events in 14 days · capture velocity", href: "/gtm#tldr" },
+      { ref: "§16.5", label: "Decision #17 · meeting-prep viral loop", href: "/gtm#decisions" },
     ],
     icon: "list-checks",
     steps: [
@@ -427,10 +427,10 @@ const severityColor = (s?: Severity) => {
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
       <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
         <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Journeys · the user lens</span>
-        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+        <span class="text-[var(--color-ink)]">Six docs · start with the <a href="/" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] font-semibold">Overview</a>. GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
       </div>
       <div class="flex items-center gap-x-4 shrink-0 text-xs">
-        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/gtm" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
         <a href="/dashboard" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Dashboard</span><span aria-hidden="true">→</span></a>
         <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
         <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
@@ -739,7 +739,7 @@ const severityColor = (s?: Severity) => {
       </p>
 
       <div class="grid lg:grid-cols-3 gap-4" data-reveal="fade-up">
-        <a href="/" class="rollup-card">
+        <a href="/gtm" class="rollup-card">
           <Flag class="w-5 h-5 text-[var(--color-accent)] mb-3" />
           <h3 class="font-display text-xl mb-2">GTM</h3>
           <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">The strategy these journeys are paying back. Hybrid venue sponsorship + community-led launch + stage-gate Feb 2027.</p>
