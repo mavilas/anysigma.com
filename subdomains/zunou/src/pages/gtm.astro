@@ -50,7 +50,7 @@ const decisions = [
 
   // OPEN — from §16.5 gap audit
   { n: 14, title: "Pricing v0 — what tier shape + price point?", desc: "Three patterns spec'd in §09 panel B (Notion-style / Linear-style / usage-metered). Validate with community owners + early users before locking.", group: "gap", status: "open" },
-  { n: 15, title: "Support model v0 — Marco + Malek covering JP/EN business hours", desc: "In-app widget + Slack channel. First CSM hire post-day-180 if Phase 5a fuel.", group: "gap", status: "open" },
+  { n: 15, title: "Support model v0 — Marco + Malek covering JP/EN business hours", desc: "In-app widget + a shared customer pulse inside Zunou itself (dogfood our own product — we don't use Slack). First CSM hire post-day-180 if Phase 5a fuel.", group: "gap", status: "open" },
   { n: 16, title: "Attribution v0 — last-touch for cohort analysis", desc: "Revisit at day 90 once data flows.", group: "gap", status: "open" },
   { n: 17, title: "Loop 6 commitment — invest product eng in meeting-prep viral loop", desc: "Loom rode this exact loop to 25M users — every shared video is an ad.", group: "gap", status: "open" },
 ];
@@ -288,7 +288,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         </div>
         <ol class="exec-summary-list">
           <li>
-            <strong>Japan-first, community-led GTM</strong> anchored on the TAI (Tokyo AI) pilot in late July / early August 2026 — Ilya-introduced — then layered with AI Tinkerers, Venture Café Toranomon, and a fourth community.
+            <strong>Three beachhead waves, each gated by the previous.</strong> <strong class="text-[var(--color-ink)]">Beachhead 0 — warm circles (SEA-anchored):</strong> Kevin's portfolio at <strong class="text-[var(--color-ink)]">Indelible Ventures (Malaysia)</strong> first, then <strong class="text-[var(--color-ink)]">Northface Media</strong> (or Headline Ventures) once Indelible shows signal. <strong class="text-[var(--color-ink)]">Beachhead 1 — TAI (Tokyo AI)</strong> pilot late July / early August 2026, Ilya-introduced. <strong class="text-[var(--color-ink)]">Beachhead 2 — layered communities</strong> (AI Tinkerers, Venture Café Toranomon, and a fourth). Each wave only fires when the previous clears its gate.
           </li>
           <li>
             <strong>Hybrid venue sponsorship model:</strong> flat fee + per-user-join bonus. We pay for actual conversion, not seats. Aligns sponsor incentives with our growth metrics.
@@ -329,7 +329,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             The shape · in one paragraph
           </div>
           <p class="text-[var(--color-ink)] leading-relaxed mb-4">
-            <strong class="text-[var(--color-ink)]">Pilot-first community-led launch</strong> in Tokyo. <strong class="text-[var(--color-ink)]">TAI pilot launches end July / early Aug 2026</strong> (Ilya-introduced), then layer in AI Tinkerers + Venture Café + one more. Hybrid venue sponsorship — flat fee + per-user-join bonus — that pays for actual conversion, not just seats (§06.4). Push <Term name="Spaces" /> Event-Spaces as the Zoom-playbook viral surface alongside it. <strong class="text-[var(--color-ink)]">Pre-committed stage-gate Feb 2027: ≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend.</strong>
+            <strong class="text-[var(--color-ink)]">Three beachhead waves, each gated by the previous.</strong> <strong class="text-[var(--color-ink)]">Beachhead 0 (warm circles, SEA-anchored):</strong> Kevin's portfolio at <strong class="text-[var(--color-ink)]">Indelible Ventures (Malaysia)</strong> first, then <strong class="text-[var(--color-ink)]">Northface Media</strong> (or Headline Ventures) once Indelible shows signal — small, high-trust, ours. <strong class="text-[var(--color-ink)]">Beachhead 1 (Tokyo community):</strong> TAI pilot launches end July / early Aug 2026 (Ilya-introduced). <strong class="text-[var(--color-ink)]">Beachhead 2 (scale):</strong> layer in AI Tinkerers, Venture Café Toranomon, and a fourth community. Hybrid venue sponsorship — flat fee + per-user-join bonus — that pays for actual conversion, not just seats (§06.4). Push <Term name="Spaces" /> Event-Spaces as the Zoom-playbook viral surface alongside it. <strong class="text-[var(--color-ink)]">Pre-committed stage-gate Feb 2027: ≥4 of 6 PMF criteria → fuel; ≤2 → pivot; 3 → extend.</strong>
           </p>
           <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
             The architecture (MIT-aligned tool-based selective retrieval, 136+ tools, Voice Agent on Realtime API, autonomous Relays) means the product is already deeper than what zunou.ai shows publicly — the launch problem is distribution + density, not product readiness. <strong class="text-[var(--color-ink)]">The page below is the show-your-work version. This card is for the skim.</strong>
