@@ -633,7 +633,6 @@ function maxStepMs(steps: Step[]): number {
           </div>
 
           {(() => { const totT = totalMs(j.steps, "today"); const totR = totalMs(j.steps, "rec"); const maxMs = maxStepMs(j.steps); const saved = Math.max(0, totT - totR); return (
-            <!-- Today vs Recommended waterfall -->
             <div class="flow" data-reveal="fade-up">
               <div class="flow-head">
                 <div class="flow-head-label">
