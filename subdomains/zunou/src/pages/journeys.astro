@@ -103,7 +103,7 @@ const journeys: Journey[] = [
     magicTie: 'Mobile users abandon pages taking >3s at <a href="https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]"><strong>53%</strong> (Google)</a>. Today the iOS cold-start sits squarely in that range.',
     gtmRefs: [
       { ref: "§05", label: "Magic numbers — 5 / 1 / 3", href: "/gtm#tldr" },
-      { ref: "§06", label: "TAI pilot · activation gate", href: "/gtm#communities" },
+      { ref: "§06", label: "Indelible + TAI pilots · activation gate", href: "/gtm#communities" },
       { ref: "Posture", label: "Engineering posture", href: "/gtm#posture" },
     ],
     icon: "key-round",
@@ -488,7 +488,7 @@ function maxStepMs(steps: Step[]): number {
       </h1>
 
       <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
-        Six journeys, mapped step by step against the actual code. The reported "I have to sign in twice" and "it's slow" symptoms trace to specific lines. Every dropped journey is a 5/1/3 activation that doesn't happen — and every TAI pilot user we lose is a sponsorship dollar we don't earn.
+        Six journeys, mapped step by step against the actual code. The reported "I have to sign in twice" and "it's slow" symptoms trace to specific lines. Every dropped journey is a 5/1/3 activation that doesn't happen — and every pilot user (Indelible warm-circle first, TAI second) we lose is a sponsorship dollar we don't earn.
       </p>
 
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="3">
@@ -529,7 +529,7 @@ function maxStepMs(steps: Step[]): number {
           <li><strong>"It's slow" is 14–20 sequential roundtrips on iOS first sign-in</strong>, including 5–7 uncached Auth0 Management API calls. ~1.5–4 seconds before the user sees anything. Caching the management token alone saves ~700ms.</li>
           <li><strong>A second "sign in twice" bug</strong> is buried in <code class="inline-code">CompletePhase</code>: the onboarding-finished signal is fire-and-forget. If the GQL call fails or the app is backgrounded mid-call, the user redoes onboarding on the next session.</li>
           <li><strong>Welcome screen has a 1400ms intentional animation delay</strong> before the Get Started button appears. Combined with the cold-start latency above, the first 3 seconds of every brand-new install are dead air.</li>
-          <li><strong>Every dropped journey costs a magic-number activation.</strong> The GTM measures users who hit 5 events + 1 magic moment + 3 returns in 14 days. Every sign-in friction and onboarding bug halves the funnel into that metric.</li>
+          <li><strong>Every dropped journey costs a magic-number activation.</strong> The GTM measures users who hit 5 events + 1 magic moment + 3 returns in 14 days — starting with the Indelible Ventures warm-circle pilot, before the Tokyo beachhead opens. Every sign-in friction and onboarding bug halves the funnel into that metric.</li>
           <li><strong>All {totalRecs} recommendations together are ~{Math.round(totalRecHours)} hours.</strong> Most are 1–3 hour fixes. The "sign in twice" primary cause is a one-line config change.</li>
         </ol>
       </div>
