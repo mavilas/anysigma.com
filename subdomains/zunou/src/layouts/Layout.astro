@@ -28,7 +28,8 @@ const {
 const isScan = kind === "scan";
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const pages = [
-  { href: "/", label: "GTM", match: ["/", "/scan"] },
+  { href: "/", label: "Overview", match: ["/"] },
+  { href: "/gtm", label: "GTM", match: ["/gtm", "/scan"] },
   { href: "/dashboard", label: "Dashboard", match: ["/dashboard"] },
   { href: "/journeys", label: "Journeys", match: ["/journeys"] },
   { href: "/foundation", label: "Foundation", match: ["/foundation"] },

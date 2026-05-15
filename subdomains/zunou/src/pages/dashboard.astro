@@ -37,16 +37,16 @@ interface MetricRow {
 }
 
 const metrics: MetricRow[] = [
-  { label: "Magic-number activation", description: "% of new users hitting 5 events + 1 magic moment + 3 returns within 14 days. The single number the GTM is gated on.", category: "Activation", source: "Postgres event log + cohort table", gtmRef: { ref: "§05", href: "/#tldr" } },
-  { label: "Time to first event", description: "Median seconds from sign-in complete → first user-initiated event. Detects sign-in / onboarding regressions immediately.", category: "Activation", source: "Sign-in mutation + first GraphQL action", gtmRef: { ref: "§06", href: "/#mechanic" } },
-  { label: "Onboarding funnel by phase", description: "Drop-off per phase (welcome → org → calendar → tabs → layout → agent → complete). Surface where users abandon.", category: "Activation", source: "Nova onboardingStore + completePhase mutation", gtmRef: { ref: "§06", href: "/#mechanic" } },
-  { label: "WAU past magic number (NSM)", description: "Weekly active users who have crossed the magic-number threshold, scoped per partner community.", category: "Retention", source: "Cohort scope per organization_id + activity_log", gtmRef: { ref: "§05", href: "/#tldr" } },
-  { label: "D7 / D30 retention by cohort", description: "Standard cohort retention curves split by acquisition channel (TAI, AI Tinkerers, Spaces event, organic).", category: "Retention", source: "user.created_at + last_seen_at + acquisition_source", gtmRef: { ref: "§06", href: "/#communities" } },
-  { label: "Free → paid conversion %", description: "Per pricing tier × per community. Drives the ¥30M+ year-1 ARR ambition vs working hypothesis.", category: "Conversion", source: "Subscription state + organization_id", gtmRef: { ref: "Decision #14", href: "/#decisions" } },
-  { label: "Per-user inference cost", description: "Token spend / paid-user / month. Required to validate the unit economics before locking pricing.", category: "Conversion", source: "ai-proxy logs (needs per-tenant accounting — see Foundation Stage 3)", gtmRef: { ref: "§09", href: "/#investment" } },
-  { label: "Notification delivery SLO", description: "% of @mentions delivered within 5s, last 24h. The single number the founder checks each morning.", category: "Reliability", source: "notification_outbox + processed_events (needs Foundation Tier 1)", gtmRef: { ref: "Posture", href: "/#posture" } },
-  { label: "Sign-in success rate", description: "% of sign-in attempts that complete without re-auth or error. Native iOS vs PWA split.", category: "Reliability", source: "Auth0 logs + signInUser mutation outcomes", gtmRef: { ref: "Posture", href: "/#posture" } },
-  { label: "Per-tenant feature usage", description: "Adoption of voice agent, calendar, tasks, channels per organization. Tells us what to demo.", category: "Reliability", source: "Activity events tagged by feature_id", gtmRef: { ref: "§06", href: "/#mechanic" } },
+  { label: "Magic-number activation", description: "% of new users hitting 5 events + 1 magic moment + 3 returns within 14 days. The single number the GTM is gated on.", category: "Activation", source: "Postgres event log + cohort table", gtmRef: { ref: "§05", href: "/gtm#tldr" } },
+  { label: "Time to first event", description: "Median seconds from sign-in complete → first user-initiated event. Detects sign-in / onboarding regressions immediately.", category: "Activation", source: "Sign-in mutation + first GraphQL action", gtmRef: { ref: "§06", href: "/gtm#mechanic" } },
+  { label: "Onboarding funnel by phase", description: "Drop-off per phase (welcome → org → calendar → tabs → layout → agent → complete). Surface where users abandon.", category: "Activation", source: "Nova onboardingStore + completePhase mutation", gtmRef: { ref: "§06", href: "/gtm#mechanic" } },
+  { label: "WAU past magic number (NSM)", description: "Weekly active users who have crossed the magic-number threshold, scoped per partner community.", category: "Retention", source: "Cohort scope per organization_id + activity_log", gtmRef: { ref: "§05", href: "/gtm#tldr" } },
+  { label: "D7 / D30 retention by cohort", description: "Standard cohort retention curves split by acquisition channel (TAI, AI Tinkerers, Spaces event, organic).", category: "Retention", source: "user.created_at + last_seen_at + acquisition_source", gtmRef: { ref: "§06", href: "/gtm#communities" } },
+  { label: "Free → paid conversion %", description: "Per pricing tier × per community. Drives the ¥30M+ year-1 ARR ambition vs working hypothesis.", category: "Conversion", source: "Subscription state + organization_id", gtmRef: { ref: "Decision #14", href: "/gtm#decisions" } },
+  { label: "Per-user inference cost", description: "Token spend / paid-user / month. Required to validate the unit economics before locking pricing.", category: "Conversion", source: "ai-proxy logs (needs per-tenant accounting — see Foundation Stage 3)", gtmRef: { ref: "§09", href: "/gtm#investment" } },
+  { label: "Notification delivery SLO", description: "% of @mentions delivered within 5s, last 24h. The single number the founder checks each morning.", category: "Reliability", source: "notification_outbox + processed_events (needs Foundation Tier 1)", gtmRef: { ref: "Posture", href: "/gtm#posture" } },
+  { label: "Sign-in success rate", description: "% of sign-in attempts that complete without re-auth or error. Native iOS vs PWA split.", category: "Reliability", source: "Auth0 logs + signInUser mutation outcomes", gtmRef: { ref: "Posture", href: "/gtm#posture" } },
+  { label: "Per-tenant feature usage", description: "Adoption of voice agent, calendar, tasks, channels per organization. Tells us what to demo.", category: "Reliability", source: "Activity events tagged by feature_id", gtmRef: { ref: "§06", href: "/gtm#mechanic" } },
 ];
 
 /* ====== Tool comparison ====== */
@@ -248,10 +248,10 @@ const decisions = [
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
       <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
         <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Dashboard · the measurement layer</span>
-        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+        <span class="text-[var(--color-ink)]">Six docs · start with the <a href="/" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] font-semibold">Overview</a>. GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
       </div>
       <div class="flex items-center gap-x-4 shrink-0 text-xs">
-        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/gtm" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
         <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
         <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
         <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
@@ -556,7 +556,7 @@ const decisions = [
         </p>
 
         <div class="mt-10 flex flex-wrap items-center gap-3">
-          <a href="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+          <a href="/gtm" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
             <Flag class="w-4 h-4" />
             See the GTM commitments
           </a>
