@@ -1,22 +1,40 @@
 ---
 import "../styles/tailwind.css";
 import { Lock, Shield } from "@lucide/astro";
-import TableOfContents from "../components/TableOfContents.astro";
+import Agenda from "../components/Agenda.astro";
+
+interface AgendaSection {
+  id: string;
+  label: string;
+  icon?: string;
+}
 
 interface Props {
   title?: string;
   description?: string;
   /** "long" renders the full TOC + section nav (default). "scan" hides TOC and swaps nav for a single full-version link. */
   kind?: "long" | "scan";
+  /** Sections rendered into the left-side agenda. Pass an empty array to hide the agenda. */
+  agenda?: AgendaSection[];
 }
 
 const {
   title = "Zunou — Japan-Led GTM Strategy",
   description = "Japan-led 12-month GTM strategy for Zunou AI. Internal proposal.",
   kind = "long",
+  agenda = [],
 } = Astro.props;
 
 const isScan = kind === "scan";
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const pages = [
+  { href: "/", label: "GTM", match: ["/", "/scan"] },
+  { href: "/dashboard", label: "Dashboard", match: ["/dashboard"] },
+  { href: "/journeys", label: "Journeys", match: ["/journeys"] },
+  { href: "/foundation", label: "Foundation", match: ["/foundation"] },
+  { href: "/quality", label: "Quality", match: ["/quality", "/engineering"] },
+];
+const isActive = (m: string[]) => m.includes(path);
 ---
 
 <!doctype html>
@@ -65,23 +83,25 @@ const isScan = kind === "scan";
           </div>
         </a>
 
-        <nav class="hidden md:flex items-center gap-6 text-sm text-[var(--color-ink-soft)]">
-          {isScan ? (
-            <>
-              <a href="/" class="hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1.5">
-                <span>Full version</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </>
-          ) : (
-            <>
-              <a href="/scan" class="hover:text-[var(--color-ink)] transition-colors font-semibold">90-second scan</a>
-              <a href="#trends" class="hover:text-[var(--color-ink)] transition-colors">Trends</a>
-              <a href="#moat" class="hover:text-[var(--color-ink)] transition-colors">MCP moat</a>
-              <a href="#mechanic" class="hover:text-[var(--color-ink)] transition-colors">Mechanic</a>
-              <a href="#case-studies" class="hover:text-[var(--color-ink)] transition-colors">Case studies</a>
-              <a href="#decisions" class="hover:text-[var(--color-ink)] transition-colors">Decisions</a>
-            </>
+        <nav class="hidden md:flex items-center gap-1 text-sm">
+          {pages.map((p) => (
+            <a
+              href={p.href}
+              class:list={[
+                "px-3 py-1.5 rounded-md transition-colors",
+                isActive(p.match)
+                  ? "bg-[var(--color-ink)] text-[var(--color-paper)] font-semibold"
+                  : "text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] hover:bg-[var(--color-paper-soft)]",
+              ]}
+              aria-current={isActive(p.match) ? "page" : undefined}
+            >
+              {p.label}
+            </a>
+          ))}
+          {!isScan && path === "/" && (
+            <a href="/scan" class="ml-3 pl-3 border-l border-[var(--color-line)] text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] transition-colors text-xs font-semibold">
+              90-sec scan
+            </a>
           )}
         </nav>
 
@@ -94,7 +114,7 @@ const isScan = kind === "scan";
       </div>
     </header>
 
-    {!isScan && <TableOfContents />}
+    {agenda.length > 0 && <Agenda sections={agenda} />}
 
     <main>
       <slot />

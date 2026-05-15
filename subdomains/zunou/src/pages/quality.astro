@@ -1,0 +1,776 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  Flag,
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
+  ShieldAlert,
+  Target,
+  Smartphone,
+  Globe,
+  Database,
+  Server,
+  Library,
+  Wrench,
+  TestTube2,
+  Layers,
+  Zap,
+  ScanLine,
+  GitBranch,
+  Lock,
+  Users,
+  CircleHelp,
+  PenTool,
+  ShieldCheck,
+  Beaker,
+  CircleDot,
+  ArrowRight,
+} from "@lucide/astro";
+
+interface Row {
+  tier: "Mobile" | "Web" | "Backend" | "Data" | "Infra" | "Lib";
+  service: string;
+  stack: string;
+  testFiles: number | null; // null = N/A
+  ciRunsTests: boolean | null;
+  grade: "A" | "A-" | "B" | "C" | "D" | "F" | "n/a";
+  note?: string;
+}
+
+const rows: Row[] = [
+  // Mobile
+  { tier: "Mobile", service: "nova", stack: "Expo RN + Swift + Android", testFiles: 0, ciRunsTests: false, grade: "F", note: "Build only · no test harness anywhere" },
+  // Web
+  { tier: "Web", service: "dashboard", stack: "React 18 + Vite", testFiles: 1, ciRunsTests: false, grade: "D", note: "Vitest configured · CI skips it" },
+  { tier: "Web", service: "admin", stack: "React 18 + Vite", testFiles: 0, ciRunsTests: false, grade: "F" },
+  { tier: "Web", service: "pulse", stack: "React 18 + Vite", testFiles: 0, ciRunsTests: false, grade: "F" },
+  { tier: "Web", service: "launch-agent", stack: "React + Vite (embed)", testFiles: 0, ciRunsTests: false, grade: "F" },
+  // Backend
+  { tier: "Backend", service: "api", stack: "PHP 8.3 / Laravel 11", testFiles: 132, ciRunsTests: false, grade: "B", note: "PHPUnit + Pest · CI runs lint only" },
+  { tier: "Backend", service: "error-assistant", stack: "Node 20 Lambda", testFiles: 17, ciRunsTests: true, grade: "A-", note: "Tests run on deploy — reference template" },
+  { tier: "Backend", service: "slack", stack: "Node 20 + Bolt", testFiles: 4, ciRunsTests: false, grade: "D" },
+  { tier: "Backend", service: "agent", stack: "Node library (voice)", testFiles: 1, ciRunsTests: false, grade: "F" },
+  { tier: "Backend", service: "ai-proxy", stack: "Node Lambda (LLM proxy)", testFiles: 0, ciRunsTests: false, grade: "F", note: '`echo "No tests yet"`' },
+  { tier: "Backend", service: "relay-service", stack: "Node Lambda (orchestration)", testFiles: 0, ciRunsTests: false, grade: "F", note: '`echo "No tests yet"`' },
+  { tier: "Backend", service: "notification-hub", stack: "Node Lambda (Pusher)", testFiles: 0, ciRunsTests: false, grade: "F", note: '`echo "No tests yet"`' },
+  { tier: "Backend", service: "meet-bot", stack: "Node stub", testFiles: 0, ciRunsTests: false, grade: "F" },
+  { tier: "Backend", service: "uploader", stack: "Express + Uppy", testFiles: 0, ciRunsTests: false, grade: "F" },
+  // Data
+  { tier: "Data", service: "glue", stack: "Python 3 jobs", testFiles: 0, ciRunsTests: false, grade: "F", note: "15+ destructive scripts" },
+  { tier: "Data", service: "unstructured", stack: "Python + Flask", testFiles: 0, ciRunsTests: false, grade: "F" },
+  // Infra
+  { tier: "Infra", service: "lambda", stack: "Node autoscale glue", testFiles: 0, ciRunsTests: false, grade: "F" },
+  { tier: "Infra", service: "kestra", stack: "Container orchestration", testFiles: null, ciRunsTests: null, grade: "n/a" },
+  { tier: "Infra", service: "cdn", stack: "Static + shell", testFiles: null, ciRunsTests: null, grade: "n/a" },
+  { tier: "Infra", service: "investor-deck", stack: "Static HTML", testFiles: null, ciRunsTests: null, grade: "n/a" },
+  // Lib
+  { tier: "Lib", service: "zunou-react", stack: "React component library", testFiles: 0, ciRunsTests: false, grade: "F", note: "20+ components consumed everywhere" },
+  { tier: "Lib", service: "zunou-queries", stack: "React Query + GraphQL hooks", testFiles: 0, ciRunsTests: false, grade: "F", note: "Core data layer" },
+  { tier: "Lib", service: "zunou-graphql", stack: "GraphQL codegen", testFiles: null, ciRunsTests: null, grade: "n/a" },
+];
+
+const realCount = rows.filter((r) => r.grade !== "n/a").length;
+const ciRunsTestsCount = rows.filter((r) => r.ciRunsTests === true).length;
+const passingGrades = new Set(["A", "A-", "B"]);
+const failingGrades = new Set(["D", "F"]);
+const totalTestFiles = rows.reduce(
+  (sum, r) => sum + (typeof r.testFiles === "number" ? r.testFiles : 0),
+  0
+);
+
+/* ====== Test-stack standardization ====== */
+interface ToolRow {
+  layer: "Unit" | "Component" | "Integration" | "E2E" | "Mobile E2E" | "Visual" | "Contract";
+  pick: string;
+  rationale: string;
+  appliesTo: string;
+  icon: string;
+}
+
+const stack: ToolRow[] = [
+  {
+    layer: "Unit",
+    pick: "Vitest",
+    rationale: "Vite-native, jest-compatible API, fastest feedback loop. Already configured in dashboard — promote to repo standard for every TS/JS package.",
+    appliesTo: "dashboard · admin · pulse · launch-agent · zunou-react · zunou-queries · all Node Lambdas",
+    icon: "test-tube-2",
+  },
+  {
+    layer: "Unit",
+    pick: "Pest (built on PHPUnit)",
+    rationale: "More expressive than vanilla PHPUnit; the Laravel monolith already has 132 tests. Standardize on Pest for new tests; keep PHPUnit for legacy.",
+    appliesTo: "services/api (Laravel)",
+    icon: "test-tube-2",
+  },
+  {
+    layer: "Unit",
+    pick: "pytest",
+    rationale: "Industry standard. Critical for the destructive scripts in services/glue — every one rewrites production tables.",
+    appliesTo: "services/glue · services/unstructured",
+    icon: "test-tube-2",
+  },
+  {
+    layer: "Component",
+    pick: "Vitest + React Testing Library",
+    rationale: "Library-level component tests with a real DOM. Highest leverage point — zunou-react and zunou-queries back every web app.",
+    appliesTo: "zunou-react · zunou-queries · dashboard components",
+    icon: "layers",
+  },
+  {
+    layer: "Component",
+    pick: "Jest + RN Testing Library",
+    rationale: "RN's official combo. Test the business-logic hooks in nova/src/hooks before touching native.",
+    appliesTo: "services/nova (RN business logic)",
+    icon: "layers",
+  },
+  {
+    layer: "Integration",
+    pick: "Pest feature tests + Testcontainers",
+    rationale: "Real Postgres + real S3 (LocalStack) hitting the GraphQL surface. Where contract drift between API and clients gets caught.",
+    appliesTo: "services/api (cross-resolver flows)",
+    icon: "git-branch",
+  },
+  {
+    layer: "E2E",
+    pick: "Playwright",
+    rationale: "One tool, three runtimes (Chromium · Firefox · WebKit). Already the consensus 2026 pick. Replaces a Cypress decision before it's made.",
+    appliesTo: "dashboard · admin · pulse · launch-agent",
+    icon: "scan-line",
+  },
+  {
+    layer: "Mobile E2E",
+    pick: "Maestro",
+    rationale: "YAML flows, runs on real Apple silicon and Android, no native build required. Better DX than Detox for our small team.",
+    appliesTo: "services/nova (iOS + Android)",
+    icon: "smartphone",
+  },
+  {
+    layer: "Visual",
+    pick: "Playwright + screenshot diff",
+    rationale: "Catches design regressions on every PR. Skip until E2E exists; layer on top once it does.",
+    appliesTo: "dashboard (later: nova via Maestro snapshots)",
+    icon: "pen-tool",
+  },
+  {
+    layer: "Contract",
+    pick: "GraphQL Codegen + spectaql",
+    rationale: "Already partly in place (zunou-graphql, spectaql.config.yml). Failing CI on unannounced schema breaks closes a real silent-failure path.",
+    appliesTo: "services/api ↔ all GraphQL clients",
+    icon: "git-branch",
+  },
+];
+
+/* ====== Definition of Done — what closes a ticket ====== */
+const dod = [
+  {
+    title: "Tests cover the change",
+    body: "Net-new code has unit tests. Behavioral changes have an integration test. UI changes have a Playwright (web) or Maestro (mobile) flow. PRs without tests for changed lines need an explicit waiver in the description.",
+    icon: "test-tube-2",
+  },
+  {
+    title: "CI is green — including the test job",
+    body: "Lint passes. Type-check passes. The test suite runs and passes. No 'green checkmark' from a workflow that just printed 'No tests yet'.",
+    icon: "check-circle-2",
+  },
+  {
+    title: "Coverage on changed lines ≥ 70%",
+    body: "We don't gate on whole-repo coverage (vanity). We gate on changed lines so every PR pulls the floor up. Set the threshold low enough that humans accept it, high enough that it bites.",
+    icon: "shield-check",
+  },
+  {
+    title: "Observability hooks present",
+    body: "User-facing changes ship with a Sentry tag, a structured log line, and (where appropriate) a CloudWatch metric. If it breaks in prod, we want to know without a customer telling us.",
+    icon: "scan-line",
+  },
+  {
+    title: "Documented at the level it deserves",
+    body: "Library API: docstring + example. Migration: a README in the migration. Feature flag: a single line in CHANGELOG. Internal helper: nothing unless non-obvious. Documentation is part of done — just calibrated to audience.",
+    icon: "pen-tool",
+  },
+  {
+    title: "Owned, not orphaned",
+    body: "Every merged PR has a single name in the CODEOWNERS for the touched area. If we can't answer 'who owns this when it breaks at 3am' on the merge, the PR isn't done.",
+    icon: "users",
+  },
+];
+
+/* ====== Why 100% — the principle, anchored ====== */
+const whyReasons = [
+  {
+    title: "Fewer bugs in production",
+    body: "Every line covered is one fewer way prod breaks silently. The 100% asymptote is what produces a codebase you can refactor without flinching.",
+    icon: "shield-check",
+  },
+  {
+    title: "Engineers own quality, not QA",
+    body: "There is no QA team coming to save us. The test you write is the test that protects you when the next release is at 11pm before a pilot demo. Quality is an engineering culture choice — and a hiring filter.",
+    icon: "users",
+  },
+  {
+    title: "Tests are documentation that can't go stale",
+    body: "A test of how the API rate-limiter behaves under bursts is more useful — and more current — than three pages of Notion explaining the same thing.",
+    icon: "pen-tool",
+  },
+  {
+    title: "Refactor velocity compounds",
+    body: "Tested code lets the next engineer cut things in half. Untested code pushes everyone toward bolted-on workarounds. The compounding shows up six months in.",
+    icon: "zap",
+  },
+];
+
+/* ====== What we're missing (beyond raw coverage) ====== */
+const missing = [
+  {
+    title: "Synthetic monitoring on critical user paths",
+    body: "Until the E2E suite is fast enough to run continuously, a Checkly (or similar) hitting login, send-message, schedule-meeting every 5 minutes is the cheapest insurance. Pages an oncall when prod breaks before the first user notices.",
+    severity: "high",
+    icon: "scan-line",
+  },
+  {
+    title: "Load testing on the notification path",
+    body: "k6 or similar against a staging tenant — burst 500 messages to a 200-person channel and measure delivery SLO. Currently we don't know our actual ceiling. See Foundation §02.",
+    severity: "high",
+    icon: "zap",
+  },
+  {
+    title: "Security scanning in CI",
+    body: "Semgrep + npm audit + composer audit + Trivy on container images. Catches the JWT-bypass class of bug before it merges, not after.",
+    severity: "high",
+    icon: "lock",
+  },
+  {
+    title: "Mutation testing on the libraries",
+    body: "Stryker (Vitest) on zunou-react and zunou-queries. Reveals tests that pass without exercising the code — the worst kind of green checkmark. Add only after the libraries reach >50% line coverage.",
+    severity: "medium",
+    icon: "beaker",
+  },
+  {
+    title: "Snapshot tests on push payloads",
+    body: "Notification payloads are hard to debug in production. A snapshot per notification type (mention / task / meeting / digest) catches PII regressions and shape drift.",
+    severity: "medium",
+    icon: "pen-tool",
+  },
+];
+
+const tierIcon = (t: Row["tier"]) => {
+  switch (t) {
+    case "Mobile": return "smartphone";
+    case "Web": return "globe";
+    case "Backend": return "server";
+    case "Data": return "database";
+    case "Infra": return "wrench";
+    case "Lib": return "library";
+  }
+};
+
+const gradeColor = (g: Row["grade"]) => {
+  if (g === "n/a") return "ink-faint";
+  if (passingGrades.has(g)) return "success";
+  if (g === "C") return "warning";
+  if (failingGrades.has(g)) return "danger";
+  return "ink-soft";
+};
+
+const groupedRows: Record<Row["tier"], Row[]> = {
+  Mobile: [],
+  Web: [],
+  Backend: [],
+  Data: [],
+  Infra: [],
+  Lib: [],
+};
+for (const r of rows) groupedRows[r.tier].push(r);
+---
+
+<Layout
+  title="Zunou — Quality · Test Coverage & Definition of Done"
+  description="Test posture, standardized stack, and the engineering contract that makes quality non-negotiable."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "scoreboard", label: "Scoreboard", icon: "layers" },
+    { id: "findings", label: "Four facts", icon: "alert-triangle" },
+    { id: "why", label: "Why 100%", icon: "target" },
+    { id: "stack", label: "Test stack", icon: "test-tube-2" },
+    { id: "dod", label: "Definition of done", icon: "check-circle-2" },
+    { id: "missing", label: "Beyond coverage", icon: "scan-line" },
+  ]}
+>
+  <!-- Top banner · cross-page nav -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Quality · test coverage</span>
+        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/dashboard" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Dashboard</span><span aria-hidden="true">→</span></a>
+        <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Flag class="w-3.5 h-3.5" />
+          Quality · Test coverage audit
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Marco Avila · 2026-05-12 · pulled from zunou-services @ main
+        </span>
+      </div>
+
+      <h1
+        class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.0] tracking-tight mb-5 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        21 services.<br />
+        <span class="text-[var(--color-ink-soft)] italic">2 of them actually run tests.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        A snapshot of test coverage across the platform — and a path to 100%. The good news: a mature test culture already exists in pockets. The bad news: it isn't enforced.
+      </p>
+
+      <!-- Headline thesis -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 sm:p-7 mb-10 max-w-4xl" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3 flex items-center gap-2">
+          <Target class="w-3.5 h-3.5" />
+          The principle
+        </div>
+        <p class="font-display text-2xl sm:text-3xl leading-tight mb-3 text-[var(--color-ink)]">
+          We aim for 100% test coverage.
+        </p>
+        <p class="text-base text-[var(--color-ink-soft)] leading-relaxed">
+          Not as a vanity metric. As the floor that lets engineering ship at velocity without panic-fixing in production. Today the floor is missing. Most user-facing surfaces — mobile, web apps, the shared component library — are effectively untested, and the test suites we have written sit unrun. The first move is mechanical, not cultural: <strong class="text-[var(--color-ink)]">turn on the tests we already wrote</strong>.
+        </p>
+      </div>
+
+      <!-- Anchor stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="4">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Overall posture</div>
+          <div class="stat-xl-figure accent">D+</div>
+          <div class="stat-xl-label">Mature pockets, no enforcement</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Services testing in CI</div>
+          <div class="stat-xl-figure">{ciRunsTestsCount}<span class="text-[var(--color-ink-faint)]"> / {realCount}</span></div>
+          <div class="stat-xl-label">Only error-assistant runs its suite on deploy</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Test files (already written)</div>
+          <div class="stat-xl-figure">{totalTestFiles}</div>
+          <div class="stat-xl-label">Mostly in api (132) and error-assistant (17)</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">E2E automation</div>
+          <div class="stat-xl-figure">0</div>
+          <div class="stat-xl-label">No Playwright / Cypress / Detox / Maestro anywhere</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow">
+            <CircleDot class="w-3 h-3" />
+            Executive summary
+          </span>
+          <span class="exec-summary-meta">5 bullets · 30 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li>
+            <strong>Coverage today is D+.</strong> 21 services audited; 2 actually run their tests in CI. 153 already-written tests sit unused.
+          </li>
+          <li>
+            <strong>We're standardizing the stack:</strong> Vitest for unit + component, Playwright for web E2E, Pest for Laravel, Jest for Node + RN, Maestro for mobile E2E, pytest for Python jobs.
+          </li>
+          <li>
+            <strong>Definition of done becomes the contract:</strong> tests for the change, CI green including the test job, ≥70% coverage on changed lines, observability hooks, ownership in CODEOWNERS.
+          </li>
+          <li>
+            <strong>100% is the asymptote, not the deadline.</strong> The goal is fewer bugs, engineer-owned quality, refactor velocity that compounds.
+          </li>
+          <li>
+            <strong>Coverage alone won't catch everything.</strong> Synthetic monitoring, load testing on the notification path, and security scanning in CI close the rest of the pilot risk.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §01 SCOREBOARD -->
+  <section class="py-16 sm:py-20" id="scoreboard">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>01</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Scoreboard</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Where the floor is.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Grades reflect the combination of <em>tests written</em> and <em>tests actually executed by CI</em>. A service with a strong suite but no CI gate gets a B. A service with no tests at all gets an F regardless of how stable it feels in production.
+      </p>
+
+      <div class="space-y-8" data-reveal="fade-up">
+        {(["Mobile", "Web", "Backend", "Data", "Infra", "Lib"] as Row["tier"][]).map((tier) => (
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)] border border-[var(--color-line)]">
+                {(() => {
+                  const Icon = ({
+                    Mobile: Smartphone,
+                    Web: Globe,
+                    Backend: Server,
+                    Data: Database,
+                    Infra: Wrench,
+                    Lib: Library,
+                  } as any)[tier];
+                  return Icon ? <Icon class="w-3.5 h-3.5" /> : null;
+                })()}
+              </span>
+              <h3 class="text-xs uppercase tracking-[0.18em] font-bold text-[var(--color-ink)]">{tier}</h3>
+              <span class="text-[10px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)]">
+                {groupedRows[tier].length} {groupedRows[tier].length === 1 ? "service" : "services"}
+              </span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden">
+                <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+                  <tr>
+                    <th class="text-left p-3 font-semibold">Service</th>
+                    <th class="text-left p-3 font-semibold">Stack</th>
+                    <th class="text-left p-3 font-semibold">Test files</th>
+                    <th class="text-left p-3 font-semibold">CI runs tests</th>
+                    <th class="text-left p-3 font-semibold">Grade</th>
+                    <th class="text-left p-3 font-semibold">Notes</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-[var(--color-paper)] align-top">
+                  {groupedRows[tier].map((r) => (
+                    <tr class="border-t border-[var(--color-line-soft)]">
+                      <td class="p-3 font-semibold text-[var(--color-ink)] font-mono text-xs">{r.service}</td>
+                      <td class="p-3 text-[var(--color-ink-soft)] text-xs">{r.stack}</td>
+                      <td class="p-3 text-[var(--color-ink)] text-xs font-mono">
+                        {r.testFiles === null ? "—" : r.testFiles}
+                      </td>
+                      <td class="p-3 text-xs">
+                        {r.ciRunsTests === true && (
+                          <span class="inline-flex items-center gap-1 text-[var(--color-success)] font-semibold">
+                            <CheckCircle2 class="w-3.5 h-3.5" /> on deploy
+                          </span>
+                        )}
+                        {r.ciRunsTests === false && (
+                          <span class="inline-flex items-center gap-1 text-[var(--color-danger)] font-semibold">
+                            <XCircle class="w-3.5 h-3.5" /> no
+                          </span>
+                        )}
+                        {r.ciRunsTests === null && (
+                          <span class="text-[var(--color-ink-faint)]">—</span>
+                        )}
+                      </td>
+                      <td class="p-3 text-xs">
+                        <span class={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-md font-mono font-bold text-${gradeColor(r.grade)}`} style={`color: var(--color-${gradeColor(r.grade)}); background: var(--color-${gradeColor(r.grade)}-soft, var(--color-paper-soft)); border: 1px solid var(--color-${gradeColor(r.grade)});`}>
+                          {r.grade}
+                        </span>
+                      </td>
+                      <td class="p-3 text-[var(--color-ink-soft)] text-xs leading-relaxed">{r.note || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §02 THE FOUR FACTS -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="findings">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>02</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">The four facts</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What this audit changes about how we ship.
+      </h2>
+
+      <div class="grid lg:grid-cols-2 gap-4 max-w-6xl mt-8">
+        <div class="rounded-xl border-2 border-[var(--color-warning)] bg-[var(--color-paper)] p-5" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <AlertTriangle class="w-4 h-4 text-[var(--color-warning)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-warning)]">01 · The biggest unforced error</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">132 PHPUnit + Pest tests sit unused.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            The Laravel monolith has the strongest test culture in the repo — unit, feature, and integration suites. <code class="inline-code">test-api.yml</code> runs <code class="inline-code">make lint</code> only. Wiring PHPUnit into that workflow is the single highest-leverage move in this audit. One PR, hours of work, immediately protects every PR.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-3">
+            <Smartphone class="w-4 h-4 text-[var(--color-danger)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-danger)]">02 · The biggest blast radius</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">nova ships untested to user devices.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Native Swift in <code class="inline-code">ios/Zunou.xcodeproj/</code>, the RN business logic in <code class="inline-code">src/hooks/</code>, the Android build — no XCTest, no jest-native, no Detox, no Maestro. Every release is a manual-QA roll of the dice. The Tokyo pilot in §06 of the GTM writeup ships through this surface.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="2">
+          <div class="flex items-center gap-2 mb-3">
+            <Library class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">03 · The compounding gap</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">The shared libraries inherit zero coverage.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            <code class="inline-code">zunou-react</code> and <code class="inline-code">zunou-queries</code> back dashboard, admin, and pulse. They have zero tests. Every untested consumer is a multiplier on a fragile foundation. Coverage on the libraries is the highest-impact-per-test you can write.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="3">
+          <div class="flex items-center gap-2 mb-3">
+            <CheckCircle2 class="w-4 h-4 text-[var(--color-success)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-success)]">04 · The reference template</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">error-assistant already does this right.</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            17 Jest tests covering Cloudwatch ingest, deduplication, agent tools, validators. <strong class="text-[var(--color-ink)]">Tests run on deploy</strong>. Copy this template into ai-proxy, relay-service, and notification-hub. The plumbing is portable.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §03 WHY 100% -->
+  <section class="py-16 sm:py-20" id="why">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>03</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Why 100%</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Coverage is not a vanity metric. It's the contract.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        100% is the asymptote, not the deadline. Chasing it produces a codebase that ships at velocity without panic — and an engineering culture where quality is owned by the people writing the code, not delegated downstream.
+      </p>
+
+      <div class="grid lg:grid-cols-2 gap-4">
+        {whyReasons.map((r, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 hover:border-[var(--color-ink-faint)] hover:-translate-y-0.5 hover:shadow-sm transition-all" data-reveal="fade-up" data-reveal-delay={i % 2}>
+            <div class="flex items-center gap-2 mb-3">
+              {r.icon === "shield-check" && <ShieldCheck class="w-4 h-4 text-[var(--color-accent)]" />}
+              {r.icon === "users" && <Users class="w-4 h-4 text-[var(--color-accent)]" />}
+              {r.icon === "pen-tool" && <PenTool class="w-4 h-4 text-[var(--color-accent)]" />}
+              {r.icon === "zap" && <Zap class="w-4 h-4 text-[var(--color-accent)]" />}
+              <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Reason 0{i + 1}</span>
+            </div>
+            <h3 class="font-display text-xl mb-2 leading-tight">{r.title}</h3>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{r.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §04 TEST STACK -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="stack">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>04</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Test stack</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        One pick per layer. No re-litigation.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        The standard the team writes against — chosen so engineers don't waste cycles deciding. Where a pick differs from what's installed today, the reason is in the rationale.
+      </p>
+
+      <div class="overflow-x-auto" data-reveal="fade-up">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]">
+          <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+            <tr>
+              <th class="text-left p-3 font-semibold w-[10%]">Layer</th>
+              <th class="text-left p-3 font-semibold w-[18%]">Pick</th>
+              <th class="text-left p-3 font-semibold w-[42%]">Why this</th>
+              <th class="text-left p-3 font-semibold w-[30%]">Applies to</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            {stack.map((s) => (
+              <tr class="border-t border-[var(--color-line-soft)]">
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs font-mono uppercase tracking-wide">{s.layer}</td>
+                <td class="p-3">
+                  <div class="inline-flex items-center gap-1.5 text-[var(--color-ink)] font-semibold text-sm">
+                    {s.icon === "test-tube-2" && <TestTube2 class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    {s.icon === "layers" && <Layers class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    {s.icon === "git-branch" && <GitBranch class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    {s.icon === "scan-line" && <ScanLine class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    {s.icon === "smartphone" && <Smartphone class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    {s.icon === "pen-tool" && <PenTool class="w-3.5 h-3.5 text-[var(--color-accent)]" />}
+                    <span>{s.pick}</span>
+                  </div>
+                </td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs leading-relaxed">{s.rationale}</td>
+                <td class="p-3 text-[var(--color-ink-faint)] text-xs font-mono leading-relaxed">{s.appliesTo}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-sm text-[var(--color-ink-faint)] mt-4 italic max-w-3xl">
+        Standardizing the picks now means the next engineer joining doesn't have to learn three slightly different test runners. Consistency &gt; novelty.
+      </p>
+    </div>
+  </section>
+
+  <!-- §05 DEFINITION OF DONE -->
+  <section class="py-16 sm:py-20" id="dod">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>05</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Definition of done</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What "done" means before a PR can merge.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Six requirements. Posted in CONTRIBUTING.md, enforced where automation can help, owned by the engineer where it can't. The point isn't bureaucracy — it's that "done" needs to mean the same thing to every person on the team, every time.
+      </p>
+
+      <div class="grid lg:grid-cols-2 gap-3 max-w-5xl">
+        {dod.map((d, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 flex gap-4 hover:border-[var(--color-ink-faint)] hover:bg-[var(--color-paper-soft)] transition-all" data-reveal="fade-up" data-reveal-delay={i % 2}>
+            <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-[var(--color-accent-soft)] flex items-center justify-center text-[var(--color-accent-ink)]">
+              {d.icon === "test-tube-2" && <TestTube2 class="w-4 h-4" />}
+              {d.icon === "check-circle-2" && <CheckCircle2 class="w-4 h-4" />}
+              {d.icon === "shield-check" && <ShieldCheck class="w-4 h-4" />}
+              {d.icon === "scan-line" && <ScanLine class="w-4 h-4" />}
+              {d.icon === "pen-tool" && <PenTool class="w-4 h-4" />}
+              {d.icon === "users" && <Users class="w-4 h-4" />}
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-[10px] font-mono font-bold text-[var(--color-accent)]">{String(i + 1).padStart(2, "0")}</span>
+                <h3 class="font-display text-lg leading-tight">{d.title}</h3>
+              </div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{d.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §06 WHAT WE'RE MISSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="missing">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>06</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Beyond raw coverage</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What 100% coverage still won't catch.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        A green test suite can still ship a regression in production timing, in payload shape, or in an unscanned dependency. These are the layers above unit tests — listed by what closes the most pilot risk for the least effort.
+      </p>
+
+      <div class="space-y-3 max-w-4xl">
+        {missing.map((m, i) => (
+          <div
+            class:list={[
+              "grid grid-cols-[3rem_1fr_5rem] gap-4 items-start rounded-xl border bg-[var(--color-paper)] p-4 transition-all hover:border-[var(--color-ink-faint)]",
+              m.severity === "high" ? "border-[var(--color-accent)]/40" : "border-[var(--color-line)]",
+            ]}
+            data-reveal="fade-up"
+            data-reveal-delay={i % 3}
+          >
+            <div class="w-10 h-10 rounded-lg bg-[var(--color-accent-soft)] flex items-center justify-center text-[var(--color-accent-ink)]">
+              {m.icon === "scan-line" && <ScanLine class="w-4 h-4" />}
+              {m.icon === "zap" && <Zap class="w-4 h-4" />}
+              {m.icon === "lock" && <Lock class="w-4 h-4" />}
+              {m.icon === "beaker" && <Beaker class="w-4 h-4" />}
+              {m.icon === "pen-tool" && <PenTool class="w-4 h-4" />}
+            </div>
+            <div class="min-w-0">
+              <h3 class="font-display text-lg leading-tight mb-1">{m.title}</h3>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{m.body}</p>
+            </div>
+            <div class="text-right">
+              <span
+                class:list={[
+                  "inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider",
+                  m.severity === "high"
+                    ? "bg-[var(--color-accent)] text-[var(--color-paper)]"
+                    : "bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)] border border-[var(--color-line)]",
+                ]}
+              >
+                {m.severity}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">
+          Where this gets us
+        </p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          Quality is owned by engineers. 100% is the asymptote.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          The stack is picked. The Definition of Done is written. The principle — <strong class="text-[var(--color-paper)]">quality is engineering's responsibility, not a downstream gate</strong> — is the only one that needs leadership consent. Everything else is mechanics, and mechanics are tractable.
+        </p>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+          Untested code is a liability. Tested code is leverage.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <a href="/foundation" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <Layers class="w-4 h-4" />
+            See Foundation · what to ship
+          </a>
+          <a href="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Flag class="w-4 h-4" />
+            Read the GTM strategy
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

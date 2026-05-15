@@ -27,6 +27,7 @@ import {
   MessagesSquare,
   Calendar,
   ArrowDown,
+  CircleDot,
 } from "@lucide/astro";
 
 const decisions = [
@@ -60,22 +61,49 @@ const openGapDecisions = decisions.filter((d) => d.status === "open" && d.group 
 const openCount = decisions.filter((d) => d.status === "open").length;
 ---
 
-<Layout title="Zunou — Japan-Led GTM Strategy">
-  <!-- Top banner · prominent link to the 2-min scan -->
+<Layout
+  title="Zunou — Japan-Led GTM Strategy"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "tldr", label: "TL;DR · long form", icon: "scroll-text" },
+    { id: "posture", label: "Posture", icon: "compass" },
+    { id: "trends", label: "Trends", icon: "trending-up" },
+    { id: "moat", label: "MCP moat", icon: "shield" },
+    { id: "competitive", label: "Competitive", icon: "swords" },
+    { id: "mechanic", label: "Mechanic", icon: "settings" },
+    { id: "communities", label: "Communities", icon: "users" },
+    { id: "organizer-value", label: "Organizer value", icon: "handshake" },
+    { id: "readiness", label: "Readiness", icon: "package-check" },
+    { id: "surface-and-drivers", label: "Surface & drivers", icon: "git-graph" },
+    { id: "phases", label: "Phases", icon: "git-branch" },
+    { id: "case-studies", label: "Case studies", icon: "book-open" },
+    { id: "commitment", label: "Commitment", icon: "ribbon" },
+    { id: "signals-engine", label: "Signals engine", icon: "radio" },
+    { id: "tension", label: "Risk · tension", icon: "alert-triangle" },
+    { id: "stage-gate", label: "Stage gate", icon: "flag-triangle-right" },
+    { id: "pre-mortem", label: "Pre-mortem", icon: "skull" },
+    { id: "asks", label: "Asks", icon: "hand" },
+    { id: "investment", label: "Investment", icon: "wallet" },
+    { id: "decisions", label: "Decisions", icon: "circle-help" },
+    { id: "gaps", label: "Gaps", icon: "minus-circle" },
+    { id: "engage", label: "Engage", icon: "send" },
+    { id: "glossary", label: "Glossary", icon: "book-marked" },
+    { id: "references", label: "References", icon: "library" },
+  ]}
+>
+  <!-- Top banner · three-pillar cross-page nav (consistent with Foundation + Quality) -->
   <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
       <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
-        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Pressed for time?</span>
-        <span class="text-[var(--color-ink)]">Two-minute executive summary available.</span>
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">GTM · strategy</span>
+        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
       </div>
-      <a
-        href="/scan"
-        class="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors shrink-0"
-      >
-        <span class="sm:hidden">90-second scan</span>
-        <span class="hidden sm:inline">Read the 90-second scan</span>
-        <span aria-hidden="true">→</span>
-      </a>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/dashboard" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Dashboard</span><span aria-hidden="true">→</span></a>
+        <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
+        <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
+      </div>
     </div>
   </div>
 
@@ -242,6 +270,40 @@ const openCount = decisions.filter((d) => d.status === "open").length;
       >
         Unfamiliar with <Term name="KGI" />, <Term name="NSM" />, <Term name="PMF" />, <Term name="MCP" />, <Term name="Ringi" />, <Term name="Keigo" />, or <Term name="APPI" />? Hover any underlined term for an inline definition, or jump to the <a href="#glossary" class="text-[var(--color-accent)] hover:underline">full glossary</a>.
       </p>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- EXECUTIVE SUMMARY · consistent across all three pages -->
+  <section class="py-12 sm:py-14" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow">
+            <CircleDot class="w-3 h-3" />
+            Executive summary
+          </span>
+          <span class="exec-summary-meta">5 bullets · 60 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li>
+            <strong>Japan-first, community-led GTM</strong> anchored on the TAI (Tokyo AI) pilot in late July / early August 2026 — Ilya-introduced — then layered with AI Tinkerers, Venture Café Toranomon, and a fourth community.
+          </li>
+          <li>
+            <strong>Hybrid venue sponsorship model:</strong> flat fee + per-user-join bonus. We pay for actual conversion, not seats. Aligns sponsor incentives with our growth metrics.
+          </li>
+          <li>
+            <strong>Spaces (Event-Spaces) as the Zoom-playbook viral surface</strong> alongside the community pilot: QR scan at the door → Nova installs → AI agent pre-loaded with the conference context. 1,000-person event = 1,000 installs that day.
+          </li>
+          <li>
+            <strong>Pre-committed stage-gate February 2027:</strong> ≥4 of 6 PMF criteria → fuel · ≤2 → pivot · 3 → extend. Discipline over hope.
+          </li>
+          <li>
+            <strong>This plan depends on engineering readiness.</strong> Without the <a href="/foundation" class="text-[var(--color-accent)] hover:underline font-semibold">Foundation</a> work (notification reliability, security, table-stakes UX) and the <a href="/quality" class="text-[var(--color-accent)] hover:underline font-semibold">Quality</a> contract (Definition of Done, standardized test stack), the pilot demos will surface gaps the buyers can't ignore. The three pillars are sequential, not independent.
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
 

@@ -1,0 +1,571 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  Gauge,
+  CircleDot,
+  Target,
+  TrendingUp,
+  TrendingDown,
+  Layers,
+  Database,
+  Cloud,
+  Server,
+  Activity,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowRight,
+  Flag,
+  Hourglass,
+  ShieldCheck,
+  Eye,
+  BarChart3,
+  Users,
+  Zap,
+  ListChecks,
+  CircleHelp,
+  ExternalLink,
+  Lock,
+} from "@lucide/astro";
+
+/* ====== Metrics that matter (mapped to GTM 5/1/3 + WAU + funnel) ====== */
+interface MetricRow {
+  label: string;
+  description: string;
+  category: "Activation" | "Retention" | "Conversion" | "Reliability";
+  source: string;
+  gtmRef: { ref: string; href: string };
+}
+
+const metrics: MetricRow[] = [
+  { label: "Magic-number activation", description: "% of new users hitting 5 events + 1 magic moment + 3 returns within 14 days. The single number the GTM is gated on.", category: "Activation", source: "Postgres event log + cohort table", gtmRef: { ref: "§05", href: "/#tldr" } },
+  { label: "Time to first event", description: "Median seconds from sign-in complete → first user-initiated event. Detects sign-in / onboarding regressions immediately.", category: "Activation", source: "Sign-in mutation + first GraphQL action", gtmRef: { ref: "§06", href: "/#mechanic" } },
+  { label: "Onboarding funnel by phase", description: "Drop-off per phase (welcome → org → calendar → tabs → layout → agent → complete). Surface where users abandon.", category: "Activation", source: "Nova onboardingStore + completePhase mutation", gtmRef: { ref: "§06", href: "/#mechanic" } },
+  { label: "WAU past magic number (NSM)", description: "Weekly active users who have crossed the magic-number threshold, scoped per partner community.", category: "Retention", source: "Cohort scope per organization_id + activity_log", gtmRef: { ref: "§05", href: "/#tldr" } },
+  { label: "D7 / D30 retention by cohort", description: "Standard cohort retention curves split by acquisition channel (TAI, AI Tinkerers, Spaces event, organic).", category: "Retention", source: "user.created_at + last_seen_at + acquisition_source", gtmRef: { ref: "§06", href: "/#communities" } },
+  { label: "Free → paid conversion %", description: "Per pricing tier × per community. Drives the ¥30M+ year-1 ARR ambition vs working hypothesis.", category: "Conversion", source: "Subscription state + organization_id", gtmRef: { ref: "Decision #14", href: "/#decisions" } },
+  { label: "Per-user inference cost", description: "Token spend / paid-user / month. Required to validate the unit economics before locking pricing.", category: "Conversion", source: "ai-proxy logs (needs per-tenant accounting — see Foundation Stage 3)", gtmRef: { ref: "§09", href: "/#investment" } },
+  { label: "Notification delivery SLO", description: "% of @mentions delivered within 5s, last 24h. The single number the founder checks each morning.", category: "Reliability", source: "notification_outbox + processed_events (needs Foundation Tier 1)", gtmRef: { ref: "Posture", href: "/#posture" } },
+  { label: "Sign-in success rate", description: "% of sign-in attempts that complete without re-auth or error. Native iOS vs PWA split.", category: "Reliability", source: "Auth0 logs + signInUser mutation outcomes", gtmRef: { ref: "Posture", href: "/#posture" } },
+  { label: "Per-tenant feature usage", description: "Adoption of voice agent, calendar, tasks, channels per organization. Tells us what to demo.", category: "Reliability", source: "Activity events tagged by feature_id", gtmRef: { ref: "§06", href: "/#mechanic" } },
+];
+
+/* ====== Tool comparison ====== */
+interface ToolRow {
+  name: string;
+  type: string;
+  selfHostJp: "yes" | "yes-with-effort" | "no";
+  freeTier: string;
+  jpResidency: "easy" | "with-self-host" | "limited" | "no";
+  bestFor: string;
+  caveat: string;
+  url: string;
+  pick?: "primary" | "complement";
+}
+
+const tools: ToolRow[] = [
+  {
+    name: "PostHog",
+    type: "Product analytics + session replay + feature flags",
+    selfHostJp: "yes",
+    freeTier: "1M events / month",
+    jpResidency: "n/a — no PII",
+    bestFor: "All product event analytics. Funnels, cohorts, retention, replay. PostHog Cloud US is the simplest start — APPI doesn't bite if events carry no PII (hashed user ID, event names, counts only — not message bodies, names, or emails).",
+    caveat: "Self-host on AWS Tokyo only if event payloads need PII (session-replay of UI showing customer data, support transcripts, etc.). Cloud has no APAC region — self-host is the JP-residency option.",
+    url: "https://posthog.com",
+    pick: "primary",
+  },
+  {
+    name: "Metabase",
+    type: "BI / SQL dashboards over Postgres",
+    selfHostJp: "yes",
+    freeTier: "open source · self-host free",
+    jpResidency: "easy",
+    bestFor: "Operational dashboards on top of the existing Postgres. Notification SLO, per-tenant usage, ops runbooks.",
+    caveat: "Not built for product event analytics — pair with PostHog.",
+    url: "https://metabase.com",
+    pick: "complement",
+  },
+  {
+    name: "Mixpanel",
+    type: "Product analytics",
+    selfHostJp: "no",
+    freeTier: "20M events / month",
+    jpResidency: "limited",
+    bestFor: "Mature product analytics. Strong cohort + funnel analysis.",
+    caveat: "EU (Netherlands) and India (Mumbai) residency available; no Japan/Singapore/broader APAC region. Vendor lock-in concerns. Cost grows fast at scale.",
+    url: "https://mixpanel.com",
+  },
+  {
+    name: "Amplitude",
+    type: "Product analytics",
+    selfHostJp: "no",
+    freeTier: "10M events / month",
+    jpResidency: "limited",
+    bestFor: "Marketing-leaning analytics, strong dashboards.",
+    caveat: "Pricing escalates aggressively post-free-tier. No JP residency.",
+    url: "https://amplitude.com",
+  },
+  {
+    name: "Grafana",
+    type: "Operational metrics + SLO dashboards",
+    selfHostJp: "yes",
+    freeTier: "OSS self-host free · cloud free tier",
+    jpResidency: "easy",
+    bestFor: "CloudWatch / Lambda metric dashboards, alerting.",
+    caveat: "Operational, not product. Required for the notification SLO and Lambda health (Foundation Tier 1).",
+    url: "https://grafana.com",
+    pick: "complement",
+  },
+];
+
+/* ====== Five dashboards to build first ====== */
+const dashboards = [
+  {
+    n: "01",
+    name: "Activation funnel · the GTM dashboard",
+    home: "PostHog",
+    audience: "Founders + GTM weekly review",
+    tiles: ["Sign-up → first event time (median)", "Onboarding phase drop-off", "% reaching magic number in 14 days", "WAU past magic number, by community", "D7 retention by acquisition channel"],
+    why: "This is the dashboard the GTM page describes (§07.7 weekly KPI tiles). Without it, the stage-gate Feb 2027 decision can't be made on data.",
+    icon: "trending-up",
+  },
+  {
+    n: "02",
+    name: "Notification delivery · the reliability dashboard",
+    home: "Grafana on top of Postgres + CloudWatch",
+    audience: "Founder daily check + on-call",
+    tiles: ["% mentions delivered <5s, last 24h", "Outbox lag (oldest unprocessed event age)", "DLQ depth per priority lane", "Lambda errors / 5xx rate", "Per-customer delivery SLO"],
+    why: "The single number that tells you whether the Foundation Tier 1 work is holding. Founder checks this each morning before standup.",
+    icon: "gauge",
+  },
+  {
+    n: "03",
+    name: "Per-user inference cost · the unit-economics dashboard",
+    home: "Metabase on Postgres + ai-proxy log table",
+    audience: "Pricing + finance + Marco",
+    tiles: ["Token spend per active user, last 7d", "Token spend per paid user, last 30d", "Cost ratio: voice vs text agent", "Top-10 spendiest organizations", "Projected cost at 1k / 5k / 10k users"],
+    why: "Required to validate the working-hypothesis pricing in §09 panel B before locking it.",
+    icon: "database",
+  },
+  {
+    n: "04",
+    name: "Customer-team health · the per-tenant dashboard",
+    home: "PostHog + per-organization filter",
+    audience: "Pilot management + sales",
+    tiles: ["Active users this week", "Messages / tasks / meetings created", "Voice agent invocations", "Mute rate (channels muted vs total)", "Notification miss rate"],
+    why: "Tells us which pilot customers are about to churn and which are becoming reference accounts.",
+    icon: "users",
+  },
+  {
+    n: "05",
+    name: "Engineering health · the eng dashboard",
+    home: "Grafana + Sentry + GitHub Actions",
+    audience: "Engineering team",
+    tiles: ["Test pass rate per service", "% PRs with tests for changed lines", "Mean time to recovery (MTTR)", "Sentry error volume by service", "Build / deploy duration"],
+    why: "The Quality page's Definition of Done becomes measurable. Catches regressions before customers do.",
+    icon: "activity",
+  },
+];
+
+/* ====== Setup steps ====== */
+const setup = [
+  {
+    n: "1",
+    title: "Sign up for PostHog Cloud US (free tier)",
+    detail: "Free tier covers 1M events/month — comfortably above pilot volume. Adopt a strict no-PII event taxonomy: identify users by hashed Auth0 sub, send event names + numeric/enum properties only. No message bodies, names, or emails. Defer the Tokyo self-host migration until a customer or auditor specifically asks.",
+    link: { label: "PostHog Cloud", url: "https://posthog.com/pricing" },
+  },
+  {
+    n: "2",
+    title: "Add the JS + iOS + Android SDKs to Nova and Dashboard",
+    detail: "Standard `posthog-js` for the web dashboard; `posthog-react-native` for Nova; identify users by Auth0 sub on sign-in. Auto-capture page views; manual capture for the events that map to magic-number actions.",
+    link: { label: "PostHog React Native SDK", url: "https://posthog.com/docs/libraries/react-native" },
+  },
+  {
+    n: "3",
+    title: "Mirror the GTM weekly KPI tiles as PostHog dashboard",
+    detail: "The mock dashboard at GTM §07.7 is the spec. Build it as a PostHog dashboard, share the URL with the team, walk it every Monday.",
+    link: { label: "PostHog dashboards docs", url: "https://posthog.com/docs/product-analytics/dashboards" },
+  },
+  {
+    n: "4",
+    title: "Stand up Grafana for Lambda + Postgres metrics",
+    detail: "Grafana Cloud free tier (Tokyo region) or self-host. Connect CloudWatch and the Postgres replicas. Build the notification delivery SLO panel as the first dashboard — it doubles as Foundation Tier 1 acceptance criteria.",
+    link: { label: "Grafana CloudWatch data source", url: "https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/" },
+  },
+  {
+    n: "5",
+    title: "Stand up Metabase for SQL ad-hoc + Notification SLO ops",
+    detail: "Self-host on the same Tokyo cluster. Read-only role on the Postgres replica. First dashboard: per-tenant feature usage. Second: per-user inference cost.",
+    link: { label: "Metabase running guide", url: "https://www.metabase.com/docs/latest/installation-and-operation/installing-metabase" },
+  },
+];
+
+/* ====== Decisions to make before standing this up ====== */
+const decisions = [
+  {
+    title: "PostHog Cloud vs self-host",
+    options: ["PostHog Cloud US", "Self-host on AWS Tokyo"],
+    rec: "Cloud US — provided the event taxonomy stays PII-free (hashed user IDs, no message bodies). Saves the infra cost and operational burden. Migrate to self-host only when an enterprise customer or auditor explicitly asks.",
+    impact: "Without the no-PII discipline, this becomes an APPI exposure. With it, Cloud US is the right call.",
+  },
+  {
+    title: "Event taxonomy",
+    options: ["Lock now (cleaner) ", "Iterate (faster start)"],
+    rec: "Lock the magic-number events first (signed_in, first_event, magic_moment, returned), iterate the rest.",
+    impact: "Renaming events later breaks the historical funnel — but waiting too long means no data.",
+  },
+  {
+    title: "Owner of the dashboard cadence",
+    options: ["Marco", "Eng lead", "Rotating"],
+    rec: "Founder owns the Activation + Reliability dashboards. Eng owns Engineering Health.",
+    impact: "Dashboards no one walks become noise. Single owner per dashboard.",
+  },
+  {
+    title: "Session replay on / off for pilots",
+    options: ["On (debug gold)", "Off (privacy-first)"],
+    rec: "On for pilot tenants with explicit consent baked into onboarding ToS. Off for everyone else.",
+    impact: "APPI-relevant — needs explicit user notice. Worth it for pilot debugging value.",
+  },
+];
+---
+
+<Layout
+  title="Zunou — Dashboard · How We'll Measure It"
+  description="Zunou has data but no dashboards. PostHog + Grafana + Metabase setup for the GTM-critical metrics."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "metrics", label: "Metrics that matter", icon: "target" },
+    { id: "tools", label: "Tool picks", icon: "layers" },
+    { id: "five-dashboards", label: "Five dashboards", icon: "bar-chart-3" },
+    { id: "setup", label: "Setup · 5 steps", icon: "list-checks" },
+    { id: "decisions", label: "Decisions to make", icon: "circle-help" },
+  ]}
+>
+  <!-- Top banner · five-pillar nav -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Dashboard · the measurement layer</span>
+        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
+        <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Gauge class="w-3.5 h-3.5" />
+          Dashboard · measurement layer
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">Marco Avila · 2026-05-15 · v1</span>
+      </div>
+
+      <h1 class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4rem] leading-[0.98] tracking-tight mb-5 max-w-4xl" data-reveal="fade-up" data-reveal-delay="1">
+        Zunou has data.<br />
+        <span class="text-[var(--color-ink-soft)] italic">It has no dashboards.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        Postgres has the events. CloudWatch has the metrics. The agent has the logs. Nobody has a dashboard. The GTM is gated on the magic number — and we can't read it. Five small moves close that gap in a week, with JP residency intact.
+      </p>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Dashboards to ship</div>
+          <div class="stat-xl-figure accent">{dashboards.length}</div>
+          <div class="stat-xl-label">Activation · Reliability · Cost · Per-tenant · Engineering</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Primary tool</div>
+          <div class="stat-xl-figure">PostHog</div>
+          <div class="stat-xl-label">Cloud US — free to 1M events/month</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Time to first dashboard</div>
+          <div class="stat-xl-figure">~3 days</div>
+          <div class="stat-xl-label">Sign up + instrument + first KPI tiles</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Marginal infra cost</div>
+          <div class="stat-xl-figure">$0</div>
+          <div class="stat-xl-label">All three tools have free tiers covering pilot volume</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow"><CircleDot class="w-3 h-3" /> Executive summary</span>
+          <span class="exec-summary-meta">5 bullets · 45 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li><strong>The GTM is gated on a magic number we can't currently read.</strong> The 5/1/3-in-14-days metric needs an event log + a cohort dashboard — neither exists today.</li>
+          <li><strong>Pick: PostHog Cloud US for product analytics</strong> (free to 1M events/month) with a strict no-PII event taxonomy — hashed user IDs, no message bodies. Metabase for SQL dashboards, Grafana for ops. JP residency stays clean because nothing identifying leaves the country.</li>
+          <li><strong>Five dashboards, one week.</strong> Activation funnel · Notification SLO · Per-user inference cost · Per-tenant health · Engineering health. Each maps to a specific GTM or Foundation goal.</li>
+          <li><strong>Use PostHog Cloud US to start; self-host on Tokyo only if event payloads need PII later.</strong> Free tier covers pilot volume. Saves ~$200/mo + operational burden of running our own Postgres/ClickHouse stack.</li>
+          <li><strong>Founder owns the activation + reliability dashboards.</strong> Walked every Monday. Dashboards no one walks become noise; single owner per dashboard.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §01 METRICS -->
+  <section class="py-16 sm:py-20" id="metrics">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>01</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Metrics that matter</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Ten metrics. Each tied to a GTM commitment.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        These are the readings we'd be embarrassed not to have at the stage-gate decision in February 2027. Build for these first; resist anything fancier.
+      </p>
+
+      <div class="overflow-x-auto" data-reveal="fade-up">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]">
+          <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+            <tr>
+              <th class="text-left p-3 font-semibold w-[14%]">Metric</th>
+              <th class="text-left p-3 font-semibold w-[42%]">Why it matters</th>
+              <th class="text-left p-3 font-semibold w-[12%]">Category</th>
+              <th class="text-left p-3 font-semibold w-[24%]">Source</th>
+              <th class="text-left p-3 font-semibold w-[8%]">GTM</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            {metrics.map((m) => (
+              <tr class="border-t border-[var(--color-line-soft)]">
+                <td class="p-3 font-semibold text-[var(--color-ink)] text-xs leading-snug">{m.label}</td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs leading-relaxed">{m.description}</td>
+                <td class="p-3 text-xs">
+                  <span class:list={[
+                    "inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider",
+                    m.category === "Activation" && "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]",
+                    m.category === "Retention" && "bg-[var(--color-success-soft)] text-[var(--color-success)]",
+                    m.category === "Conversion" && "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+                    m.category === "Reliability" && "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+                  ]}>{m.category}</span>
+                </td>
+                <td class="p-3 text-[var(--color-ink-faint)] text-xs font-mono leading-relaxed">{m.source}</td>
+                <td class="p-3 text-xs">
+                  <a href={m.gtmRef.href} class="inline-flex items-center gap-1 text-[var(--color-accent-ink)] hover:underline font-mono font-bold">{m.gtmRef.ref} <ArrowRight class="w-3 h-3" /></a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §02 TOOL PICKS -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="tools">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>02</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Tool picks</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Three tools, no lock-in, JP residency intact.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        PostHog for product analytics. Metabase for ad-hoc SQL. Grafana for operational metrics. All three self-hostable on AWS Tokyo. Mixpanel and Amplitude listed for completeness — they'd cost more and forfeit residency.
+      </p>
+
+      <div class="space-y-3 max-w-5xl">
+        {tools.map((t, i) => (
+          <div class:list={[
+            "rec-card",
+            t.pick === "primary" && "border-[var(--color-accent)] border-2",
+            t.pick === "complement" && "border-[var(--color-accent)]/40 border-2",
+          ]} data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+            <div class="rec-card-grid" style="grid-template-columns: 1fr auto;">
+              <div class="rec-body">
+                <div class="flex items-baseline gap-2 mb-2 flex-wrap">
+                  <h4 class="rec-title">{t.name}</h4>
+                  {t.pick === "primary" && <span class="text-[10px] uppercase tracking-wider font-mono font-bold text-[var(--color-accent)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">Primary pick</span>}
+                  {t.pick === "complement" && <span class="text-[10px] uppercase tracking-wider font-mono font-bold text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)]/60 px-2 py-0.5 rounded">Complement</span>}
+                  <span class="text-[11px] font-mono text-[var(--color-ink-soft)]">{t.type}</span>
+                </div>
+                <p class="rec-why mb-2"><strong>Best for:</strong> {t.bestFor}</p>
+                <p class="text-xs text-[var(--color-ink-soft)]"><strong class="text-[var(--color-ink)]">Caveat:</strong> {t.caveat}</p>
+              </div>
+              <div class="text-right space-y-1.5">
+                <div class="text-[10px] font-mono text-[var(--color-ink-soft)] uppercase tracking-wider">JP residency</div>
+                <span class:list={[
+                  "inline-flex items-center px-2 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider",
+                  t.jpResidency === "easy" && "bg-[var(--color-success-soft)] text-[var(--color-success)]",
+                  t.jpResidency === "with-self-host" && "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+                  t.jpResidency === "limited" && "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+                  t.jpResidency === "no" && "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+                ]}>
+                  {t.jpResidency.replaceAll("-", " ")}
+                </span>
+                <div class="text-[10px] text-[var(--color-ink-faint)] font-mono">free: {t.freeTier}</div>
+              </div>
+            </div>
+            <div class="rec-fix">
+              <ExternalLink class="w-3 h-3" />
+              <span class="rec-fix-label">Docs</span>
+              <a href={t.url} target="_blank" rel="noopener noreferrer" class="rec-fix-path hover:text-[var(--color-accent-ink)]">{t.url}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §03 FIVE DASHBOARDS -->
+  <section class="py-16 sm:py-20" id="five-dashboards">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>03</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Five dashboards</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Build these five. Skip everything else.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Each dashboard answers exactly one stakeholder's recurring question. No vanity tiles. No metrics we won't act on.
+      </p>
+
+      <div class="space-y-3" data-reveal="fade-up">
+        {dashboards.map((d, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 hover:border-[var(--color-accent)]/40 hover:-translate-y-0.5 transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+            <div class="grid sm:grid-cols-[3rem_1fr_auto] gap-4 items-start">
+              <div class="w-10 h-10 rounded-lg bg-[var(--color-accent-soft)] flex items-center justify-center text-[var(--color-accent-ink)]">
+                <span class="font-mono text-sm font-bold">{d.n}</span>
+              </div>
+              <div>
+                <h3 class="font-display text-xl mb-1 leading-tight">{d.name}</h3>
+                <p class="text-[11px] font-mono text-[var(--color-ink-soft)] uppercase tracking-wider mb-2">
+                  {d.home} · for {d.audience}
+                </p>
+                <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3"><strong class="text-[var(--color-ink)]">Why:</strong> {d.why}</p>
+                <div class="flex flex-wrap gap-1.5">
+                  {d.tiles.map((t) => (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-[11px] text-[var(--color-ink)] font-mono">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §04 SETUP -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="setup">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>04</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Setup · 5 steps</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        One week from zero to first weekly review.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Five steps. Each links to the canonical doc. None of this is invention; it's wiring.
+      </p>
+
+      <div class="space-y-3 max-w-4xl">
+        {setup.map((s, i) => (
+          <div class="grid grid-cols-[2.5rem_1fr] sm:grid-cols-[2.5rem_1fr_auto] gap-3 sm:gap-4 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)]/40 hover:-translate-y-0.5 transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+            <div class="w-10 h-10 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] flex items-center justify-center font-display text-lg font-bold">{s.n}</div>
+            <div>
+              <h4 class="font-display text-lg leading-tight mb-1">{s.title}</h4>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{s.detail}</p>
+            </div>
+            <a href={s.link.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors whitespace-nowrap mt-1">
+              {s.link.label}
+              <ExternalLink class="w-3 h-3" />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §05 DECISIONS -->
+  <section class="py-16 sm:py-20" id="decisions">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>05</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Decisions to make</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Four calls before standing this up.
+      </h2>
+
+      <div class="grid lg:grid-cols-2 gap-3 mt-8 max-w-5xl">
+        {decisions.map((d, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 hover:border-[var(--color-accent)]/40 hover:-translate-y-0.5 transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 3)}>
+            <div class="flex items-center gap-2 mb-3">
+              <CircleHelp class="w-4 h-4 text-[var(--color-accent)]" />
+              <h4 class="font-display text-lg leading-tight">{d.title}</h4>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              {d.options.map((o) => (
+                <span class="inline-flex items-center px-2 py-0.5 rounded bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-xs text-[var(--color-ink-soft)]">{o.trim()}</span>
+              ))}
+            </div>
+            <p class="text-sm text-[var(--color-ink)] mb-2"><strong>Recommendation:</strong> {d.rec}</p>
+            <p class="text-xs text-[var(--color-ink-soft)] italic"><strong class="text-[var(--color-ink)]">Why it matters:</strong> {d.impact}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">Where this gets us</p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          A Monday-morning ritual the founder doesn't dread.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          One week of work. One PostHog instance. Five dashboards. The GTM stops being a doc and starts being a number on a wall — checked, contested, and acted on every Monday.
+        </p>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+          Without dashboards, the magic number is a slogan. With them, it's a contract.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <a href="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <Flag class="w-4 h-4" />
+            See the GTM commitments
+          </a>
+          <a href="/foundation" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Layers class="w-4 h-4" />
+            Foundation work this depends on
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
