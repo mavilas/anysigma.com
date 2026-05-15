@@ -1,0 +1,941 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  Flag,
+  Target,
+  AlertTriangle,
+  ShieldAlert,
+  Bell,
+  Layers,
+  Zap,
+  Globe,
+  Smartphone,
+  Server,
+  Lock,
+  Key,
+  Search,
+  MessageSquare,
+  Calendar,
+  Mic,
+  Activity,
+  Bot,
+  Database,
+  Gauge,
+  CheckCircle2,
+  XCircle,
+  Hourglass,
+  CircleDot,
+  ArrowRight,
+  Sparkles,
+  UserPlus,
+  Clock,
+  TrendingDown,
+} from "@lucide/astro";
+
+/* ====== Pilot-blocker queue (Tier 1, ROI-ranked) ====== */
+type Roi = "★★★★★" | "★★★★" | "★★★";
+interface BlockerRow {
+  rank: number;
+  area: "Reliability" | "Security" | "UX" | "Observability";
+  title: string;
+  why: string;
+  effort: string;
+  roi: Roi;
+  pilot: boolean; // true = pilot blocker, false = pilot-pretty
+  evidence: string; // file:line
+  icon: string;
+}
+
+const tier1: BlockerRow[] = [
+  /* === Track A · UX & onboarding — the T+0 / T+1 churn killers === */
+  {
+    rank: 1,
+    area: "UX",
+    title: "Verify onboarding end-to-end with a fresh pilot account",
+    why: "Onboarding was rebuilt in the last 157 commits and the invite-only wall was removed — but production behavior hasn't been validated by a non-team user. A broken first session means the user never starts. Highest-mortality bug.",
+    effort: "1 day",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "SignInUserMutation.php · buildPhases.ts · recent 'remove invite-only org flow' commit",
+    icon: "user-plus",
+  },
+  {
+    rank: 2,
+    area: "UX",
+    title: "Restore web DM flow",
+    why: "DirectMessagesPage import + route both commented out in App.tsx. Web users have no DM path at all. Pilot buyers will demo on a laptop.",
+    effort: "2–3 days",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "dashboard/src/App.tsx:54,213 · VitalsPage.tsx:46",
+    icon: "message-square",
+  },
+  {
+    rank: 3,
+    area: "UX",
+    title: "Surface per-channel mute in conversation header",
+    why: "Per-channel noise controls already exist end-to-end (pulse_settings · dm_settings · topic_settings). Just buried in the global notifications panel. #1 reason teams pin Slack back on top.",
+    effort: "1 day",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "NotificationsPanelContent.tsx:641–658 · SettingsPerPulse.tsx:342–370",
+    icon: "bell",
+  },
+  {
+    rank: 4,
+    area: "UX",
+    title: "Calendar timezone labels (JST / PST)",
+    why: "EventDetailScreen.tsx has zero TZ display. JP↔US scheduling is the killer case — one screenshot of an off-by-hours invite ends the deal.",
+    effort: "2 days",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "EventDetailScreen.tsx · CreateEventSheet.tsx:592",
+    icon: "calendar",
+  },
+  {
+    rank: 5,
+    area: "UX",
+    title: "Live recording indicator + transcript-ready notification",
+    why: "NotetakerTab shows 'Recording Completed' post-hoc but nothing live. Execs don't trust the bot is running — even when it is.",
+    effort: "2 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "NotetakerTab.tsx:731–746",
+    icon: "mic",
+  },
+
+  /* === Track B · Security — catastrophic if missed, mostly 1–3 days === */
+  {
+    rank: 6,
+    area: "Security",
+    title: "Fail-closed JWT validation",
+    why: "auth.mjs:43–44 silently skips JWT validation if AUTH0_DOMAIN env is unset. A misconfigured deploy = totally open notification hub. Same pattern in ai-proxy.",
+    effort: "1 day",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "notification-hub/auth.mjs:43–44 · ai-proxy/index.mjs",
+    icon: "lock",
+  },
+  {
+    rank: 7,
+    area: "Security",
+    title: "Google Calendar webhook signature verification",
+    why: "X-Goog-Channel-Token treated as an identity lookup, not a crypto signature. Any caller knowing a user UUID can trigger sync. Auth bypass.",
+    effort: "2 days",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "GoogleCalendarWebhookController.php:17–18",
+    icon: "key",
+  },
+  {
+    rank: 8,
+    area: "Security",
+    title: "HMAC for API → Lambda calls",
+    why: "Today the API authenticates to the notification Lambda using a user JWT. A compromised JWT can fan notifications to arbitrary recipients.",
+    effort: "3 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "notification-hub/index.mjs",
+    icon: "shield-alert",
+  },
+  {
+    rank: 9,
+    area: "Security",
+    title: "PII review on push payloads",
+    why: "expo-push.mjs:523–536 puts message preview text directly into the APNs/FCM payload. Apple + Google US infra sees content. APPI exposure.",
+    effort: "2 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "notification-hub/expo-push.mjs:523–536",
+    icon: "lock",
+  },
+
+  /* === Track C · Reliability & observability — the T+7 / T+30 churn killers === */
+  {
+    rank: 10,
+    area: "Reliability",
+    title: "Notification outbox + idempotency + DLQ",
+    why: "Today every transient failure is a permanent miss. The biggest reliability win in the audit — but its consequences land on day-7+, not day-1. Extends the existing live_insight_outbox pattern: copy-paste, not invent.",
+    effort: "1–2 wk",
+    roi: "★★★★★",
+    pilot: true,
+    evidence: "live_insight_outbox migration · notification-hub Lambda",
+    icon: "bell",
+  },
+  {
+    rank: 11,
+    area: "Reliability",
+    title: "Priority lanes for notifications (urgent / normal / digest)",
+    why: "SQS priority lanes already exist in code (onQueue('high') on 9 jobs). Notifications bypass them entirely. Wire them up at the same time as the outbox.",
+    effort: "3 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "Laravel jobs onQueue('high'|'default') · 9 references",
+    icon: "layers",
+  },
+  {
+    rank: 12,
+    area: "Observability",
+    title: "Structured logs + Sentry on every Lambda",
+    why: "console.log plain text today; Sentry only on Laravel. Without structured logs, the SLO dashboard can't be built and incidents can't be queried.",
+    effort: "3 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "notification-hub/index.mjs · all Lambda services",
+    icon: "activity",
+  },
+  {
+    rank: 13,
+    area: "Observability",
+    title: "Delivery SLO dashboard + CloudWatch alarms",
+    why: "% of @mentions delivered within 5s, last 24h. One number, checked daily. Today there are zero CloudWatch alarms in any CFN file.",
+    effort: "3 days",
+    roi: "★★★★",
+    pilot: true,
+    evidence: "no AWS::CloudWatch::Alarm in CFN files",
+    icon: "gauge",
+  },
+  /* === Pilot-pretty · ship if there's slack, not blockers === */
+  {
+    rank: 14,
+    area: "UX",
+    title: "Send-silently post-send indicator",
+    why: "Misclick-resistant (chevron dropdown), but no post-send confirmation that it went silently. Risk of confused 'why didn't they reply' threads.",
+    effort: "1 day",
+    roi: "★★★",
+    pilot: false,
+    evidence: "SlateInput/index.tsx:829 · useTeamChat.ts",
+    icon: "bell",
+  },
+  {
+    rank: 15,
+    area: "Reliability",
+    title: "Per-Android notification channel (mention / task / digest)",
+    why: "All notifications use one 'default' HIGH-importance channel. Users can't tame importance per type without nuking the app.",
+    effort: "1 day",
+    roi: "★★★",
+    pilot: false,
+    evidence: "nova/src/hooks/usePushNotifications.ts:244–248",
+    icon: "smartphone",
+  },
+  {
+    rank: 16,
+    area: "Reliability",
+    title: "Fix LiveInsightOutbox schema drift",
+    why: "Model declares remind_at, snooze_count, is_bookmarked, bookmarked_at in $fillable but those columns aren't in the migration. Silent insert failure waiting to happen.",
+    effort: "1 hour",
+    roi: "★★★",
+    pilot: false,
+    evidence: "app/Models/LiveInsightOutbox.php · 2025_10_03 migration",
+    icon: "database",
+  },
+];
+
+const tier1Pilot = tier1.filter((t) => t.pilot);
+const tier1Pretty = tier1.filter((t) => !t.pilot);
+
+/* ====== Stage 2/3/4 roadmap ====== */
+const stage2 = [
+  { title: "Knock for fan-out + retries + digests + in-app feed", note: "Pusher + Beams become Knock providers. Verify JP residency before committing." },
+  { title: "Web Feed parity (port from nova)", note: "Knock's React SDK ships the inbox UI. Closes web/mobile gap." },
+  { title: "LINE channel for JP", note: "Procurement-relevant. Knock includes provider." },
+  { title: "Pusher cluster ap3 → ap1", note: "Singapore → Tokyo. Closes ~115ms of inter-region RTT for JP users (AWS-measured) and brings notification transport into Japanese residency." },
+  { title: "Settings consolidation (/settings)", note: "Today scattered across 4+ panels. Single tabbed hub." },
+  { title: "Expo receipt polling", note: "Know what was actually delivered, not just accepted." },
+  { title: "Auth0 region migration to JP tenant", note: "Or accelerate WorkOS migration if SSO ask comes first." },
+];
+
+const stage3 = [
+  { title: "AI triage classifier on every event", note: "Urgent / batchable / digestable / auto-resolvable. The Slack/WhatsApp can't-do-this differentiator." },
+  { title: 'Voice triage surface — "what did I miss?"', note: "Existing voice agent reads the prioritized Feed aloud." },
+  { title: "Intent-aware quiet hours (urgent breaks through)", note: "Today push is suppressed flat; no urgent override." },
+  { title: "Inngest (or Trigger.dev) for durable agent workflows", note: "Meeting-bot pipeline first. Lambda + RabbitMQ is the wrong tool for stateful loops." },
+  { title: "Per-tenant token / cost accounting in ai-proxy", note: "Currently absent — can't rate-limit a noisy customer." },
+  { title: "Prompt-injection sanitization", note: "User content interpolated raw into system prompts today." },
+  { title: "AI fallback model + circuit breaker", note: "Single fetch with no fallback today." },
+  { title: "Admin i18n (Nova + Dashboard already done)", note: "Last surface still in English." },
+];
+
+const stage4 = [
+  { title: "Per-tenant queue isolation", note: "Noisy-neighbor protection." },
+  { title: "Customer-visible delivery SLAs per priority lane", note: "Sales tool + accountability mechanism." },
+  { title: "SSE endpoint for Claude / OpenAI streaming", note: "Off Pusher. Cost + latency win." },
+  { title: "DR plan documented + tested (RPO / RTO)", note: "Zero documented today." },
+  { title: "Distributed tracing (OpenTelemetry or X-Ray)", note: "Cross-service request flow visibility." },
+  { title: "AssemblyAI residency fix or consent flow", note: "Audio leaves JP today; APPI scrutiny grows with size." },
+];
+
+/* ====== Failure-by-scale matrix ====== */
+const scaleRows = [
+  { tier: "Pilot", users: "<100", customer: "≤50 active", peak: "~4/s", status: "Holds — barely", verdict: "Each miss is personal", color: "var(--color-warning)" },
+  { tier: "Early traction", users: "~1k", customer: "100 active", peak: "~40/s", status: "Cracks visible", verdict: "0.5–1% silent miss rate", color: "var(--color-warning)" },
+  { tier: "First scaling event", users: "~5k", customer: "300 active", peak: "~200/s", status: "Will fail without intervention", verdict: "2–5% miss rate during bursts", color: "var(--color-danger)" },
+  { tier: "Mid-market", users: "~10k", customer: "500 active", peak: "~400/s", status: "Catastrophic without rebuild", verdict: "Multi-hour delivery degradation", color: "var(--color-danger)" },
+  { tier: "Scale", users: "~50k", customer: "1k active", peak: "~2k/s", status: "Unrunnable on current shape", verdict: "Existential", color: "var(--color-danger)" },
+];
+
+/* ====== Anchor stats ====== */
+const anchorStats = {
+  pilotBlockers: tier1Pilot.length,
+  weeksToPilotSafe: "3",
+  reuseFraction: "60%", // rough estimate of how much is wiring existing primitives vs net-new
+  silentFailureModes: "8", // across notifications + security + observability
+  totalPersonDays: "~37", // sum of Tier 1 effort estimates
+};
+
+/* ====== Effort breakdown by area (Track A → B → C ordering) ====== */
+const effortByArea = [
+  { area: "UX & onboarding", days: 9, items: 5, icon: "sparkles", track: "A · drops in first session" },
+  { area: "Security", days: 8, items: 4, icon: "shield-alert", track: "B · catastrophic if missed" },
+  { area: "Reliability", days: 14, items: 2, icon: "bell", track: "C · drops in first week" },
+  { area: "Observability", days: 6, items: 2, icon: "activity", track: "C · enables the above" },
+];
+
+/* ====== Three pillars summary ====== */
+const pillars = [
+  { name: "GTM", href: "/", role: "The market plan", lede: "Japan-led 12-month strategy. The destination.", icon: "flag" },
+  { name: "Foundation", href: "/foundation", role: "What GTM stands on", lede: "Engineering work that must ship before pilots. Ordered by ROI.", icon: "layers", active: true },
+  { name: "Quality", href: "/quality", role: "How we keep it standing", lede: "Test coverage scoreboard. Path from D+ to a defensible B.", icon: "target" },
+];
+---
+
+<Layout
+  title="Zunou — Foundation · What GTM Stands On"
+  description="Audit-driven build plan. The engineering work that must ship before the GTM strategy can land. ROI-ranked."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "pillars", label: "Three pillars", icon: "layers" },
+    { id: "failure-curve", label: "Failure curve", icon: "alert-triangle" },
+    { id: "tier-1", label: "Tier 1 · Pilot blockers", icon: "target" },
+    { id: "roadmap", label: "Roadmap (Stage 2–4)", icon: "map" },
+    { id: "better-than", label: "Better than Slack", icon: "sparkles" },
+    { id: "deferred", label: "Explicitly deferred", icon: "circle-slash" },
+  ]}
+>
+  <!-- Top banner · cross-page nav -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Foundation · build plan</span>
+        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/dashboard" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Dashboard</span><span aria-hidden="true">→</span></a>
+        <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
+        <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Layers class="w-3.5 h-3.5" />
+          Foundation · Build plan
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Marco Avila · 2026-05-15 · pulled from zunou-services @ main
+        </span>
+      </div>
+
+      <h1
+        class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.0] tracking-tight mb-5 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        The plumbing exists.<br />
+        <span class="text-[var(--color-ink-soft)] italic">The guarantees don't.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        Three audit passes against the codebase. Notifications, security, and the table-stakes UX flows that decide whether the first pilot becomes a reference account or a refund. Ordered by ROI — the work that prevents the most churn for the least engineering.
+      </p>
+
+      <!-- Headline thesis -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 sm:p-7 mb-10 max-w-4xl" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3 flex items-center gap-2">
+          <Target class="w-3.5 h-3.5" />
+          The principle
+        </div>
+        <p class="font-display text-2xl sm:text-3xl leading-tight mb-3 text-[var(--color-ink)]">
+          Notifications are not a feature. They are the contract.
+        </p>
+        <p class="text-base text-[var(--color-ink-soft)] leading-relaxed">
+          Slack and WhatsApp win on delivery reliability — not on chat features. A user who misses one @mention loses trust in the inbox; twice and they pin the trusted app back on top. Today Zunou's notification path is fire-and-forget: no outbox, no retries, no DLQ, no idempotency, no priority. <strong class="text-[var(--color-ink)]">Robust queue + priority + retry + DLQ is non-negotiable for pilot #1</strong>, not a future concern. The good news: the primitives mostly exist — they just aren't wired together.
+        </p>
+      </div>
+
+      <!-- Anchor stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="4">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Tier-1 pilot blockers</div>
+          <div class="stat-xl-figure accent">{anchorStats.pilotBlockers}</div>
+          <div class="stat-xl-label">Items that must ship before pilot #1</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Weeks to pilot-safe</div>
+          <div class="stat-xl-figure">{anchorStats.weeksToPilotSafe}</div>
+          <div class="stat-xl-label">Focused, sequenced, two-engineer feasible</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Wire-existing-primitives share</div>
+          <div class="stat-xl-figure">~{anchorStats.reuseFraction}</div>
+          <div class="stat-xl-label">Most Tier-1 work reuses code already in repo</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Silent failure modes today</div>
+          <div class="stat-xl-figure">{anchorStats.silentFailureModes}</div>
+          <div class="stat-xl-label">Reliability + security + observability paths</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow">
+            <CircleDot class="w-3 h-3" />
+            Executive summary
+          </span>
+          <span class="exec-summary-meta">5 bullets · 45 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li>
+            <strong>The notification path is already lossy at zero scale.</strong> No outbox, no DLQ, no retries, no idempotency. Every transient failure is a permanent miss — by design.
+          </li>
+          <li>
+            <strong>Failure trigger is customer team size, not user count.</strong> A 200-person team at one pilot customer breaks the same architecture that holds for 2,000 light individual users.
+          </li>
+          <li>
+            <strong>Three audit passes surfaced {anchorStats.pilotBlockers} pilot blockers</strong> across reliability, security, UX, and observability — each with file:line evidence and ROI ranking.
+          </li>
+          <li>
+            <strong>Most of it is wiring, not invention.</strong> An outbox table already exists (for live insights). Priority queues exist in code. Per-channel mute exists in the backend. ~{anchorStats.reuseFraction} of Tier 1 reuses primitives.
+          </li>
+          <li>
+            <strong>Three weeks of focused work for two engineers gets us pilot-safe.</strong> Stages 2–4 (Knock, AI triage, scale infra) stage cleanly as user count and customer team size grow.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §01 THE THREE PILLARS -->
+  <section class="py-16 sm:py-20" id="pillars">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>01</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Three pillars</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        How the writeups fit together.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Three documents, one product story. GTM names the destination. Foundation lists the work that must ship before the destination is reachable. Quality keeps it standing once it does.
+      </p>
+
+      <div class="grid lg:grid-cols-3 gap-4">
+        {pillars.map((p, i) => (
+          <a
+            href={p.href}
+            class:list={[
+              "block rounded-xl border-2 p-6 transition-all hover:shadow-md hover:-translate-y-0.5 group",
+              p.active
+                ? "border-[var(--color-accent)] bg-[var(--color-paper)]"
+                : "border-[var(--color-line)] bg-[var(--color-paper)] hover:border-[var(--color-ink-faint)]",
+            ]}
+            data-reveal="fade-up"
+            data-reveal-delay={i}
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                {p.icon === "flag" && <Flag class="w-4 h-4 text-[var(--color-accent)]" />}
+                {p.icon === "layers" && <Layers class="w-4 h-4 text-[var(--color-accent)]" />}
+                {p.icon === "target" && <Target class="w-4 h-4 text-[var(--color-accent)]" />}
+                <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">{p.role}</span>
+              </div>
+              {p.active && (
+                <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">You are here</span>
+              )}
+            </div>
+            <h3 class="font-display text-2xl mb-2 leading-tight">{p.name}</h3>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4">{p.lede}</p>
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--color-accent-ink)] group-hover:gap-2.5 transition-all">
+              {p.active ? "Reading now" : "Open"} <ArrowRight class="w-3.5 h-3.5" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §02 WHERE THE ARCHITECTURE FAILS -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="failure-curve">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>02</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Failure curve</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        It's not "at 10k users." It's at the first busy customer.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Failure trigger is customer team size, not total users. A single pilot customer with a 200-person team breaks the same architecture that holds for 2,000 light individual users. Pusher channel throttling (10 msg/sec) hits well before any documented vendor limit.
+      </p>
+
+      <div class="overflow-x-auto" data-reveal="fade-up">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]">
+          <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Stage</th>
+              <th class="text-left p-3 font-semibold">Total users</th>
+              <th class="text-left p-3 font-semibold">Largest customer</th>
+              <th class="text-left p-3 font-semibold">Peak fan-out / s</th>
+              <th class="text-left p-3 font-semibold">Architecture status</th>
+              <th class="text-left p-3 font-semibold">User-visible verdict</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            {scaleRows.map((r) => (
+              <tr class="border-t border-[var(--color-line-soft)]">
+                <td class="p-3 font-semibold text-[var(--color-ink)] text-xs">{r.tier}</td>
+                <td class="p-3 text-[var(--color-ink)] text-xs font-mono">{r.users}</td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs">{r.customer}</td>
+                <td class="p-3 text-[var(--color-ink)] text-xs font-mono">{r.peak}</td>
+                <td class="p-3 text-xs font-semibold" style={`color: ${r.color};`}>{r.status}</td>
+                <td class="p-3 text-[var(--color-ink-soft)] text-xs leading-relaxed">{r.verdict}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-sm text-[var(--color-ink-faint)] mt-4 italic">Estimates: ~20 user-affecting events per active user per day, avg fan-out 5 recipients per event, 4× peak factor over a JST workday.</p>
+    </div>
+  </section>
+
+  <!-- §03 TIER 1 — PILOT BLOCKERS (ROI RANKED) -->
+  <section class="py-16 sm:py-20" id="tier-1">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>03</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Tier 1 · Pilot blockers</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        The 3-week sprint, ranked by what kills the pilot fastest.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-8" data-reveal="fade-up" data-reveal-delay="2">
+        Two parallel tracks — UX/onboarding leads because that's where users drop in the first session, not the first week. Notification reliability lives behind it: equally non-negotiable, but lower-mortality if delayed by a few days.
+      </p>
+
+      <!-- MORTALITY TIMELINE · why the order matters -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 mb-8 max-w-5xl" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="flex items-center gap-2 mb-4">
+          <TrendingDown class="w-3.5 h-3.5 text-[var(--color-danger)]" />
+          <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Order of mortality · when each problem kills the user</span>
+        </div>
+
+        <div class="grid sm:grid-cols-4 gap-3 mb-4">
+          <div class="mortality-step">
+            <div class="mortality-time">T + 0</div>
+            <div class="mortality-window">first session</div>
+            <div class="mortality-fail">
+              <UserPlus class="w-3.5 h-3.5" />
+              <span>Onboarding · auth · core flow breaks</span>
+            </div>
+            <p class="mortality-verdict">User never starts. <strong>Track A.</strong></p>
+          </div>
+          <div class="mortality-step">
+            <div class="mortality-time">T + 1 day</div>
+            <div class="mortality-window">daily use</div>
+            <div class="mortality-fail">
+              <Sparkles class="w-3.5 h-3.5" />
+              <span>Clunky UX · common action missing</span>
+            </div>
+            <p class="mortality-verdict">User trades back to Slack. <strong>Track A.</strong></p>
+          </div>
+          <div class="mortality-step">
+            <div class="mortality-time">T + 1 week</div>
+            <div class="mortality-window">trust building</div>
+            <div class="mortality-fail">
+              <Bell class="w-3.5 h-3.5" />
+              <span>Missed @mention · unreliable push</span>
+            </div>
+            <p class="mortality-verdict">User pins Slack on top. <strong>Track C.</strong></p>
+          </div>
+          <div class="mortality-step">
+            <div class="mortality-time">T + 1 month</div>
+            <div class="mortality-window">aggregate</div>
+            <div class="mortality-fail">
+              <Gauge class="w-3.5 h-3.5" />
+              <span>Sustained miss rate · incident</span>
+            </div>
+            <p class="mortality-verdict">Measurable churn. <strong>Track C.</strong></p>
+          </div>
+        </div>
+
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed pt-3 border-t border-[var(--color-line)]">
+          <strong class="text-[var(--color-ink)]">Both tracks ship in parallel</strong> — engineering capacity supports it. The ordering matters only if we're forced to triage: <strong class="text-[var(--color-ink)]">a user who can't onboard never finds out the notifications are flaky.</strong> Security (Track B) sits between them — catastrophic if exploited, but cheap to close, so it ships alongside Track A.
+        </p>
+      </div>
+
+      <!-- How we picked + ROI legend + effort math -->
+      <div class="grid lg:grid-cols-[1.4fr_1fr] gap-4 mb-10 max-w-5xl" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <Target class="w-3.5 h-3.5 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">How we picked these</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Two filters. A blocker makes the list if <strong class="text-[var(--color-ink)]">(a)</strong> its absence is demoably broken or catastrophically exploitable in pilot — or <strong class="text-[var(--color-ink)]">(b)</strong> the engineering cost is so low that not shipping it is unjustifiable. Every item has file:line evidence in the source audit.
+          </p>
+          <div class="flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-mono text-[var(--color-ink-soft)] pt-3 border-t border-[var(--color-line)]">
+            <span class="flex items-center gap-1">
+              <span class="text-[var(--color-accent)]">★★★★★</span>
+              <span>Both filters · pilot-killer</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="text-[var(--color-accent)]">★★★★</span>
+              <span>One filter · still required</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="text-[var(--color-accent)]">★★★</span>
+              <span>Pilot-pretty · ship if slack</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <Hourglass class="w-3.5 h-3.5 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Effort by area</span>
+          </div>
+          <div class="space-y-2">
+            {effortByArea.map((e) => (
+              <div class="flex items-center justify-between text-xs">
+                <span class="flex items-center gap-1.5 text-[var(--color-ink)] font-semibold">
+                  {e.icon === "bell" && <Bell class="w-3 h-3 text-[var(--color-accent)]" />}
+                  {e.icon === "shield-alert" && <ShieldAlert class="w-3 h-3 text-[var(--color-danger)]" />}
+                  {e.icon === "sparkles" && <Sparkles class="w-3 h-3 text-[var(--color-warning)]" />}
+                  {e.icon === "activity" && <Activity class="w-3 h-3 text-[var(--color-success)]" />}
+                  <span>{e.area}</span>
+                </span>
+                <span class="text-[var(--color-ink-soft)] font-mono">{e.items} item{e.items > 1 ? "s" : ""} · ~{e.days}d</span>
+              </div>
+            ))}
+            <div class="flex items-center justify-between pt-2 mt-1 border-t border-[var(--color-line)] text-xs">
+              <span class="text-[var(--color-ink)] font-bold">Total</span>
+              <span class="text-[var(--color-accent-ink)] font-mono font-bold">{anchorStats.totalPersonDays} person-days</span>
+            </div>
+          </div>
+          <p class="text-[10px] text-[var(--color-ink-faint)] font-mono italic mt-3 leading-relaxed">≈ 3 weeks for two engineers in parallel</p>
+        </div>
+      </div>
+
+      <div class="space-y-2.5" data-reveal="fade-up">
+        {tier1Pilot.map((b) => (
+          <div class="grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[2.5rem_8rem_1fr_8rem_5rem] gap-3 sm:gap-4 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-ink-faint)] transition-colors">
+            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-accent-soft)]">
+              <span class="font-mono text-sm font-bold text-[var(--color-accent-ink)]">{String(b.rank).padStart(2, "0")}</span>
+            </div>
+
+            <div class="hidden sm:flex items-center">
+              <span class:list={[
+                "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider",
+                b.area === "Reliability" && "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]",
+                b.area === "Security" && "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+                b.area === "UX" && "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+                b.area === "Observability" && "bg-[var(--color-success-soft)] text-[var(--color-success)]",
+              ]}>
+                {b.area === "Reliability" && <Bell class="w-3 h-3" />}
+                {b.area === "Security" && <ShieldAlert class="w-3 h-3" />}
+                {b.area === "UX" && <Sparkles class="w-3 h-3" />}
+                {b.area === "Observability" && <Activity class="w-3 h-3" />}
+                <span class="hidden md:inline">{b.area}</span>
+              </span>
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 min-w-0">
+              <h3 class="font-display text-lg leading-tight mb-1">{b.title}</h3>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">{b.why}</p>
+              <p class="text-[10px] font-mono text-[var(--color-ink-faint)] tracking-wide">{b.evidence}</p>
+            </div>
+
+            <div class="hidden sm:flex flex-col gap-1 items-end justify-start">
+              <span class="inline-flex items-center gap-1 text-xs text-[var(--color-ink-soft)] font-mono">
+                <Hourglass class="w-3 h-3" />
+                {b.effort}
+              </span>
+            </div>
+
+            <div class="hidden sm:flex items-center justify-end">
+              <span class="text-[10px] font-mono text-[var(--color-accent)]" title={`ROI: ${b.roi}`}>{b.roi}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {tier1Pretty.length > 0 && (
+        <>
+          <h3 class="font-display text-xl mt-12 mb-3 text-[var(--color-ink-soft)] flex items-center gap-2" data-reveal="fade-up">
+            <CircleDot class="w-4 h-4" />
+            Pilot-pretty (ship if there's slack, not blockers)
+          </h3>
+          <div class="space-y-2" data-reveal="fade-up">
+            {tier1Pretty.map((b) => (
+              <div class="grid grid-cols-[1fr_auto] gap-3 items-center rounded-lg border border-dashed border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
+                <div>
+                  <div class="text-sm font-semibold text-[var(--color-ink)]">{b.title}</div>
+                  <div class="text-xs text-[var(--color-ink-soft)] mt-0.5">{b.why}</div>
+                </div>
+                <div class="text-xs text-[var(--color-ink-faint)] font-mono whitespace-nowrap">{b.effort}</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §04 ROADMAP TIERS 2/3/4 -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="roadmap">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>04</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Roadmap</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        After pilot signal: stage by stage, no big-bang.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Each tier is independently shippable. Stop and reassess after every one. Lead time is the work; the trigger is when it must be done.
+      </p>
+
+      <div class="grid lg:grid-cols-3 gap-4">
+        <!-- STAGE 2 -->
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <Bell class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Stage 2 · 3–6 months</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">Multi-channel infra</h3>
+          <p class="text-xs text-[var(--color-ink-soft)] mb-4 italic">Trigger: ~800 users or one customer with 200 active</p>
+          <ul class="space-y-3">
+            {stage2.map((s) => (
+              <li class="text-sm">
+                <div class="font-semibold text-[var(--color-ink)] mb-0.5">{s.title}</div>
+                <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{s.note}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-3">
+            <Bot class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">Stage 3 · 6–12 months</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">AI triage layer</h3>
+          <p class="text-xs text-[var(--color-ink-soft)] mb-4 italic">Trigger: ~5k users — the differentiator</p>
+          <ul class="space-y-3">
+            {stage3.map((s) => (
+              <li class="text-sm">
+                <div class="font-semibold text-[var(--color-ink)] mb-0.5">{s.title}</div>
+                <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{s.note}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- STAGE 4 -->
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="2">
+          <div class="flex items-center gap-2 mb-3">
+            <Server class="w-4 h-4 text-[var(--color-ink-soft)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-ink-soft)]">Stage 4–5 · 12–18 months</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">Reliability at scale</h3>
+          <p class="text-xs text-[var(--color-ink-soft)] mb-4 italic">Trigger: ~10k users + first JP enterprise procurement</p>
+          <ul class="space-y-3">
+            {stage4.map((s) => (
+              <li class="text-sm">
+                <div class="font-semibold text-[var(--color-ink)] mb-0.5">{s.title}</div>
+                <div class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{s.note}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §05 BETTER THAN SLACK / WHATSAPP -->
+  <section class="py-16 sm:py-20" id="better-than">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>05</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">The bet</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Where Zunou gets to be better than Slack and WhatsApp.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Match them on reliability — table stakes. Beat them on triage and voice — newer tech they can't ship without rebuilding. AI as the inbox layer, not just a chat feature.
+      </p>
+
+      <div class="overflow-x-auto" data-reveal="fade-up">
+        <table class="w-full text-sm border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]">
+          <thead class="bg-[var(--color-ink)] text-[var(--color-paper)]">
+            <tr>
+              <th class="text-left p-3 font-semibold">Capability</th>
+              <th class="text-left p-3 font-semibold">Slack</th>
+              <th class="text-left p-3 font-semibold">WhatsApp</th>
+              <th class="text-left p-3 font-semibold">Zunou today</th>
+              <th class="text-left p-3 font-semibold">Move</th>
+            </tr>
+          </thead>
+          <tbody class="text-xs align-top">
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Delivery reliability</td>
+              <td class="p-3 text-[var(--color-success)]">✓</td>
+              <td class="p-3 text-[var(--color-success)]">✓✓</td>
+              <td class="p-3 text-[var(--color-warning)]">Guarantees missing</td>
+              <td class="p-3 text-[var(--color-ink-soft)]">Match — Tier 1</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Per-(user, event) delivery state</td>
+              <td class="p-3 text-[var(--color-success)]">✓</td>
+              <td class="p-3 text-[var(--color-success)]">✓</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-ink-soft)]">Build via outbox</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Unified inbox</td>
+              <td class="p-3 text-[var(--color-warning)]">Partial</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-success)]">✓ on nova</td>
+              <td class="p-3 text-[var(--color-accent-ink)] font-semibold">Web parity ↑</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">AI triage (urgent / FYI / digest)</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-accent-ink)] font-semibold">Win — Stage 3</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Voice triage ("what did I miss?")</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-warning)]">Voice agent exists</td>
+              <td class="p-3 text-[var(--color-accent-ink)] font-semibold">Plug Feed in — win</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Intent-aware quiet hours</td>
+              <td class="p-3 text-[var(--color-warning)]">Partial</td>
+              <td class="p-3 text-[var(--color-warning)]">Partial</td>
+              <td class="p-3 text-[var(--color-warning)]">Push-suppress only</td>
+              <td class="p-3 text-[var(--color-accent-ink)] font-semibold">Win — Stage 3</td>
+            </tr>
+            <tr class="border-t border-[var(--color-line-soft)]">
+              <td class="p-3 font-semibold">Multi-channel (push / email / LINE)</td>
+              <td class="p-3 text-[var(--color-warning)]">Partial</td>
+              <td class="p-3 text-[var(--color-danger)]">✗</td>
+              <td class="p-3 text-[var(--color-warning)]">Push + realtime only</td>
+              <td class="p-3 text-[var(--color-accent-ink)] font-semibold">Win for JP — Stage 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §06 EXPLICITLY DEFERRED -->
+  <section class="py-16 sm:py-20" id="deferred">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>06</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Explicitly deferred</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What we are choosing not to do before pilot.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Each item is a real improvement. None is worth shipping before we know what pilot users actually do.
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl">
+        {[
+          ["Knock migration", "Tier 1 outbox + dashboard is the pilot version"],
+          ["Auth0 → WorkOS AuthKit", "Until first SSO/SCIM ask"],
+          ["Multi-region US deployment", "Until US enterprise demand"],
+          ["Inngest / Trigger.dev", "Stage 3"],
+          ["SSE for Claude streaming", "Stage 4"],
+          ["Full WCAG accessibility audit", "Post-pilot"],
+          ["CSV bulk invites", "Post-pilot · pre-provision pilot users"],
+          ["Full i18n framework migration", "JP strings now; framework later"],
+          ["Cmd-K global search UI", "Stage 3 — Feed covers most cases"],
+          ["Kafka / NATS / EventBridge expansion", "Stage 5+ — SQS holds"],
+          ["AssemblyAI alternative provider", "Stage 3 — consent flow buys time"],
+          ["Subpages per finding domain", "After this overview lands — split when sections grow"],
+        ].map((d, i) => (
+          <div
+            class="rounded-lg border border-dashed border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3.5"
+            data-reveal="fade-up"
+            data-reveal-delay={i % 3}
+          >
+            <div class="text-sm font-semibold text-[var(--color-ink)]">{d[0]}</div>
+            <div class="text-xs text-[var(--color-ink-soft)] mt-0.5">{d[1]}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">
+          The bottom line
+        </p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          Three weeks of focused work gets us pilot-safe.<br />
+          Everything else stages cleanly as scale demands it.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          The notification path is already lossy at zero scale and will systematically fail at the first busy customer team. Robust queue + priority + retry + DLQ is non-negotiable for pilot #1, not a future concern. The good news: most of the primitives are already in the codebase. Tier 1 is wiring, not invention.
+        </p>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+          The plumbing exists. The guarantees don't. That's the entire job before pilot.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <a href="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <Flag class="w-4 h-4" />
+            Read the GTM strategy
+          </a>
+          <a href="/quality" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Target class="w-4 h-4" />
+            See the Quality scoreboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,969 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  Route,
+  CircleDot,
+  ArrowRight,
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
+  Hourglass,
+  Zap,
+  TrendingDown,
+  TrendingUp,
+  UserPlus,
+  KeyRound,
+  Calendar,
+  MessageSquare,
+  Hash,
+  Plus,
+  Smartphone,
+  Cloud,
+  Database,
+  RefreshCw,
+  Flag,
+  Sparkles,
+  Bug,
+  Wrench,
+  Target,
+  Clock,
+  ListChecks,
+  CircleHelp,
+  Layers,
+} from "@lucide/astro";
+
+/* ====== Magic numbers (from GTM §05) ====== */
+const magic = {
+  events: "5",
+  moment: "1",
+  returns: "3",
+  window: "14 days",
+};
+
+/* ====== Journey timing — a step is a thing the system does or the user does.
+   latency buckets: fast <200ms, mid 200–800ms, slow 800–2000ms, blocking 2000ms+ ====== */
+type StepKind = "user" | "client" | "server" | "auth0" | "db" | "wait";
+type Severity = "ok" | "friction" | "blocker";
+
+interface Step {
+  id: string;
+  label: string;
+  detail?: string;
+  kind: StepKind;
+  ms?: number; // typical
+  severity?: Severity;
+  evidence?: string;
+}
+
+interface GtmRef {
+  ref: string;       // e.g. "§05" or "Decision #3"
+  label: string;     // human label
+  href: string;      // anchor on /
+}
+
+interface Journey {
+  id: string;
+  title: string;
+  audience: string;
+  todayCount: string;
+  todayTime: string;
+  recCount: string;
+  recTime: string;
+  magicTie: string;
+  gtmRefs: GtmRef[];
+  icon: string;
+  steps: Step[];
+  bugs: { title: string; detail: string; evidence: string }[];
+  recommendations: { title: string; why: string; effort: string; fixPath: string }[];
+}
+
+const journeys: Journey[] = [
+  /* ===== JOURNEY 1 — FIRST SIGN-IN ===== */
+  {
+    id: "sign-in",
+    title: "First sign-in",
+    audience: "Brand-new user opening the app for the first time",
+    todayCount: "14–20 blocking roundtrips",
+    todayTime: "1.5–4 s",
+    recCount: "6–8 roundtrips",
+    recTime: "<1 s",
+    magicTie: 'Mobile users abandon pages taking >3s at <a href="https://www.marketingdive.com/news/google-53-of-mobile-users-abandon-sites-that-take-over-3-seconds-to-load/426070/" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]"><strong>53%</strong> (Google)</a>. Today the iOS cold-start sits squarely in that range.',
+    gtmRefs: [
+      { ref: "§05", label: "Magic numbers — 5 / 1 / 3", href: "/#tldr" },
+      { ref: "§06", label: "TAI pilot · activation gate", href: "/#communities" },
+      { ref: "Posture", label: "Engineering posture", href: "/#posture" },
+    ],
+    icon: "key-round",
+    steps: [
+      { id: "tap", label: "Tap Sign in", kind: "user", ms: 0 },
+      { id: "auth0-ul", label: "Auth0 universal login", detail: "loginWithRedirect / promptAsync", kind: "auth0", ms: 600 },
+      { id: "pkce", label: "PKCE code exchange", kind: "client", ms: 200 },
+      { id: "userinfo", label: "GET /userinfo", kind: "auth0", ms: 300 },
+      { id: "delay", label: "100ms safety buffer", detail: "AuthContext.tsx:401 — admitted workaround", kind: "wait", ms: 100, severity: "friction", evidence: "AuthContext.tsx:399–405" },
+      { id: "signin", label: "signInUser mutation", detail: "GraphQL call to Laravel", kind: "server", ms: 200 },
+      { id: "mgmt-token", label: "POST /oauth/token (Mgmt API)", detail: "iOS Apple Sign-In: token has no email claim", kind: "auth0", ms: 500, severity: "blocker", evidence: "SignInUserMutation.php:94–123" },
+      { id: "mgmt-user", label: "GET /api/v2/users/{id}", detail: "Fetch email from Auth0 Management API", kind: "auth0", ms: 400, severity: "blocker", evidence: "SignInUserMutation.php:425–434" },
+      { id: "role-add", label: "Auth0 role + permissions", detail: "3 more Mgmt API calls, all sequential", kind: "auth0", ms: 900, severity: "blocker", evidence: "Auth0RoleService.php:36–54" },
+      { id: "perm-refresh", label: "Refresh permissions cache", detail: "New Auth0 SDK instance + paginated fetch", kind: "auth0", ms: 600, severity: "friction", evidence: "RefreshAuth0PermissionsService.php:21–55" },
+      { id: "pulses", label: "ensureUserHasPersonalPulses", detail: "N+1 DB queries inside the request cycle", kind: "db", ms: 400, severity: "friction", evidence: "SignInUserMutation.php:585–605" },
+      { id: "getme", label: "getMeQuery", detail: "Redundant — signInUser already returned the user", kind: "server", ms: 250, severity: "friction", evidence: "AuthContext.tsx:286–342" },
+      { id: "bootorg", label: "Bootstrap org query", kind: "server", ms: 200 },
+      { id: "bootset", label: "Bootstrap settings query", detail: "Serial: needs org id first", kind: "server", ms: 200, severity: "friction", evidence: "useBootstrapOrg.ts:116–194" },
+      { id: "render", label: "Onboarding mounts", kind: "client", ms: 0 },
+    ],
+    bugs: [
+      {
+        title: '"Native iOS keeps kicking users out — but PWA stays signed in"',
+        detail: "PWA uses Auth0's `@auth0/auth0-react` SDK with `cacheLocation: 'localstorage'` and silent SDK-managed refresh — robust. Native iOS (Nova/Capacitor) reimplements the entire flow manually: `expo-auth-session` for the PKCE handshake, `expo-secure-store` (Keychain) for tokens, and a manual `POST /oauth/token` for refresh. Three known failure modes here: (a) Keychain access can throw on cold-start before the secure enclave is unlocked, returning null and triggering re-login; (b) the refresh-token POST has no retry on 5xx — a single network blip drops the user; (c) there's no AppState listener to refresh tokens when the app foregrounds after a long background. The PWA never hits any of this because the Auth0 SDK handles it. The fix is not to harden three different bugs — it's to consolidate native iOS onto the same Auth0 SDK behavior.",
+        evidence: "nova/src/contexts/AuthContext.tsx (manual restore + refresh) · expo-secure-store usage · no AppState listener for token refresh",
+      },
+      {
+        title: '"Sometimes I have to sign in twice" — primary cause',
+        detail: "`prompt: 'login'` is hardcoded in the Auth0 config, which forces Auth0 to ignore any cached SSO session and show the login screen even when a valid refresh token exists. A returning user with a fresh device session still gets the login prompt.",
+        evidence: "AuthContext.tsx:88 (web) · nova/src/contexts/AuthContext.tsx:314 (mobile)",
+      },
+      {
+        title: '"Sign in twice" — secondary cause',
+        detail: "`isInitialized` resets to false whenever Auth0 SDK briefly toggles `isAuthenticated` (which happens during silent refresh). The auth-flow effect then re-runs `signInUserMutation` + `getMeQuery` — a second full sign-in roundtrip.",
+        evidence: "AuthContext.tsx:417–426",
+      },
+      {
+        title: "Silent redirect-to-login on transient error",
+        detail: "`getToken` retries `getAccessTokenSilently` once with `cacheMode: 'off'`; if that also fails (network blip, 429), it calls `loginWithRedirect` with no warning. Indistinguishable from session expiry by the user.",
+        evidence: "AuthContext.tsx:218–247",
+      },
+      {
+        title: "Management API token not cached",
+        detail: "`fetchEmailFromAuth0` and `Auth0RoleService::addRole` independently fetch fresh Management API tokens on every login, even within the same request. The token has a 24-hour TTL — caching saves 2+ HTTP calls per login.",
+        evidence: "SignInUserMutation.php:425–434 · Auth0RoleService.php:24–32",
+      },
+    ],
+    recommendations: [
+      { title: "Consolidate native iOS auth onto a single SDK path", why: "PWA works because Auth0's React SDK handles token storage, silent refresh, and AppState transitions correctly. Native iOS reimplements all three manually and gets each one slightly wrong. Either (a) move Nova to Capacitor + Auth0 SDK for parity, or (b) wrap the manual flow with: AppState listener → silent refresh on foreground; retry-with-backoff on the refresh POST; deferred Keychain reads gated on `isReady`. Pilot-blocker because it's the bug users feel most.", effort: "1 day (option b) · 2–3 days (option a)", fixPath: "services/nova/src/contexts/AuthContext.tsx (restore + refresh) · expo-secure-store calls · add AppState.addEventListener" },
+      { title: "Drop `prompt: 'login'`", why: "Returning users with valid refresh tokens should not see Auth0's login screen. This is the single biggest fix for the 'sign in twice' report.", effort: "1 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:88 · nova/src/contexts/AuthContext.tsx:314" },
+      { title: "Cache Auth0 Management API token", why: "24-hour TTL. Saves 2 HTTP calls per login (~700ms on iOS).", effort: "2 hr", fixPath: "services/api/app/Services/Auth0RoleService.php:24–32 · SignInUserMutation.php:425–434" },
+      { title: "Make `ensureUserHasPersonalPulses` a background job", why: "Today it blocks the sign-in response with N+1 DB queries. The user's first session doesn't need pulses provisioned synchronously — the bootstrap query fetches them on demand.", effort: "3 hr", fixPath: "services/api/app/GraphQL/Mutations/SignInUserMutation.php:407,585–605 → new Job class" },
+      { title: "Remove the redundant `getMeQuery`", why: "`signInUserMutation` already returns the user. The second call is dead weight — saves a full roundtrip.", effort: "30 min", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:286–342" },
+      { title: "Don't reset `isInitialized` on every `auth0IsAuthenticated` flip", why: "Use a one-shot ref to gate `handleAuthFlow`. Eliminates the double sign-in.", effort: "2 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:417–426" },
+      { title: "Replace `loginWithRedirect` fallback with a typed retry toast", why: "Transient errors should surface a 'try again' UI, not silently bounce the user back through Auth0.", effort: "3 hr", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:218–247" },
+      { title: "Remove the 100ms safety buffer", why: "The comment already admits it 'may work without it.' Test and delete.", effort: "30 min", fixPath: "lib/zunou-react/contexts/AuthContext.tsx:399–405" },
+    ],
+  },
+  /* ===== JOURNEY 2 — ONBOARDING ===== */
+  {
+    id: "onboarding",
+    title: "Onboarding (post sign-in)",
+    audience: "First-time user after sign-in completes",
+    todayCount: "4–6 phases · 6–10 taps",
+    todayTime: "60–120 s",
+    recCount: "3–5 phases · 5–7 taps",
+    recTime: "30–60 s",
+    magicTie: "Onboarding's job is to deliver the first 5 events + 1 magic moment in this session.",
+    gtmRefs: [
+      { ref: "§05", label: "Magic number — first-session activation", href: "/#tldr" },
+      { ref: "§06", label: "Mechanic — funnel into 5/1/3", href: "/#mechanic" },
+      { ref: "Decision #3", label: "Calendar as gate", href: "/#decisions" },
+    ],
+    icon: "user-plus",
+    steps: [
+      { id: "welcome", label: "Welcome", detail: "1400ms animation delay before button appears", kind: "user", ms: 1400, severity: "friction", evidence: "WelcomePhase.tsx (animation delay)" },
+      { id: "create-org", label: "Create org", detail: "Required text field, blocking GQL mutation", kind: "server", ms: 800 },
+      { id: "calendar", label: "Calendar (optional)", detail: "Auto-skip flashes if already linked", kind: "user", ms: 400, severity: "friction", evidence: "CalendarPhase.tsx:36–38" },
+      { id: "tabs", label: "Choose tabs", kind: "user", ms: 0 },
+      { id: "layout", label: "Choose layout", kind: "user", ms: 0 },
+      { id: "agent", label: "Meet the agent", kind: "user", ms: 0 },
+      { id: "complete", label: "Complete", detail: "Fire-and-forget settings save — see bugs", kind: "server", ms: 0, severity: "blocker", evidence: "CompletePhase.tsx:191–215" },
+    ],
+    bugs: [
+      {
+        title: '"Sign in twice" — true root cause (onboarding-side)',
+        detail: "`CompletePhase.handleFinish` fires `upsertNovaSettingMetadata` as fire-and-forget before navigating to `/(app)`. If the app is backgrounded/killed in the sub-second window before the GQL mutation returns, the backend `onboardedMobile` flag never gets set. On next cold start (or iOS AsyncStorage wipe), `useBootstrapOrg` finds no `onboardedMobile=true`, `useOnboardingStore` reads `completed=false` from blank storage, and the user is sent back to /onboarding. User experience: 'I have to sign in again.'",
+        evidence: "CompletePhase.tsx:191–215 · useBootstrapOrg.ts:225–227",
+      },
+      {
+        title: "Race between create-org and bootstrap-org",
+        detail: "After `createOrganization` resolves, the phase rebuilds itself and bumps the index. But `useBootstrapOrg` may still be running in parallel — when it lands, it calls `setOrg` which clears `pulseId`. Result: a flash of empty state.",
+        evidence: "CreateOrgPhase.tsx:146–153",
+      },
+      {
+        title: "1400ms intentional delay on welcome screen",
+        detail: "Button doesn't appear for 1.4 seconds. No skip. Compounds the slow-sign-in pain.",
+        evidence: "WelcomePhase.tsx (animation delay)",
+      },
+      {
+        title: "Calendar auto-skip flash",
+        detail: "If Google Calendar is already linked, the phase calls `nextPhase()` from a `useEffect` synchronously on mount. The 350ms cross-fade can't mask the single-frame flash of an empty screen.",
+        evidence: "CalendarPhase.tsx:36–38",
+      },
+      {
+        title: "No idempotency on org creation if user re-enters",
+        detail: "If user kills the app mid-onboarding after createOrg succeeded but before completion, restart re-shows create-org. A second submit creates a duplicate org (no client-side or server-side de-dupe).",
+        evidence: "CreateOrgPhase.tsx",
+      },
+    ],
+    recommendations: [
+      { title: "Make `upsertNovaSettingMetadata` blocking before navigation", why: "Eliminates the #1 user-reported bug. The user already waited through onboarding — 200ms more for durability is the right trade.", effort: "1 hr", fixPath: "services/nova/src/components/onboarding/phases/CompletePhase.tsx:191–215" },
+      { title: "Server-side `onboardedAt` as source of truth", why: "Treat AsyncStorage as a cache; trust the backend. Cleanly recovers when iOS wipes AsyncStorage.", effort: "3 hr", fixPath: "services/nova/src/hooks/useBootstrapOrg.ts:225–227 · settings.metadata schema" },
+      { title: "Kill the 1400ms welcome delay", why: "Animations should not gate input. Show the button immediately; play the animation in parallel.", effort: "30 min", fixPath: "services/nova/src/components/onboarding/phases/WelcomePhase.tsx (animation/timeout)" },
+      { title: "Skip-and-fade for already-linked calendar", why: "Render the success state for 400ms with a 'Calendar already connected · →' affordance instead of vanishing.", effort: "1 hr", fixPath: "services/nova/src/components/onboarding/phases/CalendarPhase.tsx:36–38" },
+      { title: "Idempotency key on createOrganization", why: "Client generates a UUID per onboarding session; backend dedupes. Prevents double-org bugs on app restart mid-flow.", effort: "2 hr", fixPath: "services/nova/src/components/onboarding/phases/CreateOrgPhase.tsx:120–158 · CreateOrganizationMutation.php" },
+    ],
+  },
+  /* ===== JOURNEY 3 — CALENDAR SETUP ===== */
+  {
+    id: "calendar-setup",
+    title: "Calendar setup (Google OAuth)",
+    audience: "User connecting Google Calendar for first time",
+    todayCount: "5–7 taps (with Google account picker)",
+    todayTime: "15–40 s",
+    recCount: "3–4 taps",
+    recTime: "8–15 s",
+    magicTie: "Without calendar, the user sees an empty Schedule tab — the magic moment that Granola wins on.",
+    gtmRefs: [
+      { ref: "Decision #3", label: "Calendar as gate (settled)", href: "/#decisions" },
+      { ref: "§06.4", label: "Hybrid sponsorship · per-user-join", href: "/#organizer-value" },
+      { ref: "§05", label: "Magic moment — auto-prep brief", href: "/#tldr" },
+    ],
+    icon: "calendar",
+    steps: [
+      { id: "tap-link", label: "Tap 'Connect calendar'", kind: "user", ms: 0 },
+      { id: "iosbrowser", label: "ASWebAuthenticationSession opens", detail: "iOS ephemeral session — no Safari cookie sharing", kind: "client", ms: 800, severity: "friction" },
+      { id: "google-pick", label: "Google account picker", detail: "Must type password even if signed in to Safari", kind: "user", ms: 8000, severity: "friction" },
+      { id: "consent", label: "Grant calendar.readonly + calendar.events", kind: "user", ms: 3000 },
+      { id: "exchange", label: "PKCE code exchange", kind: "client", ms: 300 },
+      { id: "link", label: "linkGoogleCalendar mutation", detail: "Backend stores secondary access token", kind: "server", ms: 400 },
+      { id: "sync", label: "syncCalendar (fire-and-forget)", kind: "server", ms: 0 },
+      { id: "user-tap-continue", label: "Tap 'Continue'", detail: "User must confirm after success — could auto-advance", kind: "user", ms: 0, severity: "friction" },
+    ],
+    bugs: [
+      {
+        title: "Wrong Google account selected silently links wrong calendar",
+        detail: "`login_hint: user?.email` pre-fills but does not enforce. If a different Google account is selected, `linkGoogleCalendar` may succeed with the wrong identity — and there's no UI feedback flagging the mismatch.",
+        evidence: "useLinkedAccounts.ts:117–139 (login_hint at :135)",
+      },
+      {
+        title: "iOS users retype Google password every link",
+        detail: "ASWebAuthenticationSession creates an ephemeral session that doesn't share Safari cookies. Even users signed into Google in Safari must reauthenticate.",
+        evidence: "expo-auth-session AuthRequest.promptAsync (iOS implementation)",
+      },
+      {
+        title: "Extra tap after success",
+        detail: "After linkGoogleCalendar resolves and shows the 'Calendar Connected!' state, user must tap Continue to advance. Could auto-advance with a 1.5s success state.",
+        evidence: "CalendarPhase.tsx",
+      },
+    ],
+    recommendations: [
+      { title: "Auto-advance after successful link", why: "Show success state for 1.5s with a countdown indicator, then advance. Saves a tap and feels modern.", effort: "1 hr", fixPath: "services/nova/src/components/onboarding/phases/CalendarPhase.tsx (success block)" },
+      { title: "Enforce account match on success", why: "Compare granted Google email vs auth user email; if mismatch, surface a clear error with retry. Prevents silent wrong-account linking.", effort: "2 hr", fixPath: "services/nova/src/hooks/useLinkedAccounts.ts:117–139 (login_hint at :135)" },
+      { title: "Server-side calendar prefetch", why: "Start fetching events the moment OAuth succeeds, in parallel with the user dismissing the success screen. First Schedule tab paint is instant.", effort: "3 hr", fixPath: "services/api/app/Jobs/FetchUserGoogleCalendarEventsJob.php · trigger after linkGoogleCalendar mutation" },
+    ],
+  },
+  /* ===== JOURNEY 4 — FIRST MESSAGE ===== */
+  {
+    id: "first-message",
+    title: "First message in a channel",
+    audience: "Newly-onboarded user wanting to message someone",
+    todayCount: "3 taps if personal pulse exists",
+    todayTime: "<10 s",
+    recCount: "2–3 taps",
+    recTime: "<8 s",
+    magicTie: "Sending a first message = +1 event toward the 5/1/3 magic number.",
+    gtmRefs: [
+      { ref: "§05", label: "5 events in 14 days", href: "/#tldr" },
+      { ref: "§06", label: "Community-led activation mechanic", href: "/#mechanic" },
+    ],
+    icon: "message-square",
+    steps: [
+      { id: "explore", label: "Tap 'Explore Zunou'", kind: "user", ms: 0 },
+      { id: "land-home", label: "Land on Home (Feed)", kind: "client", ms: 200 },
+      { id: "chats-tab", label: "Tap Chats", kind: "user", ms: 0 },
+      { id: "channel-list", label: "Channel list loads", detail: "Personal pulse pre-selected (if it exists)", kind: "server", ms: 300, severity: "friction" },
+      { id: "compose", label: "Tap composer", kind: "user", ms: 0 },
+      { id: "send", label: "Type + send", kind: "user", ms: 0 },
+    ],
+    bugs: [
+      {
+        title: "Empty channel list if `ensureUserHasPersonalPulse` failed silently",
+        detail: "The provisioning step in `signInUser` is best-effort. If it failed during sign-in (DB error, race), the user lands on Chats with no channel and no clear empty-state component — only the FAB. Bewildering first-message experience.",
+        evidence: "SignInUserMutation.php:407 · chats/index.tsx (no empty-state in first 60 lines)",
+      },
+      {
+        title: "Personal pulse is invisible without context",
+        detail: "Even when present, the personal pulse is just one row in the channel list with no 'this is your scratch space' framing. New users don't know they can message themselves.",
+        evidence: "useBootstrapPulse.ts auto-select logic",
+      },
+    ],
+    recommendations: [
+      { title: "Empty-state with one-tap fix", why: "If channel list is empty post-onboarding, show a card: 'Looks like we missed setting up your space. Tap to fix.' One tap re-triggers provisioning.", effort: "2 hr", fixPath: "services/nova/src/app/(app)/(tabs)/chats/index.tsx · empty-state branch" },
+      { title: "First-run framing of personal pulse", why: "A subtle 'Your space · for drafts and reminders' label below the personal pulse for the first week.", effort: "1 hr", fixPath: "services/nova/src/hooks/useBootstrapPulse.ts · channel row component in chats/index.tsx" },
+      { title: "Cross-link first-action prompts on Home", why: "The Feed already has card slots — surface a 'Send your first message' card until the user does.", effort: "3 hr", fixPath: "services/nova/src/components/feed/FeedPanelContent.tsx · feed.ts FeedItemKind enum" },
+    ],
+  },
+  /* ===== JOURNEY 5 — CREATE CHANNEL ===== */
+  {
+    id: "create-channel",
+    title: "Create a new channel",
+    audience: "User starting a new team or DM thread",
+    todayCount: "3 taps for DM · 4–5 for team channel",
+    todayTime: "10–20 s",
+    recCount: "3 taps for DM (already good) · 3–4 for team channel",
+    recTime: "8–15 s",
+    magicTie: "A user who creates a channel is forming the social graph — strongest predictor of week-2 retention.",
+    gtmRefs: [
+      { ref: "§05", label: "3 returns in 14 days · social graph", href: "/#tldr" },
+      { ref: "§06", label: "Community sponsored seats", href: "/#communities" },
+    ],
+    icon: "hash",
+    steps: [
+      { id: "fab", label: "Tap FAB (+)", kind: "user", ms: 0 },
+      { id: "menu", label: "Spring menu expands", detail: "DM / Team Channel options", kind: "client", ms: 200 },
+      { id: "type-pick", label: "Tap DM or Team Channel", kind: "user", ms: 0 },
+      { id: "fill", label: "Search user (DM) or fill name (Team)", kind: "user", ms: 4000 },
+      { id: "create", label: "createPulse mutation", kind: "server", ms: 400 },
+    ],
+    bugs: [
+      {
+        title: "DM duplicate guard depends on client cache",
+        detail: "`useChatsPage.ts:2673–2683` checks cached `chatChannels` for existing ONETOONE before creating. On a cache miss (first load, or after reinstall), a duplicate is created. Backend has no de-dupe.",
+        evidence: "useChatsPage.ts:2673–2683",
+      },
+      {
+        title: "300ms search debounce + 1-char minimum delays results",
+        detail: "Search activates after 1 character with 300ms debounce. Feels sluggish vs Slack's instant-on-keypress. Compounds in the 'find someone' flow.",
+        evidence: "useChatsPage.ts (search debounce config)",
+      },
+    ],
+    recommendations: [
+      { title: "Server-side DM idempotency by (creator, recipient)", why: "Treat DM creation as an upsert. Eliminates duplicate-DM bugs once and for all.", effort: "2 hr", fixPath: "services/api/app/GraphQL/Mutations/CreatePulseMutation.php · upsert by (creator_id, recipient_id, pulse_type=ONETOONE)" },
+      { title: "Instant search on first keypress", why: "Drop the 1-char gate and debounce to 100ms. Search results feel like Slack.", effort: "1 hr", fixPath: "services/nova/src/hooks/useChatsPage.ts · search debounce config" },
+      { title: "Pre-populate FAB menu with last-3-contacted", why: "Most DM compose actions go to recent people. One tap from FAB if they're top-3.", effort: "3 hr", fixPath: "services/nova/src/app/(app)/(tabs)/chats/index.tsx · FAB menu component" },
+    ],
+  },
+  /* ===== JOURNEY 6 — CREATE TASK ===== */
+  {
+    id: "create-task",
+    title: "Create a task",
+    audience: "User capturing a to-do",
+    todayCount: "2 taps inline (no assignee) · 5 taps full form (with assignee)",
+    todayTime: "<5 s inline · 15 s full form",
+    recCount: "2 taps inline (with quick-assign)",
+    recTime: "<5 s",
+    magicTie: "Captured tasks = ongoing engagement events. Linear-level capture speed = Linear-level retention.",
+    gtmRefs: [
+      { ref: "§05", label: "5 events in 14 days · capture velocity", href: "/#tldr" },
+      { ref: "§16.5", label: "Decision #17 · meeting-prep viral loop", href: "/#decisions" },
+    ],
+    icon: "list-checks",
+    steps: [
+      { id: "tab", label: "Tap Tasks tab", kind: "user", ms: 0 },
+      { id: "focus", label: "Tap inline composer", kind: "user", ms: 0 },
+      { id: "type", label: "Type title", kind: "user", ms: 3000 },
+      { id: "submit", label: "Return / send", kind: "user", ms: 0 },
+      { id: "assign-open", label: "(Optional) Open task to assign", detail: "+3 taps via full form sheet", kind: "user", ms: 0, severity: "friction" },
+      { id: "create-task", label: "createTask mutation", kind: "server", ms: 300 },
+    ],
+    bugs: [
+      {
+        title: "No quick-assign on inline-create",
+        detail: "Inline create captures title only. Assignment requires opening the full TaskFormSheet — 3 extra taps. Linear does it inline.",
+        evidence: "TaskInlineCreate.tsx · TaskFormSheet.tsx:72",
+      },
+    ],
+    recommendations: [
+      { title: "Inline assignee chip on the composer row", why: "An always-visible 'Me' chip with a tap-to-change picker. Brings tap count to 2 even when assigning. Linear-tier.", effort: "4 hr", fixPath: "services/nova/src/components/tasks/TaskInlineCreate.tsx · assignee picker sheet" },
+      { title: "Optimistic insert with snackbar-undo", why: "Task appears immediately on send. If backend fails, snackbar offers 'Tap to retry' instead of an error dialog.", effort: "3 hr", fixPath: "services/nova/src/components/tasks/TaskInlineCreate.tsx · createTask mutation onMutate / onError" },
+    ],
+  },
+];
+
+/* ====== Sum of total recommendation effort ====== */
+const totalRecHours = journeys.reduce((sum, j) => {
+  return sum + j.recommendations.reduce((s, r) => {
+    const m = r.effort.match(/(\d+(?:\.\d+)?)\s*(hr|h|day|d)/);
+    if (!m) return s;
+    const n = parseFloat(m[1]);
+    return s + (m[2].startsWith("d") ? n * 8 : n);
+  }, 0);
+}, 0);
+const totalBugs = journeys.reduce((s, j) => s + j.bugs.length, 0);
+const totalRecs = journeys.reduce((s, j) => s + j.recommendations.length, 0);
+
+const kindStyle = (kind: StepKind) => {
+  switch (kind) {
+    case "user": return { bg: "var(--color-paper)", border: "var(--color-ink)", icon: "circle-dot" };
+    case "client": return { bg: "var(--color-paper-soft)", border: "var(--color-ink-soft)", icon: "smartphone" };
+    case "server": return { bg: "var(--color-accent-soft)", border: "var(--color-accent)", icon: "cloud" };
+    case "auth0": return { bg: "var(--color-warning-soft)", border: "var(--color-warning)", icon: "key-round" };
+    case "db": return { bg: "var(--color-success-soft)", border: "var(--color-success)", icon: "database" };
+    case "wait": return { bg: "var(--color-paper-warm)", border: "var(--color-ink-faint)", icon: "hourglass" };
+  }
+};
+
+const severityColor = (s?: Severity) => {
+  if (s === "blocker") return "var(--color-danger)";
+  if (s === "friction") return "var(--color-warning)";
+  return "var(--color-line)";
+};
+---
+
+<Layout
+  title="Zunou — Customer Journeys · End-to-End Maps"
+  description="The first sign-in. The first message. The first task. Where users drop, why, and what to fix — tied to the GTM magic numbers."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "magic-numbers", label: "Magic numbers", icon: "target" },
+    { id: "j-sign-in", label: "1 · First sign-in", icon: "key-round" },
+    { id: "j-onboarding", label: "2 · Onboarding", icon: "user-plus" },
+    { id: "j-calendar-setup", label: "3 · Calendar setup", icon: "calendar" },
+    { id: "j-first-message", label: "4 · First message", icon: "message-square" },
+    { id: "j-create-channel", label: "5 · Create channel", icon: "hash" },
+    { id: "j-create-task", label: "6 · Create task", icon: "list-checks" },
+    { id: "rollup", label: "Rollup", icon: "trending-up" },
+  ]}
+>
+  <!-- Top banner · cross-page nav -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Journeys · the user lens</span>
+        <span class="text-[var(--color-ink)]">Five pillars: GTM names it · Dashboard measures it · Journeys shows it · Foundation builds it · Quality verifies it.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM</span><span aria-hidden="true">→</span></a>
+        <a href="/dashboard" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Dashboard</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation</span><span aria-hidden="true">→</span></a>
+        <a href="/quality" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Quality</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Route class="w-3.5 h-3.5" />
+          Customer journeys
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">Marco Avila · 2026-05-15 · post-pull audit</span>
+      </div>
+
+      <h1 class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4rem] leading-[0.98] tracking-tight mb-5 max-w-4xl" data-reveal="fade-up" data-reveal-delay="1">
+        Where users drop.<br />
+        <span class="text-[var(--color-ink-soft)] italic">And what each drop costs the GTM.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        Six journeys, mapped step by step against the actual code. The reported "I have to sign in twice" and "it's slow" symptoms trace to specific lines. Every dropped journey is a 5/1/3 activation that doesn't happen — and every TAI pilot user we lose is a sponsorship dollar we don't earn.
+      </p>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Journeys mapped</div>
+          <div class="stat-xl-figure accent">{journeys.length}</div>
+          <div class="stat-xl-label">End-to-end with code citations</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Specific bugs / friction</div>
+          <div class="stat-xl-figure">{totalBugs}</div>
+          <div class="stat-xl-label">Each with file:line</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Concrete recommendations</div>
+          <div class="stat-xl-figure">{totalRecs}</div>
+          <div class="stat-xl-label">Each with effort + rationale</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Total fix budget</div>
+          <div class="stat-xl-figure">~{Math.round(totalRecHours)}h</div>
+          <div class="stat-xl-label">For all journeys combined</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow"><CircleDot class="w-3 h-3" /> Executive summary</span>
+          <span class="exec-summary-meta">6 bullets · 60 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li><strong>The "sign in twice" report is a real bug</strong> with a specific root cause: <code class="inline-code">prompt: 'login'</code> in the Auth0 config forces re-authentication every time, even with a valid refresh token. One-line fix.</li>
+          <li><strong>"It's slow" is 14–20 sequential roundtrips on iOS first sign-in</strong>, including 5–7 uncached Auth0 Management API calls. ~1.5–4 seconds before the user sees anything. Caching the management token alone saves ~700ms.</li>
+          <li><strong>A second "sign in twice" bug</strong> is buried in <code class="inline-code">CompletePhase</code>: the onboarding-finished signal is fire-and-forget. If the GQL call fails or the app is backgrounded mid-call, the user redoes onboarding on the next session.</li>
+          <li><strong>Welcome screen has a 1400ms intentional animation delay</strong> before the Get Started button appears. Combined with the cold-start latency above, the first 3 seconds of every brand-new install are dead air.</li>
+          <li><strong>Every dropped journey costs a magic-number activation.</strong> The GTM measures users who hit 5 events + 1 magic moment + 3 returns in 14 days. Every sign-in friction and onboarding bug halves the funnel into that metric.</li>
+          <li><strong>All {totalRecs} recommendations together are ~{Math.round(totalRecHours)} hours.</strong> Most are 1–3 hour fixes. The "sign in twice" primary cause is a one-line config change.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- MAGIC NUMBERS -->
+  <section class="py-16 sm:py-20" id="magic-numbers">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>01</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Magic numbers</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What every journey is racing toward.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        From the GTM (§05): <strong class="text-[var(--color-ink)]">5 events · 1 magic moment · 3 return visits · in 14 days.</strong> The activation contract. Every dropped journey below is a user who didn't reach it.
+      </p>
+
+      <div class="grid sm:grid-cols-3 gap-4 max-w-5xl" data-reveal="fade-up">
+        <div class="magic-card">
+          <div class="magic-figure"><span class="magic-num">{magic.events}</span></div>
+          <div class="magic-label">Events</div>
+          <p class="magic-detail">Five meaningful actions in the product — message, task, meeting prep, agent ask, calendar interaction. Each journey on this page is one of those events.</p>
+        </div>
+        <div class="magic-card featured">
+          <div class="magic-figure"><span class="magic-num">{magic.moment}</span></div>
+          <div class="magic-label">Magic moment</div>
+          <p class="magic-detail">The agent does something the user couldn't have done alone — a prep brief lands, a task is auto-extracted, a transcript answers a question. Granola built an entire company around this single moment on day one; clearing the same bar is table stakes for the AI-native space.</p>
+        </div>
+        <div class="magic-card">
+          <div class="magic-figure"><span class="magic-num">{magic.returns}</span></div>
+          <div class="magic-label">Return visits</div>
+          <p class="magic-detail">Three sessions across {magic.window}. Below the threshold, the user won't form habit. Notifications and the unified inbox carry this load — see <a href="/foundation" class="text-[var(--color-accent)] hover:underline">Foundation</a>.</p>
+        </div>
+      </div>
+
+      <div class="rounded-xl border-l-4 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 mt-8 max-w-4xl" data-reveal="fade-up">
+        <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+          <strong>Why this matters for the journeys below.</strong> The TAI pilot's hybrid venue sponsorship pays <em>per actual user join</em>, not per seat. A user who can't sign in, gets stuck in onboarding, or hits an empty channel doesn't count toward the magic number — and doesn't count toward the sponsorship invoice. The fixes on this page are the difference between a pilot that pays back and one that doesn't.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- JOURNEYS -->
+  {journeys.map((j, idx) => {
+    const sectionTone = idx % 2 === 0 ? "" : "bg-[var(--color-paper-soft)]";
+    return (
+      <section class={`py-16 sm:py-20 ${sectionTone}`} id={`j-${j.id}`}>
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+            <span class="section-number"><span>{String(idx + 2).padStart(2, "0")}</span></span>
+            <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Journey {idx + 1}</span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl mb-3 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+            {j.title}
+          </h2>
+          <p class="text-base text-[var(--color-ink-soft)] mb-8 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">{j.audience}</p>
+
+          <!-- Today vs Recommended summary -->
+          <div class="grid sm:grid-cols-3 gap-3 mb-4" data-reveal="fade-up" data-reveal-delay="2">
+            <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4">
+              <div class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink-faint)] mb-2">Today</div>
+              <div class="font-display text-2xl text-[var(--color-ink)] leading-tight mb-1">{j.todayTime}</div>
+              <div class="text-xs text-[var(--color-ink-soft)]">{j.todayCount}</div>
+            </div>
+            <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-4">
+              <div class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent-ink)] mb-2">After recommendations</div>
+              <div class="font-display text-2xl text-[var(--color-accent-ink)] leading-tight mb-1">{j.recTime}</div>
+              <div class="text-xs text-[var(--color-ink-soft)]">{j.recCount}</div>
+            </div>
+            <div class="rounded-xl border border-dashed border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+              <div class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent-ink)] mb-2 flex items-center gap-1.5">
+                <Target class="w-3 h-3" /> Magic-number tie
+              </div>
+              <p class="text-xs text-[var(--color-ink)] leading-relaxed" set:html={j.magicTie}></p>
+            </div>
+          </div>
+
+          <!-- GTM tie-in chips -->
+          <div class="gtm-tie-row" data-reveal="fade-up" data-reveal-delay="3">
+            <span class="gtm-tie-label">
+              <Flag class="w-3 h-3" />
+              Maps to GTM
+            </span>
+            <div class="gtm-tie-chips">
+              {j.gtmRefs.map((g) => (
+                <a href={g.href} class="gtm-tie-chip" title={`Open ${g.ref} in GTM`}>
+                  <span class="gtm-tie-chip-ref">{g.ref}</span>
+                  <span class="gtm-tie-chip-label">{g.label}</span>
+                  <ArrowRight class="w-3 h-3 gtm-tie-chip-arrow" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Journey strip — graphical step flow -->
+          <div class="journey-strip" data-reveal="fade-up">
+            <div class="journey-track">
+              {j.steps.map((s, i) => {
+                const k = kindStyle(s.kind);
+                return (
+                  <>
+                    <div
+                      class="journey-step"
+                      style={`--node-bg: ${k.bg}; --node-border: ${s.severity ? severityColor(s.severity) : k.border}; --step-delay: ${i * 60}ms;`}
+                      data-reveal="fade-up"
+                      data-reveal-delay={Math.min(i, 5)}
+                    >
+                      <div class="journey-node">
+                        <span class="journey-node-idx">{String(i + 1).padStart(2, "0")}</span>
+                      </div>
+                      <div class="journey-step-meta">
+                        <div class="journey-step-label">{s.label}</div>
+                        {s.detail && <div class="journey-step-detail">{s.detail}</div>}
+                        <div class="journey-step-bottom">
+                          <span class:list={["journey-kind", `journey-kind-${s.kind}`]}>{s.kind}</span>
+                          {typeof s.ms === "number" && s.ms > 0 && <span class="journey-ms">{s.ms < 1000 ? `${s.ms}ms` : `${(s.ms / 1000).toFixed(1)}s`}</span>}
+                          {s.severity && (
+                            <span class:list={["journey-severity", `journey-severity-${s.severity}`]}>
+                              {s.severity === "blocker" && <XCircle class="w-3 h-3" />}
+                              {s.severity === "friction" && <AlertTriangle class="w-3 h-3" />}
+                              <span>{s.severity}</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    {i < j.steps.length - 1 && (
+                      <div class:list={["journey-edge", s.severity === "blocker" && "journey-edge-blocker", s.severity === "friction" && "journey-edge-friction"]}>
+                        <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                      </div>
+                    )}
+                  </>
+                );
+              })}
+            </div>
+            <div class="journey-legend">
+              <span class="legend-dot legend-dot-user"></span><span>user</span>
+              <span class="legend-dot legend-dot-client"></span><span>client</span>
+              <span class="legend-dot legend-dot-server"></span><span>server</span>
+              <span class="legend-dot legend-dot-auth0"></span><span>Auth0</span>
+              <span class="legend-dot legend-dot-db"></span><span>db</span>
+              <span class="legend-dot legend-dot-wait"></span><span>wait</span>
+            </div>
+          </div>
+
+          <!-- Bugs found -->
+          {j.bugs.length > 0 && (
+            <div class="mt-10">
+              <h3 class="font-display text-xl mb-4 flex items-center gap-2" data-reveal="fade-up">
+                <Bug class="w-4 h-4 text-[var(--color-danger)]" />
+                Bugs &amp; friction found
+              </h3>
+              <div class="grid lg:grid-cols-2 gap-3">
+                {j.bugs.map((b, i) => (
+                  <div class="bug-card" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+                    <div class="bug-body">
+                      <div class="bug-head">
+                        <span class="bug-num">{String(i + 1).padStart(2, "0")}</span>
+                        <h4 class="bug-title">{b.title}</h4>
+                      </div>
+                      <p class="bug-detail">{b.detail}</p>
+                    </div>
+                    <div class="bug-evidence">
+                      <Bug class="w-3 h-3" />
+                      <span class="bug-evidence-label">Found in</span>
+                      <code class="bug-evidence-path">{b.evidence}</code>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Recommendations -->
+          {j.recommendations.length > 0 && (
+            <div class="mt-10">
+              <h3 class="font-display text-xl mb-4 flex items-center gap-2" data-reveal="fade-up">
+                <Wrench class="w-4 h-4 text-[var(--color-accent)]" />
+                Recommendations
+              </h3>
+              <div class="space-y-2.5">
+                {j.recommendations.map((r, i) => (
+                  <div
+                    class="rec-card"
+                    data-reveal="fade-up"
+                    data-reveal-delay={Math.min(i, 4)}
+                  >
+                    <div class="rec-card-grid">
+                      <div class="rec-num">
+                        <span>{String(i + 1).padStart(2, "0")}</span>
+                      </div>
+                      <div class="rec-body">
+                        <h4 class="rec-title">{r.title}</h4>
+                        <p class="rec-why"><strong>Why:</strong> {r.why}</p>
+                      </div>
+                      <div class="rec-effort">
+                        <span class="rec-effort-chip">
+                          <Hourglass class="w-3 h-3" />
+                          {r.effort}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="rec-fix">
+                      <Wrench class="w-3 h-3" />
+                      <span class="rec-fix-label">Where to fix</span>
+                      <code class="rec-fix-path">{r.fixPath}</code>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })}
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- ROLLUP -->
+  <section class="py-16 sm:py-20" id="rollup">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>{String(journeys.length + 2).padStart(2, "0")}</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Rollup</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What this means for the GTM.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Six journeys, {totalBugs} concrete bugs, {totalRecs} fixes, ~{Math.round(totalRecHours)} engineering hours. Every fix is a small percentage point on the activation funnel. Multiplied across the TAI pilot, those points compound into the 5/1/3 number the GTM is gated on.
+      </p>
+
+      <div class="grid lg:grid-cols-3 gap-4" data-reveal="fade-up">
+        <a href="/" class="rollup-card">
+          <Flag class="w-5 h-5 text-[var(--color-accent)] mb-3" />
+          <h3 class="font-display text-xl mb-2">GTM</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">The strategy these journeys are paying back. Hybrid venue sponsorship + community-led launch + stage-gate Feb 2027.</p>
+          <span class="rollup-cta">Open the strategy <ArrowRight class="w-3.5 h-3.5" /></span>
+        </a>
+        <a href="/foundation" class="rollup-card">
+          <Layers class="w-5 h-5 text-[var(--color-accent)] mb-3" />
+          <h3 class="font-display text-xl mb-2">Foundation</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">The engineering work that closes the bugs above and the reliability gaps behind them. Tier 1 ROI-ranked.</p>
+          <span class="rollup-cta">See the build plan <ArrowRight class="w-3.5 h-3.5" /></span>
+        </a>
+        <a href="/quality" class="rollup-card">
+          <Target class="w-5 h-5 text-[var(--color-accent)] mb-3" />
+          <h3 class="font-display text-xl mb-2">Quality</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">How we keep these journeys working as we ship. Definition of Done + test stack + 100% as the asymptote.</p>
+          <span class="rollup-cta">See the contract <ArrowRight class="w-3.5 h-3.5" /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">Where this gets us</p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          The smallest fixes here have the largest leverage on the pilot.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          One Auth0 config line for "sign in twice." One promise-await for the fire-and-forget onboarding bug. Two hours for a Management API token cache. The pilot funnel doesn't widen with grand architecture — it widens by closing the specific paper cuts users feel in the first 90 seconds.
+        </p>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+          The activation contract is 5 / 1 / 3. Every journey on this page is a step toward it — or away from it.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* === Magic number cards === */
+  .magic-card {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    border-radius: 0.75rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    transition: border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease;
+  }
+  .magic-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -16px rgba(74, 0, 224, 0.18); border-color: var(--color-ink-faint); }
+  .magic-card.featured { border: 2px solid var(--color-accent); }
+  .magic-figure { display: flex; align-items: baseline; gap: 0.4rem; }
+  .magic-num { font-family: var(--font-display); font-size: 4.5rem; line-height: 1; color: var(--color-accent); }
+  .magic-label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--color-ink-soft); margin-top: 0.3rem; margin-bottom: 0.75rem; font-weight: 700; }
+  .magic-detail { font-size: 0.875rem; color: var(--color-ink-soft); line-height: 1.55; margin: 0; }
+
+  /* === Journey strip — horizontal scrollable flow === */
+  .journey-strip {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    border-radius: 1rem;
+    padding: 1.5rem 1rem 1.25rem;
+    overflow: hidden;
+  }
+  .journey-track {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  .journey-track::-webkit-scrollbar { height: 6px; }
+  .journey-track::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 3px; }
+
+  .journey-step {
+    flex: 0 0 11rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.75rem;
+    border: 1.5px solid var(--node-border, var(--color-line));
+    border-radius: 0.625rem;
+    background: var(--node-bg, var(--color-paper));
+    transition: transform 240ms ease, box-shadow 240ms ease;
+  }
+  .journey-step:hover { transform: translateY(-2px); box-shadow: 0 6px 16px -10px rgba(0,0,0,0.12); }
+
+  .journey-node {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 999px;
+    background: var(--color-paper);
+    border: 1.5px solid var(--node-border, var(--color-ink-soft));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .journey-node-idx {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  .journey-step-label {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--color-ink);
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+  .journey-step-detail {
+    font-size: 0.72rem;
+    color: var(--color-ink-soft);
+    line-height: 1.4;
+    margin-top: 0.25rem;
+  }
+
+  .journey-step-bottom {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--color-line);
+  }
+
+  .journey-kind {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+    background: var(--color-paper-soft);
+    color: var(--color-ink-soft);
+    font-weight: 700;
+  }
+  .journey-kind-server { background: var(--color-accent-soft); color: var(--color-accent-ink); }
+  .journey-kind-auth0 { background: var(--color-warning-soft); color: var(--color-warning); }
+  .journey-kind-db { background: var(--color-success-soft); color: var(--color-success); }
+  .journey-kind-wait { background: var(--color-paper-warm); color: var(--color-ink-faint); }
+
+  .journey-ms {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .journey-severity {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+  }
+  .journey-severity-friction { background: var(--color-warning-soft); color: var(--color-warning); }
+  .journey-severity-blocker { background: var(--color-danger-soft); color: var(--color-danger); }
+
+  .journey-edge {
+    display: flex;
+    align-items: center;
+    color: var(--color-ink-faint);
+    flex: 0 0 auto;
+  }
+  .journey-edge-friction { color: var(--color-warning); }
+  .journey-edge-blocker { color: var(--color-danger); }
+
+  .journey-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--color-line);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--color-ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .legend-dot { display: inline-block; width: 0.625rem; height: 0.625rem; border-radius: 999px; margin-right: 0.2rem; vertical-align: -1px; }
+  .legend-dot-user { background: var(--color-paper); border: 1.5px solid var(--color-ink); }
+  .legend-dot-client { background: var(--color-paper-soft); border: 1.5px solid var(--color-ink-soft); }
+  .legend-dot-server { background: var(--color-accent-soft); border: 1.5px solid var(--color-accent); }
+  .legend-dot-auth0 { background: var(--color-warning-soft); border: 1.5px solid var(--color-warning); }
+  .legend-dot-db { background: var(--color-success-soft); border: 1.5px solid var(--color-success); }
+  .legend-dot-wait { background: var(--color-paper-warm); border: 1.5px solid var(--color-ink-faint); }
+
+  /* === Rollup cards === */
+  .rollup-card {
+    display: block;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-paper);
+    border-radius: 0.875rem;
+    padding: 1.5rem;
+    transition: all 240ms ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .rollup-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -16px rgba(74, 0, 224, 0.22);
+  }
+  .rollup-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    color: var(--color-accent-ink);
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: gap 240ms ease;
+  }
+  .rollup-card:hover .rollup-cta { gap: 0.6rem; }
+</style>
