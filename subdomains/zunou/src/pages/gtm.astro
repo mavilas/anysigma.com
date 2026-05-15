@@ -284,7 +284,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             <CircleDot class="w-3 h-3" />
             Executive summary
           </span>
-          <span class="exec-summary-meta">5 bullets · 60 seconds</span>
+          <span class="exec-summary-meta">6 bullets · 75 seconds</span>
         </div>
         <ol class="exec-summary-list">
           <li>
@@ -292,6 +292,9 @@ const openCount = decisions.filter((d) => d.status === "open").length;
           </li>
           <li>
             <strong>Hybrid venue sponsorship model:</strong> flat fee + per-user-join bonus. We pay for actual conversion, not seats. Aligns sponsor incentives with our growth metrics.
+          </li>
+          <li>
+            <strong>The day-1 wedge is the WhatsApp / LINE / Slack triage layer.</strong> Operators in our beachheads already mute the group chats they live in (TAI's ~4,000-person WhatsApp, portfolio founder groups, work LINE channels) — and miss real signal in exchange. MCP read-access lets Zunou's agent digest the muted channels on day one. They keep their habits; they stop missing value. The platform replacement happens by gravity, not by a migration ask. See <a href="#moat" class="text-[var(--color-accent)] hover:underline font-semibold">§03 · The WhatsApp triage wedge</a>.
           </li>
           <li>
             <strong>Spaces (Event-Spaces) as the Zoom-playbook viral surface</strong> alongside the community pilot: QR scan at the door → Nova installs → AI agent pre-loaded with the conference context. 1,000-person event = 1,000 installs that day.
@@ -931,7 +934,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         </div>
         <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Integrate, don't ask</h4>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Connect Slack + Notion + calendar + email via MCP. Zunou's AI works across them immediately. Zero migration friction. The user keeps every habit they have.
+          Connect WhatsApp · LINE · Slack · Notion · calendar · email via MCP. Zunou's AI works across them immediately. Zero migration friction. The user keeps every habit they have.
         </p>
       </div>
       <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]">
@@ -940,7 +943,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         </div>
         <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Context lives here now</h4>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Decisions, action items, follow-ups all surface in Zunou. The morning brief becomes the first surface opened. Slack becomes the second.
+          The agent triages the noisy channels (TAI's 4,000-person WhatsApp, work LINE groups) so the user stops missing signal they were muting. Decisions, action items, follow-ups surface in Zunou. The morning brief becomes the first surface opened.
         </p>
       </div>
       <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]">
@@ -949,12 +952,29 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         </div>
         <h4 class="font-display text-lg mb-2 text-[var(--color-ink)]">Zunou is the workspace</h4>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Internal chat happens in Zunou. Tasks live in Zunou. Slack stays for external comms; Notion becomes the public-doc archive. The team's center of gravity has shifted.
+          Internal chat happens in Zunou. Tasks live in Zunou. WhatsApp / LINE / Slack stay for external comms; Notion becomes the public-doc archive. The team's center of gravity has shifted.
         </p>
       </div>
     </div>
 
-    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl mb-12" data-reveal="fade-up" data-reveal-delay="2">
+    <!-- The WhatsApp triage wedge — concrete framing of the integration-first play -->
+    <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 sm:p-6 mb-10 max-w-4xl" data-reveal="fade-up" data-reveal-delay="2">
+      <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-3 flex items-center gap-2">
+        <span aria-hidden="true">▶</span>
+        The WhatsApp / LINE triage wedge
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-3">
+        Most active operators in our beachheads already live inside <strong class="text-[var(--color-ink)]">noisy group chats they've already muted</strong> — TAI's ~4,000-person WhatsApp, Indelible portfolio founder groups, work LINE channels. The mute is rational (the volume is unworkable) but the cost is real (deals, signal, intros buried in scroll-by).
+      </p>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+        <strong class="text-[var(--color-ink)]">The wedge:</strong> Zunou's agent connects to WhatsApp / LINE on day one (MCP read access), digests muted channels into a daily brief, surfaces the threads worth opening, and lets the user reply <em class="font-display">from Zunou</em> while the message still posts back to the original group. The user keeps every habit they have. They just stop missing value.
+      </p>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+        <strong class="text-[var(--color-ink)]">The expand:</strong> three to six weeks in, the user reads Zunou's brief before they open the source apps. Three months in, new in-portfolio conversations start <em class="font-display">in</em> Zunou — because that's where the AI already knows everyone. WhatsApp and LINE stop being the work surface and become external-comms-only. The platform replacement happens by gravity, not by migration ask.
+      </p>
+    </div>
+
+    <div class="border-l-2 border-[var(--color-accent)] pl-6 max-w-2xl mb-12" data-reveal="fade-up" data-reveal-delay="3">
       <p class="pull-quote">
         MCP is the bridge — not the moat. The moat is the unified workspace that compounds once we're landed.
       </p>
@@ -1061,7 +1081,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
             <div class="text-[10px] uppercase tracking-[0.16em] text-[var(--color-accent)] font-bold mb-2">1 · Day-1 retention</div>
             <h4 class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">Users keep their existing tools.</h4>
             <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-              Telling a TAI builder to migrate Slack history into Zunou on day 1 loses 80% of them. MCP means they don't migrate — Zunou's AI reads their existing Slack / Notion / Linear / calendar in place. Day-1 friction goes from "rebuild your workspace" to "click connect." Materially higher activation.
+              Telling a TAI builder to migrate Slack / WhatsApp / Notion history into Zunou on day 1 loses 80% of them. MCP means they don't migrate — Zunou's AI reads their existing WhatsApp / LINE / Slack / Notion / Linear / calendar in place. Day-1 friction goes from "rebuild your workspace" to "click connect." Materially higher activation — and the most-cited TAI builder pain ("I muted the WhatsApp because I can't read it all, now I miss things") becomes the activation wedge.
             </p>
           </div>
           <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
