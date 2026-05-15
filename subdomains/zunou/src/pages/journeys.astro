@@ -18,6 +18,7 @@ import {
   Hash,
   Plus,
   Smartphone,
+  Monitor,
   Cloud,
   Database,
   RefreshCw,
@@ -30,6 +31,13 @@ import {
   ListChecks,
   CircleHelp,
   Layers,
+  Hand,
+  MousePointer2,
+  GitMerge,
+  ArrowDownToLine,
+  Minus,
+  Equal,
+  Gauge,
 } from "@lucide/astro";
 
 /* ====== Magic numbers (from GTM §05) ====== */
@@ -40,19 +48,24 @@ const magic = {
   window: "14 days",
 };
 
-/* ====== Journey timing — a step is a thing the system does or the user does.
-   latency buckets: fast <200ms, mid 200–800ms, slow 800–2000ms, blocking 2000ms+ ====== */
+/* ====== Journey timing ====== */
 type StepKind = "user" | "client" | "server" | "auth0" | "db" | "wait";
 type Severity = "ok" | "friction" | "blocker";
+type RecAction = "keep" | "remove" | "cache" | "parallel" | "background" | "improve";
 
 interface Step {
   id: string;
   label: string;
   detail?: string;
   kind: StepKind;
-  ms?: number; // typical
+  ms?: number; // typical today (ms)
   severity?: Severity;
   evidence?: string;
+  rec?: {
+    action: RecAction;
+    ms?: number;     // ms after fix (omit = same as today)
+    note?: string;   // one-line annotation
+  };
 }
 
 interface GtmRef {
@@ -95,21 +108,21 @@ const journeys: Journey[] = [
     ],
     icon: "key-round",
     steps: [
-      { id: "tap", label: "Tap Sign in", kind: "user", ms: 0 },
-      { id: "auth0-ul", label: "Auth0 universal login", detail: "loginWithRedirect / promptAsync", kind: "auth0", ms: 600 },
-      { id: "pkce", label: "PKCE code exchange", kind: "client", ms: 200 },
-      { id: "userinfo", label: "GET /userinfo", kind: "auth0", ms: 300 },
-      { id: "delay", label: "100ms safety buffer", detail: "AuthContext.tsx:401 — admitted workaround", kind: "wait", ms: 100, severity: "friction", evidence: "AuthContext.tsx:399–405" },
-      { id: "signin", label: "signInUser mutation", detail: "GraphQL call to Laravel", kind: "server", ms: 200 },
-      { id: "mgmt-token", label: "POST /oauth/token (Mgmt API)", detail: "iOS Apple Sign-In: token has no email claim", kind: "auth0", ms: 500, severity: "blocker", evidence: "SignInUserMutation.php:94–123" },
-      { id: "mgmt-user", label: "GET /api/v2/users/{id}", detail: "Fetch email from Auth0 Management API", kind: "auth0", ms: 400, severity: "blocker", evidence: "SignInUserMutation.php:425–434" },
-      { id: "role-add", label: "Auth0 role + permissions", detail: "3 more Mgmt API calls, all sequential", kind: "auth0", ms: 900, severity: "blocker", evidence: "Auth0RoleService.php:36–54" },
-      { id: "perm-refresh", label: "Refresh permissions cache", detail: "New Auth0 SDK instance + paginated fetch", kind: "auth0", ms: 600, severity: "friction", evidence: "RefreshAuth0PermissionsService.php:21–55" },
-      { id: "pulses", label: "ensureUserHasPersonalPulses", detail: "N+1 DB queries inside the request cycle", kind: "db", ms: 400, severity: "friction", evidence: "SignInUserMutation.php:585–605" },
-      { id: "getme", label: "getMeQuery", detail: "Redundant — signInUser already returned the user", kind: "server", ms: 250, severity: "friction", evidence: "AuthContext.tsx:286–342" },
-      { id: "bootorg", label: "Bootstrap org query", kind: "server", ms: 200 },
-      { id: "bootset", label: "Bootstrap settings query", detail: "Serial: needs org id first", kind: "server", ms: 200, severity: "friction", evidence: "useBootstrapOrg.ts:116–194" },
-      { id: "render", label: "Onboarding mounts", kind: "client", ms: 0 },
+      { id: "tap", label: "Tap Sign in", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "auth0-ul", label: "Auth0 universal login", detail: "loginWithRedirect / promptAsync", kind: "auth0", ms: 600, rec: { action: "keep" } },
+      { id: "pkce", label: "PKCE code exchange", kind: "client", ms: 200, rec: { action: "keep" } },
+      { id: "userinfo", label: "GET /userinfo", kind: "auth0", ms: 300, rec: { action: "keep" } },
+      { id: "delay", label: "100ms safety buffer", detail: "AuthContext.tsx:401 — admitted workaround", kind: "wait", ms: 100, severity: "friction", evidence: "AuthContext.tsx:399–405", rec: { action: "remove", ms: 0, note: "Delete — comment admits it 'may work without it'." } },
+      { id: "signin", label: "signInUser mutation", detail: "GraphQL call to Laravel", kind: "server", ms: 200, rec: { action: "keep" } },
+      { id: "mgmt-token", label: "POST /oauth/token (Mgmt API)", detail: "iOS Apple Sign-In: token has no email claim", kind: "auth0", ms: 500, severity: "blocker", evidence: "SignInUserMutation.php:94–123", rec: { action: "cache", ms: 30, note: "Cache management token (24h TTL)." } },
+      { id: "mgmt-user", label: "GET /api/v2/users/{id}", detail: "Fetch email from Auth0 Management API", kind: "auth0", ms: 400, severity: "blocker", evidence: "SignInUserMutation.php:425–434", rec: { action: "cache", ms: 80, note: "Cache email lookup keyed on auth0_id." } },
+      { id: "role-add", label: "Auth0 role + permissions", detail: "3 more Mgmt API calls, all sequential", kind: "auth0", ms: 900, severity: "blocker", evidence: "Auth0RoleService.php:36–54", rec: { action: "parallel", ms: 250, note: "Parallelize + cache role/perm fetches." } },
+      { id: "perm-refresh", label: "Refresh permissions cache", detail: "New Auth0 SDK instance + paginated fetch", kind: "auth0", ms: 600, severity: "friction", evidence: "RefreshAuth0PermissionsService.php:21–55", rec: { action: "cache", ms: 50, note: "Reuse SDK instance + cache page." } },
+      { id: "pulses", label: "ensureUserHasPersonalPulses", detail: "N+1 DB queries inside the request cycle", kind: "db", ms: 400, severity: "friction", evidence: "SignInUserMutation.php:585–605", rec: { action: "background", ms: 0, note: "Dispatch as background job — not blocking." } },
+      { id: "getme", label: "getMeQuery", detail: "Redundant — signInUser already returned the user", kind: "server", ms: 250, severity: "friction", evidence: "AuthContext.tsx:286–342", rec: { action: "remove", ms: 0, note: "Delete — signInUser already returns the user." } },
+      { id: "bootorg", label: "Bootstrap org query", kind: "server", ms: 200, rec: { action: "keep" } },
+      { id: "bootset", label: "Bootstrap settings query", detail: "Serial: needs org id first", kind: "server", ms: 200, severity: "friction", evidence: "useBootstrapOrg.ts:116–194", rec: { action: "parallel", ms: 0, note: "Run in parallel with bootorg." } },
+      { id: "render", label: "Onboarding mounts", kind: "client", ms: 0, rec: { action: "keep" } },
     ],
     bugs: [
       {
@@ -166,13 +179,13 @@ const journeys: Journey[] = [
     ],
     icon: "user-plus",
     steps: [
-      { id: "welcome", label: "Welcome", detail: "1400ms animation delay before button appears", kind: "user", ms: 1400, severity: "friction", evidence: "WelcomePhase.tsx (animation delay)" },
-      { id: "create-org", label: "Create org", detail: "Required text field, blocking GQL mutation", kind: "server", ms: 800 },
-      { id: "calendar", label: "Calendar (optional)", detail: "Auto-skip flashes if already linked", kind: "user", ms: 400, severity: "friction", evidence: "CalendarPhase.tsx:36–38" },
-      { id: "tabs", label: "Choose tabs", kind: "user", ms: 0 },
-      { id: "layout", label: "Choose layout", kind: "user", ms: 0 },
-      { id: "agent", label: "Meet the agent", kind: "user", ms: 0 },
-      { id: "complete", label: "Complete", detail: "Fire-and-forget settings save — see bugs", kind: "server", ms: 0, severity: "blocker", evidence: "CompletePhase.tsx:191–215" },
+      { id: "welcome", label: "Welcome", detail: "1400ms animation delay before button appears", kind: "user", ms: 1400, severity: "friction", evidence: "WelcomePhase.tsx (animation delay)", rec: { action: "improve", ms: 0, note: "Show button instantly; play animation in parallel." } },
+      { id: "create-org", label: "Create org", detail: "Required text field, blocking GQL mutation", kind: "server", ms: 800, rec: { action: "keep" } },
+      { id: "calendar", label: "Calendar (optional)", detail: "Auto-skip flashes if already linked", kind: "user", ms: 400, severity: "friction", evidence: "CalendarPhase.tsx:36–38", rec: { action: "improve", ms: 200, note: "Skip-and-fade UI for already-linked." } },
+      { id: "tabs", label: "Choose tabs", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "layout", label: "Choose layout", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "agent", label: "Meet the agent", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "complete", label: "Complete", detail: "Fire-and-forget settings save — see bugs", kind: "server", ms: 0, severity: "blocker", evidence: "CompletePhase.tsx:191–215", rec: { action: "improve", ms: 300, note: "Make blocking before navigation (+200ms for durability)." } },
     ],
     bugs: [
       {
@@ -226,14 +239,14 @@ const journeys: Journey[] = [
     ],
     icon: "calendar",
     steps: [
-      { id: "tap-link", label: "Tap 'Connect calendar'", kind: "user", ms: 0 },
-      { id: "iosbrowser", label: "ASWebAuthenticationSession opens", detail: "iOS ephemeral session — no Safari cookie sharing", kind: "client", ms: 800, severity: "friction" },
-      { id: "google-pick", label: "Google account picker", detail: "Must type password even if signed in to Safari", kind: "user", ms: 8000, severity: "friction" },
-      { id: "consent", label: "Grant calendar.readonly + calendar.events", kind: "user", ms: 3000 },
-      { id: "exchange", label: "PKCE code exchange", kind: "client", ms: 300 },
-      { id: "link", label: "linkGoogleCalendar mutation", detail: "Backend stores secondary access token", kind: "server", ms: 400 },
-      { id: "sync", label: "syncCalendar (fire-and-forget)", kind: "server", ms: 0 },
-      { id: "user-tap-continue", label: "Tap 'Continue'", detail: "User must confirm after success — could auto-advance", kind: "user", ms: 0, severity: "friction" },
+      { id: "tap-link", label: "Tap 'Connect calendar'", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "iosbrowser", label: "ASWebAuthenticationSession opens", detail: "iOS ephemeral session — no Safari cookie sharing", kind: "client", ms: 800, severity: "friction", rec: { action: "keep", note: "iOS platform limit — can't avoid." } },
+      { id: "google-pick", label: "Google account picker", detail: "Must type password even if signed in to Safari", kind: "user", ms: 8000, severity: "friction", rec: { action: "keep", note: "User-controlled — out of our hands." } },
+      { id: "consent", label: "Grant calendar scopes", kind: "user", ms: 3000, rec: { action: "keep" } },
+      { id: "exchange", label: "PKCE code exchange", kind: "client", ms: 300, rec: { action: "keep" } },
+      { id: "link", label: "linkGoogleCalendar mutation", detail: "Backend stores secondary access token", kind: "server", ms: 400, rec: { action: "improve", note: "Enforce account match — reject mismatch with retry UI." } },
+      { id: "sync", label: "syncCalendar (fire-and-forget)", kind: "server", ms: 0, rec: { action: "keep" } },
+      { id: "user-tap-continue", label: "Tap 'Continue'", detail: "User must confirm after success — could auto-advance", kind: "user", ms: 0, severity: "friction", rec: { action: "remove", ms: 0, note: "Auto-advance after 1.5s success state." } },
     ],
     bugs: [
       {
@@ -274,12 +287,12 @@ const journeys: Journey[] = [
     ],
     icon: "message-square",
     steps: [
-      { id: "explore", label: "Tap 'Explore Zunou'", kind: "user", ms: 0 },
-      { id: "land-home", label: "Land on Home (Feed)", kind: "client", ms: 200 },
-      { id: "chats-tab", label: "Tap Chats", kind: "user", ms: 0 },
-      { id: "channel-list", label: "Channel list loads", detail: "Personal pulse pre-selected (if it exists)", kind: "server", ms: 300, severity: "friction" },
-      { id: "compose", label: "Tap composer", kind: "user", ms: 0 },
-      { id: "send", label: "Type + send", kind: "user", ms: 0 },
+      { id: "explore", label: "Tap 'Explore Zunou'", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "land-home", label: "Land on Home (Feed)", kind: "client", ms: 200, rec: { action: "keep" } },
+      { id: "chats-tab", label: "Tap Chats", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "channel-list", label: "Channel list loads", detail: "Personal pulse pre-selected (if it exists)", kind: "server", ms: 300, severity: "friction", rec: { action: "improve", ms: 100, note: "Add empty-state fallback + one-tap fix for failed provisioning." } },
+      { id: "compose", label: "Tap composer", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "send", label: "Type + send", kind: "user", ms: 0, rec: { action: "keep" } },
     ],
     bugs: [
       {
@@ -315,11 +328,11 @@ const journeys: Journey[] = [
     ],
     icon: "hash",
     steps: [
-      { id: "fab", label: "Tap FAB (+)", kind: "user", ms: 0 },
-      { id: "menu", label: "Spring menu expands", detail: "DM / Team Channel options", kind: "client", ms: 200 },
-      { id: "type-pick", label: "Tap DM or Team Channel", kind: "user", ms: 0 },
-      { id: "fill", label: "Search user (DM) or fill name (Team)", kind: "user", ms: 4000 },
-      { id: "create", label: "createPulse mutation", kind: "server", ms: 400 },
+      { id: "fab", label: "Tap FAB (+)", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "menu", label: "Spring menu expands", detail: "DM / Team Channel options", kind: "client", ms: 200, rec: { action: "improve", ms: 100, note: "Pre-populate menu with last-3 contacted." } },
+      { id: "type-pick", label: "Tap DM or Team Channel", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "fill", label: "Search user (DM) or fill name (Team)", kind: "user", ms: 4000, rec: { action: "improve", ms: 2500, note: "Instant search on first keypress (100ms debounce)." } },
+      { id: "create", label: "createPulse mutation", kind: "server", ms: 400, rec: { action: "improve", note: "Server-side DM idempotency by (creator, recipient)." } },
     ],
     bugs: [
       {
@@ -355,12 +368,12 @@ const journeys: Journey[] = [
     ],
     icon: "list-checks",
     steps: [
-      { id: "tab", label: "Tap Tasks tab", kind: "user", ms: 0 },
-      { id: "focus", label: "Tap inline composer", kind: "user", ms: 0 },
-      { id: "type", label: "Type title", kind: "user", ms: 3000 },
-      { id: "submit", label: "Return / send", kind: "user", ms: 0 },
-      { id: "assign-open", label: "(Optional) Open task to assign", detail: "+3 taps via full form sheet", kind: "user", ms: 0, severity: "friction" },
-      { id: "create-task", label: "createTask mutation", kind: "server", ms: 300 },
+      { id: "tab", label: "Tap Tasks tab", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "focus", label: "Tap inline composer", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "type", label: "Type title", kind: "user", ms: 3000, rec: { action: "keep" } },
+      { id: "submit", label: "Return / send", kind: "user", ms: 0, rec: { action: "keep" } },
+      { id: "assign-open", label: "(Optional) Open task to assign", detail: "+3 taps via full form sheet", kind: "user", ms: 0, severity: "friction", rec: { action: "remove", ms: 0, note: "Inline assignee chip — no extra screen." } },
+      { id: "create-task", label: "createTask mutation", kind: "server", ms: 300, rec: { action: "improve", note: "Optimistic insert + snackbar-undo on failure." } },
     ],
     bugs: [
       {
@@ -388,22 +401,42 @@ const totalRecHours = journeys.reduce((sum, j) => {
 const totalBugs = journeys.reduce((s, j) => s + j.bugs.length, 0);
 const totalRecs = journeys.reduce((s, j) => s + j.recommendations.length, 0);
 
-const kindStyle = (kind: StepKind) => {
-  switch (kind) {
-    case "user": return { bg: "var(--color-paper)", border: "var(--color-ink)", icon: "circle-dot" };
-    case "client": return { bg: "var(--color-paper-soft)", border: "var(--color-ink-soft)", icon: "smartphone" };
-    case "server": return { bg: "var(--color-accent-soft)", border: "var(--color-accent)", icon: "cloud" };
-    case "auth0": return { bg: "var(--color-warning-soft)", border: "var(--color-warning)", icon: "key-round" };
-    case "db": return { bg: "var(--color-success-soft)", border: "var(--color-success)", icon: "database" };
-    case "wait": return { bg: "var(--color-paper-warm)", border: "var(--color-ink-faint)", icon: "hourglass" };
-  }
-};
+const kindLabel = (k: StepKind) => ({ user: "user", client: "client", server: "server", auth0: "Auth0", db: "db", wait: "wait" }[k]);
 
-const severityColor = (s?: Severity) => {
-  if (s === "blocker") return "var(--color-danger)";
-  if (s === "friction") return "var(--color-warning)";
-  return "var(--color-line)";
-};
+const kindTone = (k: StepKind) => ({
+  user:   { bg: "var(--color-paper-soft)",   ink: "var(--color-ink-soft)",   accent: "var(--color-ink)" },
+  client: { bg: "var(--color-paper-soft)",   ink: "var(--color-ink-soft)",   accent: "var(--color-ink-soft)" },
+  server: { bg: "var(--color-accent-soft)",  ink: "var(--color-accent-ink)", accent: "var(--color-accent)" },
+  auth0:  { bg: "var(--color-warning-soft)", ink: "var(--color-warning)",    accent: "var(--color-warning)" },
+  db:     { bg: "var(--color-success-soft)", ink: "var(--color-success)",    accent: "var(--color-success)" },
+  wait:   { bg: "var(--color-paper-warm)",   ink: "var(--color-ink-faint)",  accent: "var(--color-ink-faint)" },
+}[k]);
+
+const recActionLabel = (a: RecAction) => ({
+  keep: "unchanged",
+  remove: "remove",
+  cache: "cache",
+  parallel: "parallel",
+  background: "background",
+  improve: "improve",
+}[a]);
+
+/* Aggregate timing per journey */
+function totalMs(steps: Step[], side: "today" | "rec"): number {
+  return steps.reduce((sum, s) => {
+    if (side === "today") return sum + (s.ms ?? 0);
+    const recMs = s.rec?.action === "remove" ? 0 : (s.rec?.ms ?? s.ms ?? 0);
+    return sum + recMs;
+  }, 0);
+}
+function fmtMs(ms: number): string {
+  if (ms === 0) return "instant";
+  if (ms < 1000) return `${ms}ms`;
+  return `${(ms / 1000).toFixed(ms < 10000 ? 1 : 0)}s`;
+}
+function maxStepMs(steps: Step[]): number {
+  return Math.max(1, ...steps.flatMap((s) => [s.ms ?? 0, s.rec?.action === "remove" ? 0 : (s.rec?.ms ?? s.ms ?? 0)]));
+}
 ---
 
 <Layout
@@ -599,56 +632,130 @@ const severityColor = (s?: Severity) => {
             </div>
           </div>
 
-          <!-- Journey strip — graphical step flow -->
-          <div class="journey-strip" data-reveal="fade-up">
-            <div class="journey-track">
-              {j.steps.map((s, i) => {
-                const k = kindStyle(s.kind);
-                return (
-                  <>
-                    <div
-                      class="journey-step"
-                      style={`--node-bg: ${k.bg}; --node-border: ${s.severity ? severityColor(s.severity) : k.border}; --step-delay: ${i * 60}ms;`}
-                      data-reveal="fade-up"
-                      data-reveal-delay={Math.min(i, 5)}
-                    >
-                      <div class="journey-node">
-                        <span class="journey-node-idx">{String(i + 1).padStart(2, "0")}</span>
-                      </div>
-                      <div class="journey-step-meta">
-                        <div class="journey-step-label">{s.label}</div>
-                        {s.detail && <div class="journey-step-detail">{s.detail}</div>}
-                        <div class="journey-step-bottom">
-                          <span class:list={["journey-kind", `journey-kind-${s.kind}`]}>{s.kind}</span>
-                          {typeof s.ms === "number" && s.ms > 0 && <span class="journey-ms">{s.ms < 1000 ? `${s.ms}ms` : `${(s.ms / 1000).toFixed(1)}s`}</span>}
-                          {s.severity && (
-                            <span class:list={["journey-severity", `journey-severity-${s.severity}`]}>
-                              {s.severity === "blocker" && <XCircle class="w-3 h-3" />}
-                              {s.severity === "friction" && <AlertTriangle class="w-3 h-3" />}
-                              <span>{s.severity}</span>
-                            </span>
-                          )}
+          {(() => { const totT = totalMs(j.steps, "today"); const totR = totalMs(j.steps, "rec"); const maxMs = maxStepMs(j.steps); const saved = Math.max(0, totT - totR); return (
+            <!-- Today vs Recommended waterfall -->
+            <div class="flow" data-reveal="fade-up">
+              <div class="flow-head">
+                <div class="flow-head-label">
+                  <span class="flow-head-side flow-head-today">
+                    <Clock class="w-3 h-3" />
+                    Today
+                  </span>
+                  <span class="flow-head-total flow-head-total-today">{fmtMs(totT)}</span>
+                </div>
+                <div class="flow-head-label">
+                  <span class="flow-head-side flow-head-rec">
+                    <TrendingDown class="w-3 h-3" />
+                    Recommended
+                  </span>
+                  <span class="flow-head-total flow-head-total-rec">{fmtMs(totR)}</span>
+                </div>
+                {saved > 0 && (
+                  <div class="flow-savings">
+                    <Zap class="w-3.5 h-3.5" />
+                    <span>Saves <strong>{fmtMs(saved)}</strong></span>
+                  </div>
+                )}
+              </div>
+
+              <ol class="flow-list">
+                {j.steps.map((s, i) => {
+                  const tone = kindTone(s.kind);
+                  const todayMs = s.ms ?? 0;
+                  const rec = s.rec || { action: "keep" as RecAction };
+                  const recMs = rec.action === "remove" ? 0 : (rec.ms ?? todayMs);
+                  const todayPct = Math.max(2, (todayMs / maxMs) * 100);
+                  const recPct   = recMs === 0 ? 0 : Math.max(2, (recMs / maxMs) * 100);
+                  const changed = rec.action !== "keep";
+                  return (
+                    <li class="flow-row" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+                      <div class="flow-label">
+                        <span class="flow-num">{String(i + 1).padStart(2, "0")}</span>
+                        <div class="flow-label-meta">
+                          <div class="flow-label-title">
+                            {s.kind === "user"   && <Hand class="w-3.5 h-3.5 flow-kind-icon" />}
+                            {s.kind === "client" && <Smartphone class="w-3.5 h-3.5 flow-kind-icon" />}
+                            {s.kind === "server" && <Cloud class="w-3.5 h-3.5 flow-kind-icon" />}
+                            {s.kind === "auth0"  && <KeyRound class="w-3.5 h-3.5 flow-kind-icon" />}
+                            {s.kind === "db"     && <Database class="w-3.5 h-3.5 flow-kind-icon" />}
+                            {s.kind === "wait"   && <Hourglass class="w-3.5 h-3.5 flow-kind-icon" />}
+                            <span>{s.label}</span>
+                          </div>
+                          {s.detail && <div class="flow-label-detail">{s.detail}</div>}
+                          <div class="flow-label-tags">
+                            <span class="flow-kind-pill" style={`background: ${tone.bg}; color: ${tone.ink};`}>{kindLabel(s.kind)}</span>
+                            {s.severity === "blocker" && <span class="flow-sev flow-sev-blocker"><XCircle class="w-3 h-3" /> blocker</span>}
+                            {s.severity === "friction" && <span class="flow-sev flow-sev-friction"><AlertTriangle class="w-3 h-3" /> friction</span>}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    {i < j.steps.length - 1 && (
-                      <div class:list={["journey-edge", s.severity === "blocker" && "journey-edge-blocker", s.severity === "friction" && "journey-edge-friction"]}>
-                        <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+
+                      <div class="flow-track flow-track-today" data-severity={s.severity || "ok"}>
+                        {todayMs > 0 ? (
+                          <>
+                            <div class="flow-bar flow-bar-today" style={`width: ${todayPct}%;`}></div>
+                            <span class="flow-bar-label">{fmtMs(todayMs)}</span>
+                          </>
+                        ) : (
+                          <span class="flow-bar-empty"><Minus class="w-3 h-3" /> instant</span>
+                        )}
                       </div>
-                    )}
-                  </>
-                );
-              })}
+
+                      <div class="flow-track flow-track-rec" data-action={rec.action}>
+                        {rec.action === "remove" ? (
+                          <span class="flow-bar-removed"><XCircle class="w-3 h-3" /> removed</span>
+                        ) : recMs > 0 ? (
+                          <>
+                            <div class="flow-bar flow-bar-rec" data-action={rec.action} style={`width: ${recPct}%;`}></div>
+                            <span class="flow-bar-label">{fmtMs(recMs)}</span>
+                          </>
+                        ) : rec.action === "keep" ? (
+                          <span class="flow-bar-empty"><Equal class="w-3 h-3" /> unchanged</span>
+                        ) : (
+                          <span class="flow-bar-empty"><Minus class="w-3 h-3" /> instant</span>
+                        )}
+                      </div>
+
+                      <div class="flow-action">
+                        {changed && (
+                          <span class:list={["flow-action-pill", `flow-action-${rec.action}`]}>
+                            {rec.action === "remove"     && <XCircle class="w-3 h-3" />}
+                            {rec.action === "cache"      && <Zap class="w-3 h-3" />}
+                            {rec.action === "parallel"   && <GitMerge class="w-3 h-3" />}
+                            {rec.action === "background" && <ArrowDownToLine class="w-3 h-3" />}
+                            {rec.action === "improve"    && <Sparkles class="w-3 h-3" />}
+                            <span>{recActionLabel(rec.action)}</span>
+                          </span>
+                        )}
+                        {rec.note && <p class="flow-action-note">{rec.note}</p>}
+                        {s.evidence && <p class="flow-action-evidence"><span>at</span> <code>{s.evidence}</code></p>}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <div class="flow-legend">
+                <span class="flow-legend-group">
+                  <span class="flow-legend-title">Source</span>
+                  <span class="flow-legend-pill"><Hand class="w-3 h-3" /> user</span>
+                  <span class="flow-legend-pill"><Smartphone class="w-3 h-3" /> client</span>
+                  <span class="flow-legend-pill"><Cloud class="w-3 h-3" /> server</span>
+                  <span class="flow-legend-pill"><KeyRound class="w-3 h-3" /> Auth0</span>
+                  <span class="flow-legend-pill"><Database class="w-3 h-3" /> db</span>
+                  <span class="flow-legend-pill"><Hourglass class="w-3 h-3" /> wait</span>
+                </span>
+                <span class="flow-legend-group">
+                  <span class="flow-legend-title">Fix</span>
+                  <span class="flow-legend-pill flow-action-remove"><XCircle class="w-3 h-3" /> remove</span>
+                  <span class="flow-legend-pill flow-action-cache"><Zap class="w-3 h-3" /> cache</span>
+                  <span class="flow-legend-pill flow-action-parallel"><GitMerge class="w-3 h-3" /> parallel</span>
+                  <span class="flow-legend-pill flow-action-background"><ArrowDownToLine class="w-3 h-3" /> background</span>
+                  <span class="flow-legend-pill flow-action-improve"><Sparkles class="w-3 h-3" /> improve</span>
+                </span>
+              </div>
             </div>
-            <div class="journey-legend">
-              <span class="legend-dot legend-dot-user"></span><span>user</span>
-              <span class="legend-dot legend-dot-client"></span><span>client</span>
-              <span class="legend-dot legend-dot-server"></span><span>server</span>
-              <span class="legend-dot legend-dot-auth0"></span><span>Auth0</span>
-              <span class="legend-dot legend-dot-db"></span><span>db</span>
-              <span class="legend-dot legend-dot-wait"></span><span>wait</span>
-            </div>
-          </div>
+          ); })()}
 
           <!-- Bugs found -->
           {j.bugs.length > 0 && (
@@ -796,148 +903,223 @@ const severityColor = (s?: Severity) => {
   .magic-label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--color-ink-soft); margin-top: 0.3rem; margin-bottom: 0.75rem; font-weight: 700; }
   .magic-detail { font-size: 0.875rem; color: var(--color-ink-soft); line-height: 1.55; margin: 0; }
 
-  /* === Journey strip — horizontal scrollable flow === */
-  .journey-strip {
+  /* === Flow (Today vs Recommended waterfall) === */
+  .flow {
     border: 1px solid var(--color-line);
     background: var(--color-paper);
     border-radius: 1rem;
-    padding: 1.5rem 1rem 1.25rem;
     overflow: hidden;
   }
-  .journey-track {
-    display: flex;
-    align-items: stretch;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 1rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-line) transparent;
-  }
-  .journey-track::-webkit-scrollbar { height: 6px; }
-  .journey-track::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 3px; }
 
-  .journey-step {
-    flex: 0 0 11rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    padding: 0.75rem;
-    border: 1.5px solid var(--node-border, var(--color-line));
-    border-radius: 0.625rem;
-    background: var(--node-bg, var(--color-paper));
-    transition: transform 240ms ease, box-shadow 240ms ease;
-  }
-  .journey-step:hover { transform: translateY(-2px); box-shadow: 0 6px 16px -10px rgba(0,0,0,0.12); }
-
-  .journey-node {
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 999px;
-    background: var(--color-paper);
-    border: 1.5px solid var(--node-border, var(--color-ink-soft));
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .journey-node-idx {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--color-ink-soft);
-    letter-spacing: 0.04em;
-  }
-
-  .journey-step-label {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    color: var(--color-ink);
-    font-size: 0.82rem;
-    line-height: 1.3;
-  }
-  .journey-step-detail {
-    font-size: 0.72rem;
-    color: var(--color-ink-soft);
-    line-height: 1.4;
-    margin-top: 0.25rem;
-  }
-
-  .journey-step-bottom {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px dashed var(--color-line);
-  }
-
-  .journey-kind {
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 0.1rem 0.35rem;
-    border-radius: 0.25rem;
-    background: var(--color-paper-soft);
-    color: var(--color-ink-soft);
-    font-weight: 700;
-  }
-  .journey-kind-server { background: var(--color-accent-soft); color: var(--color-accent-ink); }
-  .journey-kind-auth0 { background: var(--color-warning-soft); color: var(--color-warning); }
-  .journey-kind-db { background: var(--color-success-soft); color: var(--color-success); }
-  .journey-kind-wait { background: var(--color-paper-warm); color: var(--color-ink-faint); }
-
-  .journey-ms {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    color: var(--color-ink);
-    font-weight: 600;
-  }
-
-  .journey-severity {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.1rem 0.35rem;
-    border-radius: 0.25rem;
-  }
-  .journey-severity-friction { background: var(--color-warning-soft); color: var(--color-warning); }
-  .journey-severity-blocker { background: var(--color-danger-soft); color: var(--color-danger); }
-
-  .journey-edge {
-    display: flex;
-    align-items: center;
-    color: var(--color-ink-faint);
-    flex: 0 0 auto;
-  }
-  .journey-edge-friction { color: var(--color-warning); }
-  .journey-edge-blocker { color: var(--color-danger); }
-
-  .journey-legend {
-    display: flex;
-    align-items: center;
+  .flow-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
     gap: 0.75rem;
-    flex-wrap: wrap;
-    padding-top: 0.75rem;
-    border-top: 1px dashed var(--color-line);
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    color: var(--color-ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    background: var(--color-paper-soft);
+    border-bottom: 1px solid var(--color-line);
   }
-  .legend-dot { display: inline-block; width: 0.625rem; height: 0.625rem; border-radius: 999px; margin-right: 0.2rem; vertical-align: -1px; }
-  .legend-dot-user { background: var(--color-paper); border: 1.5px solid var(--color-ink); }
-  .legend-dot-client { background: var(--color-paper-soft); border: 1.5px solid var(--color-ink-soft); }
-  .legend-dot-server { background: var(--color-accent-soft); border: 1.5px solid var(--color-accent); }
-  .legend-dot-auth0 { background: var(--color-warning-soft); border: 1.5px solid var(--color-warning); }
-  .legend-dot-db { background: var(--color-success-soft); border: 1.5px solid var(--color-success); }
-  .legend-dot-wait { background: var(--color-paper-warm); border: 1.5px solid var(--color-ink-faint); }
+  @media (max-width: 720px) {
+    .flow-head { grid-template-columns: 1fr 1fr; }
+    .flow-savings { grid-column: 1 / -1; justify-self: start; }
+  }
+
+  .flow-head-label { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+  .flow-head-side {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em;
+  }
+  .flow-head-today { color: var(--color-ink-faint); }
+  .flow-head-today svg { color: var(--color-ink-faint); }
+  .flow-head-rec { color: var(--color-accent-ink); }
+  .flow-head-rec svg { color: var(--color-accent); }
+  .flow-head-total { font-family: var(--font-display); font-size: 1.5rem; line-height: 1; }
+  .flow-head-total-today { color: var(--color-ink); }
+  .flow-head-total-rec { color: var(--color-accent); }
+  .flow-savings {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--color-success-soft); color: var(--color-success);
+    padding: 0.35rem 0.7rem; border-radius: 999px;
+    font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
+  }
+  .flow-savings strong { font-weight: 700; }
+
+  .flow-list { list-style: none; margin: 0; padding: 0; }
+
+  .flow-row {
+    display: grid;
+    grid-template-columns: minmax(11rem, 1.4fr) 1.2fr 1.2fr minmax(9rem, 1.3fr);
+    gap: 0.875rem;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px dashed var(--color-line);
+    transition: background 200ms ease;
+  }
+  .flow-row:last-child { border-bottom: 0; }
+  .flow-row:hover { background: var(--color-paper-soft); }
+
+  @media (max-width: 900px) {
+    .flow-row {
+      grid-template-columns: auto 1fr;
+      grid-template-areas:
+        "label label"
+        "today today"
+        "rec   rec"
+        "action action";
+      gap: 0.5rem;
+      padding: 1rem 1rem;
+    }
+    .flow-label  { grid-area: label; }
+    .flow-track-today { grid-area: today; }
+    .flow-track-rec   { grid-area: rec; }
+    .flow-action      { grid-area: action; }
+    .flow-track-today::before, .flow-track-rec::before {
+      font-family: var(--font-mono); font-size: 0.58rem;
+      text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700;
+      margin-right: 0.45rem; color: var(--color-ink-faint);
+    }
+    .flow-track-today::before { content: "Today"; }
+    .flow-track-rec::before   { content: "Recommended"; color: var(--color-accent-ink); }
+  }
+
+  .flow-label { display: flex; align-items: flex-start; gap: 0.5rem; min-width: 0; }
+  .flow-num {
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+    color: var(--color-ink-faint); letter-spacing: 0.06em;
+    padding-top: 2px;
+  }
+  .flow-label-meta { min-width: 0; flex: 1; }
+  .flow-label-title {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-weight: 600; color: var(--color-ink); font-size: 0.85rem; line-height: 1.3;
+  }
+  .flow-kind-icon { color: var(--color-ink-soft); flex-shrink: 0; }
+  .flow-label-detail {
+    font-size: 0.72rem; color: var(--color-ink-soft); line-height: 1.45;
+    margin-top: 0.2rem;
+  }
+  .flow-label-tags { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .flow-kind-pill {
+    font-family: var(--font-mono); font-size: 0.56rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 0.12rem 0.4rem; border-radius: 0.3rem;
+  }
+  .flow-sev {
+    display: inline-flex; align-items: center; gap: 0.18rem;
+    font-family: var(--font-mono); font-size: 0.56rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.12rem 0.4rem; border-radius: 0.3rem;
+  }
+  .flow-sev-friction { background: var(--color-warning-soft); color: var(--color-warning); }
+  .flow-sev-blocker  { background: var(--color-danger-soft);  color: var(--color-danger); }
+
+  .flow-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 1.5rem;
+  }
+  .flow-bar {
+    height: 0.625rem;
+    border-radius: 999px;
+    background: var(--color-line);
+    flex-shrink: 0;
+    transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .flow-bar-today {
+    background: linear-gradient(90deg, var(--color-ink-soft), var(--color-ink-faint));
+  }
+  .flow-track-today[data-severity="friction"] .flow-bar-today {
+    background: linear-gradient(90deg, var(--color-warning), color-mix(in srgb, var(--color-warning) 50%, var(--color-warning-soft)));
+  }
+  .flow-track-today[data-severity="blocker"] .flow-bar-today {
+    background: linear-gradient(90deg, var(--color-danger), color-mix(in srgb, var(--color-danger) 50%, var(--color-danger-soft)));
+  }
+  .flow-bar-rec {
+    background: linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 40%, var(--color-accent-soft)));
+  }
+  .flow-bar-rec[data-action="keep"] {
+    background: linear-gradient(90deg, var(--color-ink-faint), var(--color-line));
+  }
+  .flow-bar-label {
+    font-family: var(--font-mono); font-size: 0.66rem;
+    color: var(--color-ink); font-weight: 600; flex-shrink: 0;
+  }
+  .flow-bar-empty, .flow-bar-removed {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-family: var(--font-mono); font-size: 0.64rem;
+    color: var(--color-ink-faint); font-weight: 600;
+  }
+  .flow-bar-removed { color: var(--color-danger); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .flow-bar-removed svg { text-decoration: none; }
+
+  .flow-action {
+    display: flex; flex-direction: column; gap: 0.25rem;
+    align-items: flex-start;
+    min-width: 0;
+  }
+  .flow-action-pill {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 0.18rem 0.45rem; border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .flow-action-remove     { background: var(--color-danger-soft);  color: var(--color-danger); }
+  .flow-action-cache      { background: var(--color-success-soft); color: var(--color-success); }
+  .flow-action-parallel   { background: var(--color-accent-soft);  color: var(--color-accent-ink); }
+  .flow-action-background { background: var(--color-paper-warm);   color: var(--color-ink); }
+  .flow-action-improve    { background: var(--color-accent-soft);  color: var(--color-accent-ink); }
+  .flow-action-note {
+    font-size: 0.72rem; color: var(--color-ink-soft); line-height: 1.4;
+    margin: 0;
+  }
+  .flow-action-evidence {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: var(--color-ink-faint); margin: 0;
+    display: flex; align-items: baseline; gap: 0.25rem;
+  }
+  .flow-action-evidence code {
+    color: var(--color-ink-soft);
+    background: var(--color-paper-soft);
+    border: 1px solid var(--color-line);
+    border-radius: 0.25rem;
+    padding: 0.05rem 0.3rem;
+    word-break: break-all;
+  }
+
+  .flow-legend {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    padding: 0.875rem 1.25rem;
+    background: var(--color-paper-soft);
+    border-top: 1px solid var(--color-line);
+  }
+  .flow-legend-group { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .flow-legend-title {
+    font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--color-ink-faint);
+  }
+  .flow-legend-pill {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--color-ink-soft); font-weight: 600;
+    background: var(--color-paper); border: 1px solid var(--color-line);
+    padding: 0.18rem 0.45rem; border-radius: 999px;
+  }
+  .flow-legend-pill svg { color: var(--color-ink-soft); }
+  .flow-legend-pill.flow-action-remove     { color: var(--color-danger);     border-color: color-mix(in srgb, var(--color-danger) 25%, var(--color-line)); }
+  .flow-legend-pill.flow-action-cache      { color: var(--color-success);    border-color: color-mix(in srgb, var(--color-success) 25%, var(--color-line)); }
+  .flow-legend-pill.flow-action-parallel   { color: var(--color-accent-ink); border-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-line)); }
+  .flow-legend-pill.flow-action-background { color: var(--color-ink); }
+  .flow-legend-pill.flow-action-improve    { color: var(--color-accent-ink); border-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-line)); }
+  .flow-legend-pill.flow-action-remove svg     { color: var(--color-danger); }
+  .flow-legend-pill.flow-action-cache svg      { color: var(--color-success); }
+  .flow-legend-pill.flow-action-parallel svg   { color: var(--color-accent); }
+  .flow-legend-pill.flow-action-improve svg    { color: var(--color-accent); }
 
   /* === Rollup cards === */
   .rollup-card {
