@@ -1,0 +1,407 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  Handshake,
+  CircleDot,
+  Flag,
+  ArrowRight,
+  Building2,
+  Compass,
+  CheckCircle2,
+  Clock,
+  AlertTriangle,
+  Eye,
+  FileText,
+  Presentation,
+  ExternalLink,
+  Layers,
+  Sparkles,
+  MapPin,
+  Users,
+  Calendar,
+  GraduationCap,
+} from "@lucide/astro";
+
+interface Pilot {
+  id: string;
+  name: string;
+  partner: string;
+  partnerUrl?: string;
+  geo: string;
+  beachhead: "0" | "0/2" | "1" | "2";
+  wave: string;
+  status: "active" | "queued" | "planned" | "future";
+  why: string;
+  prepUrl?: string;
+  deckUrl?: string;
+  nextAction: string;
+  icon: string;
+}
+
+const pilots: Pilot[] = [
+  {
+    id: "indelible",
+    name: "Indelible Ventures · Portfolio rollout",
+    partner: "Kevin Brockland",
+    partnerUrl: "https://indelible.vc",
+    geo: "Kuala Lumpur · SEA",
+    beachhead: "0",
+    wave: "Wave 1",
+    status: "active",
+    why: "Zunou is already in their portfolio (per Tracxn). First confirmed external pilot — three sequenced use cases mapped from the meeting: portfolio knowledge hub → AI Salon Bangkok → FI Thailand alumni.",
+    prepUrl: "/pilots/indelible",
+    deckUrl: "/pilots/indelible/deck",
+    nextAction: "Clear iOS pre-flight blockers, build portfolio-pulse template, book follow-up meeting on his Android.",
+    icon: "users",
+  },
+  {
+    id: "north-base-media",
+    name: "North Base Media",
+    partner: "TBD contact",
+    partnerUrl: "https://northbasemedia.com",
+    geo: "TBD",
+    beachhead: "0/2",
+    wave: "Wave 2",
+    status: "queued",
+    why: "Beachhead 0 wave 2 — fires only if Indelible signal is mixed (≤60% activation in 14d) or if we want a parallel SEA-anchored read before opening TAI.",
+    nextAction: "Identify warm-intro path. Confirm thesis fit. Defer until UC1 (Indelible) hits its gate.",
+    icon: "building-2",
+  },
+  {
+    id: "headline-ventures",
+    name: "Headline Ventures",
+    partner: "TBD contact",
+    partnerUrl: "https://headline.com",
+    geo: "TBD",
+    beachhead: "0/2",
+    wave: "Wave 2 (alt)",
+    status: "queued",
+    why: "Alternative to North Base for the second Beachhead 0 wave. Larger fund, potentially faster portfolio coverage but lower per-founder trust density.",
+    nextAction: "Hold until Indelible gate. North Base is the preferred wave 2 unless intro paths shift.",
+    icon: "building-2",
+  },
+  {
+    id: "tai-tokyo",
+    name: "TAI · Tokyo AI",
+    partner: "Ilya Kulyatin (warm intro)",
+    geo: "Tokyo · Japan",
+    beachhead: "1",
+    wave: "Beachhead 1",
+    status: "planned",
+    why: "Tokyo community pilot launches end July / early August 2026. ~4,000-person WhatsApp group + monthly meetup. Spaces (Event-Spaces) is the natural surface; the muted-WhatsApp-triage wedge is the activation play.",
+    nextAction: "Gate-conditional on Indelible UC1. Run Spaces flow QA in parallel with Beachhead 0.",
+    icon: "calendar",
+  },
+  {
+    id: "ai-tinkerers",
+    name: "AI Tinkerers Ginza",
+    partner: "TBD chapter lead",
+    geo: "Ginza · Tokyo",
+    beachhead: "2",
+    wave: "Beachhead 2",
+    status: "future",
+    why: "First of the layered Beachhead 2 communities. Dense AI builder audience overlaps with TAI; recurring monthly meetup format ideal for Spaces.",
+    nextAction: "Defer. Layer in after Beachhead 1 establishes operational pattern.",
+    icon: "sparkles",
+  },
+  {
+    id: "venture-cafe-toranomon",
+    name: "Venture Café Toranomon",
+    partner: "TBD chapter lead",
+    geo: "Toranomon · Tokyo",
+    beachhead: "2",
+    wave: "Beachhead 2",
+    status: "future",
+    why: "Weekly Thursday Gathering format (50–200 attendees per event). High recurrence = high cumulative installs. Spaces-as-event-OS positioning lands cleanly here.",
+    nextAction: "Defer. Layer in alongside AI Tinkerers post-Beachhead 1.",
+    icon: "sparkles",
+  },
+];
+
+const statusOrder: Record<Pilot["status"], number> = { active: 0, queued: 1, planned: 2, future: 3 };
+pilots.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+
+const counts = {
+  active: pilots.filter((p) => p.status === "active").length,
+  queued: pilots.filter((p) => p.status === "queued").length,
+  planned: pilots.filter((p) => p.status === "planned").length,
+  future: pilots.filter((p) => p.status === "future").length,
+};
+
+const statusLabel = (s: Pilot["status"]) => ({
+  active: "Active prep",
+  queued: "Queued · awaiting gate",
+  planned: "Planned · Phase 1B+",
+  future: "Future · Beachhead 2",
+}[s]);
+---
+
+<Layout
+  title="Zunou — Pilots · Per-partner sales prep + decks"
+  description="Index of all current and queued pilot partners. Each pilot has an internal prep doc and a customer-facing deck."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "active", label: "Active prep", icon: "check-circle-2" },
+    { id: "queued", label: "Queued", icon: "clock" },
+    { id: "planned", label: "Planned · Phase 1B+", icon: "flag" },
+    { id: "future", label: "Future · Beachhead 2", icon: "sparkles" },
+    { id: "convention", label: "How to use these pages", icon: "compass" },
+  ]}
+>
+  <!-- Top banner -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Pilots · the per-partner workshop</span>
+        <span class="text-[var(--color-ink)]">Internal prep + customer-facing deck per partner. Threaded into <a href="/gtm#phases" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] font-semibold">GTM Phase 1A</a>.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/gtm#phases" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM Phase 1A</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation#tier-1" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation Tier-1</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Handshake class="w-3.5 h-3.5" />
+          Pilots index
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">Marco Avila · v1 · per-partner workshop</span>
+      </div>
+
+      <h1 class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4rem] leading-[0.98] tracking-tight mb-5 max-w-4xl" data-reveal="fade-up" data-reveal-delay="1">
+        One page per pilot.<br />
+        <span class="text-[var(--color-ink-soft)] italic">Prep doc inside. Deck for the partner.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        Each pilot is its own folder under <code class="inline-code">/pilots/&lt;name&gt;/</code> with two surfaces: an internal prep doc (what Marco + Malek read together) and a customer-facing deck (what we actually screen-share). Index sorts by status — active first, future last.
+      </p>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Active prep</div>
+          <div class="stat-xl-figure accent">{counts.active}</div>
+          <div class="stat-xl-label">Indelible Ventures · Beachhead 0</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Queued</div>
+          <div class="stat-xl-figure">{counts.queued}</div>
+          <div class="stat-xl-label">Wave 2 fallbacks awaiting gate</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Planned</div>
+          <div class="stat-xl-figure">{counts.planned}</div>
+          <div class="stat-xl-label">Beachhead 1 · TAI Tokyo</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Future</div>
+          <div class="stat-xl-figure">{counts.future}</div>
+          <div class="stat-xl-label">Beachhead 2 layered communities</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow"><CircleDot class="w-3 h-3" /> Executive summary</span>
+          <span class="exec-summary-meta">5 bullets · 30 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li><strong>One pilot, two surfaces.</strong> Each <code class="inline-code">/pilots/&lt;partner&gt;</code> has an internal prep doc and a separate customer-facing deck at <code class="inline-code">/pilots/&lt;partner&gt;/deck</code>. Same content, different audiences and registers.</li>
+          <li><strong>Active right now: Indelible (Kevin Brockland).</strong> Our first portfolio rollout — Zunou is already in their portfolio. Three sequenced use cases. Pre-flight bug list visible.</li>
+          <li><strong>Two queued (Beachhead 0 wave 2):</strong> North Base Media + Headline. Fire only if Indelible's signal is mixed or if we want a parallel SEA read.</li>
+          <li><strong>One planned (Beachhead 1):</strong> TAI Tokyo, late July / early August 2026, conditional on Indelible UC1 clearing its gate.</li>
+          <li><strong>Two future (Beachhead 2):</strong> AI Tinkerers Ginza + Venture Café Toranomon. Layered post-TAI.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- PILOTS GROUPED BY STATUS -->
+  {(["active", "queued", "planned", "future"] as const).map((status) => {
+    const group = pilots.filter((p) => p.status === status);
+    if (group.length === 0) return null;
+    return (
+      <section class="py-16 sm:py-20" id={status}>
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+            <span class="section-number"><span>{status === "active" ? "01" : status === "queued" ? "02" : status === "planned" ? "03" : "04"}</span></span>
+            <span class:list={[
+              "text-xs uppercase tracking-[0.18em] font-semibold",
+              status === "active" && "text-[var(--color-accent)]",
+              status === "queued" && "text-[var(--color-warning)]",
+              status === "planned" && "text-[var(--color-success)]",
+              status === "future" && "text-[var(--color-ink-faint)]",
+            ]}>{statusLabel(status)} · {group.length}</span>
+          </div>
+
+          <div class="space-y-3 max-w-5xl">
+            {group.map((p, i) => (
+              <div
+                class:list={[
+                  "rounded-xl bg-[var(--color-paper)] p-5 transition-all hover:-translate-y-0.5",
+                  p.status === "active" ? "border-2 border-[var(--color-accent)] hover:shadow-[0_14px_32px_-22px_rgba(74,0,224,0.35)]" : "border border-[var(--color-line)] hover:border-[var(--color-ink-faint)]",
+                ]}
+                data-reveal="fade-up"
+                data-reveal-delay={Math.min(i, 4)}
+              >
+                <div class="grid sm:grid-cols-[3rem_1fr_auto] gap-4 items-start">
+                  <div class:list={[
+                    "w-10 h-10 rounded-lg flex items-center justify-center text-lg",
+                    p.status === "active" && "bg-[var(--color-accent)] text-[var(--color-paper)]",
+                    p.status === "queued" && "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+                    p.status === "planned" && "bg-[var(--color-success-soft)] text-[var(--color-success)]",
+                    p.status === "future" && "bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)] border border-[var(--color-line)]",
+                  ]}>
+                    {p.icon === "users" && <Users class="w-4 h-4" />}
+                    {p.icon === "building-2" && <Building2 class="w-4 h-4" />}
+                    {p.icon === "calendar" && <Calendar class="w-4 h-4" />}
+                    {p.icon === "sparkles" && <Sparkles class="w-4 h-4" />}
+                    {p.icon === "graduation-cap" && <GraduationCap class="w-4 h-4" />}
+                  </div>
+
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap mb-1">
+                      <h3 class="font-display text-xl leading-tight">{p.name}</h3>
+                      <span class="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider font-bold text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] px-2 py-0.5 rounded">
+                        Beachhead {p.beachhead}
+                      </span>
+                      <span class="text-[10px] font-mono uppercase tracking-wider text-[var(--color-ink-faint)]">{p.wave}</span>
+                    </div>
+                    <p class="text-xs text-[var(--color-ink-soft)] mb-2">
+                      <strong class="text-[var(--color-ink)]">{p.partner}</strong>
+                      {p.partnerUrl && <> · <a href={p.partnerUrl} target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-ink)] hover:underline font-mono">{p.partnerUrl.replace(/^https?:\/\//, "")} <ExternalLink class="w-3 h-3 inline" /></a></>}
+                      <> · <span class="inline-flex items-center gap-1"><MapPin class="w-3 h-3" />{p.geo}</span></>
+                    </p>
+                    <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">{p.why}</p>
+                    <p class="text-xs text-[var(--color-ink-faint)]"><strong class="text-[var(--color-ink)]">Next action:</strong> {p.nextAction}</p>
+                  </div>
+
+                  <div class="flex flex-col gap-2 items-stretch min-w-[10rem]">
+                    {p.prepUrl ? (
+                      <a href={p.prepUrl} class="inline-flex items-center gap-1.5 justify-center text-xs font-semibold text-[var(--color-accent-ink)] bg-[var(--color-accent-soft)] hover:bg-[var(--color-accent)] hover:text-[var(--color-paper)] px-3 py-2 rounded-md transition-colors">
+                        <FileText class="w-3.5 h-3.5" />
+                        <span>Internal prep</span>
+                      </a>
+                    ) : (
+                      <span class="inline-flex items-center gap-1.5 justify-center text-xs text-[var(--color-ink-faint)] bg-[var(--color-paper-soft)] px-3 py-2 rounded-md font-mono">— prep TBD</span>
+                    )}
+                    {p.deckUrl ? (
+                      <a href={p.deckUrl} class="inline-flex items-center gap-1.5 justify-center text-xs font-semibold text-[var(--color-paper)] bg-[var(--color-ink)] hover:bg-[var(--color-accent-ink)] px-3 py-2 rounded-md transition-colors">
+                        <Presentation class="w-3.5 h-3.5" />
+                        <span>Customer deck</span>
+                      </a>
+                    ) : (
+                      <span class="inline-flex items-center gap-1.5 justify-center text-xs text-[var(--color-ink-faint)] bg-[var(--color-paper-soft)] px-3 py-2 rounded-md font-mono">— deck TBD</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- HOW TO USE -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="convention">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>05</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">How to use these pages</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Two URLs per partner, two registers.
+      </h2>
+
+      <div class="grid lg:grid-cols-2 gap-4 max-w-5xl">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <FileText class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Internal prep · /pilots/&lt;partner&gt;</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            What Marco + Malek read together before the meeting. Honest, action-oriented, with file:line cross-refs into Foundation Tier-1 and Journeys.
+          </p>
+          <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 pl-4 list-disc">
+            <li>Research on the partner (CFA, fund firmography, sister portfolio)</li>
+            <li>Pain points captured from the meeting (in their words)</li>
+            <li>Pre-flight bug list — what blocks the pilot</li>
+            <li>Next-meeting agenda + open questions</li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-3">
+            <Presentation class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Customer deck · /pilots/&lt;partner&gt;/deck</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            What we screen-share with the partner. Visual-first, less internal jargon, designed to be walked through in 15–20 minutes. Includes screenshot zones for live product captures.
+          </p>
+          <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 pl-4 list-disc">
+            <li>Hero framing: their pain in their words</li>
+            <li>Three sequenced use cases — visual narrative</li>
+            <li>Product-in-action screenshot zones</li>
+            <li>What "success in 14 days" looks like — magic-number framed for them</li>
+            <li>What we're asking from them next</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-dashed border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-5 mt-6 max-w-4xl" data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-2">
+          <Compass class="w-3.5 h-3.5 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">When you create a new pilot</span>
+        </div>
+        <ol class="text-sm text-[var(--color-ink-soft)] leading-relaxed space-y-2 pl-5 list-decimal">
+          <li>Drop a row in the array at the top of <code class="inline-code">/src/pages/pilots/index.astro</code></li>
+          <li>Create <code class="inline-code">/src/pages/pilots/&lt;partner&gt;.astro</code> from the Indelible prep template</li>
+          <li>Create <code class="inline-code">/src/pages/pilots/&lt;partner&gt;/deck.astro</code> from the Indelible deck template</li>
+          <li>Cross-link from GTM Phase 1A so the partner shows up where the strategy lives</li>
+          <li>Update the partner row's <code class="inline-code">prepUrl</code> + <code class="inline-code">deckUrl</code> here</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">Where this fits</p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          Pilots is the workshop floor. GTM is the blueprint.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          The strategy lives in <a href="/gtm" class="text-[var(--color-accent)] hover:underline font-semibold">GTM</a>. The build plan lives in <a href="/foundation" class="text-[var(--color-accent)] hover:underline font-semibold">Foundation</a>. The user-flow audits live in <a href="/journeys" class="text-[var(--color-accent)] hover:underline font-semibold">Journeys</a>. <strong class="text-[var(--color-paper)]">Pilots is where each named partner gets the prep + the pitch.</strong> One folder per partner. Two URLs each. No mixing.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <a href="/pilots/indelible" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <FileText class="w-4 h-4" />
+            Indelible · internal prep
+          </a>
+          <a href="/pilots/indelible/deck" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Presentation class="w-4 h-4" />
+            Indelible · customer deck
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

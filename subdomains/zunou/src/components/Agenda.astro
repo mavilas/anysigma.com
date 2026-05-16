@@ -24,7 +24,7 @@ const toPascal = (s: string) =>
 
 <!-- Desktop sidebar (xl+) -->
 <aside
-  class="agenda hidden xl:block"
+  class="agenda hidden lg:block"
   aria-label="Page contents"
   data-agenda
 >
@@ -53,7 +53,7 @@ const toPascal = (s: string) =>
 </aside>
 
 <!-- Mobile / tablet sticky horizontal nav (< xl) -->
-<nav class="agenda-mobile xl:hidden" aria-label="Page contents (mobile)" data-agenda-mobile>
+<nav class="agenda-mobile lg:hidden" aria-label="Page contents (mobile)" data-agenda-mobile>
   <div class="agenda-mobile-inner">
     <span class="agenda-mobile-label">
       <svg viewBox="0 0 24 24" fill="none" class="w-3 h-3"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
@@ -76,11 +76,22 @@ const toPascal = (s: string) =>
 <style>
   .agenda {
     position: fixed;
-    left: max(1.25rem, calc((100vw - 76rem) / 2 - 14.5rem));
+    /* sit just to the left of the centered max-w-6xl content (72rem) */
+    left: max(1rem, calc((100vw - 72rem) / 2 - 14rem));
     top: 7.25rem;
-    width: 13.5rem;
+    width: 12.5rem;
     z-index: 5;
     pointer-events: none;
+  }
+  /* On narrower lg viewports (< 1280px) where the sidebar would overlap content,
+     fall back to a tighter agenda flush to the left edge */
+  @media (max-width: 1279px) and (min-width: 1024px) {
+    .agenda {
+      left: 0.75rem;
+      width: 11rem;
+    }
+    .agenda-link { font-size: 0.7rem; padding: 0.4rem 0.5rem 0.4rem 1rem; }
+    .agenda-icon { width: 0.8rem; height: 0.8rem; }
   }
 
   .agenda-inner {
