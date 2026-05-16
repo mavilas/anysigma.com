@@ -19,6 +19,7 @@ import {
   ScrollText,
   Sparkles,
   GitBranch,
+  Handshake,
 } from "@lucide/astro";
 
 const pillars = [
@@ -36,6 +37,18 @@ const pillars = [
   },
   {
     n: "02",
+    name: "Pilots",
+    href: "/pilots",
+    role: "The workshop",
+    summary: "Per-partner sales prep + customer-facing decks. Indelible Ventures (Kevin Brockland) is the first active pilot — internal prep at /pilots/indelible, customer deck at /pilots/indelible/deck. North Base Media + Headline queued. TAI planned.",
+    icon: "handshake",
+    sections: 5,
+    readMin: 5,
+    audience: "Marco + Malek pre-meeting · partner-facing decks",
+    gist: "One folder per pilot. Prep doc inside, deck for the partner.",
+  },
+  {
+    n: "03",
     name: "Dashboard",
     href: "/dashboard",
     role: "The measurement layer",
@@ -47,7 +60,7 @@ const pillars = [
     gist: "How we'll know whether the GTM is working.",
   },
   {
-    n: "03",
+    n: "04",
     name: "Journeys",
     href: "/journeys",
     role: "The user lens",
@@ -59,7 +72,7 @@ const pillars = [
     gist: "Where users drop, why, and what each drop costs.",
   },
   {
-    n: "04",
+    n: "05",
     name: "Foundation",
     href: "/foundation",
     role: "The build plan",
@@ -71,7 +84,7 @@ const pillars = [
     gist: "The engineering work that has to land before pilot #1.",
   },
   {
-    n: "05",
+    n: "06",
     name: "Quality",
     href: "/quality",
     role: "The verification contract",
@@ -223,7 +236,7 @@ const recentChanges = [
         </div>
         <ol class="exec-summary-list">
           <li><strong>This is six interlinked docs, not a launch page.</strong> Working notes for the team to react to, shape, and act on.</li>
-          <li><strong>Five pillars in chronological order:</strong> GTM names what we're shipping · Dashboard measures whether it's working · Journeys shows where users drop · Foundation is the engineering work to ship · Quality is the verification contract that keeps it standing.</li>
+          <li><strong>Six pillars in chronological order:</strong> GTM names what we are shipping &middot; Pilots ships it (per-partner prep + customer decks) &middot; Dashboard measures whether it is working &middot; Journeys shows where users drop &middot; Foundation is the engineering work to ship &middot; Quality is the verification contract that keeps it standing.</li>
           <li><strong>Every page is the same skeleton:</strong> top banner, hero, executive summary, numbered sections, dark closing. Once you've read one, you know how to read the others.</li>
           <li><strong>Three reading paths</strong> below — pick the one that fits your time. The 5-minute skim covers the exec summaries only.</li>
           <li><strong>Every claim has evidence:</strong> file:line for code, citation URLs for industry numbers, GTM ref for strategy ties. No hand-wave; press into anything that doesn't add up.</li>
@@ -255,6 +268,7 @@ const recentChanges = [
               <span class="pillar-num">{p.n}</span>
               <div class="pillar-icon">
                 {p.icon === "flag" && <Flag class="w-4 h-4" />}
+                {p.icon === "handshake" && <Handshake class="w-4 h-4" />}
                 {p.icon === "gauge" && <Gauge class="w-4 h-4" />}
                 {p.icon === "route" && <Route class="w-4 h-4" />}
                 {p.icon === "layers" && <Layers class="w-4 h-4" />}
