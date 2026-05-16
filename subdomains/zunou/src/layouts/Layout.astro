@@ -30,11 +30,14 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const pages = [
   { href: "/", label: "Overview", match: ["/"] },
   { href: "/gtm", label: "GTM", match: ["/gtm", "/scan"] },
+  { href: "/pilots", label: "Pilots", match: ["/pilots", "/pilots/indelible", "/pilots/indelible/deck"] },
   { href: "/dashboard", label: "Dashboard", match: ["/dashboard"] },
   { href: "/journeys", label: "Journeys", match: ["/journeys"] },
   { href: "/foundation", label: "Foundation", match: ["/foundation"] },
   { href: "/quality", label: "Quality", match: ["/quality", "/engineering"] },
 ];
+
+/* Lower xl breakpoint match for agenda — desktop sidebar shows from lg+ now */
 const isActive = (m: string[]) => m.includes(path);
 ---
 

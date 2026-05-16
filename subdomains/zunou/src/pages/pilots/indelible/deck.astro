@@ -1,0 +1,718 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import {
+  Sparkles,
+  ArrowRight,
+  Users,
+  Calendar,
+  GraduationCap,
+  MessageSquare,
+  Brain,
+  Mic,
+  Zap,
+  Target,
+  CheckCircle2,
+  Clock,
+  Building2,
+  Network,
+  TrendingUp,
+  Quote,
+  Hand,
+  Image,
+  Heart,
+  Send,
+  Rocket,
+} from "@lucide/astro";
+
+const useCases = [
+  {
+    n: "01",
+    title: "Portfolio Knowledge Hub",
+    subtitle: "Lead with this — your portfolio's collective brain",
+    icon: "users",
+    pain: "Your founders don't share GTM playbooks, vetted vendors, or learnings from each other. Tribal knowledge stays tribal. Your value-add stops at the cap-table.",
+    after: "A private portfolio space where every founder can ask one question — \"latest cold-email playbook in SEA?\" — and get a real answer pulled from what other portfolio founders actually shipped this month.",
+    surfaces: ["Portfolio pulse with five default channels", "Agent that remembers context across all portfolio threads", "Brain Dump captures learnings the moment they happen", "Voice agent for hands-free founder Q&A"],
+  },
+  {
+    n: "02",
+    title: "AI Salon Bangkok",
+    subtitle: "Continuity beyond the WhatsApp cap",
+    icon: "calendar",
+    pain: "Eventbrite → Luma → WhatsApp → silence. Each platform solves one slice; none keeps the community alive between events.",
+    after: "QR scan at the door installs the app and joins the salon's space. The agent loads attendee bios + speaker context. Conversations and intros that started at the salon keep going post-event without spilling into a 4,000-person chat that got muted.",
+    surfaces: ["Event-Spaces with QR install at the door", "Auto-loaded attendee + speaker context", "Persistent post-event pulse", "Agent-mediated intros between attendees"],
+  },
+  {
+    n: "03",
+    title: "FI Thailand alumni",
+    subtitle: "What you already proved works",
+    icon: "graduation-cap",
+    pain: "Built the portal. No interactions inside. Cohort drops to email-list silence after graduation. Thailand cohort already showed the auto-join-app pattern works.",
+    after: "Spaces install at graduation auto-joins each alum into the cohort space. The agent surfaces fresh intros, hiring digests, and \"who's solved this before\" answers — for as long as you want the cohort to stay a cohort.",
+    surfaces: ["Spaces install at graduation event", "Auto-membership in cohort pulse", "Agent-curated intros + asks digest", "Hiring + service-provider rotations"],
+  },
+];
+
+const successMetrics = [
+  { num: "5", label: "actions in the first 14 days", detail: "Each founder triggers Brain Dump, Relay, agent question, Voice ask, or post." },
+  { num: "1", label: "magic moment", detail: "An intro, playbook, or vendor rec the agent surfaces unprompted — that the founder couldn't have gotten elsewhere." },
+  { num: "3", label: "return visits", detail: "Habit forms. Three sessions in 14 days predicts week-4 retention in B2B SaaS." },
+];
+
+const askKevin = [
+  { what: "Curate the first 5", why: "You pick the founders who'd most benefit from a portfolio knowledge layer. We hand-onboard each one alongside you." },
+  { what: "30 minutes for setup", why: "Marco + Malek walk you through the portfolio pulse template + agent prompts. We pre-build channels (Intros · Playbooks · Service Providers · Asks · Wins)." },
+  { what: "14 days to read the signal", why: "We send you the activation numbers at day 7 and day 14. If 60% of your founders hit the magic-moment, we open use case 2 (AI Salon)." },
+];
+---
+
+<Layout
+  title="Zunou for Indelible Ventures · The portfolio you wished you had time to run"
+  description="A portfolio knowledge hub for Indelible's founders. Three use cases sequenced by activation likelihood. Designed for Kevin Brockland."
+  kind="scan"
+  agenda={[
+    { id: "open", label: "What we built for you", icon: "sparkles" },
+    { id: "your-pain", label: "Your pain · in your words", icon: "quote" },
+    { id: "use-cases", label: "Three use cases", icon: "layers" },
+    { id: "uc1", label: "UC1 · Portfolio Hub", icon: "users" },
+    { id: "uc2", label: "UC2 · AI Salon", icon: "calendar" },
+    { id: "uc3", label: "UC3 · FI Alumni", icon: "graduation-cap" },
+    { id: "success", label: "What success looks like", icon: "target" },
+    { id: "ask", label: "What we're asking", icon: "hand" },
+  ]}
+>
+  <!-- Top banner -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">For Kevin Brockland · Indelible Ventures</span>
+        <span class="text-[var(--color-ink)]">A portfolio knowledge hub, sequenced for activation.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="https://indelible.vc" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>indelible.vc</span><span aria-hidden="true">↗</span></a>
+        <a href="/pilots/indelible" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Internal prep</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO · DECK SLIDE 1 -->
+  <section class="deck-slide deck-slide-hero" id="open">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-mono uppercase tracking-wider font-bold mb-8" data-reveal="fade-up">
+        <Sparkles class="w-3.5 h-3.5" />
+        <span>Built for Indelible's portfolio</span>
+      </div>
+
+      <h1 class="font-display text-[3rem] sm:text-[4.5rem] lg:text-[5.5rem] leading-[0.95] tracking-tight mb-8 max-w-4xl mx-auto" data-reveal="fade-up" data-reveal-delay="1">
+        The portfolio<br />
+        you wished you<br />
+        <span class="text-[var(--color-accent)] italic">had time to run.</span>
+      </h1>
+
+      <p class="text-xl sm:text-2xl text-[var(--color-ink-soft)] leading-snug max-w-3xl mx-auto mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Founder learnings <em class="font-display">circulating</em>. Vendor intel <em class="font-display">vetted</em>. Intros <em class="font-display">happening</em>. Without you in every Slack DM.
+      </p>
+
+      <div class="inline-flex items-center gap-2 text-sm font-mono text-[var(--color-ink-faint)]" data-reveal="fade-up" data-reveal-delay="3">
+        <Building2 class="w-3.5 h-3.5" />
+        <span>For Kevin Brockland · 30-minute walkthrough</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR PAIN — SLIDE 2 -->
+  <section class="deck-slide bg-[var(--color-paper-soft)]" id="your-pain">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-12" data-reveal="fade-up">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 inline-flex items-center gap-2">
+          <Quote class="w-3 h-3" />
+          What you told us
+        </p>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight">
+          Three pain points.<br />
+          <span class="text-[var(--color-ink-soft)] italic">One root cause.</span>
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {[
+          { icon: "users", label: "Portfolio", quote: "How do I leverage the portfolio for extra value, downstream to the companies?", color: "accent" },
+          { icon: "calendar", label: "AI Salon Bangkok", quote: "HQ rolled out a bad platform. Eventbrite → Luma → WhatsApp hit max.", color: "warning" },
+          { icon: "graduation-cap", label: "FI Thailand alumni", quote: "We built a portal — no interactions inside. Hard to keep alumni after they graduate.", color: "success" },
+        ].map((q, i) => (
+          <div class:list={[
+            "rounded-xl bg-[var(--color-paper)] p-6 border-l-4",
+            q.color === "accent" && "border-l-[var(--color-accent)]",
+            q.color === "warning" && "border-l-[var(--color-warning)]",
+            q.color === "success" && "border-l-[var(--color-success)]",
+          ]} data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-4 text-[var(--color-ink-faint)]">
+              {q.icon === "users" && <Users class="w-4 h-4" />}
+              {q.icon === "calendar" && <Calendar class="w-4 h-4" />}
+              {q.icon === "graduation-cap" && <GraduationCap class="w-4 h-4" />}
+              <span class="text-[10px] font-mono uppercase tracking-wider font-bold">{q.label}</span>
+            </div>
+            <p class="font-display text-lg leading-snug text-[var(--color-ink)] mb-3">"{q.quote}"</p>
+            <p class="text-xs text-[var(--color-ink-faint)] italic">— from our meeting</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto mt-12 text-center" data-reveal="fade-up" data-reveal-delay="3">
+        <p class="text-lg text-[var(--color-ink-soft)] leading-relaxed">
+          All three are <strong class="text-[var(--color-ink)]">distributed founder communities that lose momentum</strong> after the program / event ends. Email lists, WhatsApp max-outs, graduation drop-off — the same problem in three forms.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES OVERVIEW SLIDE -->
+  <section class="deck-slide" id="use-cases">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-12" data-reveal="fade-up">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 inline-flex items-center gap-2">
+          <Network class="w-3 h-3" />
+          Sequenced by activation likelihood
+        </p>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight">
+          One root pain.<br />
+          <span class="text-[var(--color-ink-soft)] italic">Three use cases.</span>
+        </h2>
+        <p class="text-lg text-[var(--color-ink-soft)] leading-relaxed mt-6">
+          We open use case 1 first because it's the smallest, highest-trust cohort. UC2 + UC3 unlock as UC1 hits its activation gate.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+        {useCases.map((uc, i) => (
+          <a href={`#uc${i + 1}`} class:list={[
+            "block rounded-xl bg-[var(--color-paper)] p-6 transition-all hover:-translate-y-1",
+            i === 0 ? "border-2 border-[var(--color-accent)] hover:shadow-[0_18px_42px_-22px_rgba(74,0,224,0.42)]" : "border border-[var(--color-line)] hover:border-[var(--color-ink-faint)]",
+          ]} data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-4">
+              <span class:list={[
+                "inline-flex items-center justify-center w-9 h-9 rounded-lg font-mono text-sm font-bold",
+                i === 0 ? "bg-[var(--color-accent)] text-[var(--color-paper)]" : "bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-[var(--color-ink-soft)]",
+              ]}>{uc.n}</span>
+              {uc.icon === "users" && <Users class="w-5 h-5 text-[var(--color-accent)]" />}
+              {uc.icon === "calendar" && <Calendar class="w-5 h-5 text-[var(--color-accent)]" />}
+              {uc.icon === "graduation-cap" && <GraduationCap class="w-5 h-5 text-[var(--color-accent)]" />}
+            </div>
+            <h3 class="font-display text-2xl mb-2 leading-tight">{uc.title}</h3>
+            <p class="text-sm text-[var(--color-accent-ink)] font-semibold mb-4">{uc.subtitle}</p>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{uc.after}</p>
+            <div class="inline-flex items-center gap-1 mt-4 text-xs font-semibold text-[var(--color-accent-ink)]">
+              <span>See how it works</span>
+              <ArrowRight class="w-3 h-3" />
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASE 1 DEEP -->
+  <section class="deck-slide bg-[var(--color-paper-soft)]" id="uc1">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-4xl" data-reveal="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-mono text-sm font-bold">01</span>
+          <Users class="w-6 h-6 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.22em] font-bold text-[var(--color-accent-ink)]">Lead with this</span>
+        </div>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight mb-6">Portfolio Knowledge Hub.</h2>
+        <p class="text-xl text-[var(--color-ink-soft)] leading-snug max-w-3xl mb-10">
+          A private space your portfolio actually opens, because the agent does the work of circulating what they need to know.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 items-start max-w-6xl">
+        <!-- Left: the four surfaces -->
+        <div data-reveal="fade-up">
+          <div class="space-y-3">
+            {useCases[0].surfaces.map((s, i) => (
+              <div class="flex items-start gap-3 p-4 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] hover:border-[var(--color-accent)]/40 transition-all">
+                <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] font-mono text-xs font-bold flex-shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                <p class="text-sm text-[var(--color-ink)] leading-relaxed">{s}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: visual mockup -->
+        <div class="deck-mockup" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="deck-mockup-frame">
+            <div class="deck-mockup-chrome">
+              <span class="deck-mockup-dot" style="background: #ff5f57;"></span>
+              <span class="deck-mockup-dot" style="background: #febc2e;"></span>
+              <span class="deck-mockup-dot" style="background: #28c840;"></span>
+              <span class="deck-mockup-url">zunou · Indelible Portfolio</span>
+            </div>
+            <div class="deck-mockup-body">
+              <div class="deck-channel-list">
+                <div class="deck-channel-row deck-channel-active">
+                  <Users class="w-3.5 h-3.5" /><span>Indelible Portfolio</span>
+                </div>
+                <div class="deck-channel-row deck-channel-sub">
+                  <span class="deck-channel-dot" style="background: var(--color-accent);"></span>
+                  <span># Intros</span><span class="deck-channel-count">3</span>
+                </div>
+                <div class="deck-channel-row deck-channel-sub">
+                  <span class="deck-channel-dot" style="background: var(--color-success);"></span>
+                  <span># Playbooks</span><span class="deck-channel-count">12</span>
+                </div>
+                <div class="deck-channel-row deck-channel-sub">
+                  <span class="deck-channel-dot" style="background: var(--color-warning);"></span>
+                  <span># Service Providers</span><span class="deck-channel-count">7</span>
+                </div>
+                <div class="deck-channel-row deck-channel-sub">
+                  <span class="deck-channel-dot" style="background: var(--color-ink-soft);"></span>
+                  <span># Asks</span><span class="deck-channel-count">2</span>
+                </div>
+                <div class="deck-channel-row deck-channel-sub">
+                  <span class="deck-channel-dot" style="background: var(--color-accent-ink);"></span>
+                  <span># Wins</span><span class="deck-channel-count">5</span>
+                </div>
+              </div>
+
+              <div class="deck-feed">
+                <div class="deck-feed-card deck-feed-agent">
+                  <div class="deck-feed-meta">
+                    <Sparkles class="w-3 h-3" />
+                    <span>Agent · for you</span>
+                  </div>
+                  <p>Aisha at <strong>Kimaru AI</strong> just shipped a cold-email sequence that's hitting 14% reply. She's open to walking through it. Want me to intro?</p>
+                  <div class="deck-feed-actions">
+                    <span class="deck-action-pill">Yes, intro</span>
+                    <span class="deck-action-pill deck-action-secondary">Save for later</span>
+                  </div>
+                </div>
+                <div class="deck-feed-card">
+                  <div class="deck-feed-meta">
+                    <Hand class="w-3 h-3" />
+                    <span>You · in #Asks</span>
+                  </div>
+                  <p>Anyone vetted a fractional CFO in KL last 6 months?</p>
+                </div>
+                <div class="deck-feed-card deck-feed-agent">
+                  <div class="deck-feed-meta">
+                    <Brain class="w-3 h-3" />
+                    <span>Agent · answering #Asks</span>
+                  </div>
+                  <p>Two recommendations from your portfolio in the last 90 days — both used by founders at <strong>BetterClinic</strong> and <strong>Vase</strong>. One reply happened in #Service Providers thread, summarized.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="deck-mockup-caption">A look at the portfolio space · agent surfacing intros + answering asks</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASE 2 DEEP -->
+  <section class="deck-slide" id="uc2">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-4xl" data-reveal="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-paper-soft)] border border-[var(--color-accent)]/40 text-[var(--color-accent-ink)] font-mono text-sm font-bold">02</span>
+          <Calendar class="w-6 h-6 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.22em] font-bold text-[var(--color-accent-ink)]">After UC1 activates</span>
+        </div>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight mb-6">AI Salon Bangkok.</h2>
+        <p class="text-xl text-[var(--color-ink-soft)] leading-snug max-w-3xl mb-10">
+          Luma stays for registration. Zunou becomes the continuity layer that survives past the WhatsApp group cap.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-[1.2fr_1fr] gap-8 items-start max-w-6xl">
+        <!-- Left: visual flow -->
+        <div data-reveal="fade-up">
+          <div class="deck-flow">
+            <div class="deck-flow-step">
+              <div class="deck-flow-icon"><Image class="w-5 h-5" /></div>
+              <div>
+                <p class="deck-flow-title">QR scan at the door</p>
+                <p class="deck-flow-detail">Standard event check-in. Same scanner you'd use for Luma.</p>
+              </div>
+            </div>
+            <div class="deck-flow-arrow"><ArrowRight class="w-4 h-4" /></div>
+            <div class="deck-flow-step">
+              <div class="deck-flow-icon"><Rocket class="w-5 h-5" /></div>
+              <div>
+                <p class="deck-flow-title">Nova installs · auto-joined</p>
+                <p class="deck-flow-detail">PWA for Android, App Store for iOS. Pre-loaded into the AI Salon Bangkok space.</p>
+              </div>
+            </div>
+            <div class="deck-flow-arrow"><ArrowRight class="w-4 h-4" /></div>
+            <div class="deck-flow-step">
+              <div class="deck-flow-icon"><Brain class="w-5 h-5" /></div>
+              <div>
+                <p class="deck-flow-title">Agent loads attendee + speaker context</p>
+                <p class="deck-flow-detail">"You're sitting next to a founder building in fintech infra — three of your portfolio companies just talked about that on Wednesday."</p>
+              </div>
+            </div>
+            <div class="deck-flow-arrow"><ArrowRight class="w-4 h-4" /></div>
+            <div class="deck-flow-step deck-flow-step-final">
+              <div class="deck-flow-icon" style="background: var(--color-accent); color: var(--color-paper);"><Heart class="w-5 h-5" /></div>
+              <div>
+                <p class="deck-flow-title">Conversation continues post-event</p>
+                <p class="deck-flow-detail">The intro you'd have lost to a WhatsApp scroll-by lives in a thread you can return to.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: stat callout -->
+        <div data-reveal="fade-up" data-reveal-delay="1">
+          <div class="deck-stat-card">
+            <div class="deck-stat-figure">~4,000</div>
+            <p class="deck-stat-label">people in the WhatsApp that hit the cap.</p>
+            <p class="deck-stat-detail">Most of them muted it months ago. The signal you lose is the cost. Zunou doesn't replace the salon — it gives the salon a memory.</p>
+          </div>
+          <div class="deck-stat-card mt-3">
+            <div class="deck-stat-figure">3</div>
+            <p class="deck-stat-label">things Luma can't do.</p>
+            <ul class="text-sm text-[var(--color-ink-soft)] space-y-1.5 mt-2 pl-4 list-disc">
+              <li>Keep the conversation alive after the event</li>
+              <li>Surface who's in the room, intelligently</li>
+              <li>Remember who you met and why it mattered</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASE 3 DEEP -->
+  <section class="deck-slide bg-[var(--color-paper-soft)]" id="uc3">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-4xl" data-reveal="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] font-mono text-sm font-bold">03</span>
+          <GraduationCap class="w-6 h-6 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.22em] font-bold text-[var(--color-accent-ink)]">After UC2 lands</span>
+        </div>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight mb-6">FI Thailand alumni.</h2>
+        <p class="text-xl text-[var(--color-ink-soft)] leading-snug max-w-3xl mb-10">
+          You already proved the auto-join-app pattern works in the Thailand cohort. We just give it a memory.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 items-start max-w-6xl" data-reveal="fade-up">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6">
+          <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-ink-faint)] font-bold mb-3">What's there today</p>
+          <ul class="space-y-2 text-sm text-[var(--color-ink-soft)]">
+            <li class="flex items-start gap-2"><span class="text-[var(--color-danger)] mt-0.5">×</span><span>A portal nobody opens</span></li>
+            <li class="flex items-start gap-2"><span class="text-[var(--color-danger)] mt-0.5">×</span><span>An email list that decays in 30 days</span></li>
+            <li class="flex items-start gap-2"><span class="text-[var(--color-danger)] mt-0.5">×</span><span>Cohorts that go silent post-graduation</span></li>
+          </ul>
+        </div>
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6">
+          <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent-ink)] font-bold mb-3">What we replace it with</p>
+          <ul class="space-y-2 text-sm text-[var(--color-ink)]">
+            <li class="flex items-start gap-2"><CheckCircle2 class="w-4 h-4 text-[var(--color-accent)] mt-0.5 flex-shrink-0" /><span>Spaces install at the graduation event — same auto-join pattern that already worked in the Thailand cohort</span></li>
+            <li class="flex items-start gap-2"><CheckCircle2 class="w-4 h-4 text-[var(--color-accent)] mt-0.5 flex-shrink-0" /><span>Agent surfaces fresh intros, hiring digests, and "who's solved this" answers — for as long as you want the cohort to stay a cohort</span></li>
+            <li class="flex items-start gap-2"><CheckCircle2 class="w-4 h-4 text-[var(--color-accent)] mt-0.5 flex-shrink-0" /><span>Service-provider rotations from your portfolio knowledge hub feed into alumni for free</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS METRICS -->
+  <section class="deck-slide" id="success">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-12" data-reveal="fade-up">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 inline-flex items-center gap-2">
+          <Target class="w-3 h-3" />
+          What we'll send you at day 14
+        </p>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight">
+          What success<br />
+          <span class="text-[var(--color-accent)] italic">looks like.</span>
+        </h2>
+        <p class="text-lg text-[var(--color-ink-soft)] leading-relaxed mt-6">
+          Not a vanity metric. The activation contract that decides whether we open use case 2.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {successMetrics.map((m, i) => (
+          <div class="deck-metric-card" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="deck-metric-num">{m.num}</div>
+            <p class="deck-metric-label">{m.label}</p>
+            <p class="deck-metric-detail">{m.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto mt-12 text-center" data-reveal="fade-up" data-reveal-delay="3">
+        <p class="text-lg text-[var(--color-ink-soft)] leading-relaxed">
+          <strong class="text-[var(--color-ink)]">If 60% of your portfolio founders hit this in 14 days</strong>, we open AI Salon Bangkok. If they don't, we figure out what's missing — together — before opening anything else. The bar is set; the activation isn't a hope.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ASK -->
+  <section class="deck-slide bg-[var(--color-ink)] text-[var(--color-paper)]" id="ask">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-12" data-reveal="fade-up">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 inline-flex items-center gap-2 justify-center">
+          <Hand class="w-3 h-3" />
+          What we're asking from you
+        </p>
+        <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] leading-tight">
+          Three small things.<br />
+          <span class="text-[var(--color-paper-soft)] italic">No sales call.</span>
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {askKevin.map((a, i) => (
+          <div class="deck-ask-card" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="deck-ask-num">{String(i + 1).padStart(2, "0")}</div>
+            <h3 class="deck-ask-title">{a.what}</h3>
+            <p class="deck-ask-detail">{a.why}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-2xl mx-auto mt-16 text-center" data-reveal="fade-up" data-reveal-delay="4">
+        <p class="text-lg text-[var(--color-paper-soft)] leading-relaxed mb-8">
+          One pulse. Five founders. Fourteen days. You read the signal with us.
+        </p>
+        <div class="inline-flex flex-wrap items-center gap-3 justify-center">
+          <a href="mailto:marco@finno.jp" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <Send class="w-4 h-4" />
+            Book the 30-min walkthrough
+          </a>
+          <a href="https://indelible.vc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Building2 class="w-4 h-4" />
+            indelible.vc
+          </a>
+        </div>
+        <p class="text-xs text-[var(--color-paper-soft)]/60 mt-10 italic font-display">
+          Built for Indelible · Marco Avila + Malek · Zunou AI
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* === Deck slides — bigger, breathier, cinematic === */
+  .deck-slide {
+    padding: 7rem 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .deck-slide:last-of-type { border-bottom: 0; }
+  .deck-slide-hero {
+    padding: 9rem 0 6rem;
+    background: radial-gradient(ellipse at top, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 60%);
+  }
+
+  /* Mockup frame — looks like a window */
+  .deck-mockup-frame {
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--color-paper);
+    box-shadow: 0 24px 48px -28px rgba(0,0,0,0.18);
+    transition: transform 320ms cubic-bezier(0.16,1,0.3,1), box-shadow 320ms ease;
+  }
+  .deck-mockup:hover .deck-mockup-frame {
+    transform: translateY(-3px);
+    box-shadow: 0 32px 60px -28px rgba(74,0,224,0.32);
+  }
+  .deck-mockup-chrome {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 0.75rem;
+    background: var(--color-paper-soft);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .deck-mockup-dot { width: 0.625rem; height: 0.625rem; border-radius: 999px; }
+  .deck-mockup-url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-ink-faint);
+  }
+  .deck-mockup-body {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    min-height: 22rem;
+  }
+  .deck-channel-list {
+    background: var(--color-paper-soft);
+    border-right: 1px solid var(--color-line);
+    padding: 0.75rem 0.5rem;
+    display: flex; flex-direction: column; gap: 0.18rem;
+  }
+  .deck-channel-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    font-size: 0.78rem; color: var(--color-ink-soft);
+    border-radius: 0.35rem;
+    transition: background 200ms ease;
+  }
+  .deck-channel-row:hover { background: var(--color-paper); }
+  .deck-channel-active { color: var(--color-ink); font-weight: 700; }
+  .deck-channel-sub { padding-left: 1rem; }
+  .deck-channel-dot { width: 0.4rem; height: 0.4rem; border-radius: 999px; }
+  .deck-channel-count {
+    margin-left: auto; font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--color-ink-faint); background: var(--color-paper);
+    padding: 0.05rem 0.35rem; border-radius: 0.25rem;
+  }
+
+  .deck-feed { padding: 1rem; display: flex; flex-direction: column; gap: 0.625rem; }
+  .deck-feed-card {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    border-radius: 0.5rem;
+    padding: 0.75rem 0.875rem;
+  }
+  .deck-feed-card.deck-feed-agent {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+  .deck-feed-meta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--font-mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--color-accent-ink); font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .deck-feed-card p {
+    font-size: 0.82rem; line-height: 1.45; color: var(--color-ink); margin: 0;
+  }
+  .deck-feed-actions {
+    display: flex; gap: 0.4rem; margin-top: 0.625rem;
+  }
+  .deck-action-pill {
+    display: inline-flex; align-items: center;
+    padding: 0.3rem 0.625rem;
+    background: var(--color-accent); color: var(--color-paper);
+    font-size: 0.7rem; font-weight: 600;
+    border-radius: 999px;
+  }
+  .deck-action-secondary {
+    background: transparent; color: var(--color-accent-ink);
+    border: 1px solid var(--color-accent)/40;
+  }
+
+  .deck-mockup-caption {
+    text-align: center; font-size: 0.72rem; color: var(--color-ink-faint);
+    margin-top: 0.875rem; font-family: var(--font-mono); letter-spacing: 0.06em;
+  }
+
+  /* Flow steps — UC2 visualization */
+  .deck-flow {
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .deck-flow-step {
+    display: flex; align-items: flex-start; gap: 0.875rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.625rem;
+    background: var(--color-paper);
+    transition: all 240ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .deck-flow-step:hover {
+    border-color: var(--color-accent)/40;
+    transform: translateX(3px);
+  }
+  .deck-flow-step-final {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 4%, var(--color-paper));
+  }
+  .deck-flow-icon {
+    width: 2.25rem; height: 2.25rem; border-radius: 0.5rem;
+    background: var(--color-accent-soft); color: var(--color-accent-ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .deck-flow-arrow {
+    display: flex; justify-content: center;
+    color: var(--color-ink-faint); padding: 0.18rem 0;
+  }
+  .deck-flow-title {
+    font-family: var(--font-display); font-size: 1.05rem; line-height: 1.2; color: var(--color-ink); margin: 0 0 0.25rem 0;
+  }
+  .deck-flow-detail {
+    font-size: 0.78rem; color: var(--color-ink-soft); line-height: 1.45; margin: 0;
+  }
+
+  /* Stat callouts */
+  .deck-stat-card {
+    border: 2px solid var(--color-accent);
+    background: var(--color-paper);
+    border-radius: 0.875rem;
+    padding: 1.5rem;
+  }
+  .deck-stat-figure {
+    font-family: var(--font-display); font-size: 3rem; line-height: 1;
+    color: var(--color-accent);
+  }
+  .deck-stat-label {
+    font-family: var(--font-display); font-size: 1.125rem; color: var(--color-ink);
+    margin: 0.25rem 0 0.625rem 0;
+  }
+  .deck-stat-detail {
+    font-size: 0.85rem; color: var(--color-ink-soft); line-height: 1.55; margin: 0;
+  }
+
+  /* Success metric cards */
+  .deck-metric-card {
+    text-align: center;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    transition: all 320ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .deck-metric-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -22px rgba(74,0,224,0.32);
+  }
+  .deck-metric-num {
+    font-family: var(--font-display); font-size: 5rem; line-height: 1;
+    color: var(--color-accent); margin-bottom: 0.5rem;
+  }
+  .deck-metric-label {
+    font-family: var(--font-display); font-size: 1.25rem; color: var(--color-ink);
+    margin: 0 0 0.875rem 0;
+  }
+  .deck-metric-detail {
+    font-size: 0.85rem; color: var(--color-ink-soft); line-height: 1.55;
+    margin: 0; padding-top: 0.875rem; border-top: 1px dashed var(--color-line);
+  }
+
+  /* Ask cards on dark */
+  .deck-ask-card {
+    background: color-mix(in srgb, var(--color-paper) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 14%, transparent);
+    border-radius: 0.875rem;
+    padding: 1.75rem;
+    transition: all 320ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .deck-ask-card:hover {
+    background: color-mix(in srgb, var(--color-paper) 10%, transparent);
+    border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+    transform: translateY(-3px);
+  }
+  .deck-ask-num {
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--color-accent); letter-spacing: 0.08em;
+    margin-bottom: 0.875rem;
+  }
+  .deck-ask-title {
+    font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2;
+    color: var(--color-paper); margin: 0 0 0.625rem 0;
+  }
+  .deck-ask-detail {
+    font-size: 0.875rem; color: var(--color-paper-soft); line-height: 1.55; margin: 0;
+  }
+</style>
