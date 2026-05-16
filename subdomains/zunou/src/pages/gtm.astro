@@ -288,7 +288,7 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         </div>
         <ol class="exec-summary-list">
           <li>
-            <strong>Three beachhead waves, each gated by the previous.</strong> <strong class="text-[var(--color-ink)]">Beachhead 0 — warm circles via VC + venture-studio partners (SEA-anchored):</strong> <strong class="text-[var(--color-ink)]">Kevin Brockland</strong>'s portfolio at <a href="https://indelibleventures.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Indelible Ventures (Malaysia)</a> first, then <a href="https://northbasemedia.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">North Base Media</a> (or Headline Ventures) once Indelible shows signal — pairing each VC fund with the venture studios in their orbit so we activate dense, in-network teams rather than scattered solo founders. <strong class="text-[var(--color-ink)]">Beachhead 1 — TAI (Tokyo AI)</strong> pilot late July / early August 2026, Ilya-introduced. <strong class="text-[var(--color-ink)]">Beachhead 2 — layered communities</strong> (AI Tinkerers, Venture Café Toranomon, and a fourth). Each wave only fires when the previous clears its gate.
+            <strong>Three beachhead waves, each gated by the previous.</strong> <strong class="text-[var(--color-ink)]">Beachhead 0 — warm circles via VC + venture-studio partners (SEA-anchored):</strong> <strong class="text-[var(--color-ink)]">Kevin Brockland</strong>'s portfolio at <a href="https://indelibleventures.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Indelible Ventures (Malaysia)</a> first — <em class="font-display">Kevin is our first confirmed external user; three sequenced use cases (portfolio knowledge hub → AI Salon Thailand events → FI Thailand alumni) mapped from our recent meeting, see §07 Phase 1A</em> — then <a href="https://northbasemedia.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">North Base Media</a> (or Headline Ventures) once Indelible shows signal. Pairing each VC fund with the venture studios in their orbit so we activate dense, in-network teams rather than scattered solo founders. <strong class="text-[var(--color-ink)]">Beachhead 1 — TAI (Tokyo AI)</strong> pilot late July / early August 2026, Ilya-introduced. <strong class="text-[var(--color-ink)]">Beachhead 2 — layered communities</strong> (AI Tinkerers, Venture Café Toranomon, and a fourth). Each wave only fires when the previous clears its gate.
           </li>
           <li>
             <strong>Hybrid venue sponsorship model:</strong> flat fee + per-user-join bonus. We pay for actual conversion, not seats. Aligns sponsor incentives with our growth metrics.
@@ -2926,8 +2926,65 @@ const openCount = decisions.filter((d) => d.status === "open").length;
         <span class="absolute -left-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-[var(--color-paper)] border-2 border-[var(--color-accent)]"></span>
         <div class="font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-ink-faint)] mb-1.5">Phase 1A · Beachhead 0 · Indelible warm-circle pilot · mid-July 2026</div>
         <h3 class="font-display text-2xl mb-2">Beachhead 0 — Kevin Brockland's portfolio at <a href="https://indelibleventures.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Indelible Ventures (Malaysia)</a>.</h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-5">
+          Kevin is our <strong class="text-[var(--color-ink)]">first confirmed external user</strong>. From the recent meeting we mapped three pain points he wants Zunou to absorb — each ties to a distinct surface in the product and to a 5/1/3 activation we can read inside 14 days. We sequence them so the smallest, highest-trust use case opens the door for the next.
+        </p>
+
+        <!-- Pitch to Kevin · three sequenced use cases -->
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 sm:p-6 mb-5">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-4 flex items-center gap-2">
+            <span aria-hidden="true">▶</span>
+            The pitch to Kevin · three use cases, sequenced by activation likelihood
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-3">
+            <!-- Use case 1 -->
+            <div class="rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-[var(--color-accent)] text-[var(--color-paper)] font-mono text-xs font-bold">01</span>
+                <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)]">Lead with this</span>
+              </div>
+              <h4 class="font-display text-lg mb-2 leading-tight">Indelible Portfolio Knowledge Hub</h4>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Pain:</strong> portfolio founders don't share GTM learnings, outbound playbooks, or vetted service-provider intel. Tribal knowledge stays tribal — value from being in the portfolio is left on the table.</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Zunou play:</strong> private portfolio pulse + agent surfaces what's relevant per founder's stage and stack. <Term name="Brain Dump" /> captures learnings, <Term name="Relays" /> drives async intros, Voice Agent answers "latest playbook on cold-email in SEA right now."</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Magic-number tie:</strong> 60% of portfolio founders hit 5/1/3 in 14 days. The magic moment is a relevant intro, playbook, or service-provider rec the agent surfaces unprompted.</p>
+              <p class="text-xs text-[var(--color-ink-faint)] italic"><strong class="not-italic text-[var(--color-ink-soft)]">Why first:</strong> smallest cohort (~20–40 portfolio companies), Kevin-curated trust, fastest activation read.</p>
+            </div>
+
+            <!-- Use case 2 -->
+            <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-[var(--color-paper)] border border-[var(--color-accent)]/40 text-[var(--color-accent-ink)] font-mono text-xs font-bold">02</span>
+                <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink-soft)]">After UC1 activates</span>
+              </div>
+              <h4 class="font-display text-lg mb-2 leading-tight">AI Salon Thailand · events</h4>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Pain:</strong> HQ-rolled-out platform is bad. Eventbrite → migrated to Luma → hit WhatsApp group max → no continuity post-event. Free tools intentionally (no monetization), so the pain is community-organizational, not revenue.</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Zunou play:</strong> <Term name="Spaces" /> Event-Spaces — QR at the door → Nova installs → AI agent pre-loaded with attendee + event + speaker context → persistent post-event Pulse. Luma stays for registration; Zunou becomes the community continuity layer.</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Magic-number tie:</strong> attendee hits 5 interactions + 1 magic moment (intro made by the agent / question answered by another attendee's content) + 3 returns inside 14 days post-event.</p>
+              <p class="text-xs text-[var(--color-ink-faint)] italic"><strong class="not-italic text-[var(--color-ink-soft)]">Why second:</strong> needs Spaces flow end-to-end (see <a href="/foundation#tier-1" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] font-semibold">Foundation Tier-1</a>) plus a referenceable portfolio activation to ground the pitch.</p>
+            </div>
+
+            <!-- Use case 3 -->
+            <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] font-mono text-xs font-bold">03</span>
+                <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink-faint)]">After UC2 lands</span>
+              </div>
+              <h4 class="font-display text-lg mb-2 leading-tight">Founder Institute Thailand · alumni</h4>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Pain:</strong> Kevin previously ran FI in Malaysia, resetting now in Thailand. Built a portal — no interactions inside. Teaching cohorts gone after graduation; alumni become an email list. Thailand cohort already had an app install + auto-join group as the pattern that worked.</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Zunou play:</strong> alumni Pulse with auto-join via Spaces install at the graduation event → ongoing agent-mediated re-engagement (curated learnings, fresh intros, "your cohort is hiring" digests, service-provider rotations).</p>
+              <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Magic-number tie:</strong> alumni stay engaged 30 / 60 / 90 days post-graduation, measured by 5+ interactions per month per alum.</p>
+              <p class="text-xs text-[var(--color-ink-faint)] italic"><strong class="not-italic text-[var(--color-ink-soft)]">Why third:</strong> needs the events flow + a portfolio activation success story before we propose this to FI.</p>
+            </div>
+          </div>
+
+          <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mt-4 pt-4 border-t border-dashed border-[var(--color-accent)]/40">
+            <strong class="text-[var(--color-ink)]">Activation has to feel organic.</strong> Kevin will lead — try the portfolio pulse himself, then bring his team in, then bring the portfolio in. Members won't stick on a pitch; they stick on the magic-number moment landing in their first session. Marco + Malek hand-onboard the first 5 founders alongside Kevin so the activation isn't left to chance.
+          </p>
+        </div>
+
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          Marco + Kevin Brockland curate 5–10 founders inside Indelible's portfolio + venture-studio partners. Hand-onboarding, in-portfolio Spaces invite codes, Marco + Malek in every onboarding call. Goal is dense behavior, not scale — read what the magic-number actually does on a friendly cohort before exposing it to TAI. <strong class="text-[var(--color-ink)]">Gate-up to Phase 1B: ≥ 60% activation in 14 days from this cohort, plus at least 2 unsolicited "this is a real tool" testimonials.</strong> If signal is mixed, second Beachhead 0 wave (<a href="https://northbasemedia.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">North Base Media</a> or <a href="https://headline.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Headline</a> + their studio partners) instead of opening TAI.
+          <strong class="text-[var(--color-ink)]">Phase 1A → 1B gate:</strong> ≥ 60% activation in 14 days from the curated 5–10 founder cohort (use case 1), plus at least 2 unsolicited "this is a real tool" testimonials. If signal lands, unlock use case 2 (events) and start the TAI pitch. If signal is mixed, second Beachhead 0 wave (<a href="https://northbasemedia.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">North Base Media</a> or <a href="https://headline.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Headline</a> + their studio partners) instead of opening TAI.
         </p>
       </li>
       <li data-reveal="fade-up" data-reveal-delay="2">
