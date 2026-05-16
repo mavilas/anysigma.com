@@ -1,0 +1,674 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  Handshake,
+  CircleDot,
+  Target,
+  Flag,
+  Layers,
+  Users,
+  Calendar,
+  GraduationCap,
+  Smartphone,
+  Apple,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Clock,
+  Hourglass,
+  ArrowRight,
+  Globe,
+  Lock,
+  KeyRound,
+  Bell,
+  ExternalLink,
+  ListChecks,
+  Sparkles,
+  CircleHelp,
+  Wrench,
+  Bug,
+  Building2,
+  Map as MapIcon,
+  Compass,
+  Mic,
+  MessageSquare,
+} from "@lucide/astro";
+
+/* ====== Pre-flight requirements before the pilot opens ====== */
+type PreFlightStatus = "blocking" | "in-flight" | "ready";
+interface PreFlightItem {
+  area: "iOS" | "Onboarding" | "Notifications" | "Android" | "Product";
+  title: string;
+  why: string;
+  status: PreFlightStatus;
+  link?: { label: string; href: string };
+  effort: string;
+}
+
+const preFlight: PreFlightItem[] = [
+  {
+    area: "iOS",
+    title: "Fix native iOS auth — \"keeps kicking users out\"",
+    why: "Kevin uses Android (PWA fine for him), but his portfolio is mixed. iOS founders bouncing on cold-start kills the cohort activation read. PWA fallback isn't acceptable when the rest of TAI is on iOS.",
+    status: "blocking",
+    link: { label: "Foundation Tier-1 #06 + Journeys §J1", href: "/foundation#tier-1" },
+    effort: "1 day (option b) · 2–3 days (option a)",
+  },
+  {
+    area: "iOS",
+    title: "Drop `prompt: 'login'` — \"sign in twice\"",
+    why: "One-line fix. Returning iOS users see the login screen on every cold start; some give up before they sign in once.",
+    status: "blocking",
+    link: { label: "Journeys §J1 → Drop prompt: 'login'", href: "/journeys#j-sign-in" },
+    effort: "1 hr",
+  },
+  {
+    area: "iOS",
+    title: "Make `upsertNovaSettingMetadata` blocking before navigation",
+    why: "If the GQL save returns mid-background, iOS user re-onboards on next session — looks like \"sign in twice\" from their POV. Will hit Indelible founders the day after the pilot opens.",
+    status: "blocking",
+    link: { label: "Journeys §J2 onboarding bug", href: "/journeys#j-onboarding" },
+    effort: "1 hr",
+  },
+  {
+    area: "Onboarding",
+    title: "Verify production onboarding end-to-end with a fresh pilot account",
+    why: "Onboarding rebuilt recently; production behavior hasn't been validated by a non-team user. A broken first session = magic-number activation reads as 0%, regardless of how good the rest of the pitch is.",
+    status: "in-flight",
+    link: { label: "Foundation Tier-1 #01", href: "/foundation#tier-1" },
+    effort: "1 day",
+  },
+  {
+    area: "Onboarding",
+    title: "Web DM flow restored",
+    why: "If anyone in Kevin's portfolio demos on a laptop (likely — investors check things on desktop), the missing /dashboard DM path looks like a half-built product.",
+    status: "blocking",
+    link: { label: "Foundation Tier-1 #02 + Journeys §J4", href: "/foundation#tier-1" },
+    effort: "2–3 days",
+  },
+  {
+    area: "Notifications",
+    title: "Notification outbox + idempotency + DLQ",
+    why: "Indelible portfolio = 20–40 founders messaging each other in a private pulse. Every silently-dropped @mention is a broken trust moment. Outbox is the cheapest insurance.",
+    status: "in-flight",
+    link: { label: "Foundation Tier-1 #10", href: "/foundation#tier-1" },
+    effort: "1–2 wk",
+  },
+  {
+    area: "Notifications",
+    title: "Surface per-channel mute in conversation header",
+    why: "Volume in the portfolio pulse will spike. If they can't tame the noise per-channel without nuking everything, they'll mute the whole product. Already exists in backend — just expose it.",
+    status: "in-flight",
+    link: { label: "Foundation Tier-1 #03", href: "/foundation#tier-1" },
+    effort: "1 day",
+  },
+  {
+    area: "Android",
+    title: "Confirm PWA on Android Chrome — install, push, badge",
+    why: "Kevin's primary device. PWA must support add-to-home-screen, push notifications via Web Push, and badge counts. Test on his exact device before the next meeting.",
+    status: "in-flight",
+    link: { label: "Journeys §J1 (web push path)", href: "/journeys#j-sign-in" },
+    effort: "0.5 day verify · 2 days fix any gaps",
+  },
+  {
+    area: "Android",
+    title: "Native Android build → Google Play internal testing",
+    why: "PWA is fine for the next 4–6 weeks but native unlocks better push reliability + background sync. Capacitor or Expo build (we have iOS already). Aim for internal testing track in 3–4 weeks so Kevin can dogfood the native app while his portfolio uses PWA.",
+    status: "in-flight",
+    link: { label: "Foundation Stage 4 (mobile parity)", href: "/foundation#roadmap" },
+    effort: "3–4 wk",
+  },
+  {
+    area: "Product",
+    title: "Pre-built portfolio pulse template",
+    why: "Kevin shouldn't have to configure pulse settings, default channels, agent prompts, or service-provider templates from scratch. Ship a one-click \"VC portfolio\" template (channels: Intros · Playbooks · Service Providers · Asks · Wins).",
+    status: "ready",
+    effort: "2 days",
+  },
+];
+
+const blocking = preFlight.filter((p) => p.status === "blocking");
+const inFlight = preFlight.filter((p) => p.status === "in-flight");
+const ready = preFlight.filter((p) => p.status === "ready");
+
+/* ====== Three use cases (mirrors GTM §07 Phase 1A) ====== */
+const useCases = [
+  {
+    n: "01",
+    badge: "Lead with this · session 1",
+    title: "Indelible Portfolio Knowledge Hub",
+    icon: "users",
+    pain: "Portfolio founders don't share GTM learnings, outbound playbooks, or vetted service-provider intel. Tribal knowledge stays tribal — Indelible's value-add stops at the cap-table.",
+    play: "Private portfolio pulse. Default channels: Intros · Playbooks · Service Providers · Asks · Wins. Agent ingests and surfaces what's relevant to each founder's stage and stack. Brain Dump captures learnings, Relays drives async intros, Voice Agent answers \"latest playbook on cold-email in SEA right now.\"",
+    magic: "60% of portfolio founders hit 5 events + 1 magic moment + 3 returns in 14 days. Magic moment = a relevant intro, playbook, or service-provider rec the agent surfaces unprompted.",
+    why: "Smallest cohort (~20–40 portfolio companies), Kevin-curated trust, fastest activation read. Lowest pre-flight risk.",
+  },
+  {
+    n: "02",
+    badge: "After UC1 activates · ~6 weeks out",
+    title: "AI Salon Thailand · Events",
+    icon: "calendar",
+    pain: "HQ-rolled-out platform is bad. Eventbrite → migrated to Luma → hit WhatsApp group max → no continuity post-event. Free intentionally (no monetization), so the pain is community-organizational.",
+    play: "Spaces (Event-Spaces): QR at the door → Nova installs → AI agent pre-loaded with attendee + event + speaker context → persistent post-event Pulse. Luma stays for registration; Zunou is the community-continuity layer.",
+    magic: "Attendee hits 5 interactions + 1 magic moment + 3 returns inside 14 days post-event. Magic moment = an intro the agent makes, or a question answered by another attendee's content.",
+    why: "Needs Spaces flow end-to-end + a successful UC1 to point at as proof. Becomes the wedge for the broader Thailand AI community.",
+  },
+  {
+    n: "03",
+    badge: "After UC2 lands · ~3 months out",
+    title: "Founder Institute Thailand · Alumni",
+    icon: "graduation-cap",
+    pain: "Built a portal — no interactions inside. Alumni become an email list after graduation. Thailand cohort already had an app install + auto-join group as the pattern that worked.",
+    play: "Alumni Pulse with auto-join via Spaces install at the graduation event → ongoing agent-mediated re-engagement (curated learnings, fresh intros, hiring digests, service-provider rotations).",
+    magic: "Alumni stay engaged 30 / 60 / 90 days post-graduation, measured by 5+ interactions per month per alum.",
+    why: "Needs the events flow from UC2 + a portfolio activation success story before we propose this to FI Thailand leadership.",
+  },
+];
+
+/* ====== Next-meeting agenda ====== */
+const agenda = [
+  { mins: "5 min", title: "Recap pain points + confirm sequencing", body: "Recap Kevin's three pain points back to him; confirm we lead with the portfolio knowledge hub (not events, not FI alumni)." },
+  { mins: "10 min", title: "Live demo · UC1 portfolio pulse", body: "On Kevin's device (Android PWA). Show: Brain Dump capturing a learning · Relays sending an async intro · Voice Agent answering a real portfolio-relevant question · Daily Debrief surfacing it." },
+  { mins: "5 min", title: "Show the magic-number instrumentation", body: "Walk the activation funnel we'll be reading. The number we'll send him at day 7 and day 14. Honest about what triggers the gate-up to UC2." },
+  { mins: "5 min", title: "Pre-flight transparency", body: "Show the bug list we're fixing before opening his portfolio (iOS auth, web DM, notifications). Set expectation: pilot opens after the blocking items clear." },
+  { mins: "5 min", title: "His next move", body: "Kevin curates the first 5 founders he'd want in the portfolio pulse. We hand-onboard each one alongside him." },
+  { mins: "5 min", title: "Open questions + close", body: "Pricing for after pilot? Spaces config for Thailand AI Salon (UC2 prep)? FI Thailand intro path (UC3)? Anything we missed?" },
+];
+
+const totals = {
+  preFlightTotal: preFlight.length,
+  blockingCount: blocking.length,
+  effortBlockerDays: 7,
+};
+---
+
+<Layout
+  title="Zunou — Pitch · Indelible Ventures (Kevin Brockland)"
+  description="Sales prep doc for the Beachhead 0 pilot with Indelible Ventures. Three sequenced use cases, pre-flight bug fixes, next-meeting agenda."
+  kind="scan"
+  agenda={[
+    { id: "exec-summary", label: "Executive summary", icon: "list" },
+    { id: "who", label: "Who · research", icon: "building-2" },
+    { id: "pains", label: "Three pain points", icon: "alert-triangle" },
+    { id: "use-cases", label: "Three use cases", icon: "layers" },
+    { id: "preflight", label: "Pre-flight blockers", icon: "shield-alert" },
+    { id: "android", label: "Android + PWA path", icon: "smartphone" },
+    { id: "next-meeting", label: "Next-meeting agenda", icon: "calendar" },
+    { id: "open", label: "Open questions", icon: "circle-help" },
+  ]}
+>
+  <!-- Top banner · sub-page nav -->
+  <div class="border-b border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-x-4 gap-y-1 flex-wrap text-sm">
+      <div class="flex items-baseline gap-x-2 gap-y-0.5 flex-wrap min-w-0">
+        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)] shrink-0">Pilots / Indelible · sales prep</span>
+        <span class="text-[var(--color-ink)]">Internal pitch doc — first external user. Not Kevin-facing yet.</span>
+      </div>
+      <div class="flex items-center gap-x-4 shrink-0 text-xs">
+        <a href="/gtm#phases" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>GTM · Phase 1A</span><span aria-hidden="true">→</span></a>
+        <a href="/foundation#tier-1" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Foundation Tier-1</span><span aria-hidden="true">→</span></a>
+        <a href="/journeys" class="font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><span>Journeys</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Handshake class="w-3.5 h-3.5" />
+          Pitch · Indelible Ventures
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">Marco Avila · v1 · prep for next meeting w/ Kevin</span>
+      </div>
+
+      <h1 class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4.25rem] leading-[0.98] tracking-tight mb-5 max-w-4xl" data-reveal="fade-up" data-reveal-delay="1">
+        Kevin's portfolio is the wedge.<br />
+        <span class="text-[var(--color-ink-soft)] italic">The product has to be ready for it.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-10 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        First external user. Three concrete pain points from the meeting. Three sequenced use cases. A short pre-flight list of bugs to clear (iOS auth, web DM, notification outbox) — most are already <a href="/foundation#tier-1" class="text-[var(--color-accent-ink)] hover:underline font-semibold">Foundation Tier-1</a>. Kevin himself is on Android (PWA covers it for ~6 weeks), but his portfolio is mixed — iOS bugs block the pilot, not just his demo.
+      </p>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="stat-xl featured">
+          <div class="stat-xl-eyebrow">Use cases sequenced</div>
+          <div class="stat-xl-figure accent">3</div>
+          <div class="stat-xl-label">Portfolio hub · Events · FI alumni</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Pre-flight bug list</div>
+          <div class="stat-xl-figure">{totals.preFlightTotal}</div>
+          <div class="stat-xl-label">{totals.blockingCount} blocking · rest in-flight or ready</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Days to clear blockers</div>
+          <div class="stat-xl-figure">~{totals.effortBlockerDays}</div>
+          <div class="stat-xl-label">Two engineers in parallel</div>
+        </div>
+        <div class="stat-xl">
+          <div class="stat-xl-eyebrow">Native Android build target</div>
+          <div class="stat-xl-figure">3–4 wk</div>
+          <div class="stat-xl-label">Google Play internal track · PWA covers the gap</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="pb-12" id="exec-summary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="exec-summary" data-reveal="fade-up">
+        <div class="exec-summary-header">
+          <span class="exec-summary-eyebrow"><CircleDot class="w-3 h-3" /> Executive summary</span>
+          <span class="exec-summary-meta">5 bullets · 60 seconds</span>
+        </div>
+        <ol class="exec-summary-list">
+          <li><strong>Kevin Brockland (Indelible Ventures, KL) is our first portfolio rollout — and Zunou is already in his portfolio</strong> per <a href="https://tracxn.com/d/venture-capital/indelible-ventures/__cki8iR6PiNxMBJR447jGvTPJfIGcg5e5pGZni6Sa4fQ" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">Tracxn</a>. Critical reframe: this isn't a cold sale, it's a portfolio company demoing back to its GP. The meeting surfaced three concrete pains; we sequence by activation likelihood, not by his preference — lead with the smallest, highest-trust use case.</li>
+          <li><strong>Lead with the portfolio knowledge hub.</strong> Smallest cohort (~20–40 founders), Kevin-curated trust, fastest read on whether the magic-number works on a friendly cohort. Don't open events or FI alumni until UC1 hits its gate.</li>
+          <li><strong>iOS bugs block this pilot, not just Kevin's demo.</strong> Kevin is Android (PWA fine for him), but his portfolio is mixed. The "sign in twice" + "iOS keeps kicking users out" bugs from the audit will burn ~30–50% of his portfolio before they ever activate. Foundation Tier-1 has these — they're now hard pre-flight blockers for this pilot.</li>
+          <li><strong>Native Android in 3–4 weeks.</strong> PWA on Android Chrome covers Kevin himself for the first 6 weeks of the pilot. Native build (Capacitor or Expo) ships to Google Play internal testing in ~3–4 weeks so he can dogfood while the rest of the portfolio runs PWA.</li>
+          <li><strong>The next meeting is a 35-minute structured agenda.</strong> Recap pains → live demo on his Android → show the magic-number instrumentation → pre-flight transparency → his next move (he curates the first 5 founders) → open questions. Outline below in §07.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §01 WHO -->
+  <section class="py-16 sm:py-20" id="who">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>01</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Who · the research</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Kevin Brockland · <a href="https://indelible.vc" target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink)] hover:text-[var(--color-accent-ink)] underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)] underline-offset-2">Indelible Ventures</a>.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-4" data-reveal="fade-up" data-reveal-delay="2">
+        CFA, ex-impact-fund portfolio manager (<a href="https://www.bravesea.com/blog/kevin-brockland" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">SEAF ~$400M AUM, MDIF</a> covering India / SEA / LatAm). Relocated to Malaysia, founded Indelible Ventures in 2021. <a href="https://fi.co/insight/q-a-with-vc-lab-alumni-kevin-brockland-of-indelible-ventures" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">VC Lab alumnus</a> · <a href="https://www.endeavormalaysia.org/people/kevin-brockland" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">Endeavor Malaysia mentor</a> · organizes <a href="https://luma.com/aisalon" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">AI Salon Bangkok</a> on Luma.
+      </p>
+
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 mb-8 max-w-3xl" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="flex items-center gap-2 mb-2">
+          <Sparkles class="w-3.5 h-3.5 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Critical reframe</span>
+        </div>
+        <p class="text-base text-[var(--color-ink)] leading-relaxed">
+          <strong>Zunou is already in Indelible's portfolio.</strong> This isn't a cold sale — Kevin is one of our investors. The pitch is "the portfolio knowledge hub you wished existed, that we just built and now want to roll out across your portfolio first." Earned trust, much warmer dynamic. <span class="text-[var(--color-ink-faint)] text-sm italic">(Source: <a href="https://tracxn.com/d/venture-capital/indelible-ventures/__cki8iR6PiNxMBJR447jGvTPJfIGcg5e5pGZni6Sa4fQ" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">Tracxn portfolio listing</a>.)</span>
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-3 max-w-5xl">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <Building2 class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Indelible Ventures · 2021 · KL</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            Pre-seed / seed. First check $100K–$250K, average round $580K. ~10 portfolio companies as of early 2025. Thesis: B2B SaaS · fintech infra · AI-enabled tools · productivity · HR — for SEA's overlooked corners.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] mb-2">
+            <strong class="text-[var(--color-ink-soft)]">Sister portfolio (UC1 lookalikes):</strong> BetterClinic (ambient AI scribe) · Kimaru AI (supply chain) · Quotable AI (SME supply) · RunCloud · Vase AI · <strong class="text-[var(--color-accent-ink)]">Zunou AI</strong>.
+          </p>
+          <a href="https://indelible.vc" target="_blank" rel="noopener noreferrer" class="text-xs text-[var(--color-accent-ink)] hover:underline font-mono">indelible.vc →</a>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-3">
+            <Mic class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">AI Salon Bangkok · monthly</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            Kevin organizes the SEA chapter of the global <a href="https://luma.com/aisalon" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">AI Salon</a> network. Monthly invite-RSVP events on Luma. Audience: early-stage AI founders + investors. Recent confirmed editions: <a href="https://lu.ma/AI-Salon-Bangkok-May-2025" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">May 2025</a> · <a href="https://luma.com/AI-Salon-Bangkok-September-2025" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">Sep 2025</a>.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] italic">
+            HQ-rolled-out platform is bad → migrated Eventbrite → Luma → WhatsApp group hit max. UC2 lives here.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="2">
+          <div class="flex items-center gap-2 mb-3">
+            <GraduationCap class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Founder Institute · mentor</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            Kevin is a FI-affiliated mentor (VC Lab alumnus). The <a href="https://fi.co/insight/founder-institute-officially-launches-in-bangkok-its-sixth-city-in-southeast-asia" target="_blank" rel="noopener noreferrer" class="underline decoration-[var(--color-accent)]/40 hover:decoration-[var(--color-accent)]">FI Bangkok chapter</a> was launched by Krating Poonpol (Disrupt) + Benjamin Ranck (Jetabroad) — Kevin is not the chapter director. He routes us to FI Thailand once UC2 lands.
+          </p>
+          <p class="text-xs text-[var(--color-ink-faint)] italic">
+            Thailand cohort already used an auto-join-app pattern — exactly mirrors what Spaces does at graduation. UC3 lives here.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-dashed border-[var(--color-accent)]/40 bg-[var(--color-paper-soft)] p-5 mt-6 max-w-4xl" data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-2">
+          <Compass class="w-3.5 h-3.5 text-[var(--color-accent)]" />
+          <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Why Zunou fits the Indelible thesis</span>
+        </div>
+        <p class="text-sm text-[var(--color-ink)] leading-relaxed">
+          Indelible backs <strong>pre-seed/seed B2B SaaS and AI tools targeting SEA founders who are resource-constrained and need to punch above their weight operationally</strong> — that's the published thesis on <a href="https://indelible.vc" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-ink)] hover:underline">indelible.vc</a>. Zunou's Pulses + Spaces + Agent stack is directly additive for sister portfolio companies: BetterClinic (small clinical teams), Quotable / Kimaru (distributed supply-chain ops), Vase AI (async research workflows). Each one needs lightweight async collaboration without enterprise pricing — the agent layer addresses the exact "enterprise software infrastructure" gap their thesis names. <strong>UC1 isn't speculative; the lookalikes are sitting in the same fund.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 PAINS -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="pains">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>02</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Three pain points</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        From the meeting · in his words.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-8" data-reveal="fade-up" data-reveal-delay="2">
+        Each pain is real and current. We don't have to invent demand — we just have to be ready for it.
+      </p>
+
+      <div class="space-y-3 max-w-4xl">
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 border-l-4 border-l-[var(--color-accent)]" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-mono font-bold text-[var(--color-accent-ink)]">PAIN 01 · PRIMARY</span>
+            <span class="text-xs text-[var(--color-ink-faint)] font-mono">Indelible portfolio</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">"How do I leverage the portfolio for extra value, downstream to the companies?"</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Facilitate knowledge sharing · interactions amongst portfolio companies · shared learnings of GTMs and outbound · what's the latest and greatest of service providers. Kevin is sitting on dense tribal knowledge that never circulates.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 border-l-4 border-l-[var(--color-warning)]" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-mono font-bold text-[var(--color-warning)]">PAIN 02 · EVENTS</span>
+            <span class="text-xs text-[var(--color-ink-faint)] font-mono">AI Salon Thailand</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">"HQ rolled out a bad platform — Eventbrite to Luma, then WhatsApp hit max."</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Easier way to attend events, come back to events. Free tools intentionally — they're not monetizing the AI Salon. The pain is community-organizational, not revenue. Spaces is the answer; Luma stays for registration.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 border-l-4 border-l-[var(--color-success)]" data-reveal="fade-up" data-reveal-delay="2">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-mono font-bold text-[var(--color-success)]">PAIN 03 · ALUMNI</span>
+            <span class="text-xs text-[var(--color-ink-faint)] font-mono">Founder Institute Thailand</span>
+          </div>
+          <h3 class="font-display text-xl mb-2 leading-tight">"Built a portal — no interactions inside. Hard to keep alumni after they graduate."</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Teaching startups bad at product design. Right now just an email list. Thailand cohort already had an app installed and auto-joined the group — that's the pattern we mirror with Spaces install at graduation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §03 USE CASES -->
+  <section class="py-16 sm:py-20" id="use-cases">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>03</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Three use cases</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Sequenced. UC1 lands first. UC2 unlocks. UC3 follows.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Activation must feel organic. Kevin will lead — try the portfolio pulse himself, then bring his team, then bring the portfolio. Members stick on the magic-moment landing in their first session, not on a pitch.
+      </p>
+
+      <div class="grid lg:grid-cols-3 gap-4">
+        {useCases.map((uc, i) => (
+          <div
+            class:list={[
+              "rounded-xl bg-[var(--color-paper)] p-5 transition-all hover:-translate-y-0.5",
+              i === 0 ? "border-2 border-[var(--color-accent)] hover:shadow-[0_14px_32px_-22px_rgba(74,0,224,0.35)]" : "border border-[var(--color-line)] hover:border-[var(--color-ink-faint)]",
+            ]}
+            data-reveal="fade-up"
+            data-reveal-delay={i}
+          >
+            <div class="flex items-center gap-2 mb-3">
+              <span class:list={[
+                "inline-flex items-center justify-center w-7 h-7 rounded-md font-mono text-xs font-bold",
+                i === 0 ? "bg-[var(--color-accent)] text-[var(--color-paper)]" : i === 1 ? "bg-[var(--color-paper)] border border-[var(--color-accent)]/40 text-[var(--color-accent-ink)]" : "bg-[var(--color-paper-soft)] border border-[var(--color-line)] text-[var(--color-ink-soft)]",
+              ]}>{uc.n}</span>
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent-ink)]">{uc.badge}</span>
+            </div>
+            <div class="flex items-center gap-2 mb-3">
+              {uc.icon === "users" && <Users class="w-4 h-4 text-[var(--color-accent)]" />}
+              {uc.icon === "calendar" && <Calendar class="w-4 h-4 text-[var(--color-accent)]" />}
+              {uc.icon === "graduation-cap" && <GraduationCap class="w-4 h-4 text-[var(--color-accent)]" />}
+              <h3 class="font-display text-xl leading-tight">{uc.title}</h3>
+            </div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Pain:</strong> {uc.pain}</p>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Play:</strong> {uc.play}</p>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2"><strong class="text-[var(--color-ink)]">Magic number:</strong> {uc.magic}</p>
+            <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 pt-3 border-t border-dashed border-[var(--color-line)]"><strong class="not-italic text-[var(--color-ink-soft)]">Why this position:</strong> {uc.why}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §04 PRE-FLIGHT -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="preflight">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>04</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Pre-flight blockers</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        What has to be true before the pilot opens.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Kevin is Android — PWA covers him for ~6 weeks. But his portfolio is mixed. iOS bugs we already documented in <a href="/foundation#tier-1" class="text-[var(--color-accent-ink)] hover:underline font-semibold">Foundation Tier-1</a> become hard pre-flight requirements for this pilot, not just future improvements. <strong class="text-[var(--color-ink)]">Burning a portfolio founder on day one because of a sign-in bug is the worst thing we can do — Kevin loses face with his founder, and the pilot's activation read collapses.</strong>
+      </p>
+
+      {[
+        { items: blocking, title: "Blocking · must clear before pilot opens", color: "danger", chip: "BLOCKING" },
+        { items: inFlight, title: "In flight · should clear in parallel with pilot prep", color: "warning", chip: "IN FLIGHT" },
+        { items: ready, title: "Ready or near-ready", color: "success", chip: "READY" },
+      ].map((group) => group.items.length > 0 && (
+        <div class="mb-10">
+          <h3 class:list={[
+            "font-display text-xl mb-4 flex items-center gap-2",
+            group.color === "danger" && "text-[var(--color-danger)]",
+            group.color === "warning" && "text-[var(--color-warning)]",
+            group.color === "success" && "text-[var(--color-success)]",
+          ]} data-reveal="fade-up">
+            {group.color === "danger" && <XCircle class="w-5 h-5" />}
+            {group.color === "warning" && <AlertTriangle class="w-5 h-5" />}
+            {group.color === "success" && <CheckCircle2 class="w-5 h-5" />}
+            <span>{group.title}</span>
+            <span class="text-xs font-mono text-[var(--color-ink-faint)]">({group.items.length})</span>
+          </h3>
+          <div class="space-y-2">
+            {group.items.map((p, i) => (
+              <div class="grid grid-cols-[2.25rem_1fr_auto] gap-3 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-ink-faint)] transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+                <div class:list={[
+                  "w-8 h-8 rounded-lg flex items-center justify-center text-xs",
+                  p.area === "iOS" && "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+                  p.area === "Onboarding" && "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+                  p.area === "Notifications" && "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]",
+                  p.area === "Android" && "bg-[var(--color-success-soft)] text-[var(--color-success)]",
+                  p.area === "Product" && "bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)] border border-[var(--color-line)]",
+                ]}>
+                  {p.area === "iOS" && <Apple class="w-4 h-4" />}
+                  {p.area === "Onboarding" && <KeyRound class="w-4 h-4" />}
+                  {p.area === "Notifications" && <Bell class="w-4 h-4" />}
+                  {p.area === "Android" && <Smartphone class="w-4 h-4" />}
+                  {p.area === "Product" && <Sparkles class="w-4 h-4" />}
+                </div>
+                <div>
+                  <h4 class="font-display text-base leading-tight mb-1">{p.title}</h4>
+                  <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">{p.why}</p>
+                  {p.link && (
+                    <a href={p.link.href} class="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-accent-ink)] hover:underline">
+                      <ArrowRight class="w-3 h-3" />{p.link.label}
+                    </a>
+                  )}
+                </div>
+                <div class="text-right text-xs font-mono text-[var(--color-ink-soft)] whitespace-nowrap flex items-center gap-1">
+                  <Hourglass class="w-3 h-3" />
+                  {p.effort}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- §05 ANDROID + PWA -->
+  <section class="py-16 sm:py-20" id="android">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>05</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Android + PWA path</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Kevin gets PWA on day one. Native Android in three to four weeks.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        We don't want to delay the pilot waiting for native — and we don't want to leave Kevin on PWA forever either.
+      </p>
+
+      <div class="grid lg:grid-cols-2 gap-4 max-w-5xl">
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <Globe class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Day 1 — PWA on Android Chrome</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            Add-to-home-screen, Web Push notifications, badge counts. Kevin installs from chrome://flags-free flow. Full functionality minus background sync edge cases.
+          </p>
+          <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 pl-4 list-disc">
+            <li>Verify install prompt fires in his Chrome version</li>
+            <li>Verify Web Push notifications land + are tappable</li>
+            <li>Verify the install icon stays on his home screen across Chrome updates</li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="1">
+          <div class="flex items-center gap-2 mb-3">
+            <Smartphone class="w-4 h-4 text-[var(--color-accent)]" />
+            <span class="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent-ink)]">Week 3–4 — native Android internal track</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+            We have iOS Nova working (Expo / React Native). Android build is the same codebase + an Android signing key + Play Console internal-testing track.
+          </p>
+          <ul class="text-xs text-[var(--color-ink-soft)] space-y-1.5 pl-4 list-disc">
+            <li>Set up Android signing key + Play Console</li>
+            <li>Add Kevin to internal testers list</li>
+            <li>First build via EAS Build (or Xcode-equivalent for Android)</li>
+            <li>Tighten Beams / FCM push registration on Android</li>
+          </ul>
+          <p class="text-xs text-[var(--color-ink-faint)] italic mt-3 pt-3 border-t border-dashed border-[var(--color-line)]">
+            Internal-track build is the realistic 3–4 week target. Public Play Store comes after.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-6xl mx-auto" />
+
+  <!-- §06 NEXT MEETING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-paper-soft)]" id="next-meeting">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>06</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Next-meeting agenda</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        35 minutes. Six blocks. Demo on his Android.
+      </h2>
+      <p class="text-lg leading-relaxed text-[var(--color-ink-soft)] max-w-3xl mb-10" data-reveal="fade-up" data-reveal-delay="2">
+        Don't pitch — show. Magic-number-or-bust philosophy. He should leave the meeting with a clear picture of (a) what Zunou does for his portfolio, (b) what we're fixing first, and (c) what he does next.
+      </p>
+
+      <div class="space-y-2 max-w-4xl">
+        {agenda.map((a, i) => (
+          <div class="grid grid-cols-[5rem_1fr] gap-4 items-start rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)]/40 hover:-translate-y-0.5 transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 4)}>
+            <div class="text-right">
+              <div class="font-mono text-xs font-bold text-[var(--color-accent)]">{String(i + 1).padStart(2, "0")}</div>
+              <div class="font-mono text-xs text-[var(--color-ink-soft)] mt-1">{a.mins}</div>
+            </div>
+            <div>
+              <h4 class="font-display text-lg leading-tight mb-1">{a.title}</h4>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{a.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- §07 OPEN -->
+  <section class="py-16 sm:py-20" id="open">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-5" data-reveal="fade-up">
+        <span class="section-number"><span>07</span></span>
+        <span class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Open questions</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl mb-5 max-w-3xl leading-tight" data-reveal="fade-up" data-reveal-delay="1">
+        Things to resolve before — or in — the next meeting.
+      </h2>
+
+      <div class="grid lg:grid-cols-2 gap-3 mt-8 max-w-5xl">
+        {[
+          { q: "Pricing post-pilot", a: "What does Indelible pay (if anything) for the portfolio pulse + Spaces? Free for pilot is fine; the pricing conversation comes after activation lands." },
+          { q: "Indelible thesis confirmation", a: "Pull their thesis from indelibleventures.com + LinkedIn before the meeting. Quote it back to him. Show we did the homework." },
+          { q: "First 5 founders", a: "Kevin curates. We pre-prep the portfolio pulse with default channels and an agent-prompt template before he sends invites." },
+          { q: "AI Salon Thailand timeline (UC2)", a: "When's the next salon? Spaces flow needs to be production-ready by then — possibly sets a hard date for UC2 readiness." },
+          { q: "FI Thailand intro path (UC3)", a: "Who's the right FI Thailand contact when we're ready? Confirm Kevin's still close enough to make the warm intro." },
+          { q: "Pre-flight transparency vs polish", a: "Show him the bug list openly (engineering credibility) or wait until clean (product polish)? Recommend showing it openly — Kevin's a builder, he'll respect the honesty." },
+        ].map((q, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)]/40 hover:-translate-y-0.5 transition-all" data-reveal="fade-up" data-reveal-delay={Math.min(i, 3)}>
+            <div class="flex items-center gap-2 mb-2">
+              <CircleHelp class="w-4 h-4 text-[var(--color-accent)]" />
+              <h4 class="font-display text-base leading-tight">{q.q}</h4>
+            </div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{q.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="py-16 sm:py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-3">The bottom line</p>
+        <h2 class="font-display text-2xl sm:text-3xl leading-tight mb-5">
+          Land Kevin with one use case done well, not three half-shipped.
+        </h2>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] mb-5">
+          The portfolio knowledge hub is the wedge. Get the iOS bugs out of the way so his founders can actually activate. Hand-onboard the first five with him. Read the magic-number at day 14. If it lands, we earn the right to UC2 (events) and the TAI pitch. If it doesn't, the second Beachhead 0 wave (North Base Media or Headline) is next.
+        </p>
+        <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
+          He'll try most himself. The product has to do the rest.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <a href="/foundation#tier-1" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors">
+            <Layers class="w-4 h-4" />
+            See the pre-flight bug fixes
+          </a>
+          <a href="/gtm#phases" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--color-paper-soft)]/30 text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-paper-soft)]/10 transition-colors">
+            <Flag class="w-4 h-4" />
+            GTM Phase 1A context
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
