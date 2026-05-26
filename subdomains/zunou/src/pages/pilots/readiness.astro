@@ -1,0 +1,1349 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Section from "../../components/Section.astro";
+import Stat from "../../components/Stat.astro";
+import {
+  Smartphone,
+  Globe,
+  Server,
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Zap,
+  Target,
+  Lock,
+  Bug,
+  Wrench,
+  Layers,
+  Compass,
+  Eye,
+  KeyRound,
+  Bell,
+  TestTube2,
+  GitBranch,
+  Users,
+  Calendar,
+  ArrowRight,
+  FileText,
+  ExternalLink,
+  Flag,
+  Hourglass,
+  CircleDot,
+  ListChecks,
+  Sparkles,
+  RefreshCw,
+  Database,
+  Workflow,
+  Activity,
+  ChevronRight,
+} from "@lucide/astro";
+
+/* ─── Agenda ──────────────────────────────────────────────────────────── */
+const agenda = [
+  { id: "tldr", label: "TL;DR" },
+  { id: "scorecard", label: "Scorecard" },
+  { id: "moments", label: "UX Moments" },
+  { id: "p0-mobile", label: "Mobile P0s" },
+  { id: "p0-pwa", label: "PWA P0s" },
+  { id: "stop-bleed", label: "Stop-bleed" },
+  { id: "scale", label: "Scale watchlist" },
+  { id: "path", label: "Critical path" },
+  { id: "gate", label: "PMF gate" },
+  { id: "coverage", label: "Test coverage" },
+  { id: "owners", label: "Owners" },
+];
+
+/* ─── Platforms ────────────────────────────────────────────────────────── */
+type Platform = "iOS" | "PWA" | "Both" | "Backend";
+
+const platformMeta: Record<
+  Platform,
+  { label: string; icon: any; tone: string }
+> = {
+  iOS: { label: "iOS native", icon: Smartphone, tone: "ios" },
+  PWA: { label: "PWA", icon: Globe, tone: "pwa" },
+  Both: { label: "iOS + PWA", icon: Layers, tone: "both" },
+  Backend: { label: "Backend", icon: Server, tone: "backend" },
+};
+
+/* ─── Scorecard ────────────────────────────────────────────────────────── */
+interface ScoreRow {
+  dimension: string;
+  platform: Platform;
+  state: string;
+  target: string;
+  level: "P0" | "P0-24h" | "Scale";
+}
+
+const scoreCard: ScoreRow[] = [
+  {
+    dimension: "Onboarding journey",
+    platform: "Both",
+    state: "Races + ephemeral OAuth + silent failures",
+    target: "≤ 90s, ≤ 1 password entry, zero dead-ends",
+    level: "P0",
+  },
+  {
+    dimension: "Auth resilience — iOS native",
+    platform: "iOS",
+    state: "SPA app_type used as native; Keychain default; refresh races",
+    target: "No spurious logouts over 7-day continuous use",
+    level: "P0",
+  },
+  {
+    dimension: "Auth resilience — PWA",
+    platform: "PWA",
+    state: "RT in localStorage; Safari ITP eviction risk; no CSP",
+    target: "Strict CSP + friendly re-auth on storage eviction",
+    level: "P0",
+  },
+  {
+    dimension: "Daily-use friction — iOS",
+    platform: "iOS",
+    state: "Foreground stampede; mutation duplicates; push misroute",
+    target: "< 1s foreground sync; push tap routes ≥ 95%",
+    level: "P0",
+  },
+  {
+    dimension: "Daily-use friction — PWA",
+    platform: "PWA",
+    state: "SW push ACK requires open tab; 60s stale-bundle window",
+    target: "Update prompt non-intrusive; ACK gap accepted in metrics",
+    level: "P0",
+  },
+  {
+    dimension: "Push delivery to TestFlight builds",
+    platform: "iOS",
+    state: "`aps-environment = development` shipped",
+    target: "Verified Release entitlement = production",
+    level: "P0",
+  },
+  {
+    dimension: "Web push delivery",
+    platform: "PWA",
+    state: "Works on Chrome; iOS Safari needs A2HS first",
+    target: "Subscription rotation has a recovery path; A2HS UX exists",
+    level: "P0",
+  },
+  {
+    dimension: "Crash & error observability",
+    platform: "Both",
+    state: "No Sentry anywhere; ScreenErrorBoundary discards errors",
+    target: "Sentry on RN + Swift + Web + Lambdas + PostHog magic-numbers",
+    level: "P0",
+  },
+  {
+    dimension: "Stop-bleed · secret hygiene",
+    platform: "Backend",
+    state: "Permanent AssemblyAI key in `Log::info`",
+    target: "Rotated + log line removed + CI ban-secrets",
+    level: "P0-24h",
+  },
+  {
+    dimension: "Stop-bleed · deploy safety",
+    platform: "Backend",
+    state: "3 Lambdas fail-open if `AUTH0_DOMAIN` unset",
+    target: "Fail-closed at boot + deploy gate",
+    level: "P0-24h",
+  },
+  {
+    dimension: "Cross-tenant Pusher channel auth",
+    platform: "Backend",
+    state: "Signs any channel a client asks for",
+    target: "Fix before 2nd tenant",
+    level: "Scale",
+  },
+  {
+    dimension: "File ingress (uploader)",
+    platform: "Backend",
+    state: "No JWT, hard-coded Companion secret, wildcard CORS",
+    target: "Fix before file-heavy use case / > 50 users",
+    level: "Scale",
+  },
+  {
+    dimension: "JP residency posture",
+    platform: "Backend",
+    state: "~55% of paths exit JP",
+    target: "Material only on first JP pilot",
+    level: "Scale",
+  },
+  {
+    dimension: "Notification outbox + DLQ",
+    platform: "Backend",
+    state: "Lossy at zero scale",
+    target: "Fix before > 50 active users / paid SLA",
+    level: "Scale",
+  },
+];
+
+const levelMeta: Record<
+  ScoreRow["level"],
+  { label: string; icon: any; cls: string }
+> = {
+  "P0-24h": {
+    label: "P0 · 24h",
+    icon: Zap,
+    cls: "bg-[var(--color-danger-soft)] text-[var(--color-danger)]",
+  },
+  P0: {
+    label: "P0 · PMF gate",
+    icon: Flag,
+    cls: "bg-[var(--color-warning-soft)] text-[var(--color-warning)]",
+  },
+  Scale: {
+    label: "Scale watchlist",
+    icon: Hourglass,
+    cls: "bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)]",
+  },
+};
+
+/* ─── UX moments ───────────────────────────────────────────────────────── */
+interface Moment {
+  id: string;
+  number: string;
+  title: string;
+  great: string;
+  platforms: Platform[];
+  pmf: "yes" | "partial" | "scale";
+  icon: any;
+}
+
+const moments: Moment[] = [
+  {
+    id: "m1",
+    number: "M1",
+    title: "First launch",
+    great: "One Auth0 prompt, instant restore on relaunch, no `prompt:login`, no Keychain fail on locked device. PWA survives Safari ITP eviction with graceful re-auth.",
+    platforms: ["Both"],
+    pmf: "yes",
+    icon: Sparkles,
+  },
+  {
+    id: "m2",
+    number: "M2",
+    title: "Onboarding",
+    great: "No races, no silent retries, password typed once, calendar shows the account they picked. PWA install prompt fires after first success, not on landing.",
+    platforms: ["Both"],
+    pmf: "yes",
+    icon: Workflow,
+  },
+  {
+    id: "m3",
+    number: "M3",
+    title: "Send / receive",
+    great: "Push lands ≥ 95% on the correct screen; no duplicate messages on flaky network; PWA web push works on Android Chrome + iOS Safari A2HS.",
+    platforms: ["Both"],
+    pmf: "yes",
+    icon: Bell,
+  },
+  {
+    id: "m4",
+    number: "M4",
+    title: "Meet & transcribe",
+    great: "Audio stable, transcript arrives, no key leakage; mic permission UX is one-shot.",
+    platforms: ["Both"],
+    pmf: "partial",
+    icon: Activity,
+  },
+  {
+    id: "m5",
+    number: "M5",
+    title: "File share",
+    great: "Auth'd uploads only, size cap visible, AV clean.",
+    platforms: ["Backend"],
+    pmf: "scale",
+    icon: Database,
+  },
+  {
+    id: "m6",
+    number: "M6",
+    title: "Background life",
+    great: "Locked-device push doesn't logout; foreground doesn't stampede; account switch cleans state; PWA service worker update doesn't drop drafts.",
+    platforms: ["Both"],
+    pmf: "yes",
+    icon: RefreshCw,
+  },
+  {
+    id: "m7",
+    number: "M7",
+    title: "Enterprise trust",
+    great: "Clean log streams, S2S auth, channel isolation, observable failures.",
+    platforms: ["Backend"],
+    pmf: "scale",
+    icon: ShieldCheck,
+  },
+  {
+    id: "m8",
+    number: "M8",
+    title: "Recovery",
+    great: "Visible error, retry affordance, observability captures it on both clients.",
+    platforms: ["Both"],
+    pmf: "yes",
+    icon: Wrench,
+  },
+];
+
+const pmfMeta = {
+  yes: { label: "PMF gate", cls: "bg-[var(--color-warning-soft)] text-[var(--color-warning)]" },
+  partial: { label: "Partial", cls: "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]" },
+  scale: { label: "Scale", cls: "bg-[var(--color-paper-soft)] text-[var(--color-ink-soft)]" },
+};
+
+/* ─── P0 findings (Mobile + PWA) ───────────────────────────────────────── */
+interface Finding {
+  id: string;
+  title: string;
+  why: string;
+  evidence: string;
+  platforms: Platform[];
+  effort: "XS" | "S" | "M" | "L";
+  moment: string;
+  scale?: boolean;
+  stopBleed?: boolean;
+}
+
+const p0Mobile: Finding[] = [
+  {
+    id: "P0-6",
+    title: "Auth0 client still `app_type = \"spa\"` for the iOS native app",
+    why: "Strict RT rotation + leeway 0 forces terminal logout on sub-second races. Root cause of the chronic \"Google logout\" reports.",
+    evidence: "infrastructure/environment/modules/auth0/main.tf:31-60",
+    platforms: ["iOS"],
+    effort: "L",
+    moment: "M1",
+  },
+  {
+    id: "P0-7",
+    title: "iOS Release entitlements ship `aps-environment = development`",
+    why: "TestFlight + App Store builds get APNs sandbox tokens; Lambda uses prod APNs → zero push delivery to pilot users until verified.",
+    evidence: "services/nova/ios/Zunou/Zunou.entitlements:5-6",
+    platforms: ["iOS"],
+    effort: "S",
+    moment: "M3",
+  },
+  {
+    id: "P0-8",
+    title: "Boot refresh bypasses single-flight; 401 handlers wired only after `(app)/` mounts",
+    why: "Two refresh paths race the same RT on cold start → invalid_grant → terminal logout. Pre-(app) screens 401 → forced logout because handlers are still null.",
+    evidence: "src/contexts/AuthContext.tsx:402-414, 629-634",
+    platforms: ["iOS"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "P0-9",
+    title: "Keychain default `kSecAttrAccessibleWhenUnlocked` + background remote notifications enabled",
+    why: "Locked-device push wake → Keychain read fails → terminal classification → forced logout next foreground.",
+    evidence: "src/contexts/AuthContext.tsx:346,348,411,413,527,529",
+    platforms: ["iOS"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "P0-10",
+    title: "No native APNs delegate; JS handler mounts only after AuthProvider resolves",
+    why: "Cold-killed app + push tap → 2-3s window with no handler → ~10% of taps misroute on slow devices.",
+    evidence: "ios/Zunou/AppDelegate.swift · usePushNotifications.ts:186-195",
+    platforms: ["iOS"],
+    effort: "M",
+    moment: "M3",
+  },
+  {
+    id: "P0-11",
+    title: "Notification Hub singleton captures the first `getToken` it ever sees",
+    why: "Locale toggle re-mounts AuthProvider → new getToken → Hub holds stale closure → unregister/badge/ack silently no-op. Plus `prompt: 'login'` blocks SSO.",
+    evidence: "notificationHubClient.ts:994-1002 · AuthContext.tsx:316",
+    platforms: ["iOS"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "P0-12",
+    title: "No crash reporting or global JS error handler",
+    why: "During pilot, you can't triage. No Sentry on iOS, no Sentry on PWA, no Sentry on iOS-facing Lambdas, ScreenErrorBoundary discards errors.",
+    evidence: "services/nova/package.json — no @sentry/*",
+    platforms: ["Both", "Backend"],
+    effort: "M",
+    moment: "M8",
+  },
+  {
+    id: "P0-13",
+    title: "`upsertNovaSettingMetadata` is fire-and-forget mid-onboarding",
+    why: "If the GraphQL call fails or the user backgrounds the app mid-call, the user re-onboards on the next session.",
+    evidence: "journeys §J2 (Marco's audit)",
+    platforms: ["Both"],
+    effort: "S",
+    moment: "M2",
+  },
+  {
+    id: "P0-14",
+    title: "`isInitialized` flag resets when Auth0 `isAuthenticated` toggles",
+    why: "Re-runs signInUserMutation and races the in-flight bootstrap.",
+    evidence: "journeys §J1",
+    platforms: ["Both"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "P0-15",
+    title: "Race between `createOrganization` and `bootstrapOrg`",
+    why: "Parallel queries can conflict and leave the workspace half-created.",
+    evidence: "journeys §J2",
+    platforms: ["Both"],
+    effort: "S",
+    moment: "M2",
+  },
+  {
+    id: "P0-16",
+    title: "Calendar OAuth on iOS uses ephemeral `ASWebAuthenticationSession`",
+    why: "No cookie persistence — users retype the Google password on every calendar link. Demo blocker even though not a security defect.",
+    evidence: "journeys §J3",
+    platforms: ["iOS"],
+    effort: "XS",
+    moment: "M2",
+  },
+];
+
+const p0Pwa: Finding[] = [
+  {
+    id: "PWA-1",
+    title: "Refresh token in `localStorage`, not Keychain",
+    why: "Any XSS on the PWA origin = one-shot RT exfiltration. The web shim returns no-ops, falling through to localStorage.",
+    evidence: "src/shims/expo-secure-store.web.ts · AuthContext.tsx:23-38",
+    platforms: ["PWA"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "PWA-2",
+    title: "No Content-Security-Policy, no HSTS, no X-Frame-Options",
+    why: "Combined with PWA-1, the lack of CSP turns any XSS into account takeover. Procurement reviews flag this immediately.",
+    evidence: "scripts/inject-pwa.mjs · CloudFront response headers",
+    platforms: ["PWA"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "PWA-3",
+    title: "iOS Safari ITP / standalone-mode data eviction → silent logout",
+    why: "Safari purges localStorage after ~7 days of inactivity or under storage pressure. PWA has no fallback storage, no friendly re-auth UX.",
+    evidence: "WebKit ITP behavior · no Cookie/IndexedDB mirror in repo",
+    platforms: ["PWA"],
+    effort: "S",
+    moment: "M1",
+  },
+  {
+    id: "PWA-4",
+    title: "Install prompt fires on landing, not after first success",
+    why: "Showing the install button before the user sends their first message inverts the install conversion funnel.",
+    evidence: "src/hooks/usePwaInstall.ts (immediate capture)",
+    platforms: ["PWA"],
+    effort: "XS",
+    moment: "M2",
+  },
+  {
+    id: "PWA-5",
+    title: "iOS Safari web push silently absent without A2HS",
+    why: "Web Push on iOS requires Add-to-Home-Screen on iOS 16.4+. The PWA fails silently — iOS Safari users are functionally muted.",
+    evidence: "src/hooks/usePushNotifications.ts:950-980",
+    platforms: ["PWA"],
+    effort: "S",
+    moment: "M3",
+  },
+  {
+    id: "PWA-6",
+    title: "`pushsubscriptionchange` requires an open tab to refresh server",
+    why: "Browser rotates the push subscription with no tab open → silent push outage until next launch. SW comment is explicit.",
+    evidence: "public/sw.js:81-103",
+    platforms: ["PWA"],
+    effort: "M",
+    moment: "M6",
+  },
+  {
+    id: "PWA-7",
+    title: "Push ACK lost when no tab is open",
+    why: "SW comment: \"If no tab is open we'll miss the ACK.\" Notification accounting is missing-tab-blind.",
+    evidence: "public/sw.js:60-67",
+    platforms: ["PWA"],
+    effort: "XS",
+    moment: "M3",
+  },
+  {
+    id: "PWA-8",
+    title: "Service Worker update window = up to 60s of stale bundle vs new API",
+    why: "Between deploy and user-confirmation, the client runs old JS against new GraphQL schemas. Friendly users tolerate it once.",
+    evidence: "src/hooks/useServiceWorkerUpdate.ts",
+    platforms: ["PWA"],
+    effort: "M",
+    moment: "M6",
+  },
+];
+
+/* ─── Stop-bleed (24h) ─────────────────────────────────────────────────── */
+const stopBleed: Finding[] = [
+  {
+    id: "P0-2",
+    title: "Permanent AssemblyAI API key written to logs on every iOS transcription start",
+    why: "`Log::info('AssemblyAI API key', …)` runs on every mint. Anyone with CloudWatch read = permanent key. Rotate immediately, then remove the line.",
+    evidence: "services/api/app/GraphQL/Mutations/GenerateAssemblyaiRealtimeClientSecretMutation.php:28",
+    platforms: ["Backend"],
+    effort: "XS",
+    moment: "M7",
+    stopBleed: true,
+  },
+  {
+    id: "P0-5",
+    title: "Silent JWT bypass when `AUTH0_DOMAIN` unset — on 3 Lambdas iOS hits",
+    why: "If the env var is missing, `validateJWT` returns valid:true. A misconfigured deploy = fully open Lambdas.",
+    evidence: "notification-hub/auth.mjs:37-45 · ai-proxy/index.mjs:49-52 · relay-service/index.mjs:241-247",
+    platforms: ["Backend"],
+    effort: "XS",
+    moment: "M7",
+    stopBleed: true,
+  },
+  {
+    id: "P0-4a",
+    title: "WAF block on `/companion/*` until uploader hardens",
+    why: "Uploader has no JWT, hard-coded Companion secret, wildcard CORS. Not in Indelible UC1 critical path — WAF-deny in 24h, full fix later.",
+    evidence: "services/uploader/src/app.ts:23-66",
+    platforms: ["Backend"],
+    effort: "XS",
+    moment: "M5",
+    stopBleed: true,
+  },
+];
+
+/* ─── Scale watchlist ──────────────────────────────────────────────────── */
+interface ScaleItem {
+  id: string;
+  title: string;
+  why: string;
+  trigger: string;
+}
+
+const scaleItems: ScaleItem[] = [
+  {
+    id: "P0-1",
+    title: "Pusher channel-auth signs any channel a client requests",
+    why: "Authenticated user A can subscribe to `private-user.{B-uuid}` and receive every realtime event for user B. Cross-tenant leak.",
+    trigger: "Second tenant onboarded · any pilot with adversarial users",
+  },
+  {
+    id: "P0-3",
+    title: "iOS streams meeting audio direct to AssemblyAI US WebSocket",
+    why: "Audio never transits a JP system. The Zunou backend never sees the audio path.",
+    trigger: "First JP pilot signed · healthcare/legal/finance vertical",
+  },
+  {
+    id: "P0-4",
+    title: "Uploader full hardening (JWT, KMS secret, size cap, AV)",
+    why: "WAF-deny addresses the stop-bleed; full re-architecture covers file-heavy use cases.",
+    trigger: "First file-heavy use case · > 50 users · public link sharing",
+  },
+  {
+    id: "P1-1",
+    title: "Push payload PII (message preview, sender_gravatar)",
+    why: "Message content transits Apple/Google US infrastructure.",
+    trigger: "First JP pilot · APPI-bound buyer",
+  },
+  {
+    id: "P1-2",
+    title: "Pusher cluster `ap3` Singapore — realtime exits JP",
+    why: "Not material outside JP-regulated pilots.",
+    trigger: "First JP pilot signs residency clause",
+  },
+  {
+    id: "P1-3",
+    title: "Laravel → Lambda S2S uses user JWT (no HMAC/shared secret)",
+    why: "Internal control path; not externally exploitable without first compromising a user.",
+    trigger: "Multi-tenant · any audit-log requirement",
+  },
+  {
+    id: "P1-4",
+    title: "No notification outbox / DLQ / idempotency; hot DDB partition",
+    why: "Lossy-at-zero-scale is real; cost at 20–40 friendly users is \"occasionally miss a push.\"",
+    trigger: "> 50 active users · first paid SLA",
+  },
+];
+
+/* ─── PMF gate ─────────────────────────────────────────────────────────── */
+interface Gate {
+  id: string;
+  title: string;
+  what: string;
+  closes: string;
+  band: "stop-bleed" | "onboarding" | "daily" | "recovery" | "pwa" | "dry-run";
+}
+
+const gates: Gate[] = [
+  {
+    id: "G0a",
+    title: "AssemblyAI key rotated",
+    what: "Key changed in 1Password + AWS Param Store; old key invalidated; `Log::info(...)` line deleted; CI grep rule lands in the same PR.",
+    closes: "P0-2",
+    band: "stop-bleed",
+  },
+  {
+    id: "G0b",
+    title: "Lambdas fail-closed",
+    what: "notification-hub + ai-proxy + relay-service return 401 when `AUTH0_DOMAIN` is unset (staging + prod, smoke-tested).",
+    closes: "P0-5",
+    band: "stop-bleed",
+  },
+  {
+    id: "G0c",
+    title: "Uploader behind WAF",
+    what: "Deny-by-default rule blocks unauthenticated `/companion/*` until P0-4 ships.",
+    closes: "P0-4a",
+    band: "stop-bleed",
+  },
+  {
+    id: "G1",
+    title: "Sign in once",
+    what: "Cold install → Auth0 → home in ≤ 90s, ≤ 1 password entry, no `prompt:login`. Locked-device push wake does not logout.",
+    closes: "P0-8 · P0-9 · P0-11 · P0-14 · P0-6",
+    band: "onboarding",
+  },
+  {
+    id: "G2",
+    title: "Onboarding can't dead-end",
+    what: "100-iteration scripted run on flaky network — zero races, zero re-onboarding loops, zero silent dead-ends.",
+    closes: "P0-13 · P0-15 · P1-21",
+    band: "onboarding",
+  },
+  {
+    id: "G3",
+    title: "Calendar OAuth one-shot",
+    what: "Re-linking the same Google calendar does not require typing the password again.",
+    closes: "P0-16 · P1-20",
+    band: "onboarding",
+  },
+  {
+    id: "G4",
+    title: "Push delivery verified",
+    what: "TestFlight (with production entitlement) sends a real APNs-prod push; tap from cold-killed app routes correctly ≥ 95% over 20 attempts.",
+    closes: "P0-7 · P0-10",
+    band: "daily",
+  },
+  {
+    id: "G5",
+    title: "Account switch is clean",
+    what: "Sign out → sign in as different user → no stale unread badges, no orphan Pusher sub, no wrong-user push registration.",
+    closes: "P1-13 · P1-16",
+    band: "daily",
+  },
+  {
+    id: "G6",
+    title: "Observability online",
+    what: "Sentry receives a client crash, a Lambda crash, and a GraphQL error from staging; PII scrubbing tested; Slack alert routing live.",
+    closes: "P0-12",
+    band: "recovery",
+  },
+  {
+    id: "G7",
+    title: "Magic-number instrumentation",
+    what: "Daily-active, first-message-time, push-tap-to-route conversion, onboarding completion rate wired to PostHog before founder onboarding begins.",
+    closes: "Marco's Indelible meeting agenda",
+    band: "recovery",
+  },
+  {
+    id: "G9",
+    title: "PWA CSP + headers",
+    what: "Strict CSP shipped; X-Frame-Options DENY, HSTS, Referrer-Policy strict-origin-when-cross-origin, X-Content-Type-Options nosniff. Mozilla Observatory ≥ B.",
+    closes: "PWA-1 · PWA-2",
+    band: "pwa",
+  },
+  {
+    id: "G10",
+    title: "PWA Safari ITP re-auth flow",
+    what: "Empty localStorage on PWA cold launch → friendly \"welcome back\" screen, not a generic Auth0 redirect.",
+    closes: "PWA-3",
+    band: "pwa",
+  },
+  {
+    id: "G11",
+    title: "PWA install prompt is value-gated",
+    what: "Install affordance fires after first sent message or onboarding completion, not on landing.",
+    closes: "PWA-4",
+    band: "pwa",
+  },
+  {
+    id: "G12",
+    title: "Web push verified on both browsers",
+    what: "Android Chrome installed PWA → web push delivered. iOS Safari 16.4+ A2HS → install affordance → web push works post-install.",
+    closes: "PWA-5 · PWA-6",
+    band: "pwa",
+  },
+  {
+    id: "G13",
+    title: "SW update flow tested",
+    what: "Deploy update → PWA shows prompt within 60s of focus → user taps Update → cache nuked, fresh bundle loaded, no draft loss.",
+    closes: "PWA-8",
+    band: "pwa",
+  },
+  {
+    id: "G14",
+    title: "End-to-end on all three clients",
+    what: "Two-account script (login → DM → calendar → push tap → optional transcribe → account switch → logout) passes on TestFlight, Android Chrome PWA, iOS Safari PWA. Repeat TestFlight after one week of background.",
+    closes: "M1–M8 composite",
+    band: "dry-run",
+  },
+];
+
+const bandMeta = {
+  "stop-bleed": { label: "Stop-bleed · 24h", icon: Zap, cls: "bg-[var(--color-danger-soft)] text-[var(--color-danger)]" },
+  onboarding: { label: "Onboarding · M1 + M2", icon: Workflow, cls: "bg-[var(--color-warning-soft)] text-[var(--color-warning)]" },
+  daily: { label: "Daily use · M3 + M6", icon: Bell, cls: "bg-[var(--color-warning-soft)] text-[var(--color-warning)]" },
+  recovery: { label: "Recovery · M8", icon: Wrench, cls: "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]" },
+  pwa: { label: "PWA · M1 + M3 + M6", icon: Globe, cls: "bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)]" },
+  "dry-run": { label: "Indelible dry-run", icon: Target, cls: "bg-[var(--color-success-soft)] text-[var(--color-success)]" },
+};
+
+/* ─── Coverage rows ────────────────────────────────────────────────────── */
+interface CoverageRow {
+  area: string;
+  pmfFindings: number;
+  totalFindings: number;
+  testFiles: number | string;
+}
+const coverageRows: CoverageRow[] = [
+  { area: "services/nova (iOS RN + PWA)", pmfFindings: 19, totalFindings: 32, testFiles: 0 },
+  { area: "services/notification-hub Lambda", pmfFindings: 1, totalFindings: 5, testFiles: 0 },
+  { area: "services/ai-proxy Lambda", pmfFindings: 1, totalFindings: 1, testFiles: 0 },
+  { area: "services/relay-service Lambda", pmfFindings: 1, totalFindings: 1, testFiles: 0 },
+  { area: "services/uploader", pmfFindings: 0, totalFindings: 1, testFiles: 0 },
+  { area: "services/api (Laravel)", pmfFindings: 1, totalFindings: 4, testFiles: "132 (none on offending controllers)" },
+  { area: "Auth0 Terraform", pmfFindings: 1, totalFindings: 1, testFiles: "n/a" },
+];
+const totalPmf = coverageRows.reduce((s, r) => s + r.pmfFindings, 0);
+const totalAll = coverageRows.reduce((s, r) => s + r.totalFindings, 0);
+
+/* ─── Owners ───────────────────────────────────────────────────────────── */
+const owners = [
+  {
+    item: "P0-2 · AssemblyAI key rotation",
+    decision: "Approve out-of-cycle rotation",
+    owner: "Security lead",
+    deadline: "Within 24h",
+  },
+  {
+    item: "P0-5 · Lambda env-var sweep",
+    decision: "Verify `AUTH0_DOMAIN` set in all 3 Lambdas across all envs",
+    owner: "Backend DRI",
+    deadline: "Within 24h",
+  },
+  {
+    item: "P0-4a · WAF block",
+    decision: "Add deny-by-default rule for `/companion/*` until full fix",
+    owner: "Infra DRI",
+    deadline: "Within 24h",
+  },
+  {
+    item: "P0-7 · Entitlements verification",
+    decision: "Inspect signed TestFlight `.ipa` for `aps-environment`",
+    owner: "iOS DRI",
+    deadline: "Pre-PMF gate",
+  },
+  {
+    item: "P0-16 · Calendar OAuth flow",
+    decision: "Confirm one-shot password is the desired UX",
+    owner: "Marco + product",
+    deadline: "Pre-PMF gate",
+  },
+  {
+    item: "PWA-2 · Security headers",
+    decision: "Set via inject-pwa.mjs or CloudFront response policy?",
+    owner: "Web DRI",
+    deadline: "Same week as P0-12",
+  },
+  {
+    item: "Test policy change",
+    decision: "Pair-test mandate on every PMF-gate P0 PR + Laravel CI run",
+    owner: "Eng lead",
+    deadline: "Same week as P0-12",
+  },
+  {
+    item: "Scale watchlist re-cost",
+    decision: "Quarterly review of §3 re-entry triggers vs pilot pipeline",
+    owner: "Marco",
+    deadline: "Quarterly",
+  },
+];
+
+/* ─── Sources ──────────────────────────────────────────────────────────── */
+const sources = [
+  { label: "ios-auth-logout-audit.md", note: "Auth0 SPA-as-native, Keychain default, refresh races" },
+  { label: "services-architecture-audit.md", note: "Notification stack, Pusher region, JWT bypass, PII in push" },
+  { label: "test-coverage.md", note: "Grade F across nova; 0 tests on Lambdas" },
+  { label: "journeys.astro", note: "26 bugs across 6 journeys → P0-13..16, P1-19..24" },
+  { label: "foundation.astro", note: "Mortality timing T+0 / T+1 / T+7" },
+  { label: "pilots/indelible.astro", note: "Pilot population, use-case ladder, magic-number requirement" },
+  { label: "quality.astro", note: "Quality posture D+ confirmed" },
+];
+
+const pmfP0Count = p0Mobile.length + p0Pwa.length;
+---
+
+<Layout
+  title="Zunou — Mobile + Backend PMF Readiness"
+  description="Mobile (iOS native + PWA) + backend audit for Indelible UC1. P0 punch list, scale watchlist, single-tier PMF gate."
+  agenda={agenda}
+>
+  {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+  <section class="relative overflow-hidden border-b border-[var(--color-line)] bg-[var(--color-paper-soft)]">
+    <div class="max-w-6xl mx-auto px-6 py-20 sm:py-24">
+      <div class="flex items-center gap-2 mb-6 text-xs uppercase tracking-[0.2em] font-semibold text-[var(--color-accent)]" data-reveal="fade-up">
+        <Compass class="w-3.5 h-3.5" />
+        <span>Mobile + Backend · PMF Readiness</span>
+      </div>
+
+      <h1 class="font-display text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.04] tracking-tight mb-6 max-w-4xl" data-reveal="fade-up" data-reveal-delay="1">
+        Ship habit-forming mobile to Indelible<br />
+        <span class="text-[var(--color-ink-soft)]">in 2.5 calendar weeks.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl leading-[1.6] text-[var(--color-ink-soft)] max-w-[68ch] mb-8" data-reveal="fade-up" data-reveal-delay="2">
+        A Zunou mobile user — iOS native or PWA on Android — signs in once, sees their workspace working, messages and meets without friction, and never gets kicked out. This page is the ship/no-ship punch list for that promise, organized around the 8 UX moments that decide whether habit forms.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="3">
+        <a
+          href="#gate"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-ink)] text-[var(--color-paper)] font-semibold text-sm hover:bg-[var(--color-accent-ink)] transition-colors"
+        >
+          <Target class="w-4 h-4" />
+          <span>PMF gate · 16 checks</span>
+        </a>
+        <a
+          href="#stop-bleed"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-danger-soft)] text-[var(--color-danger)] font-semibold text-sm hover:bg-[var(--color-danger)] hover:text-[var(--color-paper)] transition-colors"
+        >
+          <Zap class="w-4 h-4" />
+          <span>3 stop-bleed in 24h</span>
+        </a>
+        <a
+          href="/pilots/indelible"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] text-sm font-medium"
+        >
+          <ArrowRight class="w-4 h-4" />
+          <span>Pilot context · Indelible</span>
+        </a>
+      </div>
+
+      {/* Quick stats */}
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12" data-reveal="fade-up" data-reveal-delay="4">
+        <Stat value="2.5 wk" label="PMF gate · TestFlight + PWA verified" icon="rocket" />
+        <Stat value={String(pmfP0Count)} label="P0 findings for PMF gate" icon="flag" />
+        <Stat value="0%" label={`Test coverage · ${totalAll} findings, 0 covering tests`} icon="test-tube-2" />
+        <Stat value="3" label="Clients verified · iOS · Chrome PWA · Safari PWA" icon="layers" />
+      </div>
+    </div>
+  </section>
+
+  {/* ─── TL;DR ────────────────────────────────────────────────────────── */}
+  <Section
+    id="tldr"
+    number="01"
+    eyebrow="TL;DR"
+    title="What this audit says, in 90 seconds."
+    lede="Mobile = iOS native (Expo/RN + Swift shell) + PWA (Android Chrome + iOS Safari A2HS). Android native is starting; out of scope until kickoff. Indelible UC1 is small (20–40 founders, single tenant, Malaysia) — so enterprise security / residency / scale items are real but deferrable to a watchlist. PMF gate is the UX-mortality set."
+  >
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-3 text-[var(--color-danger)]">
+          <Zap class="w-5 h-5" />
+          <span class="text-xs uppercase tracking-[0.15em] font-bold">Stop-bleed · 24h</span>
+        </div>
+        <div class="font-semibold mb-2">Rotate, fail-closed, WAF.</div>
+        <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          AssemblyAI key in logs (P0-2). Three Lambdas fail-open on missing env var (P0-5). Uploader has no auth (P0-4) — WAF-block until full fix.
+        </div>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay="1">
+        <div class="flex items-center gap-2 mb-3 text-[var(--color-warning)]">
+          <Flag class="w-5 h-5" />
+          <span class="text-xs uppercase tracking-[0.15em] font-bold">PMF gate · 2.5 wk</span>
+        </div>
+        <div class="font-semibold mb-2">{pmfP0Count} P0s across iOS + PWA.</div>
+        <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Auth resilience, onboarding races, push delivery, Sentry, PWA CSP + Safari re-auth + value-gated install. Single-tier gate, 16 checks.
+        </div>
+      </div>
+      <div class="tile border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay="2">
+        <div class="flex items-center gap-2 mb-3 text-[var(--color-ink-faint)]">
+          <Hourglass class="w-5 h-5" />
+          <span class="text-xs uppercase tracking-[0.15em] font-bold">Scale watchlist</span>
+        </div>
+        <div class="font-semibold mb-2">{scaleItems.length} items, each with a re-entry trigger.</div>
+        <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+          Cross-tenant Pusher leak, AssemblyAI residency, uploader full fix, push PII, Pusher Tokyo move, S2S HMAC, outbox + DLQ. Fix when the trigger fires.
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* ─── SCORECARD ────────────────────────────────────────────────────── */}
+  <Section
+    id="scorecard"
+    number="02"
+    eyebrow="Executive scorecard"
+    title="Does mobile deliver a habit-forming first week?"
+    lede="14 dimensions across iOS native, PWA, and backend touchpoints. PMF gate items are the bar for Indelible UC1. Scale watchlist items stay real but bounded by single-tenant pilot shape."
+    tone="soft"
+  >
+    <div class="border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]" data-reveal="fade-up">
+      <div class="hidden lg:grid grid-cols-[1.6fr_0.7fr_2.2fr_2fr_0.9fr] gap-4 px-5 py-3 bg-[var(--color-paper-soft)] text-[11px] uppercase tracking-[0.14em] font-semibold text-[var(--color-ink-soft)]">
+        <div>Dimension</div>
+        <div>Platform</div>
+        <div>State today</div>
+        <div>PMF-ready target</div>
+        <div>Gap</div>
+      </div>
+      {scoreCard.map((row) => {
+        const Plat = platformMeta[row.platform];
+        const L = levelMeta[row.level];
+        return (
+          <div class="grid grid-cols-1 lg:grid-cols-[1.6fr_0.7fr_2.2fr_2fr_0.9fr] gap-2 lg:gap-4 px-5 py-4 border-t border-[var(--color-line-soft)]" data-reveal="fade-up">
+            <div class="font-semibold text-[var(--color-ink)] text-sm flex items-center gap-2">
+              <span>{row.dimension}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="inline-flex items-center gap-1.5 text-xs text-[var(--color-ink-soft)]">
+                <Plat.icon class="w-3.5 h-3.5" />
+                <span>{Plat.label}</span>
+              </span>
+            </div>
+            <div class="text-sm text-[var(--color-ink-soft)] leading-snug">{row.state}</div>
+            <div class="text-sm text-[var(--color-ink-soft)] leading-snug">{row.target}</div>
+            <div>
+              <span class={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.12em] font-bold ${L.cls}`}>
+                <L.icon class="w-3 h-3" />
+                <span>{L.label}</span>
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  {/* ─── UX MOMENTS ──────────────────────────────────────────────────── */}
+  <Section
+    id="moments"
+    number="03"
+    eyebrow="UX moments"
+    title="The 8 moments that decide whether habit forms."
+    lede="Each P0 is tagged to the moment it breaks and the platform it lives on. M1–M3 + M6 + M8 are the PMF set. M4 is partial. M5 + M7 are scale-watchlist except for the stop-bleed pieces."
+  >
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {moments.map((m, i) => {
+        const M = pmfMeta[m.pmf];
+        return (
+          <div
+            class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)] flex flex-col"
+            data-reveal="fade-up"
+            data-reveal-delay={i % 4}
+          >
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[11px] font-semibold text-[var(--color-accent)]">{m.number}</span>
+                <m.icon class="w-4 h-4 text-[var(--color-accent)]" />
+              </div>
+              <span class={`px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.12em] font-bold ${M.cls}`}>
+                {M.label}
+              </span>
+            </div>
+            <div class="font-display text-lg mb-2 leading-tight">{m.title}</div>
+            <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed flex-1">{m.great}</div>
+            <div class="flex items-center gap-1.5 mt-4 pt-3 border-t border-[var(--color-line-soft)]">
+              {m.platforms.map((p) => {
+                const P = platformMeta[p];
+                return (
+                  <span class="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.12em] font-semibold text-[var(--color-ink-faint)]">
+                    <P.icon class="w-3 h-3" />
+                    <span>{P.label}</span>
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  {/* ─── STOP-BLEED ──────────────────────────────────────────────────── */}
+  <Section
+    id="stop-bleed"
+    number="04"
+    eyebrow="Stop-bleed · 24h"
+    title="Three things that need doing before anything else."
+    lede="Real and current defects whose cost compounds the longer they stay open. Rotate, fail-closed, WAF — independent of the PMF gate."
+    tone="warm"
+  >
+    <div class="grid lg:grid-cols-3 gap-4">
+      {stopBleed.map((f, i) => (
+        <div
+          class="tile border-2 border-[var(--color-danger)]/30 rounded-xl p-6 bg-[var(--color-paper)] flex flex-col"
+          data-reveal="fade-up"
+          data-reveal-delay={i}
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs font-bold text-[var(--color-danger)]">{f.id}</span>
+            <span class="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.12em] font-bold text-[var(--color-danger)]">
+              <Zap class="w-3 h-3" />
+              <span>24h</span>
+            </span>
+          </div>
+          <div class="font-semibold text-[var(--color-ink)] mb-2 leading-snug">{f.title}</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4 flex-1">{f.why}</div>
+          <div class="font-mono text-[10.5px] text-[var(--color-ink-faint)] leading-relaxed border-t border-[var(--color-line-soft)] pt-3">
+            {f.evidence}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* ─── MOBILE P0s ──────────────────────────────────────────────────── */}
+  <Section
+    id="p0-mobile"
+    number="05"
+    eyebrow="Mobile P0s · iOS + onboarding journeys"
+    title="11 findings that break first launch, onboarding, or daily use."
+    lede="Auth resilience (M1), the onboarding flow (M2), push delivery (M3 + M6), recovery (M8). Each has file:line evidence and a UX moment tag."
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      {p0Mobile.map((f, i) => (
+        <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay={i % 4}>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-[11px] font-bold text-[var(--color-warning)]">{f.id}</span>
+              <span class="text-[10px] uppercase tracking-[0.12em] font-semibold text-[var(--color-accent)]">{f.moment}</span>
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] font-bold text-[var(--color-ink-faint)]">
+              {f.effort}
+            </span>
+          </div>
+          <div class="font-semibold text-[var(--color-ink)] text-[15px] mb-2 leading-snug">{f.title}</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">{f.why}</div>
+          <div class="flex items-center justify-between gap-3 pt-3 border-t border-[var(--color-line-soft)]">
+            <div class="flex items-center gap-1.5">
+              {f.platforms.map((p) => {
+                const P = platformMeta[p];
+                return (
+                  <span class="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.12em] font-semibold text-[var(--color-ink-faint)]">
+                    <P.icon class="w-3 h-3" />
+                    <span>{P.label}</span>
+                  </span>
+                );
+              })}
+            </div>
+            <div class="font-mono text-[10px] text-[var(--color-ink-faint)] truncate max-w-[55%]" title={f.evidence}>
+              {f.evidence}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* ─── PWA P0s ─────────────────────────────────────────────────────── */}
+  <Section
+    id="p0-pwa"
+    number="06"
+    eyebrow="PWA P0s · Android primary mobile path"
+    title="8 PWA-specific findings — different security and lifecycle model."
+    lede="PWA covers Android mobile users (until native ships) and any iOS user who chooses Safari + Add-to-Home-Screen. RT lives in localStorage, not Keychain. Push goes through VAPID + Service Worker. Updates are user-prompted, not App Store releases."
+    tone="soft"
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      {p0Pwa.map((f, i) => (
+        <div class="tile border border-[var(--color-line)] rounded-xl p-5 bg-[var(--color-paper)]" data-reveal="fade-up" data-reveal-delay={i % 4}>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-[11px] font-bold text-[var(--color-warning)]">{f.id}</span>
+              <span class="text-[10px] uppercase tracking-[0.12em] font-semibold text-[var(--color-accent)]">{f.moment}</span>
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] font-bold text-[var(--color-ink-faint)]">
+              {f.effort}
+            </span>
+          </div>
+          <div class="font-semibold text-[var(--color-ink)] text-[15px] mb-2 leading-snug">{f.title}</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">{f.why}</div>
+          <div class="flex items-center justify-between gap-3 pt-3 border-t border-[var(--color-line-soft)]">
+            <div class="flex items-center gap-1.5">
+              <Globe class="w-3 h-3 text-[var(--color-ink-faint)]" />
+              <span class="text-[10px] uppercase tracking-[0.12em] font-semibold text-[var(--color-ink-faint)]">PWA</span>
+            </div>
+            <div class="font-mono text-[10px] text-[var(--color-ink-faint)] truncate max-w-[60%]" title={f.evidence}>
+              {f.evidence}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* ─── SCALE WATCHLIST ─────────────────────────────────────────────── */}
+  <Section
+    id="scale"
+    number="07"
+    eyebrow="Scale watchlist"
+    title="Real defects, deferred until PMF earns the right to scale."
+    lede="Bounded by Indelible-shape constraints — single tenant, ≤ 40 friendly users, Malaysia/Thailand, not JP-regulated. Each item has an explicit re-entry trigger: the moment it stops being a watchlist item and becomes a gate."
+  >
+    <div class="border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]" data-reveal="fade-up">
+      <div class="hidden md:grid grid-cols-[0.6fr_2.4fr_3fr_2fr] gap-4 px-5 py-3 bg-[var(--color-paper-soft)] text-[11px] uppercase tracking-[0.14em] font-semibold text-[var(--color-ink-soft)]">
+        <div>ID</div>
+        <div>Finding</div>
+        <div>Why deferrable</div>
+        <div>Re-entry trigger</div>
+      </div>
+      {scaleItems.map((s) => (
+        <div class="grid grid-cols-1 md:grid-cols-[0.6fr_2.4fr_3fr_2fr] gap-2 md:gap-4 px-5 py-4 border-t border-[var(--color-line-soft)]" data-reveal="fade-up">
+          <div class="font-mono text-xs font-bold text-[var(--color-ink-faint)]">{s.id}</div>
+          <div class="font-semibold text-[var(--color-ink)] text-sm leading-snug">{s.title}</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{s.why}</div>
+          <div class="text-xs text-[var(--color-accent)] font-medium leading-snug flex items-center gap-1.5">
+            <ChevronRight class="w-3 h-3 shrink-0" />
+            <span>{s.trigger}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* ─── CRITICAL PATH ───────────────────────────────────────────────── */}
+  <Section
+    id="path"
+    number="08"
+    eyebrow="Critical path"
+    title="Sequence to a verified TestFlight + Chrome PWA + Safari PWA build."
+    lede="At 2 iOS + 1 web + 1 backend, the PMF gate is a ~2.5 calendar week sprint. P0-6 (Auth0 native client split) is the long pole at 1–2 weeks. Everything else parallelizes."
+    tone="ink"
+  >
+    <div class="space-y-4">
+      <div class="flex items-start gap-4 p-5 rounded-xl bg-[var(--color-paper)] text-[var(--color-ink)]" data-reveal="fade-up">
+        <div class="shrink-0">
+          <div class="w-10 h-10 rounded-full bg-[var(--color-danger-soft)] text-[var(--color-danger)] flex items-center justify-center">
+            <Zap class="w-5 h-5" />
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="font-semibold mb-1">Day 0 · Stop-bleed (24h)</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+            Rotate AssemblyAI key (P0-2). Verify and harden `AUTH0_DOMAIN` in 3 Lambdas (P0-5). WAF-block `/companion/*` (P0-4a). No code dependency between the three; can ship same hour.
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 p-5 rounded-xl bg-[var(--color-paper)] text-[var(--color-ink)]" data-reveal="fade-up" data-reveal-delay="1">
+        <div class="shrink-0">
+          <div class="w-10 h-10 rounded-full bg-[var(--color-warning-soft)] text-[var(--color-warning)] flex items-center justify-center">
+            <Workflow class="w-5 h-5" />
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="font-semibold mb-1">Week 1 · Onboarding + auth resilience</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            P0-16 (calendar OAuth) ◄── highest-leverage UX fix · P0-13, P0-14, P0-15 (onboarding races) · P0-8, P0-9, P0-11 (auth refresh + Keychain + Hub singleton).
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)]">
+            Parallel: PWA-1, PWA-2 (CSP + security headers) · PWA-4 (install prompt timing).
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 p-5 rounded-xl bg-[var(--color-paper)] text-[var(--color-ink)]" data-reveal="fade-up" data-reveal-delay="2">
+        <div class="shrink-0">
+          <div class="w-10 h-10 rounded-full bg-[var(--color-warning-soft)] text-[var(--color-warning)] flex items-center justify-center">
+            <Bell class="w-5 h-5" />
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="font-semibold mb-1">Week 2 · Push + recovery</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            P0-7 (entitlements) ◄── unblocks · P0-10 (native APNs delegate) · P0-12 (Sentry on iOS + PWA + Lambdas).
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)]">
+            Parallel: PWA-3, PWA-5, PWA-6, PWA-8 (Safari re-auth, A2HS UX, push subscription, SW updates).
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 p-5 rounded-xl bg-[var(--color-paper)] text-[var(--color-ink)]" data-reveal="fade-up" data-reveal-delay="3">
+        <div class="shrink-0">
+          <div class="w-10 h-10 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] flex items-center justify-center">
+            <Target class="w-5 h-5" />
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="font-semibold mb-1">Week 3 · Auth0 native split + verification</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
+            P0-6 Auth0 native client lands (deepens P0-8/9/11). End-to-end dry-run on TestFlight + Android Chrome PWA + iOS Safari PWA (G14). 1-week background soak.
+          </div>
+          <div class="text-xs text-[var(--color-ink-faint)]">
+            Scale lane stays open · re-entry triggered per §07.
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* ─── PMF GATE ────────────────────────────────────────────────────── */}
+  <Section
+    id="gate"
+    number="09"
+    eyebrow="PMF gate"
+    title="16 checks. All green = ship Indelible UC1."
+    lede="Single-tier gate. Scale items (cross-tenant Pusher, AssemblyAI residency, uploader full fix, push PII, Pusher Tokyo move, S2S HMAC, outbox + DLQ) are explicitly not in this gate — they live in the watchlist with re-entry triggers."
+  >
+    {Object.entries(bandMeta).map(([key, meta]) => {
+      const band = gates.filter((g) => g.band === key);
+      if (band.length === 0) return null;
+      return (
+        <div class="mb-8" data-reveal="fade-up">
+          <div class="flex items-center gap-2 mb-3">
+            <span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded text-[11px] uppercase tracking-[0.15em] font-bold ${meta.cls}`}>
+              <meta.icon class="w-3.5 h-3.5" />
+              <span>{meta.label}</span>
+            </span>
+          </div>
+          <div class="space-y-2">
+            {band.map((g) => (
+              <div class="flex items-start gap-4 p-4 rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] hover:border-[var(--color-accent)]/40 transition-colors">
+                <input type="checkbox" class="mt-1 shrink-0 w-4 h-4 rounded border-[var(--color-line)] accent-[var(--color-accent)]" aria-label={g.id} />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-baseline gap-2 flex-wrap mb-1">
+                    <span class="font-mono text-[11px] font-bold text-[var(--color-ink-faint)]">{g.id}</span>
+                    <span class="font-semibold text-[var(--color-ink)] text-sm">{g.title}</span>
+                  </div>
+                  <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">{g.what}</div>
+                  <div class="font-mono text-[10.5px] text-[var(--color-ink-faint)]">closes: {g.closes}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </Section>
+
+  {/* ─── COVERAGE ────────────────────────────────────────────────────── */}
+  <Section
+    id="coverage"
+    number="10"
+    eyebrow="Test coverage on findings"
+    title={`0 of ${totalAll} findings (0%) covered by an automated test today.`}
+    lede="Pair-test mandate is the operational proposal: every PMF-gate P0 fix ships with a paired regression test in the same PR. The Laravel suite is the only pre-existing infrastructure to reuse for free — and CI doesn't currently execute it."
+    tone="soft"
+  >
+    <div class="border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]" data-reveal="fade-up">
+      <div class="hidden md:grid grid-cols-[2.4fr_0.9fr_0.9fr_2.4fr_0.9fr] gap-4 px-5 py-3 bg-[var(--color-paper-soft)] text-[11px] uppercase tracking-[0.14em] font-semibold text-[var(--color-ink-soft)]">
+        <div>Code area</div>
+        <div>PMF-gate findings</div>
+        <div>All findings</div>
+        <div>Test files</div>
+        <div>Coverage</div>
+      </div>
+      {coverageRows.map((r) => (
+        <div class="grid grid-cols-1 md:grid-cols-[2.4fr_0.9fr_0.9fr_2.4fr_0.9fr] gap-2 md:gap-4 px-5 py-4 border-t border-[var(--color-line-soft)]">
+          <div class="font-mono text-xs text-[var(--color-ink)]">{r.area}</div>
+          <div class="text-sm">{r.pmfFindings}</div>
+          <div class="text-sm">{r.totalFindings}</div>
+          <div class="text-sm text-[var(--color-ink-soft)]">{r.testFiles}</div>
+          <div>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.12em] font-bold bg-[var(--color-danger-soft)] text-[var(--color-danger)]">
+              <XCircle class="w-3 h-3" />
+              <span>0%</span>
+            </span>
+          </div>
+        </div>
+      ))}
+      <div class="grid grid-cols-1 md:grid-cols-[2.4fr_0.9fr_0.9fr_2.4fr_0.9fr] gap-2 md:gap-4 px-5 py-4 border-t border-[var(--color-line)] bg-[var(--color-paper-soft)] font-semibold">
+        <div>Total</div>
+        <div>{totalPmf}</div>
+        <div>{totalAll}</div>
+        <div class="text-sm text-[var(--color-ink-soft)]">0 covering · 132 Laravel tests skip the offending controllers</div>
+        <div>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.12em] font-bold bg-[var(--color-danger)] text-[var(--color-paper)]">
+            0 / {totalAll}
+          </span>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* ─── OWNERS ──────────────────────────────────────────────────────── */}
+  <Section
+    id="owners"
+    number="11"
+    eyebrow="Owners & decision asks"
+    title="Who decides what, by when."
+    lede="Placeholders — the three 24h items are the only ones on a clock. Everything else lands inside the 2.5-week gate window."
+  >
+    <div class="border border-[var(--color-line)] rounded-xl overflow-hidden bg-[var(--color-paper)]" data-reveal="fade-up">
+      <div class="hidden md:grid grid-cols-[1.6fr_2.4fr_1.4fr_1fr] gap-4 px-5 py-3 bg-[var(--color-paper-soft)] text-[11px] uppercase tracking-[0.14em] font-semibold text-[var(--color-ink-soft)]">
+        <div>Item</div>
+        <div>Decision needed</div>
+        <div>Owner</div>
+        <div>Deadline</div>
+      </div>
+      {owners.map((o) => (
+        <div class="grid grid-cols-1 md:grid-cols-[1.6fr_2.4fr_1.4fr_1fr] gap-2 md:gap-4 px-5 py-4 border-t border-[var(--color-line-soft)]">
+          <div class="font-semibold text-[var(--color-ink)] text-sm">{o.item}</div>
+          <div class="text-sm text-[var(--color-ink-soft)] leading-snug">{o.decision}</div>
+          <div class="text-sm text-[var(--color-ink-soft)]">{o.owner}</div>
+          <div class="text-xs font-semibold text-[var(--color-accent)] uppercase tracking-[0.12em]">{o.deadline}</div>
+        </div>
+      ))}
+    </div>
+
+    {/* Sources */}
+    <div class="mt-12 pt-8 border-t border-[var(--color-line)]" data-reveal="fade-up">
+      <div class="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)] mb-4 flex items-center gap-2">
+        <FileText class="w-3.5 h-3.5" />
+        <span>Sources cross-referenced</span>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        {sources.map((s) => (
+          <div class="text-sm">
+            <span class="font-mono text-[var(--color-ink)] font-semibold">{s.label}</span>
+            <span class="text-[var(--color-ink-soft)]"> · {s.note}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* CTA */}
+    <div class="mt-12 p-6 rounded-xl bg-[var(--color-ink)] text-[var(--color-paper)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" data-reveal="fade-up">
+      <div>
+        <div class="font-display text-2xl mb-1">Next action</div>
+        <div class="text-sm text-[var(--color-paper-soft)] leading-relaxed max-w-[60ch]">
+          Lock the gate (16 checks + 3 stop-bleed), kick off the 24h work today, assign owners, target Indelible-verified TestFlight + Chrome PWA + Safari PWA in 2.5 weeks.
+        </div>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a
+          href="/pilots/indelible"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-paper)] text-[var(--color-ink)] text-sm font-semibold hover:bg-[var(--color-paper-soft)] transition-colors"
+        >
+          <span>Indelible context</span>
+          <ArrowRight class="w-4 h-4" />
+        </a>
+        <a
+          href="/foundation"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[var(--color-paper)]/30 text-[var(--color-paper)] text-sm font-medium hover:bg-[var(--color-paper)]/10 transition-colors"
+        >
+          <span>Foundation</span>
+          <ExternalLink class="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  </Section>
+</Layout>

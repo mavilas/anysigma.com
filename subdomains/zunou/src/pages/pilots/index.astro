@@ -229,6 +229,39 @@ const statusLabel = (s: Pilot["status"]) => ({
 
   <hr class="section-rule max-w-6xl mx-auto" />
 
+  <!-- READINESS CALLOUT -->
+  <section class="pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <a
+        href="/pilots/readiness"
+        class="group block rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 sm:p-7 hover:border-[var(--color-accent)] hover:shadow-[0_14px_32px_-22px_rgba(74,0,224,0.35)] transition-all"
+        data-reveal="fade-up"
+      >
+        <div class="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7">
+          <div class="shrink-0 w-12 h-12 rounded-lg bg-[var(--color-accent-soft)] text-[var(--color-accent)] flex items-center justify-center">
+            <Compass class="w-6 h-6" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-[var(--color-accent)]">Platform readiness</span>
+              <span class="text-[10px] uppercase tracking-[0.14em] font-bold px-2 py-0.5 rounded bg-[var(--color-danger-soft)] text-[var(--color-danger)]">3 stop-bleed · 24h</span>
+            </div>
+            <div class="font-display text-xl sm:text-2xl text-[var(--color-ink)] leading-tight mb-1">
+              Mobile + Backend · PMF Readiness
+            </div>
+            <div class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+              Ship/no-ship punch list for iOS native + PWA + backend touchpoints. 16-check single-tier PMF gate, 8 UX moments, scale watchlist with re-entry triggers. Targets Indelible UC1 in 2.5 weeks.
+            </div>
+          </div>
+          <div class="shrink-0 flex items-center gap-2 text-sm font-semibold text-[var(--color-accent-ink)] group-hover:translate-x-1 transition-transform">
+            <span>Open audit</span>
+            <ArrowRight class="w-4 h-4" />
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- PILOTS GROUPED BY STATUS -->
   {(["active", "queued", "planned", "future"] as const).map((status) => {
     const group = pilots.filter((p) => p.status === status);
