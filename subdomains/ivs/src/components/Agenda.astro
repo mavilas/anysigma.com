@@ -1,0 +1,266 @@
+---
+import * as Icons from "@lucide/astro";
+
+interface Section {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+interface Props {
+  sections: Section[];
+  /** Title shown at the top of the agenda. Defaults to "On this page". */
+  title?: string;
+}
+
+const { sections, title = "On this page" } = Astro.props;
+
+const toPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+---
+
+<!-- Desktop sidebar (xl+) -->
+<aside
+  class="agenda hidden lg:block"
+  aria-label="Page contents"
+  data-agenda
+>
+  <div class="agenda-inner">
+    <div class="agenda-title">
+      <span>{title}</span>
+    </div>
+    <nav class="agenda-nav">
+      {sections.map((s, i) => {
+        const Icon = s.icon ? (Icons as any)[toPascal(s.icon)] : null;
+        return (
+          <a
+            href={`#${s.id}`}
+            class="agenda-link"
+            data-agenda-link={s.id}
+            style={`transition-delay: ${i * 30}ms;`}
+          >
+            <span class="agenda-marker"></span>
+            {Icon && <Icon class="w-3.5 h-3.5 agenda-icon" />}
+            <span class="agenda-label">{s.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</aside>
+
+<!-- Mobile / tablet sticky horizontal nav (< xl) -->
+<nav class="agenda-mobile lg:hidden" aria-label="Page contents (mobile)" data-agenda-mobile>
+  <div class="agenda-mobile-inner">
+    <span class="agenda-mobile-label">
+      <svg viewBox="0 0 24 24" fill="none" class="w-3 h-3"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      <span>{title}</span>
+    </span>
+    <div class="agenda-mobile-track">
+      {sections.map((s) => {
+        const Icon = s.icon ? (Icons as any)[toPascal(s.icon)] : null;
+        return (
+          <a href={`#${s.id}`} class="agenda-mobile-link" data-agenda-mobile-link={s.id}>
+            {Icon && <Icon class="w-3 h-3" />}
+            <span>{s.label}</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .agenda {
+    position: fixed;
+    /* sit just to the left of the centered max-w-6xl content (72rem) */
+    left: max(1rem, calc((100vw - 72rem) / 2 - 14rem));
+    top: 7.25rem;
+    width: 12.5rem;
+    z-index: 5;
+    pointer-events: none;
+  }
+  /* On narrower lg viewports (< 1280px) where the sidebar would overlap content,
+     fall back to a tighter agenda flush to the left edge */
+  @media (max-width: 1279px) and (min-width: 1024px) {
+    .agenda {
+      left: 0.75rem;
+      width: 11rem;
+    }
+    .agenda-link { font-size: 0.7rem; padding: 0.4rem 0.5rem 0.4rem 1rem; }
+    .agenda-icon { width: 0.8rem; height: 0.8rem; }
+  }
+
+  .agenda-inner {
+    pointer-events: auto;
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    /* fade scrollbar away */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  .agenda-inner:hover { scrollbar-color: var(--color-line) transparent; }
+  .agenda-inner::-webkit-scrollbar { width: 4px; }
+  .agenda-inner::-webkit-scrollbar-thumb { background: transparent; border-radius: 2px; }
+  .agenda-inner:hover::-webkit-scrollbar-thumb { background: var(--color-line); }
+
+  .agenda-title {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-ink-faint);
+    font-weight: 700;
+    padding: 0 0.75rem 0.75rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .agenda-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .agenda-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.75rem 0.45rem 1.25rem;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: var(--color-ink-faint);
+    border-radius: 0.375rem;
+    transition: color 200ms ease, background 200ms ease, transform 200ms ease;
+    text-decoration: none;
+    opacity: 0.85;
+  }
+
+  .agenda-marker {
+    position: absolute;
+    left: 0.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--color-ink-faint);
+    opacity: 0.4;
+    transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .agenda-icon { opacity: 0.55; transition: opacity 200ms ease; flex-shrink: 0; }
+
+  .agenda-label { transition: color 200ms ease; }
+
+  .agenda-link:hover {
+    color: var(--color-ink);
+    background: var(--color-paper-soft);
+    transform: translateX(2px);
+  }
+  .agenda-link:hover .agenda-icon { opacity: 0.9; }
+  .agenda-link:hover .agenda-marker { opacity: 0.7; background: var(--color-ink-soft); }
+
+  .agenda-link.is-active {
+    color: var(--color-accent-ink);
+    font-weight: 600;
+  }
+  .agenda-link.is-active .agenda-icon { opacity: 1; color: var(--color-accent); }
+  .agenda-link.is-active .agenda-marker {
+    background: var(--color-accent);
+    opacity: 1;
+    height: 16px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+</style>
+
+<script>
+  (function () {
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-agenda-link]")
+    );
+    if (!links.length) return;
+
+    const ids = links.map((l) => l.dataset.agendaLink!);
+    const targets = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (!targets.length) return;
+
+    const mobileLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-agenda-mobile-link]")
+    );
+
+    const setActive = (id: string) => {
+      links.forEach((l) => {
+        l.classList.toggle("is-active", l.dataset.agendaLink === id);
+      });
+      mobileLinks.forEach((l) => {
+        const active = l.dataset.agendaMobileLink === id;
+        l.classList.toggle("is-active", active);
+        if (active) {
+          l.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+      });
+    };
+
+    let activeId = ids[0];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the first section whose top is at-or-above the trigger line.
+        const visibleIds = new Set<string>();
+        entries.forEach((e) => {
+          if (e.isIntersecting) visibleIds.add(e.target.id);
+        });
+
+        // Pick the section closest to top of viewport but still in view.
+        let best: string | null = null;
+        let bestTop = Infinity;
+        targets.forEach((t) => {
+          const r = t.getBoundingClientRect();
+          // Section counts as "active" if its top is above 30% of viewport
+          // and its bottom hasn't passed the top of the viewport yet.
+          if (r.top <= window.innerHeight * 0.3 && r.bottom > 60) {
+            if (r.top < bestTop) {
+              bestTop = r.top;
+              best = t.id;
+            }
+          }
+        });
+
+        if (best && best !== activeId) {
+          activeId = best;
+          setActive(activeId);
+        }
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.5, 1] }
+    );
+    targets.forEach((t) => observer.observe(t));
+
+    // Smooth click scroll w/ offset for sticky header (88px ≈ 5.5rem)
+    const wireSmoothClick = (link: HTMLAnchorElement, idAttr: string) => {
+      link.addEventListener("click", (e) => {
+        const id = (link.dataset as any)[idAttr]!;
+        const el = document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        const y = el.getBoundingClientRect().top + window.scrollY - 88;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        history.replaceState(null, "", `#${id}`);
+        setActive(id);
+      });
+    };
+    links.forEach((link) => wireSmoothClick(link, "agendaLink"));
+    mobileLinks.forEach((link) => wireSmoothClick(link, "agendaMobileLink"));
+
+    // Initial state
+    setActive(activeId);
+  })();
+</script>

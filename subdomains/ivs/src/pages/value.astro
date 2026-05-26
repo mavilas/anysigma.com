@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Trophy, BarChart3, Megaphone, Star, ShieldCheck, Sparkles, ArrowRight } from "@lucide/astro";
+
+const wins = [
+  {
+    icon: Trophy,
+    title: "Differentiator vs SXSW, TechCrunch Disrupt, Web Summit",
+    body: "Every tier-1 conference loses on networking. None of them have shipped a real fix. IVS becomes the first. That's a story your press team can pitch in English and Japanese for six months after the event.",
+  },
+  {
+    icon: BarChart3,
+    title: "Attendee NPS lift on the line item that always drags",
+    body: "Networking quality is the lowest-scoring item on every conference survey. A measurable lift here is what convinces tier-1 sponsors to renew. We instrument it: pre-event baseline question, post-event delta.",
+  },
+  {
+    icon: Megaphone,
+    title: "240 conversations sparked at the Corner",
+    body: "Real number, attributable, content-ready. Your post-event report leads with it. Your social channels get sixty 15-second clips of attendees describing matches that mattered. We help produce them.",
+  },
+  {
+    icon: Star,
+    title: "Sponsor story for next year",
+    body: "Sponsors will pay more in 2027 to put their brand on the Corner if it works in 2026. We're not asking for that revenue. We're handing it to you.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Zero cost, low risk",
+    body: "Zunou funds the build, the booth, the staff. No hardware: the Corner runs as a PWA on each attendee's own phone. IVS provides 4×4m of floor space, signage credit, and one mention in the day-of push notification. If it underperforms, the only thing IVS loses is the floor space.",
+  },
+  {
+    icon: Sparkles,
+    title: "Bilingual by default",
+    body: "JP and EN transcription, JP and EN matching, JP and EN summary cards. Zunou is Japan-built. Foreign attendees feel served. Domestic attendees don't feel like they're at an English conference.",
+  },
+];
+---
+
+<Layout title="What IVS gets">
+  <section class="pt-14 sm:pt-20 pb-10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-4">Slide 03 · Value to IVS</div>
+      <h1 data-reveal="fade-up" data-reveal-delay="1" class="font-display text-[2.75rem] sm:text-[4rem] leading-[1.05] tracking-tight mb-6 max-w-4xl">
+        Six wins for IVS. <span class="text-[var(--color-accent)]">Zero cost.</span> One ask.
+      </h1>
+      <p data-reveal="fade-up" data-reveal-delay="2" class="text-lg sm:text-xl text-[var(--color-ink-soft)] max-w-[62ch] leading-[1.6]">
+        This isn't a sponsorship. It's a co-presented activation. The Zunou Corner is the asset. IVS owns the story. We do the work.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 gap-4">
+        {wins.map((w, i) => (
+          <div data-reveal="fade-up" data-reveal-delay={(i % 3) + 1} class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-6 hover:border-[var(--color-accent)] hover:shadow-sm transition-all">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 rounded-md bg-[var(--color-accent-soft)] flex items-center justify-center shrink-0">
+                <w.icon class="w-5 h-5 text-[var(--color-accent)]" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-display text-xl mb-2 leading-tight">{w.title}</div>
+                <p class="text-sm text-[var(--color-ink-soft)] leading-[1.6]">{w.body}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="grid lg:grid-cols-[1fr_1fr] gap-10 items-start">
+        <div>
+          <div class="text-xs uppercase tracking-[0.18em] text-[#c4b5fd] font-semibold mb-4">The press line, ready to print</div>
+          <h2 class="font-display text-4xl leading-[1.1] tracking-tight mb-5">
+            "IVS 2026 shipped the first real fix for conference networking. Two hundred and forty matches. Ninety-six percent rated a 4 or 5."
+          </h2>
+          <p class="text-lg text-[var(--color-paper-soft)] leading-[1.6]">
+            We instrument the outcome so the headline writes itself. Attendees rate every match. We deliver the dashboard. You publish the result.
+          </p>
+        </div>
+        <div class="space-y-3">
+          <div class="border border-white/15 rounded-lg p-5">
+            <div class="text-xs uppercase tracking-[0.14em] text-[var(--color-paper-soft)] font-semibold mb-2">Target</div>
+            <div class="font-display text-2xl">≥4.5 / 5 average match rating</div>
+          </div>
+          <div class="border border-white/15 rounded-lg p-5">
+            <div class="text-xs uppercase tracking-[0.14em] text-[var(--color-paper-soft)] font-semibold mb-2">Target</div>
+            <div class="font-display text-2xl">+15 pts NPS on "networking quality"</div>
+          </div>
+          <div class="border border-white/15 rounded-lg p-5">
+            <div class="text-xs uppercase tracking-[0.14em] text-[var(--color-paper-soft)] font-semibold mb-2">Target</div>
+            <div class="font-display text-2xl">240 conversations, 60+ shared clips</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap gap-3">
+      <a href="/ask" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-accent)] text-white hover:opacity-90 transition-opacity font-medium">
+        The ask <ArrowRight class="w-4 h-4" />
+      </a>
+      <a href="/corner" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] hover:bg-[var(--color-paper-soft)] transition-colors">
+        Back to the Corner
+      </a>
+    </div>
+  </section>
+</Layout>

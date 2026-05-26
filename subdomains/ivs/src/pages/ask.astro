@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { MapPin, Megaphone, Database, CheckCircle2, ArrowLeft } from "@lucide/astro";
+
+const asks = [
+  { icon: MapPin, label: "Floor space", body: "4×4m in a high-traffic zone. Main conference floor preferred." },
+  { icon: Megaphone, label: "One push notification", body: "Day-of mention in the official IVS app push. 'The Zunou Corner is open. Limited spots.'" },
+  { icon: Database, label: "Opt-in attendee seed", body: "QR code at check-in that lets attendees opt in to Corner matching. Their data, their consent, no IVS list shared." },
+];
+
+const timeline = [
+  { week: "Now", what: "Confirm interest. Lock floor space. Sign a one-page co-presentation MOU." },
+  { week: "Wk 1-2", what: "Product build: voice capture, matching engine, summary cards, calendar follow up." },
+  { week: "Wk 3", what: "Design + production: booth materials, signage, lanyards, the Zunou Corner identity. No on-site hardware: the experience runs as a PWA on each attendee's own phone." },
+  { week: "Wk 4", what: "Dry run with TAI Tokyo cohort. End-to-end test of voice → match → seat → note → nudge." },
+  { week: "Wk 5", what: "Soft launch with a closed list (Indelible Ventures partners). Fix edge cases." },
+  { week: "Wk 6", what: "IVS 2026 · July 1-3 · Kyoto. We operate. You take the credit. Both of us win." },
+];
+---
+
+<Layout title="The ask · 4×4m, three days, one credit line">
+  <section class="pt-14 sm:pt-20 pb-10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-4">Slide 04 · The ask</div>
+      <h1 data-reveal="fade-up" data-reveal-delay="1" class="font-display text-[2.75rem] sm:text-[4rem] leading-[1.05] tracking-tight mb-6 max-w-4xl">
+        4×4m. <span class="text-[var(--color-accent)]">Three days.</span> One credit line. Yes or no by mid-June.
+      </h1>
+      <p data-reveal="fade-up" data-reveal-delay="2" class="text-lg sm:text-xl text-[var(--color-ink-soft)] max-w-[62ch] leading-[1.6]">
+        We've kept the ask small on purpose. Everything that's hard, we own. Everything that's easy for IVS, we ask for. The yes is the only thing on the critical path.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-3 gap-4">
+        {asks.map((a, i) => (
+          <div data-reveal="fade-up" data-reveal-delay={i + 1} class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-6">
+            <div class="w-11 h-11 rounded-md bg-[var(--color-accent-soft)] flex items-center justify-center mb-4">
+              <a.icon class="w-5 h-5 text-[var(--color-accent)]" />
+            </div>
+            <div class="font-display text-xl mb-2">{a.label}</div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-[1.55]">{a.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-[var(--color-paper-soft)] border-y border-[var(--color-line)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-4">Six-week build</div>
+      <h2 data-reveal="fade-up" data-reveal-delay="1" class="font-display text-3xl sm:text-4xl leading-[1.12] tracking-tight mb-10 max-w-3xl">
+        Now to Kyoto. The path is shorter than you'd think.
+      </h2>
+
+      <div class="space-y-2">
+        {timeline.map((t, i) => (
+          <div data-reveal="fade-up" data-reveal-delay={(i % 3) + 1} class="grid grid-cols-[120px_1fr] gap-6 items-start py-4 border-b border-[var(--color-line)] last:border-b-0">
+            <div class="font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold pt-1">{t.week}</div>
+            <div class="text-base text-[var(--color-ink)] leading-[1.55]">{t.what}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-xl p-8 sm:p-12">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-md bg-[var(--color-accent)] flex items-center justify-center shrink-0">
+            <CheckCircle2 class="w-6 h-6 text-white" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-2">When we meet</div>
+            <h3 class="font-display text-2xl sm:text-3xl leading-[1.15] mb-4">
+              We'll walk through the mechanic live, answer anything, and agree the floor-space ask. If it's a yes, the six-week clock starts that day.
+            </h3>
+            <p class="text-base text-[var(--color-ink-soft)] leading-[1.6] max-w-[60ch]">
+              This site is the leave-behind. Share it with anyone on the IVS side who couldn't make the meeting. It's gated to the email allowlist we've already shared.
+            </p>
+            <div class="mt-6">
+              <a href="/" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] hover:bg-[var(--color-paper-soft)] transition-colors">
+                <ArrowLeft class="w-4 h-4" /> Back to slide 01
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

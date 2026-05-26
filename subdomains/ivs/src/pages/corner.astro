@@ -1,0 +1,99 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import { Mic, Brain, UsersRound, Clock, Calendar, Bell, ArrowRight, KeyRound } from "@lucide/astro";
+
+const steps = [
+  { n: "01", title: "Record 30 seconds", body: "One prompt on screen: 'What are you working on, and who do you want to meet?' Phones up, headphones offered. You can re-record once.", icon: Mic },
+  { n: "02", title: "Zunou extracts the intent", body: "Transcribes, then pulls four fields: working on · looking for · can help with · vibe. You see a card before submitting. Edit if needed.", icon: Brain },
+  { n: "03", title: "Match in 60 seconds", body: "Embedding-based pairing against everyone else in queue. You see the other person's name, photo, summary card, and a play button for their 30s. Not blind.", icon: UsersRound },
+  { n: "04", title: "Meet. Anywhere. 15 minutes.", body: "Matched pairs choose their venue: the Corner, a panel break, a café, the hotel lobby, the conference floor. The Corner is one option, not the requirement. Optional record the conversation (both must opt in).", icon: Clock },
+  { n: "05", title: "Leave with the artifact", body: "Both phones get the Zunou note: conversation highlights, the other person's contact, one-tap to add a follow up to your calendar.", icon: Calendar },
+  { n: "06", title: "The nudge two weeks later", body: "Email + push: 'how did the conversation with X go?' Then a second nudge to schedule the follow up. This is how the network compounds.", icon: Bell },
+];
+---
+
+<Layout title="The Corner · how it works">
+  <section class="pt-14 sm:pt-20 pb-10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-4">Slide 02 · The Corner</div>
+      <h1 data-reveal="fade-up" data-reveal-delay="1" class="font-display text-[2.75rem] sm:text-[4rem] leading-[1.05] tracking-tight mb-6 max-w-4xl">
+        Voice in. Insight out. <span class="text-[var(--color-accent)]">Match made.</span>
+      </h1>
+      <p data-reveal="fade-up" data-reveal-delay="2" class="text-lg sm:text-xl text-[var(--color-ink-soft)] max-w-[60ch] leading-[1.6]">
+        The Corner is a six-step loop. Two minutes from queue to seated. Fifteen minutes of conversation. A lifetime of follow up if the match was right.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {steps.map((s, i) => (
+          <div data-reveal="fade-up" data-reveal-delay={(i % 3) + 1} class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-10 h-10 rounded-md bg-[var(--color-accent-soft)] flex items-center justify-center group-hover:bg-[var(--color-accent)] transition-colors">
+                <s.icon class="w-5 h-5 text-[var(--color-accent)] group-hover:text-white transition-colors" />
+              </div>
+              <span class="font-mono text-xs text-[var(--color-ink-faint)] tracking-[0.18em]">{s.n}</span>
+            </div>
+            <div class="font-display text-xl mb-2">{s.title}</div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-[1.55]">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-[var(--color-paper-soft)] border-y border-[var(--color-line)]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-reveal="fade-up" class="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
+        <div>
+          <div class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold mb-4">Why voice, not a form</div>
+          <h2 class="font-display text-3xl sm:text-4xl leading-[1.12] tracking-tight mb-5">
+            The platform that runs the Corner is Zunou. Audio in, insight out is what we already do.
+          </h2>
+          <p class="text-lg text-[var(--color-ink-soft)] leading-[1.6] mb-3">
+            A LinkedIn URL tells you what the person did. A 30-second recording tells you what's on their mind this week. The Corner matches on the second one, because that's what makes a 15-minute conversation worth the seat.
+          </p>
+          <p class="text-lg text-[var(--color-ink-soft)] leading-[1.6]">
+            For attendees, the signup is the demo. They record once. They feel Zunou's value before they sit down. The conference becomes the onboarding for the platform they'll keep using long after Kyoto.
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <KeyRound class="w-4 h-4 text-[var(--color-accent)]" />
+              <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold">Key point</span>
+            </div>
+            <p class="font-display text-lg leading-snug mb-3">The Corner is one venue. The platform is the whole event.</p>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-[1.55]">
+              Matches happen wherever pairs choose to meet. The Corner exists for the people who want a branded, photogenic, scarcity-marketed place to land. Everyone else uses the floor IVS already has.
+            </p>
+          </div>
+          <div class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <KeyRound class="w-4 h-4 text-[var(--color-accent)]" />
+              <span class="text-xs uppercase tracking-[0.18em] text-[var(--color-accent)] font-semibold">Bored, come</span>
+            </div>
+            <p class="font-display text-lg leading-snug mb-3">"I had a 30-minute gap" is easier to say than "I'm desperate to network."</p>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-[1.55]">
+              Limited Corner spots create scarcity. Voice-matching guarantees quality. The Corner becomes a thing people queue for because it works, not because they're forced.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap gap-3">
+      <a href="/value" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-accent)] text-white hover:opacity-90 transition-opacity font-medium">
+        What IVS gets <ArrowRight class="w-4 h-4" />
+      </a>
+      <a href="/" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] hover:bg-[var(--color-paper-soft)] transition-colors">
+        Back to the pitch
+      </a>
+    </div>
+  </section>
+</Layout>

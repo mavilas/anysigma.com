@@ -1,0 +1,156 @@
+---
+import "../styles/tailwind.css";
+import { Lock, Shield } from "@lucide/astro";
+import Agenda from "../components/Agenda.astro";
+
+interface AgendaSection {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  agenda?: AgendaSection[];
+}
+
+const {
+  title = "Zunou × IVS 2026 — A networking activation pitch",
+  description = "Make IVS the most-networked startup conference in Asia. A pitch from Zunou to the IVS team.",
+  agenda = [],
+} = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const pages = [
+  { href: "/", label: "Pitch", match: ["/"] },
+  { href: "/corner", label: "The Corner", match: ["/corner"] },
+  { href: "/value", label: "What IVS gets", match: ["/value"] },
+  { href: "/ask", label: "The ask", match: ["/ask"] },
+];
+
+const isActive = (m: string[]) => m.includes(path);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f7f7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-grain min-h-screen">
+    <div id="read-progress" class="progress-bar"></div>
+
+    <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group" aria-label="Zunou × IVS 2026 pitch">
+          <div class="flex items-center gap-2 leading-tight">
+            <span class="font-display text-xl text-[var(--color-ink)]">Zunou</span>
+            <span class="text-[var(--color-ink-faint)] text-sm">×</span>
+            <span class="font-display text-xl text-[var(--color-ink)]">IVS 2026</span>
+          </div>
+          <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-medium hidden sm:inline">
+            Networking activation · pitch
+          </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-1 text-sm">
+          {pages.map((p) => (
+            <a
+              href={p.href}
+              class:list={[
+                "px-3 py-1.5 rounded-md transition-colors",
+                isActive(p.match)
+                  ? "bg-[var(--color-ink)] text-[var(--color-paper)] font-semibold"
+                  : "text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] hover:bg-[var(--color-paper-soft)]",
+              ]}
+              aria-current={isActive(p.match) ? "page" : undefined}
+            >
+              {p.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-[var(--color-success-soft)] text-[var(--color-success)] font-medium">
+            <Shield class="w-3 h-3" />
+            <span class="hidden sm:inline">Authenticated</span>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    {agenda.length > 0 && <Agenda sections={agenda} />}
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-[var(--color-line)] mt-24">
+      <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between text-sm text-[var(--color-ink-soft)]">
+        <div class="flex items-center gap-2.5">
+          <span class="font-display text-base text-[var(--color-ink)]">Zunou × IVS 2026</span>
+          <span>· Networking activation pitch</span>
+        </div>
+        <div class="flex items-center gap-5 text-xs">
+          <div class="flex items-center gap-1.5">
+            <Lock class="w-3 h-3" />
+            <span>Cloudflare Access · email allowlist</span>
+          </div>
+          <span>Prepared by Zunou · 2026-05-26</span>
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        const els = document.querySelectorAll("[data-reveal]");
+        if ("IntersectionObserver" in window && els.length) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const delay = parseInt(entry.target.dataset.revealDelay || "0", 10);
+                  entry.target.style.transitionDelay = `${delay * 80}ms`;
+                  entry.target.classList.add("is-visible");
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+          );
+          els.forEach((el) => io.observe(el));
+        } else {
+          els.forEach((el) => el.classList.add("is-visible"));
+        }
+
+        const bar = document.getElementById("read-progress");
+        if (bar) {
+          const update = () => {
+            const h = document.documentElement;
+            const scrolled = h.scrollTop;
+            const max = h.scrollHeight - h.clientHeight;
+            const pct = max > 0 ? Math.min(1, scrolled / max) : 0;
+            bar.style.transform = `scaleX(${pct})`;
+          };
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        }
+      })();
+    </script>
+  </body>
+</html>

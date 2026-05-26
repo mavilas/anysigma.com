@@ -1,0 +1,70 @@
+---
+import * as Icons from "@lucide/astro";
+import { ArrowUpRight } from "@lucide/astro";
+
+interface Props {
+  company: string;
+  year: string;
+  play: string;
+  result: string;
+  source?: { label: string; url: string };
+  icon?: string;
+  revealDelay?: number;
+}
+
+const {
+  company,
+  year,
+  play,
+  result,
+  source,
+  icon = "trending-up",
+  revealDelay = 0,
+} = Astro.props;
+
+const toPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+
+const IconComponent = (Icons as any)[toPascal(icon)] || Icons.Circle;
+---
+
+<article
+  class="tile group border border-[var(--color-line)] rounded-xl p-6 bg-[var(--color-paper)] flex flex-col"
+  data-reveal="fade-up"
+  data-reveal-delay={revealDelay}
+>
+  <div class="flex items-start justify-between gap-4 mb-4">
+    <div>
+      <div class="font-display text-2xl leading-tight">{company}</div>
+      <div class="text-[11px] text-[var(--color-ink-faint)] uppercase tracking-[0.14em] mt-1 font-medium">
+        {year}
+      </div>
+    </div>
+    <IconComponent class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-1" />
+  </div>
+
+  <p class="text-sm text-[var(--color-ink)] mb-4 leading-relaxed flex-1">
+    {play}
+  </p>
+
+  <div class="text-xs font-mono text-[var(--color-ink-soft)] border-t border-[var(--color-line-soft)] pt-4 leading-relaxed">
+    {result}
+  </div>
+
+  {
+    source && (
+      <a
+        href={source.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-xs text-[var(--color-accent)] hover:text-[var(--color-accent-ink)] mt-3 inline-flex items-center gap-1 self-start"
+      >
+        <span>{source.label}</span>
+        <ArrowUpRight class="w-3 h-3 arrow-pop" />
+      </a>
+    )
+  }
+</article>
