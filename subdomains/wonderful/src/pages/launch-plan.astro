@@ -79,31 +79,12 @@ const execSummary = [
 // Slide 3 · Global Momentum + APAC Push · proof points
 // =====================================================================
 const globalProof = [
-  {
-    label: "Scale & Backers",
-    icon: "landmark",
-    body: "Index Ventures, Insight Partners, IVP, Bessemer, Vine Ventures.",
-  },
-  {
-    label: "Performance",
-    icon: "gauge",
-    body: "80-86% resolution rates in complex enterprise environments.",
-  },
-  {
-    label: "Scaling Impact",
-    icon: "trending-up",
-    body: "4× support capacity scaling achieved (e.g. ELTA Hellenic Post).",
-  },
-  {
-    label: "Retention",
-    icon: "shield",
-    body: "<5% annual enterprise logo churn. World's lowest.",
-  },
-  {
-    label: "Expansion",
-    icon: "git-merge",
-    body: "70% of European customers expand to multiple workflows within 3 months.",
-  },
+  { stat: "$285M", label: "Total raised", body: "$150M Series B at $2B (Mar 2026). Insight, Index, IVP, Bessemer, Vine.", icon: "landmark" },
+  { stat: "30+", label: "Countries live", body: "EMEA · APAC · Americas. Embedded country teams, not pure SaaS.", icon: "globe" },
+  { stat: "80+", label: "Enterprise customers", body: "Telco · BFSI · healthcare · manufacturing. Production deployments.", icon: "building-2" },
+  { stat: "<5%", label: "Annual logo churn", body: "World's lowest enterprise SaaS churn. Bezeq retained at scale.", icon: "shield" },
+  { stat: "80-86%", label: "Resolution rate", body: "Complex enterprise CS environments. End-to-end agent autonomy.", icon: "gauge" },
+  { stat: "70%", label: "Multi-workflow expansion", body: "European customers expand to new workflows within 3 months.", icon: "git-merge" },
 ];
 
 // =====================================================================
@@ -513,19 +494,21 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="momentum"
     eyebrow="02 · Global momentum"
     title="Proof exists. APAC is next."
-    lede="Five proof points from European deployments that make Wonderful's APAC push credible at HQ board level."
+    lede='Six headline numbers from European deployments. The board has seen these. <strong class="text-[var(--color-accent)]">Japan is the missing logo.</strong>'
     tone="soft"
   >
-    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl">
+    <!-- 3x2 grid of large stat tiles · fills the slide -->
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-4 max-w-6xl w-full">
       {globalProof.map((p, i) => {
         const IconC = Icon(p.icon);
         return (
-          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-            <div class="flex items-center gap-2 mb-3">
-              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
-              <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{p.label}</span>
+          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-start justify-between mb-3">
+              <div class="font-display text-[2.75rem] sm:text-[3.5rem] leading-none text-[var(--color-accent)] tracking-tight">{p.stat}</div>
+              {IconC && <IconC class="w-5 h-5 text-[var(--color-ink-faint)] mt-1" />}
             </div>
-            <p class="text-[15px] leading-relaxed text-[var(--color-ink)]">{p.body}</p>
+            <div class="text-[12px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1.5">{p.label}</div>
+            <p class="text-[13px] leading-relaxed text-[var(--color-ink)]">{p.body}</p>
           </div>
         );
       })}
@@ -854,27 +837,19 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <!-- §08 · PIPELINE FUNNEL                                         -->
   <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- §09 · JP ENTERPRISE ARCHITECTURE                              -->
+  <!-- ============================================================ -->
   <Section
-    id="funnel"
-    eyebrow="09 · Pipeline funnel"
-    title="500 to 5. The curated path to FY26 wins."
-    lede='500 universe. 155 Must-Win. 48 Tier 1. <strong class="text-[var(--color-accent)]">5 wins by Dec 2026 for $5M ARR.</strong> Two parallel PoC tracks unlock the funnel.'
+    id="architecture"
+    eyebrow="09 · Where the wins live"
+    title="500 mega-cap targets out of 3.67 million companies."
+    lede='SMEs are 99.7% of JP companies. Only <strong class="text-[var(--color-accent)]">0.01%</strong> are the mega-cap targets that move the needle on $5M ARR.'
     tone="soft"
   >
     <!-- ===== JP ENTERPRISE MARKET ARCHITECTURE — pyramid + industry donut ===== -->
-    <div class="max-w-6xl mb-10 rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
-      <div class="flex items-center gap-2 mb-1 flex-wrap">
-        <Building2 class="w-5 h-5 text-[var(--color-accent)]" />
-        <span class="text-sm uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">JP enterprise architecture · where the wins live</span>
-      </div>
-      <h3 class="font-display text-2xl sm:text-3xl leading-tight mb-2">
-        <strong class="text-[var(--color-accent)]">500</strong> mega-cap targets out of <strong>3.67 million</strong> companies.
-      </h3>
-      <p class="text-base text-[var(--color-ink-soft)] mb-6 max-w-3xl">
-        SMEs are 99.7% of JP companies but only 0.01% are the mega-cap targets that move the needle on $5M ARR. The top tier breaks down by industry below.
-      </p>
-
-      <div class="grid lg:grid-cols-[1.1fr_1fr] gap-8 items-center">
+    <div class="max-w-6xl rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
+      <div class="grid md:grid-cols-[1.1fr_1fr] print:grid-cols-[1.1fr_1fr] gap-8 items-center">
         <!-- 3-Tier Pyramid -->
         <div>
           <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" class="w-full block" role="img" aria-labelledby="market-pyr-title">
@@ -960,9 +935,19 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         <a href="https://www.tdb.co.jp/english/" target="_blank" rel="noopener" class="underline hover:text-[var(--color-accent)]">Teikoku Databank</a>.
       </p>
     </div>
+  </Section>
 
+  <!-- ============================================================ -->
+  <!-- §10 · PIPELINE FUNNEL CASCADE                                  -->
+  <!-- ============================================================ -->
+  <Section
+    id="funnel"
+    eyebrow="10 · Pipeline funnel"
+    title="500 to 5. The curated path to FY26 wins."
+    lede='Four-tier funnel from 500 mega-cap universe to <strong class="text-[var(--color-accent)]">5 FY26 wins for $5M ARR</strong>.'
+  >
     <!-- SVG Trapezoidal Funnel — 4-tier cascade with conversion rates -->
-    <div class="max-w-5xl mb-12 mx-auto">
+    <div class="max-w-5xl mx-auto">
       <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 sm:p-10 print:break-inside-avoid">
         <svg viewBox="0 0 900 540" preserveAspectRatio="xMidYMid meet" class="w-full max-w-3xl mx-auto block" role="img" aria-labelledby="funnel-title funnel-desc">
           <title id="funnel-title">JP enterprise funnel — 500 universe to 5 FY26 wins</title>
@@ -1066,22 +1051,33 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       </div>
     </div>
 
-    <!-- Two PoC tracks -->
-    <div class="grid md:grid-cols-2 gap-5 max-w-6xl">
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §11 · POC TRACKS                                              -->
+  <!-- ============================================================ -->
+  <Section
+    id="poc-tracks"
+    eyebrow="11 · Two PoC tracks"
+    title="Innovation Lab + DX Mandate. Two parallel paths."
+    lede='Two different buyer types unlock the funnel. <strong class="text-[var(--color-accent)]">CDOs move fast.</strong> <strong>CIOs move structural.</strong>'
+    tone="soft"
+  >
+    <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl">
       {pocTracks.map((t, i) => (
-        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-          <h3 class="font-display text-lg mb-3 leading-tight">{t.name}</h3>
-          <div class="space-y-3">
+        <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+          <h3 class="font-display text-xl mb-4 leading-tight">{t.name}</h3>
+          <div class="space-y-4">
             <div>
-              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Target</div>
-              <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">{t.target}</p>
+              <div class="text-[12px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Target</div>
+              <p class="text-base text-[var(--color-ink)] leading-relaxed">{t.target}</p>
             </div>
             <div>
-              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Why it works</div>
-              <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed">{t.edge}</p>
+              <div class="text-[12px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Why it works</div>
+              <p class="text-base text-[var(--color-ink-soft)] leading-relaxed">{t.edge}</p>
             </div>
-            <div class="pt-2 border-t border-[var(--color-line)]">
-              <p class="text-[16px] text-[var(--color-ink-soft)] italic leading-snug">{t.proof}</p>
+            <div class="pt-3 border-t border-[var(--color-line)]">
+              <p class="text-sm text-[var(--color-ink-soft)] italic leading-snug">{t.proof}</p>
             </div>
           </div>
         </div>
@@ -1094,7 +1090,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="sprint"
-    eyebrow="10 · 90-day execution sprint"
+    eyebrow="12 · 90-day execution sprint"
     title="Three tracks. Strict parallel. Zero sequential blockers."
     lede='The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. <strong class="text-[var(--color-accent)]">Pipeline closes 3 PoCs by Day 60.</strong>'
   >
@@ -1160,7 +1156,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="team"
-    eyebrow="11 · Launch team"
+    eyebrow="13 · Launch team"
     title="The Core Squad. The 2026 hiring wave."
     lede="Four roles seated or filling now. Four quarterly hiring waves shaping the rest of the year."
     tone="soft"
@@ -1211,7 +1207,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="risks"
-    eyebrow="12 · Risks & mitigations"
+    eyebrow="14 · Risks & mitigations"
     title="Three systemic risks. Engineered mitigations."
     lede='Talent. Procurement. Language. <strong>The three places a foreign-vendor Japan landing fails.</strong> Each one has a specific structural mitigation.'
   >
@@ -1248,7 +1244,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="asks"
-    eyebrow="13 · Where HQ unlocks Japan velocity"
+    eyebrow="15 · Where HQ unlocks Japan velocity"
     title="Three asks of HQ. Each unlocks the next."
     lede='The plan works only if HQ moves at the speed Japan requires. <strong class="text-[var(--color-accent)]">Three specific commitments unlock the rest.</strong>'
     tone="ink"

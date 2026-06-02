@@ -406,12 +406,33 @@ code, .font-mono {
     margin-top: 12mm;
   }
   html, body { font-size: 10pt; }
-  /* Tighten typography for the slide deck so content fits the 16:9 page */
-  section[id] h2 { font-size: 22pt !important; line-height: 1.1 !important; margin-bottom: 6pt !important; }
-  section[id] .mt-12 { margin-top: 4pt !important; }
-  section[id] [class*="text-xl"]:not(.font-display) { font-size: 10pt !important; }
-  section[id] [class*="text-2xl"]:not(.font-display) { font-size: 11pt !important; }
-  section[id] [class*="text-3xl"]:not(.font-display) { font-size: 13pt !important; }
+  /* Presentation typography · golden-ratio scale, consistent across slides
+   *   Eyebrow chip  : 12pt mono
+   *   Title (h2)    : 28pt display
+   *   Sub-head (h3) : 18pt display
+   *   Body          : 14pt
+   *   Caption       : 11pt
+   *   Mono labels   : 10pt
+   *   Stat numbers  : 56pt for huge, 36pt for medium, 24pt for small
+   */
+  section[id] [class*="uppercase"][class*="tracking-"] { font-size: 12pt !important; letter-spacing: 0.16em !important; }
+  section[id] h2 { font-size: 28pt !important; line-height: 1.08 !important; margin-bottom: 10pt !important; }
+  section[id] h3 { font-size: 18pt !important; line-height: 1.15 !important; }
+  section[id] h4 { font-size: 15pt !important; line-height: 1.2 !important; }
+  section[id] h5 { font-size: 13pt !important; line-height: 1.25 !important; }
+  section[id] p { font-size: 13pt !important; line-height: 1.4 !important; }
+  /* Lede paragraph (the one right after the title) - bigger */
+  section[id] h2 + p, section[id] > div > p:first-of-type { font-size: 15pt !important; line-height: 1.4 !important; }
+  /* Stat numbers — keep the dramatic font sizes */
+  section[id] .font-display[class*="text-3xl"] { font-size: 30pt !important; }
+  section[id] .font-display[class*="text-4xl"] { font-size: 38pt !important; }
+  section[id] .font-display[class*="text-5xl"] { font-size: 56pt !important; }
+  section[id] .font-display[class*="text-6xl"] { font-size: 68pt !important; }
+  section[id] .font-display[class*="text-[2"] { font-size: 32pt !important; }
+  section[id] .font-display[class*="text-[3"] { font-size: 44pt !important; }
+  section[id] .font-display[class*="text-[4"] { font-size: 56pt !important; }
+  section[id] .font-display[class*="text-[5"] { font-size: 68pt !important; }
+  section[id] .mt-12 { margin-top: 8pt !important; }
   section[id] [class*="py-16"] { padding-top: 6mm !important; padding-bottom: 6mm !important; }
   section[id] [class*="py-20"] { padding-top: 7mm !important; padding-bottom: 7mm !important; }
   section[id] [class*="py-24"] { padding-top: 8mm !important; padding-bottom: 8mm !important; }
@@ -424,25 +445,27 @@ code, .font-mono {
     transition: none !important;
   }
 
-  /* Section content centers vertically so empty space distributes evenly
-   * top and bottom rather than dumping at the bottom of the slide. */
+  /* Each section starts on a fresh slide and is sized to exactly one slide */
   section[id] {
     padding-top: 6mm !important;
     padding-bottom: 6mm !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
+    height: calc(19.05cm - 24mm) !important;
     min-height: calc(19.05cm - 24mm) !important;
+    overflow: hidden !important;
+    page-break-before: always;
+    break-before: page;
   }
-  /* Keep titles glued to their following content so we don't get title-only slides */
-  section[id] h2, section[id] [data-reveal] h2 {
-    page-break-after: avoid;
-    break-after: avoid;
-  }
-  /* Section h2 and immediately following content stay together */
-  section[id] h2 + p, section[id] h2 + div {
+  section[id]:first-of-type {
     page-break-before: avoid;
     break-before: avoid;
+  }
+  /* Keep titles glued to their following content */
+  section[id] h2 {
+    page-break-after: avoid;
+    break-after: avoid;
   }
 
   /* Avoid splitting headings, tiles, and dense diagram blocks across pages */
