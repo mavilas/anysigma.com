@@ -13,7 +13,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy:check": "node -e \"const fs=require('fs'),p=require('path');if(!fs.existsSync('dist/index.html')){console.error('✗ No dist/index.html — run pnpm build first.');process.exit(1);}const t=fs.readFileSync('dist/index.html','utf8').match(/<title>([^<]+)<\\/title>/);console.log('✓ dist/index.html title:',t?t[1]:'(none)');console.log('✓ cwd:',p.basename(process.cwd()));console.log('  → If the title or cwd look wrong, do NOT deploy. cd to the right project first.');\"",
+    "deploy:check": "node -e \"const fs=require('fs'),p=require('path');const landing='dist/launch-plan/index.html';if(!fs.existsSync(landing)){console.error('✗ No '+landing+' — run pnpm build first.');process.exit(1);}const t=fs.readFileSync(landing,'utf8').match(/<title>([^<]+)<\\/title>/);console.log('✓ '+landing+' title:',t?t[1]:'(none)');console.log('✓ cwd:',p.basename(process.cwd()));console.log('✓ public/_redirects:',fs.existsSync('public/_redirects')?fs.readFileSync('public/_redirects','utf8').trim():'(none)');\"",
     "deploy": "pnpm run build && pnpm run deploy:check && wrangler pages deploy dist",
     "astro": "astro",
     "pdf": "node scripts/export-pdf.mjs",
