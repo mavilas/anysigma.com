@@ -1098,24 +1098,32 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         font-size: 11px; line-height: 1.2; margin-top: 4px; opacity: 0.9;
       }
 
+      /* Source line: natural flow, pinned bottom via margin-top:auto.
+         Small, muted, right-aligned so it never competes with content. */
       .reveal p.source {
+        flex: 0 0 auto;
+        margin-top: 12px;
+        margin-bottom: 0;
+        padding-top: 8px;
         font-family: "JetBrains Mono", monospace;
         font-size: 11px;
         font-style: italic;
         color: var(--ink-faint);
-        margin-top: auto;
-        margin-bottom: 0;
-        padding-top: 12px;
         text-align: right;
-        opacity: 0.7;
+        opacity: 0.6;
+        line-height: 1.35;
+        letter-spacing: 0.02em;
       }
       .reveal p.source a {
         color: var(--ink-faint);
         text-decoration: none;
-        border-bottom: 1px dotted var(--ink-faint);
-        transition: opacity 0.15s ease;
+        border-bottom: none;
+        transition: color 0.15s ease, opacity 0.15s ease;
       }
-      .reveal p.source a:hover { opacity: 1; color: var(--accent); border-bottom-color: var(--accent); }
+      .reveal p.source a:hover { opacity: 1; color: var(--accent); }
+      /* On dark/ink slides, lighten the source so it stays visible */
+      .reveal section[data-state="ink"] p.source { color: rgba(255,255,255,0.5); }
+      .reveal section[data-state="ink"] p.source a { color: rgba(255,255,255,0.5); }
 
       /* === Sources grid (§Verification) === */
       .reveal .sources-grid {
