@@ -47,9 +47,8 @@ const ledeClass =
           data-reveal="fade-up"
           data-reveal-delay="2"
           class={`text-lg sm:text-xl max-w-4xl leading-relaxed ${ledeClass}`}
-        >
-          {lede}
-        </p>
+          set:html={lede}
+        />
       )
     }
     <div class="mt-12">
