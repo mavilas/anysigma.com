@@ -479,12 +479,11 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           Read the plan
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
-        <a href="/launch-plan/present" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border-2 border-[var(--color-highlight)] bg-[var(--color-highlight-soft)]/40 text-[var(--color-highlight-ink)] text-sm font-semibold hover:bg-[var(--color-highlight)] hover:text-[var(--color-paper)] transition-colors ml-auto">
-          <Rocket class="w-4 h-4" />
-          Present deck (16:9)
-        </a>
-        {/* Download deck PDF button hidden until Reveal print-pdf mode is reliable.
-            Re-enable: <a href="/launch-plan/present?print-pdf">…</a> */}
+        {/* Present deck (16:9) button hidden 2026-06-03 — Reveal slides 3+ render
+            blank in headless capture; fix in progress. Mini-site is the canonical
+            review surface until the deck is solid.
+            Re-enable when fixed:
+            <a href="/launch-plan/present" target="_blank" rel="noopener" …>Present deck (16:9)</a> */}
       </div>
       <p class="text-xs text-[var(--color-ink-faint)] font-mono mt-4 print:hidden" data-reveal="fade-up" data-reveal-delay="5">
         Mini-site and deck both pull from <code class="text-[var(--color-accent)]">src/data/launch-plan.ts</code>. Last synced: <strong class="text-[var(--color-ink)]">2026-06-02</strong>.
