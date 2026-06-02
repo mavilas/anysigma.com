@@ -1078,27 +1078,27 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     title="Three systemic risks. Engineered mitigations."
     lede='Talent. Procurement. Language. <strong>The three places a foreign-vendor Japan landing fails.</strong> Each one has a specific structural mitigation.'
   >
-    <div class="space-y-4 max-w-5xl">
+    <div class="max-w-6xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid">
+      <!-- Single header row -->
+      <div class="hidden md:grid md:grid-cols-[14rem_1fr_1fr] gap-0 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm uppercase tracking-[0.16em] font-mono font-bold">
+        <div class="p-4">Systemic risk</div>
+        <div class="p-4 border-l border-[var(--color-paper)]/20">The risk</div>
+        <div class="p-4 border-l border-[var(--color-paper)]/20 bg-[var(--color-accent)] text-[var(--color-paper)]">Structural mitigation</div>
+      </div>
+      <!-- Rows -->
       {risks.map((r, i) => {
         const IconC = Icon(r.icon);
         return (
-          <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
-            <div class="grid md:grid-cols-[12rem_1fr_1fr] gap-5">
-              <div class="flex items-start gap-2">
-                {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-1" />}
-                <div>
-                  <div class="text-[16px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)] mb-1">Systemic risk</div>
-                  <h3 class="font-display text-lg leading-tight">{r.risk}</h3>
-                </div>
-              </div>
-              <div>
-                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">The risk</div>
-                <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed">{r.framing}</p>
-              </div>
-              <div class="border-l-2 border-[var(--color-accent)] pl-4">
-                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1.5">Structural mitigation</div>
-                <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">{r.mitigation}</p>
-              </div>
+          <div class="grid md:grid-cols-[14rem_1fr_1fr] gap-0 border-t border-[var(--color-line)] print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
+            <div class="p-5 md:p-4 flex md:items-center gap-3 md:border-r border-[var(--color-line)] bg-[var(--color-paper-soft)]/40">
+              {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)] shrink-0" />}
+              <h3 class="font-display text-xl leading-tight text-[var(--color-ink)]">{r.risk}</h3>
+            </div>
+            <div class="p-5 md:p-4 border-t md:border-t-0 md:border-l border-[var(--color-line)]">
+              <p class="text-base text-[var(--color-ink-soft)] leading-relaxed">{r.framing}</p>
+            </div>
+            <div class="p-5 md:p-4 border-t md:border-t-0 md:border-l-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30">
+              <p class="text-base text-[var(--color-ink)] leading-relaxed font-medium">{r.mitigation}</p>
             </div>
           </div>
         );
