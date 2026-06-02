@@ -3,6 +3,12 @@ import "../styles/tailwind.css";
 import { Zap, Lock, Shield } from "@lucide/astro";
 import TableOfContents from "../components/TableOfContents.astro";
 
+interface TocItem {
+  number: string;
+  title: string;
+  href: string;
+}
+
 interface Props {
   title?: string;
   description?: string;
@@ -16,6 +22,8 @@ interface Props {
   footerNote?: string;
   /** Footer "Last updated" date. */
   lastUpdated?: string;
+  /** Per-page TOC items. If omitted, the default (index) items render. Pass [] to hide. */
+  tocItems?: TocItem[];
 }
 
 const {
@@ -26,6 +34,7 @@ const {
   tagline = "Tagline",
   footerNote = "Cloudflare Access · 14-day session",
   lastUpdated,
+  tocItems,
 } = Astro.props;
 ---
 
@@ -83,7 +92,7 @@ const {
       </div>
     </header>
 
-    <TableOfContents />
+    {tocItems !== undefined ? <TableOfContents items={tocItems} /> : <TableOfContents />}
 
     <main>
       <slot />

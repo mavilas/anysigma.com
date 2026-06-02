@@ -1,0 +1,1044 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import * as Icons from "@lucide/astro";
+import {
+  Flag,
+  Sparkles,
+  ListChecks,
+  Calendar,
+  Trophy,
+  AlertTriangle,
+  ShieldCheck,
+  Wrench,
+  Compass,
+  ArrowLeft,
+  ArrowDown,
+  BookOpen,
+  Mail,
+  MessageSquare,
+  Users,
+  Coins,
+  XCircle,
+  CheckCircle2,
+  CircleHelp,
+  FileText,
+  Eye,
+} from "@lucide/astro";
+
+const iconToPascal = (s: string) =>
+  s
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join("");
+
+const Icon = (name?: string) =>
+  name ? ((Icons as any)[iconToPascal(name)] ?? null) : null;
+
+// =====================================================================
+// 30 / 60 / 90 deliverables — procurement-grade rows
+// =====================================================================
+type Stream = "engineering" | "channel" | "funnel";
+
+interface Deliverable {
+  stream: Stream;
+  title: string;
+  artifact: string;
+  owner: string;
+  acceptance: string;
+}
+
+const streamMeta: Record<Stream, { label: string; classes: string }> = {
+  engineering: {
+    label: "Engineering de-risk",
+    classes:
+      "border-l-[var(--color-accent)] bg-[var(--color-accent-soft)]/30 text-[var(--color-accent-ink)]",
+  },
+  channel: {
+    label: "Channel & team",
+    classes:
+      "border-l-[#7a5cff] bg-[#7a5cff]/8 text-[var(--color-ink)]",
+  },
+  funnel: {
+    label: "Funnel & forecast",
+    classes:
+      "border-l-[#0b8f6b] bg-[#0b8f6b]/8 text-[var(--color-ink)]",
+  },
+};
+
+const day30: Deliverable[] = [
+  {
+    stream: "engineering",
+    title: "JP-Voice Eval Harness v0",
+    artifact: "Open repo · 500-utterance dataset",
+    owner: "Marco",
+    acceptance:
+      "Runs against Wonderful + 2 incumbents. Keigo registers, Kansai · Tōhoku · Hakata dialects, JP↔EN code-switch, barge-in covered. Scorecard published.",
+  },
+  {
+    stream: "engineering",
+    title: "Encoding Bridge teardown",
+    artifact: "Spec doc · reproducible byte-level samples",
+    owner: "Marco",
+    acceptance:
+      "Shift-JIS vs CP932, EBCDIC IBM-930 / 939, Gaiji (PUA), Furigana ruby — each with failure mode, sample input, and what a JP-aware pipeline must do.",
+  },
+  {
+    stream: "engineering",
+    title: "JP positioning playbook",
+    artifact: "Bilingual PDF",
+    owner: "Marco",
+    acceptance:
+      "Keigo register policy, APPI / data-residency posture, on-prem / VPC story, BPO channel narrative — each section signed off by HQ before circulation.",
+  },
+  {
+    stream: "channel",
+    title: "Target-30 account map",
+    artifact: "Spreadsheet + 1-page memo",
+    owner: "Marco",
+    acceptance:
+      "Top 30 segmented by vertical, each with named warm path or SI gatekeeper, realistic time-to-first-meeting, and a single hypothesis for why now.",
+  },
+  {
+    stream: "channel",
+    title: "Hiring shortlist v0 — founding SE",
+    artifact: "Screened candidate dossiers",
+    owner: "Marco · JP President",
+    acceptance:
+      "≥3 candidates with written technical and JP cultural-fit assessment. Sits on top of recruiters already engaged, not parallel to them.",
+  },
+  {
+    stream: "channel",
+    title: "Stakeholder & alliance map",
+    artifact: "Org chart + cadence sheet",
+    owner: "Marco · JP President",
+    acceptance:
+      "HQ exec sponsors · JP President · first hire · named SI gatekeepers · 5 named target customers · 2 BPO counterparts. Cadence per stakeholder.",
+  },
+];
+
+const day60: Deliverable[] = [
+  {
+    stream: "engineering",
+    title: "Voice Eval Harness v1 — delta scorecard",
+    artifact: "Re-run + published deltas",
+    owner: "Marco · HQ engineering",
+    acceptance:
+      "Re-run after one HQ fix cycle. Deltas vs day-30 baseline published. This becomes the standing JP-fit mechanism, not a one-off audit.",
+  },
+  {
+    stream: "engineering",
+    title: "APPI + data-residency posture doc",
+    artifact: "Procurement-ready bilingual PDF",
+    owner: "Marco · HQ legal",
+    acceptance:
+      "What's true today, what's roadmap, what HQ commits to before the first ringi. Reviewed by a JP-side legal counterpart.",
+  },
+  {
+    stream: "channel",
+    title: "SI exploratory conversations · 2 of 4",
+    artifact: "Meeting notes + comparison memo",
+    owner: "Marco · JP President",
+    acceptance:
+      "NTT Data · NRI · Accenture JP · Fujitsu. 2 of 4 in exploratory dialogue — exploratory, not commercial. Memo flags which to commit at day 90.",
+  },
+  {
+    stream: "channel",
+    title: "First founding SE — hired or offered",
+    artifact: "Signed offer or escalation memo",
+    owner: "JP President",
+    acceptance:
+      "Bilingual, senior, screened on architecture + JP enterprise fit. If not closed, memo names the specific blocker and the next two candidates.",
+  },
+  {
+    stream: "channel",
+    title: "BPO posture conversation",
+    artifact: "Briefing memo",
+    owner: "Marco",
+    acceptance:
+      "One diplomatic conversation with Transcosmos, Bell System24, or Mosaic on co-sell vs displace. Memo classifies the channel by year-one risk.",
+  },
+  {
+    stream: "funnel",
+    title: "Pricing & packaging localized",
+    artifact: "Yen-denominated, ringi-friendly templates",
+    owner: "Marco · HQ commercial",
+    acceptance:
+      "Pilot-to-prod ladder defined. Templates reviewed against one named JP procurement counterpart's standing requirements.",
+  },
+  {
+    stream: "channel",
+    title: "HQ ↔ JP operating playbook",
+    artifact: "Written agreement · 1 page",
+    owner: "JP President · HQ exec sponsor",
+    acceptance:
+      "How Tel Aviv and Tokyo communicate, escalate, and decide. Names: weekly cadence, single-point HQ owner, escalation path. Signed by both sides.",
+  },
+];
+
+const day90: Deliverable[] = [
+  {
+    stream: "funnel",
+    title: "3–5 discovery conversations at target accounts",
+    artifact: "Conversation log + status table",
+    owner: "Marco · JP President",
+    acceptance:
+      "Warm-path only. No close claims. Each entry names champion, ringi path, and the specific objection still open.",
+  },
+  {
+    stream: "funnel",
+    title: "First pilot scoped — not signed",
+    artifact: "Scoping doc + named champion",
+    owner: "Marco · JP President",
+    acceptance:
+      "Scope, success criteria, ringi path identified. Written as a document the champion is willing to forward to procurement, not a one-pager from us.",
+  },
+  {
+    stream: "channel",
+    title: "Founding team plan locked",
+    artifact: "Hiring decision memo",
+    owner: "JP President",
+    acceptance:
+      "SE seated. AE shortlisted. CS profile written. Calibrated framework documented so the next two senior closes don't re-run discovery.",
+  },
+  {
+    stream: "funnel",
+    title: "Direct vs SI-led vs BPO-channel decision memo",
+    artifact: "Memo with funnel evidence",
+    owner: "Marco · JP President",
+    acceptance:
+      "Primary motion chosen on observed evidence — meetings opened, objections surfaced, partner appetite tested. Not on HQ preference.",
+  },
+  {
+    stream: "funnel",
+    title: "12-month forecast — from observed funnel",
+    artifact: "Forecast doc",
+    owner: "Marco · JP President",
+    acceptance:
+      "Built from what was observed, not what was promised. Names the three assumptions that, if broken, change the forecast by ≥30%.",
+  },
+];
+
+// =====================================================================
+// Stage-gate columns
+// =====================================================================
+const day30Questions = [
+  {
+    q: "Did the Day-30 starting kit ship at acceptance?",
+    detail:
+      "Voice eval harness + scorecard public. Encoding bridge teardown with five samples. JP positioning playbook in HQ + JP-legal review. Target-30 map with named warm paths. Hiring shortlist ≥3 with written assessments. <strong>Conservative bar:</strong> ≥4 of 5 at acceptance counts as pass.",
+  },
+  {
+    q: "Did the artifacts produce signal HQ + JP can use?",
+    detail:
+      "Voice eval surfaced ≥3 JP-specific gaps HQ prioritizes. Hiring shortlist produced ≥1 candidate progressing to offer. Target-30 produced ≥2 warm-path meetings on calendar.",
+  },
+  {
+    q: "Is the working rhythm right?",
+    detail:
+      "President says yes. HQ sponsor says yes. Contractor says yes. Any unilateral no = pause and renegotiate scope before day 60.",
+  },
+];
+
+const day90Forks = [
+  {
+    tag: "A · Extend",
+    title: "Renew contractor for next 90 days.",
+    detail:
+      "Pilot scoped but not signed. Funnel building. Next 90 closes the pilot and stands up the senior pipeline.",
+  },
+  {
+    tag: "B · Convert · advisor + equity",
+    title: "Move to standing advisor role with equity grant.",
+    detail:
+      "Pilot signed. Founding SE landed. JP President wants pattern + network but no longer day-to-day delivery.",
+  },
+  {
+    tag: "C · Convert · full-time",
+    title: "Move to full-time exec role in JP team.",
+    detail:
+      "Pilot signed. Channel motion validated. HQ + JP President want me inside the cap-table conversation, not adjacent to it.",
+  },
+  {
+    tag: "D · Part cleanly",
+    title: "Engagement complete; no extension.",
+    detail:
+      "Artifacts delivered. Working rhythm not right or scope not right or priorities have shifted. Mutual, named in writing, no awkwardness.",
+  },
+];
+
+// =====================================================================
+// Risks
+// =====================================================================
+const risks = [
+  {
+    severity: "high",
+    risk: "HQ velocity mismatch with JP enterprise pace",
+    why: "Tel Aviv runs at US-startup velocity. JP enterprise procurement is 12-18 months, ringi-gated, ISMAP-blocking. If HQ treats Day 60 with no signed pilot as failure, Japan year-one fails by manufactured urgency.",
+    mitigation:
+      "HQ ↔ JP operating playbook is a Day-60 deliverable. It names the cadence, the single HQ owner, and the escalation path for JP-specific posture. Day-30 review surfaces any expectations gap before it compounds.",
+  },
+  {
+    severity: "high",
+    risk: "JP bilingual senior engineering market is thinner than HQ models assume",
+    why: 'Top JP-fluent senior engineers hold 2-4 offers at any time. Compensation bands HQ uses for Tel Aviv or US do not clear. "Six weeks to first SE" is a US assumption.',
+    mitigation:
+      'Screening sits on top of recruiters already engaged, not parallel. Personal-network sourcing for the founding SE. If by Day 60 no offer extended, written escalation memo names the specific blocker (comp band, role shape, visa) plus next two candidates — not a generic "still searching."',
+  },
+  {
+    severity: "medium",
+    risk: "On-prem · ISMAP · APPI posture not roadmap-ready at procurement time",
+    why: 'JP enterprise procurement asks about ISMAP listing, data residency, and on-prem deployability in security review one — meeting two, not meeting ten. If HQ\'s answer is "on the roadmap," pilots stall.',
+    mitigation:
+      'APPI + data-residency posture doc by Day 60 — bilingual, procurement-ready, JP-side legal reviewed. Names what\'s true today, what\'s roadmap with dates, and what HQ commits to before first ringi. The point is that no JP procurement officer ever hears the word "roadmap" without a date next to it.',
+  },
+  {
+    severity: "medium",
+    risk: "BPO partner relationships go defensive",
+    why: 'Transcosmos · Bell System24 · Mosaic see agentic AI as headcount displacement. If the first conversation is naive — "we\'re here to scale your operation" — they go cold and block downstream enterprise relationships they\'ve held for 20 years.',
+    mitigation:
+      "Day-60 diplomatic BPO conversation, framed as co-sell, not displace. Briefing memo classifies each by year-one risk vs opportunity. If two of three are unworkable, the Day-90 decision memo recommends direct or SI-led motion as primary, BPO as secondary.",
+  },
+];
+
+// =====================================================================
+// Honest gap list — what I am NOT committing to in 90 days
+// =====================================================================
+const gaps = {
+  strategic: [
+    { tag: "MUST", text: "Customer-service re-entry — explicitly out of scope. Beachhead is internal workflow only. Customer service after pilot lands." },
+    { tag: "MUST", text: "Tel Aviv eng roadmap input on JP-fit work — depends on HQ priorities I do not control." },
+    { tag: "SHOULD", text: "Korea / Singapore / India regional positioning — adjacent markets, not in 90 days." },
+    { tag: "DEFER", text: "Cap-table / advisor-equity formal structure — only meaningful at Day 90 fork B/C." },
+  ],
+  operational: [
+    { tag: "MUST", text: "JP entity formation, banking, payroll — Wonderful's corporate counsel work, not contractor scope." },
+    { tag: "MUST", text: "Office search, lease, build-out — out of scope unless explicitly added to brief at Day 30." },
+    { tag: "SHOULD", text: "Internal training / onboarding playbook for the first 3 hires — Day 90+ work, not Day 30-60." },
+    { tag: "DEFER", text: "JP marketing site, JP brand identity, press strategy — outside contractor lane." },
+  ],
+  engineering: [
+    { tag: "MUST", text: "Eval harness extends only to ASR + register + barge-in + latency. Full agent-workflow autonomy eval = HQ scope." },
+    { tag: "MUST", text: "Encoding bridge teardown is a spec doc + samples. Productionising the bridge is HQ engineering work, not contractor delivery." },
+    { tag: "SHOULD", text: "Customer-specific Gaiji mapping tables — only when a customer surfaces. Day-60+." },
+    { tag: "DEFER", text: "On-prem reference architecture in detail — Day 90+ work tied to specific customer." },
+  ],
+};
+
+// =====================================================================
+// The ask — three decisions for the in-room meeting
+// =====================================================================
+const asks = [
+  {
+    n: "01",
+    title: "Scope — confirm the default GTM + Tech scope as starting brief",
+    body: "Or amend per the President's own plan when we see it. Either way, Day-30 starting kit ships on the artifacts above.",
+  },
+  {
+    n: "02",
+    title: "Start date — confirm Day 1",
+    body: "Once agreed, the 30-day clock starts. Day-30 joint review is the first stage gate.",
+  },
+  {
+    n: "03",
+    title: "Day-30 trial structure — confirm the cheap-to-fail trial",
+    body: "Conservative acceptance bar (≥4 of 5 deliverables). Mutual exit if not landed. Artifacts stay with Wonderful either way. Lowest-risk entry for both sides.",
+  },
+];
+---
+
+<Layout
+  title="Wonderful · Engagement proposal · Marco Avila"
+  description="30-60 contractor commitments, stage-gate, risks, and ask. Confidential."
+  brand="Marco Avila"
+  tagline="Wonderful · Engagement proposal"
+  footerNote="Cloudflare Access · 24h session · Confidential · companion to wonderful.anysigma.com"
+  lastUpdated="2026-06-02"
+  tocItems={[
+    { number: "01", title: "30 + 60 work", href: "#plan" },
+    { number: "02", title: "Stage-gate", href: "#stage-gate" },
+    { number: "03", title: "Risks", href: "#risks" },
+    { number: "04", title: "Terms", href: "#terms" },
+    { number: "05", title: "Gap list", href: "#gaps" },
+    { number: "06", title: "The ask", href: "#ask" },
+    { number: "07", title: "How to engage", href: "#engage" },
+    { number: "08", title: "References", href: "#references" },
+  ]}
+>
+  <Fragment slot="nav">
+    <a href="/" class="hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1"><ArrowLeft class="w-3 h-3" />Japan strategy</a>
+    <a href="#plan" class="hover:text-[var(--color-ink)] transition-colors">30 / 60 / 90</a>
+    <a href="#stage-gate" class="hover:text-[var(--color-ink)] transition-colors">Stage-gate</a>
+    <a href="#risks" class="hover:text-[var(--color-ink)] transition-colors">Risks</a>
+    <a href="#terms" class="hover:text-[var(--color-ink)] transition-colors">Terms</a>
+    <a href="#ask" class="hover:text-[var(--color-ink)] transition-colors">Ask</a>
+    <a href="#references" class="hover:text-[var(--color-ink)] transition-colors">References</a>
+  </Fragment>
+
+  <!-- ============================================================ -->
+  <!-- HERO — bold-bullet executive summary + SCR strip              -->
+  <!-- MBB convention: lead with the answer; bold the load-bearing  -->
+  <!-- claim per bullet so the reader can skim the bold alone.       -->
+  <!-- ============================================================ -->
+  <section class="pt-20 sm:pt-28 pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-10 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Flag class="w-3.5 h-3.5" />
+          Confidential · engagement proposal
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Marco Avila · 2026-06-01 · companion to wonderful.anysigma.com
+        </span>
+      </div>
+
+      <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
+        Engagement proposal · 30-60 commitments
+      </p>
+      <h1 class="font-display text-[2.5rem] sm:text-[3.75rem] lg:text-[4.5rem] leading-[1.0] tracking-tight mb-4 max-w-5xl relative" data-reveal="fade-up" data-reveal-delay="2">
+        30 + 60.<br />
+        <span class="text-[var(--color-ink-soft)] italic font-display">Two work blocks. One trial gate.</span>
+        <span aria-hidden="true" class="absolute -left-3 sm:-left-5 top-2 bottom-2 w-[3px] sm:w-[5px] rounded-full bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)] to-transparent"></span>
+      </h1>
+      <p class="font-display text-xl sm:text-2xl text-[var(--color-ink-soft)] mb-10 max-w-3xl leading-snug italic" data-reveal="fade-up" data-reveal-delay="3">
+        The 30-60 list APAC regional asked for. Companion to the Japan strategy writeup. The strategy makes the argument; this page makes the commitments.
+      </p>
+
+      <!-- Bold-bullet exec summary — MBB convention -->
+      <div class="story-prose max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="4">
+        <ul class="space-y-3 list-none pl-0">
+          <li class="leading-relaxed">
+            <strong>Day 30 ships the starting kit.</strong> Voice eval, encoding teardown, JP positioning playbook, target-30 map, hiring shortlist. Shippable solo, no HQ dependency. Artifacts walk in with the contractor; they stay with Wonderful either way.
+          </li>
+          <li class="leading-relaxed">
+            <strong>Day 60 extends the commitment.</strong> Hires screened and closed (or escalated with a written memo), SI exploratory doors opened, APPI · BPO · pricing posture sharpened against what demos surface in weeks 5-8.
+          </li>
+          <li class="leading-relaxed">
+            <strong>The Day-30 trial is cheap to fail.</strong> Acceptance bar is conservative on purpose: ≥4 of 5 deliverables counts as pass. Underpromise, overdeliver. If the working rhythm is not right, we part cleanly and Wonderful keeps the artifacts.
+          </li>
+        </ul>
+      </div>
+
+      <!-- SCR scan-strip -->
+      <div class="max-w-5xl mb-10 grid sm:grid-cols-3 gap-3 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay="5">
+        {[
+          {
+            label: "Situation",
+            heading: "Wonderful is landing in its #1 strategic market.",
+            body: "Series B closed, embedded-country-team model, Bezeq-scale reference. JP procurement runs on 12-18 month cycles, ringi · hanko · APPI · SI gatekeepers. The President's role in seat May 2026.",
+            tone: "default",
+          },
+          {
+            label: "Complication",
+            heading: "The 20% is where foreign vendors lose Japan.",
+            body: "Keigo, dialect ASR, Shift-JIS · CP932 · EBCDIC encoding, Furigana, Gaiji, on-prem · ISMAP posture, BPO politics. None surface in a demo. All surface at procurement, six months in, by which point the year is lost.",
+            tone: "accent",
+          },
+          {
+            label: "Resolution",
+            heading: "One contractor covers the 20% in 90 days. Day-30 trial gates the rest.",
+            body: "Engineering de-risk, channel diplomacy, hiring screening — in one bilingual operator. Default GTM + Tech scope, re-shaped against the President's own plan once we see it.",
+            tone: "ink",
+          },
+        ].map((col) => (
+          <div
+            class={`rounded-lg p-4 border ${
+              col.tone === "ink"
+                ? "bg-[var(--color-ink)] text-[var(--color-paper)] border-[var(--color-ink)]"
+                : col.tone === "accent"
+                ? "bg-[var(--color-accent-soft)] border-[var(--color-accent)]/40"
+                : "bg-[var(--color-paper)] border-[var(--color-line)]"
+            }`}
+          >
+            <div class={`text-[10px] uppercase tracking-[0.18em] font-bold mb-2 font-mono ${
+              col.tone === "ink" ? "text-[var(--color-accent)]" : col.tone === "accent" ? "text-[var(--color-accent-ink)]" : "text-[var(--color-accent)]"
+            }`}>
+              {col.label}
+            </div>
+            <h4 class={`font-display text-base leading-snug mb-2 ${col.tone === "ink" ? "text-[var(--color-paper)]" : "text-[var(--color-ink)]"}`}>
+              {col.heading}
+            </h4>
+            <p class={`text-[11px] leading-relaxed ${
+              col.tone === "ink" ? "text-[var(--color-paper-soft)]" : "text-[var(--color-ink-soft)]"
+            }`}>
+              {col.body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="6">
+        <a href="#plan" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors">
+          <BookOpen class="w-4 h-4" />
+          Read the 30 / 60 / 90
+          <ArrowDown class="w-3.5 h-3.5 ml-1" />
+        </a>
+        <a href="#ask" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
+          Skip to the ask
+        </a>
+        <a href="/" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
+          <ArrowLeft class="w-3.5 h-3.5" />
+          Back to Japan strategy
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §01 · 30 / 60 / 90 DELIVERABLES                                -->
+  <!-- ============================================================ -->
+  <Section
+    id="plan"
+    eyebrow="01 · 30 + 60 · the work · for approval"
+    title="Two work blocks. 60 days. Up for approval today."
+    lede="The default GTM + Tech work a JP enterprise AI landing needs in the first 60 days. Generic enough to start without the President's own plan in hand, specific enough that every deliverable maps to a real landing motion. Each row carries an artifact format, an owner, and a SMART acceptance criterion. For approval by JP President and APAC regional — line-by-line if useful."
+  >
+    <!-- Situational diagnostic + scope chips -->
+    <div class="flex flex-wrap items-center gap-2 mb-6 print:mb-3" data-reveal="fade-up">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper)] text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-soft)]">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>
+        STARS · Start-up
+      </span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper)] text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-soft)]">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#7a5cff]"></span>
+        GTM + Tech · default scope
+      </span>
+      <span class="text-[11px] text-[var(--color-ink-faint)] leading-snug">
+        Default starting posture. Re-shaped against the President's own plan once we see it. Joint reviews at Day 30 · 60 · 90.
+      </span>
+    </div>
+
+    <div class="story-prose max-w-3xl mb-10">
+      <p>
+        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. The first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run together — the tech work is not a pre-built pipeline. The voice eval, the encoding bridge, the playbook artifacts ship as starting kit. From there the tech polishes <em>as we demo it</em>: every customer demo and SI conversation surfaces a JP-specific failure mode, and the next two weeks of tech work close it. By day ninety, the goal is pilot terms scoped with the first internal-workflow customer, a calibrated framework for the next senior closes, and a decision memo on the primary motion.
+      </p>
+    </div>
+
+    <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 sm:p-8" data-reveal="fade-up">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-5">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+            <ListChecks class="w-4 h-4" />
+          </span>
+          <div class="text-xs uppercase tracking-[0.16em] text-[var(--color-ink-faint)] font-semibold">Deliverables · Day 30 · 60 · 90</div>
+        </div>
+        <div class="flex items-center gap-3 text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">
+          <span class="flex items-center gap-1.5"><span class="inline-block w-2 h-2 rounded-sm bg-[var(--color-accent)]"></span>Engineering de-risk</span>
+          <span class="flex items-center gap-1.5"><span class="inline-block w-2 h-2 rounded-sm bg-[#7a5cff]"></span>Channel &amp; team</span>
+          <span class="flex items-center gap-1.5"><span class="inline-block w-2 h-2 rounded-sm bg-[#0b8f6b]"></span>Funnel &amp; forecast</span>
+        </div>
+      </div>
+
+      <h4 class="font-display text-2xl mb-1 leading-tight">
+        <span class="standout">Day 30 + Day 60.</span> Two work blocks. One commitment.
+      </h4>
+      <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed mb-3 max-w-3xl">
+        Each row carries an artifact format, an owner, and an acceptance criterion a procurement officer can tick. Day-30 deliverables are weighted toward solo-engineering artifacts so the first month produces files Wonderful keeps either way. Stage-gate decision rules in <a href="#stage-gate" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§02 — Stage-gate</a>.
+      </p>
+      <div class="mb-6 max-w-3xl flex items-start gap-2 rounded-md border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30 p-3" data-reveal="fade-up">
+        <CheckCircle2 class="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
+        <p class="text-[11px] leading-relaxed text-[var(--color-ink-soft)]">
+          <strong class="text-[var(--color-ink)]">For approval today:</strong> the two columns below. Day 30 + Day 60 deliverables are what JP President and APAC regional ratify line-by-line. End-of-engagement decision lives in <a href="#stage-gate" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§02 stage-gate</a>, not here.
+        </p>
+      </div>
+
+      <!-- Day 30 + Day 60 · two-column WORK grid (the part being approved) -->
+      <div class="grid lg:grid-cols-2 gap-4 print:grid-cols-1 print:gap-6">
+        {[
+          {
+            day: 30,
+            label: "Day 30 · Trial",
+            verb: "Diagnose & equip",
+            focus: "Ship the starting kit: voice eval, encoding teardown, JP positioning playbook, target-30 map, hiring shortlist. The artifacts walk in with you.",
+            rows: day30,
+            tone: "trial",
+          },
+          {
+            day: 60,
+            label: "Day 60 · Working commitment",
+            verb: "Earn trust & open channels",
+            focus: "Tech polishes as we demo. Screen the senior hires. Open SI exploratory doors. Sharpen the APPI · BPO · pricing posture against what demos surface.",
+            rows: day60,
+            tone: "work",
+          },
+        ].map((col, ci) => (
+          <div data-reveal="fade-up" data-reveal-delay={ci} class="print:break-inside-avoid">
+            <div class="flex items-center gap-2 mb-2 flex-wrap">
+              <span class={`text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded ${
+                col.tone === "trial"
+                  ? "bg-[var(--color-accent)] text-[var(--color-paper)]"
+                  : "bg-[#7a5cff] text-[var(--color-paper)]"
+              }`}>{col.label}</span>
+              <span class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">{col.rows.length} deliverables</span>
+            </div>
+            <div class="mb-4 pb-3 border-b border-[var(--color-line)]">
+              <h5 class="font-display text-base leading-tight text-[var(--color-ink)] mb-1">{col.verb}</h5>
+              <p class="text-[11px] leading-snug text-[var(--color-ink-soft)]">{col.focus}</p>
+            </div>
+            <div class="space-y-3">
+              {col.rows.map((d: Deliverable) => (
+                <div class={`rounded-md border border-[var(--color-line)] border-l-2 ${streamMeta[d.stream].classes} p-3.5`}>
+                  <div class="flex items-start justify-between gap-2 mb-1.5">
+                    <h5 class="font-display text-sm leading-tight text-[var(--color-ink)]">{d.title}</h5>
+                    <span class="shrink-0 text-[9px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)] mt-0.5">{streamMeta[d.stream].label.split(" ")[0]}</span>
+                  </div>
+                  <dl class="text-[11px] leading-snug space-y-1 mt-2">
+                    <div class="flex gap-1.5">
+                      <dt class="shrink-0 text-[var(--color-ink-faint)] font-mono uppercase tracking-[0.08em] w-[58px]">Artifact</dt>
+                      <dd class="text-[var(--color-ink-soft)]">{d.artifact}</dd>
+                    </div>
+                    <div class="flex gap-1.5">
+                      <dt class="shrink-0 text-[var(--color-ink-faint)] font-mono uppercase tracking-[0.08em] w-[58px]">Owner</dt>
+                      <dd class="text-[var(--color-ink-soft)]">{d.owner}</dd>
+                    </div>
+                    <div class="flex gap-1.5">
+                      <dt class="shrink-0 text-[var(--color-ink-faint)] font-mono uppercase tracking-[0.08em] w-[58px]">Accept</dt>
+                      <dd class="text-[var(--color-ink-soft)]">{d.acceptance}</dd>
+                    </div>
+                  </dl>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Ratification chips — what AC + Hosoi-san can say per line -->
+      <div class="mt-6 rounded-md border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3.5 flex items-center gap-3 flex-wrap print:break-inside-avoid">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink-soft)]">Per-line ratification</span>
+        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper)] text-[11px] font-mono">
+          <CheckCircle2 class="w-3 h-3 text-emerald-600" /> On board
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper)] text-[11px] font-mono">
+          <CircleHelp class="w-3 h-3 text-amber-600" /> Concern · refine
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper)] text-[11px] font-mono">
+          <XCircle class="w-3 h-3 text-red-600" /> Object · drop
+        </span>
+        <span class="text-[10px] text-[var(--color-ink-faint)]">Mark per row in the conversation. Default if no objection = on board.</span>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-[var(--color-line)] text-[11px] text-[var(--color-ink-faint)] leading-relaxed space-y-1.5">
+        <div>
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Cadence</span>
+          Joint reviews at Day 30 (trial gate) and at end-of-engagement. Both decision rules in <a href="#stage-gate" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§02 — Stage-gate</a>.
+        </div>
+        <div>
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Calendar</span>
+          Anchored to "Start + 30 / 60 days" from kickoff. Contract end-date naturally closes the engagement window; renewal or exit handled in <a href="#terms" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§04 — Engagement terms</a>.
+        </div>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-[var(--color-line)] text-[11px] text-[var(--color-ink-faint)] leading-relaxed space-y-1.5">
+        <div>
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Cadence</span>
+          Day 30 · 60 · 90 reviews scheduled as joint HQ exec sponsor + JP President + contractor sessions. Decision rules in <a href="#stage-gate" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§02 — Stage-gate</a>.
+        </div>
+        <div>
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Calendar</span>
+          Anchored to "Start + 30 / 60 / 90 days" from kickoff. Engagement terms in <a href="#terms" class="underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)]">§04 — Engagement terms</a>.
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §02 · STAGE-GATE                                               -->
+  <!-- ============================================================ -->
+  <Section
+    id="stage-gate"
+    eyebrow="02 · Stage-gate"
+    title="Two pre-committed decision points. Trial cheap to fail. Close clean."
+    lede="Underpromise, overdeliver. The Day-30 bar is conservative on purpose — the value should obviously exceed it. The Day-90 fork is named in advance so neither side is stuck improvising at the end."
+  >
+    <div class="grid lg:grid-cols-2 gap-4 max-w-5xl print:grid-cols-1 print:gap-6">
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/40 p-6 print:break-inside-avoid" data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-accent)] text-[var(--color-paper)]">Day 30 · Trial gate</span>
+        </div>
+        <h3 class="font-display text-2xl mb-3 leading-tight">
+          Mutual go / no-go on Day 60-90.
+        </h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4">
+          Joint review with HQ exec sponsor + JP President + contractor. Three questions. Three clean answers.
+        </p>
+        <div class="space-y-3">
+          {day30Questions.map((row, i) => (
+            <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] p-3.5">
+              <div class="text-[11px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q{i + 1}</div>
+              <h4 class="font-display text-sm leading-tight mb-2 text-[var(--color-ink)]">{row.q}</h4>
+              <p class="text-[11px] leading-relaxed text-[var(--color-ink-soft)]" set:html={row.detail} />
+            </div>
+          ))}
+        </div>
+        <div class="mt-4 pt-3 border-t border-[var(--color-accent)]/30 text-[11px] text-[var(--color-ink-faint)] leading-relaxed">
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Outcomes</span>
+          Pass → continue to Day 60 on agreed priorities. Pass-with-concerns → extend with renegotiated scope. Fail → part cleanly. Artifacts produced in Day 30 stay with Wonderful either way.
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay="1">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-ink)] text-[var(--color-paper)]">Day 90 · Review fork</span>
+        </div>
+        <h3 class="font-display text-2xl mb-3 leading-tight">
+          Four named options. No improvisation at the end.
+        </h3>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4">
+          Joint review. Each option has a written success-shape. Whichever fits is the one we ratify.
+        </p>
+        <div class="space-y-2.5">
+          {day90Forks.map((opt) => (
+            <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-3">
+              <div class="flex items-baseline gap-2 mb-1">
+                <span class="text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{opt.tag}</span>
+              </div>
+              <h4 class="font-display text-sm leading-tight mb-1 text-[var(--color-ink)]">{opt.title}</h4>
+              <p class="text-[11px] leading-snug text-[var(--color-ink-soft)]">{opt.detail}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-4 pt-3 border-t border-[var(--color-line)] text-[11px] text-[var(--color-ink-faint)] leading-relaxed">
+          <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Default</span>
+          If no decision is made by Day 100, the engagement parts cleanly (Option D). Better than a quiet extension nobody owns.
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §03 · RISKS & MITIGATIONS                                      -->
+  <!-- ============================================================ -->
+  <Section
+    id="risks"
+    eyebrow="03 · Risks & mitigations"
+    title="Four risks I would not promise away. Mitigations are specific, not heroic."
+    lede="The honest list. Naming what can go wrong builds more trust than pretending the path is clear."
+    tone="soft"
+  >
+    <div class="space-y-3 max-w-5xl">
+      {risks.map((r, i) => (
+        <div class={`grid sm:grid-cols-[10rem_1fr] gap-3 sm:gap-5 rounded-xl border bg-[var(--color-paper)] p-5 print:break-inside-avoid ${r.severity === "high" ? "border-[var(--color-accent)]" : "border-[var(--color-line)]"}`} data-reveal="fade-up" data-reveal-delay={i % 3}>
+          <div class="flex flex-col gap-2 items-start">
+            <span class={`text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded ${r.severity === "high" ? "bg-[var(--color-accent)] text-[var(--color-paper)]" : "bg-[var(--color-ink)]/10 text-[var(--color-ink-soft)]"}`}>
+              Severity · {r.severity}
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)]">Risk {String(i + 1).padStart(2, "0")}</span>
+          </div>
+          <div>
+            <h3 class="font-display text-lg leading-tight mb-2 text-[var(--color-ink)]">{r.risk}</h3>
+            <p class="text-[12px] leading-relaxed text-[var(--color-ink-soft)] mb-3">
+              <span class="font-mono uppercase tracking-[0.08em] text-[var(--color-ink-faint)] mr-1.5">Why</span>
+              {r.why}
+            </p>
+            <p class="text-[12px] leading-relaxed text-[var(--color-ink-soft)]">
+              <span class="font-mono uppercase tracking-[0.08em] text-[var(--color-accent)] mr-1.5">Mitigation</span>
+              {r.mitigation}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-6 max-w-4xl text-[11px] text-[var(--color-ink-faint)] leading-relaxed italic">
+      Not on this list: the platform itself failing on Wonderful's side. The Bezeq-scale reference, the agentic OS, the voice stack — these are the things you do well. The risks above are landing risks, not product risks.
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §04 · ENGAGEMENT TERMS                                         -->
+  <!-- Structure shown; commercial numbers handled in-room.           -->
+  <!-- ============================================================ -->
+  <Section
+    id="terms"
+    eyebrow="04 · Engagement terms"
+    title="Shape of the contract. Numbers discussed in-room."
+    lede="The structure is named here so neither side carries surprises into the conversation. Commercial values discussed when we meet."
+  >
+    <div class="grid lg:grid-cols-3 gap-4 max-w-5xl">
+      {[
+        {
+          icon: "coins",
+          tag: "Retainer",
+          title: "Monthly base + scope-bound",
+          detail: "Standing monthly retainer covers the default GTM + Tech scope. Scope amendments mid-engagement re-open the conversation.",
+          subtext: "Yen-denominated. Invoiced monthly in advance.",
+        },
+        {
+          icon: "trophy",
+          tag: "Success fees",
+          title: "Two narrow triggers",
+          detail: "Per founding-team hire landed (offer accepted, signed). Per pilot scoped to a procurement-ready document (not signed — scoped). No volume bonuses, no recurring revenue share.",
+          subtext: "Triggers defined in writing before Day 1.",
+        },
+        {
+          icon: "x-circle",
+          tag: "Termination",
+          title: "30-day mutual, anytime",
+          detail: "Either side can end the engagement with 30 days' notice for any reason. Day-30 trial gate is the natural first decision point. Artifacts produced stay with Wonderful regardless of outcome.",
+          subtext: "No early-termination penalty either direction.",
+        },
+      ].map((t, i) => {
+        const IconC = Icon(t.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-3">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">{t.tag}</span>
+            </div>
+            <h3 class="font-display text-lg mb-2 leading-tight text-[var(--color-ink)]">{t.title}</h3>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">{t.detail}</p>
+            <p class="text-[11px] text-[var(--color-ink-faint)] font-mono leading-snug">{t.subtext}</p>
+          </div>
+        );
+      })}
+    </div>
+
+    <div class="mt-6 max-w-5xl rounded-lg border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-5">
+      <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)] font-bold mb-2">Month 3 fork — optional ladder</div>
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">
+        At Day 90, if Day-90 Option B (advisor + equity) or Option C (full-time) is selected, the commercial shape flips: equity grant + reduced retainer (B) or full salary + grant (C). Both ladders sketched in advance, ratified at Day 90 when we know which fits.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §05 · HONEST GAP LIST                                          -->
+  <!-- ============================================================ -->
+  <Section
+    id="gaps"
+    eyebrow="05 · Honest gap list"
+    title="What I am not committing to in this engagement."
+    lede="The counter-intuitive section. Naming the gaps explicitly proves the rest of the page is honest. Tagged MUST (before Phase 1) · SHOULD (before Phase 2) · DEFER."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-3 gap-4 max-w-6xl">
+      {[
+        { title: "Strategic", icon: "compass", items: gaps.strategic },
+        { title: "Operational", icon: "wrench", items: gaps.operational },
+        { title: "Engineering", icon: "shield-check", items: gaps.engineering },
+      ].map((col, ci) => {
+        const IconC = Icon(col.icon);
+        return (
+          <div data-reveal="fade-up" data-reveal-delay={ci} class="print:break-inside-avoid">
+            <div class="flex items-center gap-2 mb-3">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
+              <h3 class="font-display text-lg leading-tight">{col.title}</h3>
+            </div>
+            <ul class="space-y-2.5">
+              {col.items.map((it) => (
+                <li class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] p-3">
+                  <span class={`inline-block text-[9px] uppercase tracking-[0.14em] font-mono font-bold px-1.5 py-0.5 rounded mb-1.5 ${
+                    it.tag === "MUST" ? "bg-[var(--color-accent)] text-[var(--color-paper)]" :
+                    it.tag === "SHOULD" ? "bg-[#7a5cff]/15 text-[#5a3fd9]" :
+                    "bg-[var(--color-ink)]/8 text-[var(--color-ink-faint)]"
+                  }`}>
+                    {it.tag}
+                  </span>
+                  <p class="text-[12px] leading-relaxed text-[var(--color-ink-soft)]">{it.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §06 · THE ASK                                                  -->
+  <!-- ============================================================ -->
+  <Section
+    id="ask"
+    eyebrow="06 · The ask"
+    title="Three decisions for the in-room meeting."
+    lede="Default if you agree: ship. Each one carries a ratification chip set so leadership can ratify quickly."
+  >
+    <div class="space-y-4 max-w-4xl">
+      {asks.map((a) => (
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">Decision {a.n}</span>
+          </div>
+          <h3 class="font-display text-xl leading-tight mb-2">{a.title}</h3>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">{a.body}</p>
+          <div class="flex flex-wrap gap-2 text-[11px] font-mono">
+            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper-soft)]">
+              <CheckCircle2 class="w-3 h-3 text-emerald-600" /> On board
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper-soft)]">
+              <CircleHelp class="w-3 h-3 text-amber-600" /> Concern
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-[var(--color-line)] bg-[var(--color-paper-soft)]">
+              <XCircle class="w-3 h-3 text-red-600" /> Object
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 max-w-3xl text-[11px] text-[var(--color-ink-faint)] italic leading-relaxed">
+      Default if no objection raised by the end of the meeting: ship. If you finish reading the proposal and have no objections, I have not written it well enough.
+    </p>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §07 · HOW TO ENGAGE                                            -->
+  <!-- ============================================================ -->
+  <Section
+    id="engage"
+    eyebrow="07 · How to engage"
+    title="Three response channels. Pick the one that fits."
+    lede="Reply at any depth, or pick a slot, or send a thread. Whatever lowers the friction."
+    tone="soft"
+  >
+    <div class="grid sm:grid-cols-3 gap-4 max-w-5xl">
+      {[
+        {
+          icon: "mail",
+          tag: "Reply directly",
+          title: "Email or LINE",
+          detail: "Quick agreement, a single objection, a question on Day-30 scope — direct reply works.",
+        },
+        {
+          icon: "message-square",
+          tag: "Drop into a thread",
+          title: "LINE group with leadership",
+          detail: "If the call is between Anthony · Henek · Hosoi-san, the LINE thread used for the strategy writeup is the right channel.",
+        },
+        {
+          icon: "users",
+          tag: "Take a meeting slot",
+          title: "60 minutes, in person or remote",
+          detail: "If you want to walk the deliverables grid together or discuss commercial numbers, a single hour closes everything that matters.",
+        },
+      ].map((c, i) => {
+        const IconC = Icon(c.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-3">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
+              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">{c.tag}</span>
+            </div>
+            <h3 class="font-display text-lg mb-2 leading-tight">{c.title}</h3>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.detail}</p>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §08 · REFERENCES & SOURCES                                     -->
+  <!-- Citations for the load-bearing claims on this page.            -->
+  <!-- ============================================================ -->
+  <Section
+    id="references"
+    eyebrow="08 · References"
+    title="Sources for the load-bearing claims."
+    lede="Every quantitative claim or framework reference on this page traces to one of the sources below. The audience should be able to pressure-test any number without leaving the page."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-2 gap-4 max-w-6xl">
+      {[
+        {
+          category: "Wonderful · public",
+          icon: "building-2",
+          items: [
+            { label: "Wonderful raises $150M Series B at $2B (Insight Partners, Index, IVP, Bessemer, Vine) — TechCrunch, 2026-03-12", url: "https://techcrunch.com/2026/03/12/wonderful-raises-150m-series-b-at-2b-valuation/" },
+            { label: "Wonderful Series B announcement — Insight Partners", url: "https://www.insightpartners.com/ideas/wonderful-raises-150m-series-b-to-accelerate-enterprise-ai-adoption-in-30-markets/" },
+            { label: "Bezeq case study — 2,000 agents, ~80% resolution, production telco scale", url: "https://www.bezeq.co.il/en/" },
+            { label: "Deepdub eTTS — the voice stack underneath Wonderful's agent layer", url: "https://deepdub.ai/" },
+          ],
+        },
+        {
+          category: "Japan procurement · compliance",
+          icon: "shield-check",
+          items: [
+            { label: "PPC — Act on the Protection of Personal Information (APPI), 2022 amendments in force", url: "https://www.ppc.go.jp/en/legal/" },
+            { label: "ISMAP — Japan government cloud-security assessment registry (the JP gov + enterprise procurement gate)", url: "https://www.ismap.go.jp/" },
+            { label: "JETRO — Investing in Japan (procurement context, market entry resources)", url: "https://www.jetro.go.jp/en/invest/" },
+            { label: "METI — White Paper on International Economy and Trade (JP labor demographics, AI policy direction)", url: "https://www.meti.go.jp/english/report/index_whitepaper.html" },
+          ],
+        },
+        {
+          category: "Frameworks · transition canon",
+          icon: "compass",
+          items: [
+            { label: "Watkins — The First 90 Days (HBR Press) · STARS situational diagnostic", url: "https://hbr.org/books/watkins" },
+            { label: "Genesis Advisers — Transition Roadmap (the 8-task framework underneath STARS)", url: "https://news.genesisadvisers.com/the-first-90-days-transition-roadmap" },
+            { label: "Michael Page — first 60 days template for senior commercial roles", url: "https://www.michaelpage.ae/advice/career-advice/growing-your-career/first-60-days-downloadable-template-and-guide" },
+            { label: "Acorn — 30-60-90 day plan for executives (dual-layer goals · trust-first)", url: "https://acorn.works/blog/30-60-90-day-executive-plan" },
+          ],
+        },
+        {
+          category: "Proposal structure · MBB",
+          icon: "book-open",
+          items: [
+            { label: "Slideworks — how to write consulting proposals like McKinsey (SCR + Pyramid)", url: "https://slideworks.io/resources/how-to-write-consulting-proposals-like-mckinsey" },
+            { label: "Slideworks — executive summary structure (bold-bullet, Resolution = 60-70%)", url: "https://slideworks.io/resources/how-to-write-executive-summary" },
+            { label: "Fractional Officer — winning proposals for fractional executives (SMART deliverables)", url: "https://www.fractionalofficer.com/winning-proposals-fractional-executives-step-by-step-guide" },
+            { label: "Tercera — country playbook for international expansion (Culture · Team · GTM · Governance · Financial)", url: "https://tercera.io/resources/27-questions-to-create-your-country-playbook-when-expanding-internationally/" },
+          ],
+        },
+        {
+          category: "JP voice AI competitive landscape",
+          icon: "mic",
+          items: [
+            { label: "PKSHA VoiceAgent — market leader, deployed at NTT Docomo", url: "https://aisaas.pkshatech.com/voicebot/" },
+            { label: "AI Shift / AI Messenger Voicebot — CyberAgent group, Twilio-backed, 300+ deployments", url: "https://www.ai-messenger.jp/voicebot/" },
+            { label: "MOBI VOICE — the only top-5 JP vendor with a public dial-in (050-3138-4111)", url: "https://voice.mobilus.me/" },
+            { label: "NTT COTOHA Voice DX — incumbent telco play; 800+ FAQ, ~93% claimed accuracy", url: "https://www.ntt.com/business/services/application/ai/cotoha-vdxp.html" },
+          ],
+        },
+        {
+          category: "JP encoding · text-processing canon",
+          icon: "binary",
+          items: [
+            { label: "Microsoft CP932 (Windows-31J) codepage specification — the actual Shift-JIS variant JP enterprise uses", url: "https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers" },
+            { label: "IBM CCSID 930 / 939 — EBCDIC Japanese mainframe encoding specification", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=ccsids-ccsid-930" },
+            { label: "Unicode UTR #30 — interlinear annotation (Furigana / ruby) handling", url: "https://www.unicode.org/reports/tr30/" },
+            { label: "IPAmj Mincho — government-released Gaiji (user-defined kanji) font for bank-name fields", url: "https://moji.or.jp/ipamjmincho/" },
+          ],
+        },
+      ].map((cat) => {
+        const IconC = Icon(cat.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up">
+            <div class="flex items-center gap-2 mb-3 pb-3 border-b border-[var(--color-line)]">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
+              <h3 class="font-display text-base leading-tight">{cat.category}</h3>
+            </div>
+            <ul class="space-y-2.5">
+              {cat.items.map((it) => (
+                <li class="text-[12px] leading-relaxed">
+                  <a href={it.url} target="_blank" rel="noopener noreferrer" class="text-[var(--color-ink-soft)] hover:text-[var(--color-accent)] underline decoration-[var(--color-line)] hover:decoration-[var(--color-accent)] transition-colors">
+                    {it.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+    <p class="mt-6 max-w-4xl text-[11px] text-[var(--color-ink-faint)] italic leading-relaxed">
+      Methodology note: the JP voice competitive landscape was compiled from public LPs and case studies; only MOBI VOICE offers a live dial-in (050-3138-4111), which means scoring rubrics rely on demo videos for the other four. Test rubric and methodology archived alongside the JP-Voice Eval Harness v0 repo (a Day-30 deliverable).
+    </p>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER CROSS-LINK                                              -->
+  <!-- ============================================================ -->
+  <section class="py-14">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="border-t border-[var(--color-line)] pt-8 flex flex-wrap items-center justify-between gap-4">
+        <a href="/" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors">
+          <ArrowLeft class="w-4 h-4" />
+          Read the Japan strategy thesis
+        </a>
+        <span class="text-[11px] text-[var(--color-ink-faint)] font-mono">
+          Companion to wonderful.anysigma.com — same Cloudflare Access policy
+        </span>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -5,18 +5,30 @@ interface Item {
   href: string;
 }
 
-const items: Item[] = [
+interface Props {
+  items?: Item[];
+}
+
+const defaultItems: Item[] = [
   { number: "01", title: "Why Japan moves now", href: "#shift" },
   { number: "02", title: "Who wins, who loses", href: "#winners-losers" },
   { number: "03", title: "12-month position", href: "#promised-land" },
   { number: "04", title: "Platform + execution", href: "#magic-gifts" },
   { number: "05", title: "Evidence", href: "#evidence" },
-  { number: "06", title: "90-day plan", href: "#plan" },
+  { number: "06", title: "The plan", href: "#plan" },
   { number: "07", title: "Open questions", href: "#open-questions" },
-  { number: "—", title: "Closing", href: "#closing" },
-  { number: "—", title: "References", href: "#references" },
+  { number: "·", title: "Closing", href: "#closing" },
+  { number: "·", title: "References", href: "#references" },
 ];
+
+const { items = defaultItems } = Astro.props;
+
+if (items.length === 0) {
+  // Caller opted out — render nothing
+}
 ---
+
+{items.length > 0 && (
 
 <aside
   id="toc"
@@ -42,6 +54,8 @@ const items: Item[] = [
     }
   </nav>
 </aside>
+
+)}
 
 <script is:inline>
   (function () {

@@ -373,3 +373,114 @@ code, .font-mono {
     transform: scale(1);
   }
 }
+
+/* ======================================================================
+ * Print / PDF — proposal-grade output
+ * Designed for A4 + US Letter, both portrait (long-form read) and
+ * landscape (slide-style). Each Section becomes a page; reveal anims
+ * collapse; the deliverables grid stacks one column per page so each
+ * Day-30/60/90 column reads cleanly when printed or exported.
+ * ====================================================================== */
+@media print {
+  /* Color fidelity — keep accents, paper background, ink type */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html, body {
+    background: var(--color-paper) !important;
+    color: var(--color-ink) !important;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  /* A4 with comfortable margins; falls back gracefully to Letter */
+  @page {
+    size: A4;
+    margin: 14mm 14mm 16mm 14mm;
+  }
+  @page :first {
+    margin-top: 18mm;
+  }
+
+  /* Collapse fade-up / reveal animations so nothing is hidden in print */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Each top-level Section starts on a fresh page */
+  section[id] {
+    break-before: page;
+    page-break-before: always;
+    padding-top: 0 !important;
+    padding-bottom: 16pt !important;
+  }
+  section[id]:first-of-type {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  /* Avoid splitting headings, tiles, and dense diagram blocks across pages */
+  h1, h2, h3, h4, h5 { break-after: avoid; page-break-after: avoid; }
+  .tile, .prose-block, .rounded-md, .rounded-lg, .rounded-xl, svg {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Hide things that don't translate to print:
+     - sticky / fixed nav (TOC, header)
+     - status dots, animated pulses
+     - any element opting out via .print\:hidden */
+  nav[role="navigation"], .toc, [data-print="hide"], .print\:hidden {
+    display: none !important;
+  }
+
+  /* Animated SVG flourishes stop pulsing */
+  .flow-pulse, .status-dot { animation: none !important; }
+
+  /* External links — show URL after link text so a printed page is still
+     reachable. Skip in-page anchors (#) to avoid noise. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.78em;
+    color: var(--color-ink-faint);
+    word-break: break-all;
+  }
+  a[href^="#"]::after { content: ""; }
+
+  /* Deliverables grid: force one column per printed page so each
+     Day-30/60/90 column reads cleanly as a "slide" */
+  .grid.lg\:grid-cols-3 > div {
+    break-before: page;
+    page-break-before: always;
+  }
+  .grid.lg\:grid-cols-3 > div:first-child {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  /* Dark "ink" sections — keep the contrast but ensure background prints */
+  .bg-\[var\(--color-ink\)\] {
+    background: var(--color-ink) !important;
+    color: var(--color-paper) !important;
+  }
+}
+
+/* Landscape variant — use a print stylesheet swap, or browser's
+ * "Landscape" toggle in the print dialog. Tuned to roughly 16:9 with
+ * generous margins so a single Section ≈ one slide. */
+@media print and (orientation: landscape) {
+  @page {
+    size: A4 landscape;
+    margin: 12mm 16mm 14mm 16mm;
+  }
+  html, body { font-size: 11pt; }
+  section[id] {
+    min-height: calc(100vh - 30mm);
+  }
+}

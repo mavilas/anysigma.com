@@ -1,0 +1,1030 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import * as Icons from "@lucide/astro";
+import {
+  Flag,
+  Rocket,
+  Globe,
+  TrendingUp,
+  Users,
+  Building2,
+  Shield,
+  ShieldCheck,
+  Target,
+  Compass,
+  Zap,
+  Eye,
+  Crown,
+  Sparkles,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowDown,
+  ArrowLeft,
+  BookOpen,
+  Trophy,
+  Mountain,
+  Languages,
+  Briefcase,
+  HeartHandshake,
+  Award,
+  Gauge,
+  Lock,
+  Calendar,
+  GitMerge,
+  PiggyBank,
+  Factory,
+  Landmark,
+} from "@lucide/astro";
+
+const iconToPascal = (s: string) =>
+  s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+const Icon = (name?: string) => (name ? ((Icons as any)[iconToPascal(name)] ?? null) : null);
+
+// =====================================================================
+// Slide 2 · Executive Summary · three big stats
+// =====================================================================
+const execSummary = [
+  {
+    stat: "$100M",
+    label: "The Global Foundation",
+    body: "Series B funding secured (Mar 2026). Expanding from proven European traction to APAC.",
+    sub: [
+      "30+ countries worldwide",
+      "80-86% complex resolution rates",
+    ],
+  },
+  {
+    stat: "$1B+",
+    label: "The Japan Opportunity",
+    body: "Projected TAM for Agentic AI, driven by severe labor shortages and a demographic decline.",
+    sub: [
+      "Targeted universe of 500 mega-sized enterprises",
+      "Must-Win Accounts: 155 priority targets",
+      "Urgent shift from legacy RPA to autonomous workflows",
+    ],
+  },
+  {
+    stat: "90 Days",
+    label: "The Acceleration Strategy",
+    body: "Aggressive parallel execution sprint targeting first paid revenue in just 6-8 months.",
+    sub: [
+      "Bypassing standard 12-month procurement delays",
+      "Legal, Talent, and Pipeline tracks in strict parallel",
+    ],
+  },
+];
+
+// =====================================================================
+// Slide 3 · Global Momentum + APAC Push · proof points
+// =====================================================================
+const globalProof = [
+  {
+    label: "Scale & Backers",
+    icon: "landmark",
+    body: "Index Ventures, Insight Partners, IVP, Bessemer, Vine Ventures.",
+  },
+  {
+    label: "Performance",
+    icon: "gauge",
+    body: "80-86% resolution rates in complex enterprise environments.",
+  },
+  {
+    label: "Scaling Impact",
+    icon: "trending-up",
+    body: "4× support capacity scaling achieved (e.g. ELTA Hellenic Post).",
+  },
+  {
+    label: "Retention",
+    icon: "shield",
+    body: "<5% annual enterprise logo churn. World's lowest.",
+  },
+  {
+    label: "Expansion",
+    icon: "git-merge",
+    body: "70% of European customers expand to multiple workflows within 3 months.",
+  },
+];
+
+// =====================================================================
+// Slide 4 · Japan Macro Catalyst
+// =====================================================================
+const macroCatalyst = [
+  {
+    label: "Demographic Crisis",
+    sublabel: "Driver",
+    icon: "users",
+    body: "Rapidly aging population and shrinking workforce creating unprecedented labor shortages.",
+  },
+  {
+    label: "Government Intervention",
+    sublabel: "Catalyst",
+    icon: "landmark",
+    body: "2025 AI Promotion Act and centralised AI Strategy HQ established.",
+    detail: "¥10 Trillion (~$65B) investment framework to 2030; GENIAC funding domestic LLMs.",
+  },
+  {
+    label: "Enterprise Reality",
+    sublabel: "Outcome",
+    icon: "factory",
+    body: "Urgent shift from legacy RPA to end-to-end Agentic AI to replace white-collar shortfalls.",
+    detail: "$5-6B Agentic AI TAM; enterprise adoption accelerating at 30-40%.",
+  },
+];
+
+// =====================================================================
+// Slide 5 · Why Japan running fast · market stats
+// =====================================================================
+// ~150 JPY/USD assumed mid-2026. Update if FX shifts materially before HQ board.
+const FX = 150;
+const usd = (jpyB: number) => `~$${(jpyB / FX).toFixed(1).replace(/\.0$/, "")}B`;
+
+const japanMarket = {
+  rank: "#3",
+  rankLabel: "Global enterprise SaaS market by spend",
+  chart: [
+    { year: "2024", value: 180 },
+    { year: "2025", value: 290 },
+    { year: "2026", value: 480 },
+    { year: "2027", value: 720 },
+    { year: "2028E", value: 980 },
+  ],
+  highlights: [
+    { stat: "<5%", label: "Annual enterprise logo churn. World's lowest." },
+    { stat: "2.4×", label: "Avg. Japan enterprise ACV vs APAC peers." },
+  ],
+};
+
+// =====================================================================
+// Slide 7 · Competitive Landscape
+// =====================================================================
+const competitors = [
+  {
+    name: "Rakuten AI 3.0",
+    them: "700B-param MoE. Integrated ecosystem focus.",
+    us: "Production ROI over model-building. We plug directly into existing tech infrastructures.",
+  },
+  {
+    name: "NEC cotomi LLM",
+    them: "Specialised, single-task workflow automation.",
+    us: "Multi-workflow orchestration. 70% of clients expand to new workflows within 3 months.",
+  },
+  {
+    name: "Fujitsu Kozuchi AI",
+    them: "Multi-AI agent collaboration trials and localised POCs.",
+    us: "Europe-proven track record of at-scale enterprise deployments, bypassing sandbox trials.",
+  },
+  {
+    name: "Sakana AI",
+    them: "Nature-inspired, highly secure Japanese LLMs.",
+    us: "Keigo-native deployment combined with a consumption-only commercial model (virtually zero adoption barrier).",
+  },
+];
+
+// =====================================================================
+// Slide 8 · Three Strategic Pillars
+// =====================================================================
+const pillars = [
+  {
+    title: "Credibility",
+    icon: "crown",
+    items: [
+      "Strong, credible local leadership commanding C-suite respect.",
+      "Flawless cultural execution and Japanese-grade UX.",
+      "Delivering actual production ROI, refusing to do sandbox POCs.",
+    ],
+  },
+  {
+    title: "Long-Term Commitment",
+    icon: "heart-handshake",
+    items: [
+      "Aligning tightly with central government objectives (2025 AI Promotion Act).",
+      "Heavy localised investment in Keigo-correct language capabilities.",
+      "Providing a dedicated AI enablement layer with local implementation teams.",
+    ],
+  },
+  {
+    title: "Clear Differentiated Value",
+    icon: "award",
+    items: [
+      "Supporting regulators to ensure highly compliant, trustworthy deployments.",
+      "Strict adherence to data sovereignty, governance, and security compliance.",
+      "Fully-generative agents capable of handling complex workflows autonomously.",
+    ],
+  },
+];
+
+// =====================================================================
+// Slide 10 · Pipeline Funnel
+// =====================================================================
+const funnel = [
+  { count: 500, label: "Japan Enterprise · universe of mega-cap targets" },
+  { count: 155, label: "Must-Win List · GM curated by fit, budget, speed" },
+  { count: 48, label: "Tier 1 Priorities · highest-value, highest-fit accounts" },
+  { count: 5, label: "FY26 Win Targets · $5M ARR by Dec 2026" },
+];
+
+const pocTracks = [
+  {
+    name: "Track 1 · Innovation Lab PoCs",
+    target: "CDO + Innovation Heads",
+    edge: "Fast budget access, low procurement friction.",
+    proof: "Champions hungry for a quick win.",
+  },
+  {
+    name: "Track 2 · DX Mandate PoCs",
+    target: "CIO + Digital Transformation Office",
+    edge: "Board-level pressure to ship visible, structural AI outcomes.",
+    proof: "Aligned to ringi-friendly transformation budgets.",
+  },
+];
+
+// =====================================================================
+// Slide 11 · The 90-Day Execution Sprint
+// =====================================================================
+const sprintTracks = [
+  {
+    track: "Legal & Entity",
+    icon: "building-2",
+    accent: "var(--color-accent)",
+    milestone: "KK live Sep 1, 2026",
+    d1_30: "Engage 行政書士 + 司法書士. Reserve company name.",
+    d30_60: "KK registration filed. Representative director assigned.",
+    d60_90: "Corporate bank, tax, social insurance live. MSA/NDA ready.",
+  },
+  {
+    track: "Talent",
+    icon: "users",
+    accent: "#7a5cff",
+    milestone: "Founding 5 signed",
+    d1_30: "Retained search via HQ. 40+ long-list. Warm pre-entity conversations.",
+    d30_60: "Convert verbal commitments. Sign founding 5. Activate agency network.",
+    d60_90: "Transition to direct sourcing. Scaling to 15+ hires by Month 6.",
+  },
+  {
+    track: "Pipeline",
+    icon: "trending-up",
+    accent: "#0b8f6b",
+    milestone: "3 PoCs signed + funded",
+    d1_30: "Account map finalisation and targeting.",
+    d30_60: "3 PoCs officially signed and funded.",
+    d60_90: "PoC delivery execution. Positioning for paid expansion.",
+  },
+];
+
+// =====================================================================
+// Slide 12 · Launch Team & Hiring Roadmap
+// =====================================================================
+const coreSquad = [
+  { role: "President", name: "Satoshi Hosoi", note: "Policy, lobbying, C-level relations" },
+  { role: "General Manager", name: "Hiroshi Ando", note: "Daily ops, HQ collaboration" },
+  { role: "Field CTO", name: "TBD", note: "Senior technical lead" },
+  { role: "Technical Lead", name: "Marco Avila", note: "Tech delivery, HQ collaboration, JP-fit engineering" },
+];
+
+const hiringPhasing = [
+  { q: "Q1", focus: "Leadership hiring", goal: "Establishing credibility + entity" },
+  { q: "Q2", focus: "Technical deployment team", goal: "Securing production capabilities" },
+  { q: "Q3", focus: "Sales and partnership team", goal: "Scaling revenue pipeline" },
+  { q: "Q4", focus: "Customer success and scaling", goal: "Protecting and expanding accounts" },
+];
+
+// =====================================================================
+// Slide 13 · Risks
+// =====================================================================
+const risks = [
+  {
+    risk: "Talent Scarcity",
+    icon: "users",
+    framing: "High risk of mis-hires in a notoriously thin, premium senior talent pool. Wave-1 team must be flawless.",
+    mitigation: "Elite retained search engaged pre-entity. Mandatory HQ founder interview gate. Strict 90-day performance reviews.",
+  },
+  {
+    risk: "Enterprise Procurement Drag",
+    icon: "gauge",
+    framing: "Default B2B enterprise procurement cycles in Japan take 6-12 months, destroying startup momentum.",
+    mitigation: "Surgically targeting agile Innovation/DX budgets. Mandating CEO-sponsored PoCs. Deploying MS partner co-selling mechanisms.",
+  },
+  {
+    risk: "Language & Cultural Rejection",
+    icon: "languages",
+    framing: "Failure in keigo, particles, or strict business etiquette instantly destroys trust. This is a product failure, not just bad marketing.",
+    mitigation: "Strict keigo-aware agent quality bar with native reviews. Japanese-grade UX architecture. Native delivery team operating from Day 1.",
+  },
+];
+
+// =====================================================================
+// Slide 14 · Where HQ Unlocks Japan Velocity
+// =====================================================================
+const hqAsks = [
+  {
+    num: "01",
+    title: "Fast-track Legal Turnaround",
+    ask: "48-hour SLA on Japan contract reviews.",
+    impact: "Pre-approved MSA, NDA, and DPA templates owned entirely by the local Japan team to bypass time-zone bottlenecks and red tape.",
+  },
+  {
+    num: "02",
+    title: "Budget Flex for Top Candidates",
+    ask: "Authorisation to stretch 10-15% above standard bands for Wave-1 hires.",
+    impact: "A+ talent in Japan is a market premium, not a discount. Securing elite founding talent immediately accelerates the entire 12-month roadmap.",
+  },
+  {
+    num: "03",
+    title: "Executive Sponsorship",
+    ask: "HQ Founders commit to supporting top talent interviews.",
+    impact: "Warms up elite candidates prior to KK entity completion, maintaining critical recruiting momentum during the Pre-Entity phase.",
+  },
+];
+
+const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
+---
+
+<Layout
+  title="Wonderful AI · Japan Launch Acceleration Plan"
+  description="Strategic Blueprint + 90-Day Execution Sprint. Satoshi Hosoi, President, Japan. May 2026. Confidential."
+  brand="Wonderful AI · Japan"
+  tagline="Launch Acceleration Plan"
+  footerNote="Cloudflare Access · Confidential · prepared for HQ leadership"
+  lastUpdated="2026-05"
+  tocItems={[
+    { number: "01", title: "Executive summary", href: "#summary" },
+    { number: "02", title: "Global momentum", href: "#momentum" },
+    { number: "03", title: "Japan catalyst", href: "#catalyst" },
+    { number: "04", title: "Why Japan now", href: "#market" },
+    { number: "05", title: "Competitive edge", href: "#competition" },
+    { number: "06", title: "Strategic pillars", href: "#pillars" },
+    { number: "07", title: "Time to revenue", href: "#revenue" },
+    { number: "08", title: "Pipeline funnel", href: "#funnel" },
+    { number: "09", title: "90-day sprint", href: "#sprint" },
+    { number: "10", title: "Team & hiring", href: "#team" },
+    { number: "11", title: "Risks", href: "#risks" },
+    { number: "12", title: "HQ asks", href: "#asks" },
+  ]}
+>
+  <Fragment slot="nav">
+    <a href="/" class="hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1">
+      <ArrowLeft class="w-3 h-3" />Japan strategy
+    </a>
+    <a href="/proposal" class="hover:text-[var(--color-ink)] transition-colors">30-60 plan</a>
+    <a href="#summary" class="hover:text-[var(--color-ink)] transition-colors">Summary</a>
+    <a href="#sprint" class="hover:text-[var(--color-ink)] transition-colors">Sprint</a>
+    <a href="#team" class="hover:text-[var(--color-ink)] transition-colors">Team</a>
+    <a href="#asks" class="hover:text-[var(--color-ink)] transition-colors">Asks</a>
+  </Fragment>
+
+  <!-- ============================================================ -->
+  <!-- TITLE / HERO                                                  -->
+  <!-- ============================================================ -->
+  <section class="pt-20 sm:pt-28 pb-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-10 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Flag class="w-3.5 h-3.5" />
+          Confidential · for HQ leadership
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Satoshi Hosoi · President, Japan · May 2026
+        </span>
+      </div>
+
+      <p class="text-[16px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
+        Wonderful AI · Japan
+      </p>
+      <h1 class="font-display text-[2rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] leading-[1.05] tracking-tight mb-4 max-w-5xl relative break-words" data-reveal="fade-up" data-reveal-delay="2">
+        Launch Acceleration<br/>
+        <span class="text-[var(--color-ink-soft)] italic font-display">Plan.</span>
+        <span aria-hidden="true" class="absolute -left-3 sm:-left-5 top-2 bottom-2 w-[3px] sm:w-[5px] rounded-full bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)] to-transparent"></span>
+      </h1>
+      <p class="font-display text-xl sm:text-2xl text-[var(--color-ink-soft)] mb-10 max-w-3xl leading-snug italic" data-reveal="fade-up" data-reveal-delay="3">
+        Strategic Blueprint &amp; 90-Day Execution Sprint.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="4">
+        <a href="#summary" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors">
+          <BookOpen class="w-4 h-4" />
+          Read the plan
+          <ArrowDown class="w-3.5 h-3.5 ml-1" />
+        </a>
+        <a href="#sprint" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
+          Jump to the 90-day sprint
+        </a>
+        <a href="#asks" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
+          Skip to HQ asks
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §01 · EXECUTIVE SUMMARY                                       -->
+  <!-- ============================================================ -->
+  <Section
+    id="summary"
+    eyebrow="01 · Executive summary"
+    title="Three numbers tell the story."
+    lede="$100M secured. $1B+ TAM in Japan. 90 days to compress the first paid revenue cycle. The rest of the plan supports those three claims."
+  >
+    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+      {execSummary.map((item, i) => (
+        <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+          <div class="font-display text-[3.5rem] sm:text-[4.5rem] leading-none text-[var(--color-accent)] mb-2 tracking-tight">{item.stat}</div>
+          <h3 class="font-display text-xl mb-3 leading-tight">{item.label}</h3>
+          <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-4">{item.body}</p>
+          <ul class="space-y-1.5 text-[15px] text-[var(--color-ink-soft)]">
+            {item.sub.map((s) => (
+              <li class="flex gap-2"><span class="text-[var(--color-accent)] mt-0.5">·</span><span>{s}</span></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §02 · GLOBAL MOMENTUM + APAC PUSH                             -->
+  <!-- ============================================================ -->
+  <Section
+    id="momentum"
+    eyebrow="02 · Global momentum"
+    title="Proof exists. APAC is next."
+    lede="Five proof points from European deployments that make Wonderful's APAC push credible at HQ board level."
+    tone="soft"
+  >
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl">
+      {globalProof.map((p, i) => {
+        const IconC = Icon(p.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-3">
+              {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)]" />}
+              <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{p.label}</span>
+            </div>
+            <p class="text-[15px] leading-relaxed text-[var(--color-ink)]">{p.body}</p>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §03 · JAPAN MACRO CATALYST                                    -->
+  <!-- ============================================================ -->
+  <Section
+    id="catalyst"
+    eyebrow="03 · The Japan macro catalyst"
+    title="Demographic demand forces the buy."
+    lede="The pattern: aging workforce drives shortage; government injects policy and capital; enterprise has no choice but autonomous workflows."
+  >
+    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl mb-8">
+      {macroCatalyst.map((m, i) => {
+        const IconC = Icon(m.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-3">
+              {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)]" />}
+              <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{m.sublabel}</span>
+            </div>
+            <h3 class="font-display text-xl mb-3 leading-tight">{m.label}</h3>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-3">{m.body}</p>
+            {m.detail && (
+              <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed border-l-2 border-[var(--color-accent)]/40 pl-3 italic">{m.detail}</p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    <div class="max-w-6xl grid sm:grid-cols-2 gap-4">
+      <div class="rounded-lg bg-[var(--color-ink)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
+        <div class="font-display text-[2.5rem] leading-none text-[var(--color-accent)] mb-2">¥10T</div>
+        <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">~$65B AI investment framework to 2030. GENIAC funding domestic LLMs.</p>
+      </div>
+      <div class="rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
+        <div class="font-display text-[2.5rem] leading-none mb-2">$5-6B</div>
+        <p class="text-sm leading-relaxed">Agentic AI TAM. Enterprise adoption accelerating at 30-40%.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §04 · WHY JAPAN NOW                                           -->
+  <!-- ============================================================ -->
+  <Section
+    id="market"
+    eyebrow="04 · Why Japan running fast"
+    title="Patience rewarded with scale."
+    lede="Japan is the world's #3 enterprise SaaS market by spend. Lowest churn, highest ACV per logo in APAC."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl items-start">
+      <!-- Rank + chart -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
+        <div class="flex items-baseline gap-3 mb-5">
+          <span class="font-display text-[5rem] leading-none text-[var(--color-accent)]">{japanMarket.rank}</span>
+          <span class="text-sm text-[var(--color-ink-soft)] leading-snug">{japanMarket.rankLabel}</span>
+        </div>
+        <div class="text-[15px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono font-bold mb-3">Japan Enterprise AI Spend · ¥B</div>
+        <div class="space-y-1.5">
+          {japanMarket.chart.map((c, i) => {
+            const pct = (c.value / maxChartValue) * 100;
+            return (
+              <div class="flex items-center gap-3" data-reveal="left" data-reveal-delay={i}>
+                <span class="font-mono text-[15px] text-[var(--color-ink-faint)] w-14 shrink-0">{c.year}</span>
+                <div class="flex-1 h-7 bg-[var(--color-paper-soft)] rounded-sm relative overflow-hidden">
+                  <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-soft)] rounded-sm" style={`width: ${pct}%;`}></div>
+                  <span class="absolute inset-y-0 right-2 flex items-center text-[16px] font-mono font-bold text-[var(--color-ink)]">¥{c.value}B&nbsp;<span class="text-[var(--color-ink-faint)] font-normal">({usd(c.value)})</span></span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p class="text-[16px] text-[var(--color-ink-faint)] italic mt-3 font-mono">Industry analyst consensus, 2024-2028E. FX assumed ~¥{FX}/$.</p>
+      </div>
+
+      <!-- Highlights -->
+      <div class="space-y-4">
+        {japanMarket.highlights.map((h, i) => (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="font-display text-[4rem] leading-none text-[var(--color-accent)] mb-2 tracking-tight">{h.stat}</div>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed">{h.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §05 · COMPETITIVE EDGE                                        -->
+  <!-- ============================================================ -->
+  <Section
+    id="competition"
+    eyebrow="05 · Competitive landscape"
+    title="Local incumbents have surface. Wonderful has the moat."
+    lede="Four named JP competitors. For each: what they have, where Wonderful wins."
+  >
+    <div class="space-y-3 max-w-5xl">
+      {competitors.map((c, i) => (
+        <div class="grid md:grid-cols-[12rem_1fr_1fr] gap-4 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
+          <div class="flex flex-col gap-1.5">
+            <span class="text-[16px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)]">Competitor</span>
+            <h3 class="font-display text-lg leading-tight">{c.name}</h3>
+          </div>
+          <div>
+            <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">Their position</div>
+            <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed">{c.them}</p>
+          </div>
+          <div class="border-l-2 border-[var(--color-accent)] pl-4">
+            <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1.5">Wonderful's edge</div>
+            <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">{c.us}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-6 max-w-4xl p-4 rounded-md border-l-4 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30">
+      <p class="font-display text-lg leading-snug text-[var(--color-ink)]">
+        Proof imported. Trust built in Japanese. European references unlock the first meeting. <strong>Keigo-correct agent behaviour wins the contract.</strong>
+      </p>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §06 · THREE STRATEGIC PILLARS                                 -->
+  <!-- ============================================================ -->
+  <Section
+    id="pillars"
+    eyebrow="06 · Strategic pillars"
+    title="Three pillars of entry. None negotiable."
+    lede="Credibility. Long-term commitment. Clear differentiated value. The non-negotiable ground-rules for any Japan move."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+      {pillars.map((p, i) => {
+        const IconC = Icon(p.icon);
+        return (
+          <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-center gap-2 mb-4 pb-4 border-b border-[var(--color-line)]">
+              {IconC && <IconC class="w-6 h-6 text-[var(--color-accent)]" />}
+              <span class="text-[16px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">Pillar 0{i + 1}</span>
+            </div>
+            <h3 class="font-display text-2xl mb-4 leading-tight">{p.title}</h3>
+            <ul class="space-y-3">
+              {p.items.map((it) => (
+                <li class="text-[16px] text-[var(--color-ink)] leading-relaxed flex gap-2">
+                  <CheckCircle2 class="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
+                  <span>{it}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §07 · TIME TO REVENUE                                         -->
+  <!-- ============================================================ -->
+  <Section
+    id="revenue"
+    eyebrow="07 · Time to revenue"
+    title="Bending the curve. 6 to 8 months to first paid."
+    lede="Industry default is 12+ months. Wonderful's plan: run Legal, Talent, and Pipeline in strict parallel. Target Sep 2026 first revenue."
+  >
+    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl">
+      <!-- Industry default · slow -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-6 print:break-inside-avoid">
+        <div class="flex items-center gap-2 mb-3">
+          <Gauge class="w-5 h-5 text-[var(--color-ink-soft)]" />
+          <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-soft)]">Industry default</span>
+        </div>
+        <h3 class="font-display text-xl mb-4 leading-tight">12+ months to revenue</h3>
+        <div class="space-y-2 mb-4">
+          {["Hire core team", "Entity setup", "Build pipeline", "Revenue"].map((step, i) => (
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-[15px] text-[var(--color-ink-faint)] w-6">{i + 1}</span>
+              <div class="flex-1 h-2 bg-[var(--color-line)] rounded-sm relative overflow-hidden">
+                <div class="absolute inset-y-0 left-0 bg-[var(--color-ink-soft)] rounded-sm" style={`width: ${(i + 1) * 25}%;`}></div>
+              </div>
+              <span class="text-[16px] text-[var(--color-ink-soft)] w-24">{step}</span>
+            </div>
+          ))}
+        </div>
+        <p class="text-[16px] text-[var(--color-ink-faint)] italic">Slow momentum, high burn, delayed enterprise feedback.</p>
+      </div>
+
+      <!-- Wonderful advantage -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30 p-6 print:break-inside-avoid">
+        <div class="flex items-center gap-2 mb-3">
+          <Zap class="w-5 h-5 text-[var(--color-accent)]" />
+          <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Wonderful advantage</span>
+        </div>
+        <h3 class="font-display text-xl mb-4 leading-tight">6-8 months · target Sep 2026</h3>
+        <div class="space-y-2 mb-4">
+          {["Legal & Entity Setup", "Retained Search & Talent", "Account Mapping & Pipeline", "Revenue"].map((step, i) => (
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-[15px] text-[var(--color-accent)] w-6">{i + 1}</span>
+              <div class="flex-1 h-2 bg-[var(--color-paper)] rounded-sm relative overflow-hidden">
+                <div class="absolute inset-y-0 left-0 bg-[var(--color-accent)] rounded-sm" style={`width: 100%;`}></div>
+              </div>
+              <span class="text-[16px] text-[var(--color-ink)] w-32">{step}</span>
+            </div>
+          ))}
+        </div>
+        <p class="text-[16px] text-[var(--color-ink)] italic font-semibold">First paid revenue by refusing to wait for sequential blockers.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §08 · PIPELINE FUNNEL                                         -->
+  <!-- ============================================================ -->
+  <Section
+    id="funnel"
+    eyebrow="08 · Pipeline funnel"
+    title="500 to 5. The curated path to FY26 wins."
+    lede="500 universe. 155 Must-Win. 48 Tier 1. 5 wins by Dec 2026 for $5M ARR. Two parallel PoC tracks unlock the funnel."
+    tone="soft"
+  >
+    <!-- SVG Trapezoidal Funnel — 4-tier cascade with conversion rates -->
+    <div class="max-w-5xl mb-12 mx-auto">
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 sm:p-10 print:break-inside-avoid">
+        <svg viewBox="0 0 900 540" preserveAspectRatio="xMidYMid meet" class="w-full max-w-3xl mx-auto block" role="img" aria-labelledby="funnel-title funnel-desc">
+          <title id="funnel-title">JP enterprise funnel — 500 universe to 5 FY26 wins</title>
+          <desc id="funnel-desc">Four-tier cascade narrowing from 500 mega-cap targets down to 5 FY26 wins, with conversion rate annotations between tiers.</desc>
+
+          <defs>
+            <linearGradient id="tier1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--color-accent-soft)" />
+              <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.85" />
+            </linearGradient>
+            <linearGradient id="tier2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.85" />
+              <stop offset="100%" stop-color="var(--color-accent)" />
+            </linearGradient>
+            <linearGradient id="tier3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--color-accent)" />
+              <stop offset="100%" stop-color="var(--color-accent-ink)" />
+            </linearGradient>
+            <linearGradient id="tier4" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--color-accent-ink)" />
+              <stop offset="100%" stop-color="var(--color-ink)" />
+            </linearGradient>
+          </defs>
+
+          {/* Tier 1 · 500 universe — widest */}
+          <g class="flow-node" style="animation-delay:0.05s">
+            <polygon points="60,30 840,30 770,120 130,120" fill="url(#tier1)" stroke="var(--color-accent)" stroke-width="1" />
+            <text x="450" y="65" font-family="Bree Serif, serif" font-size="34" fill="var(--color-paper)" text-anchor="middle" font-weight="700">500</text>
+            <text x="450" y="100" font-family="Bricolage Grotesque, sans-serif" font-size="14" fill="var(--color-paper)" text-anchor="middle" font-weight="600" style="letter-spacing:0.04em">Japan Enterprise · mega-cap universe</text>
+          </g>
+
+          {/* Conversion 1 → 2 */}
+          <g>
+            <text x="860" y="138" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% qualify</text>
+          </g>
+
+          {/* Tier 2 · 155 Must-Win */}
+          <g class="flow-node" style="animation-delay:0.2s">
+            <polygon points="130,150 770,150 700,240 200,240" fill="url(#tier2)" stroke="var(--color-accent)" stroke-width="1" />
+            <text x="450" y="185" font-family="Bree Serif, serif" font-size="32" fill="var(--color-paper)" text-anchor="middle" font-weight="700">155</text>
+            <text x="450" y="218" font-family="Bricolage Grotesque, sans-serif" font-size="14" fill="var(--color-paper)" text-anchor="middle" font-weight="600" style="letter-spacing:0.04em">Must-Win List · GM curated by fit, budget, speed</text>
+          </g>
+
+          {/* Conversion 2 → 3 */}
+          <g>
+            <text x="860" y="258" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% prioritize</text>
+          </g>
+
+          {/* Tier 3 · 48 Tier 1 */}
+          <g class="flow-node" style="animation-delay:0.35s">
+            <polygon points="200,270 700,270 630,360 270,360" fill="url(#tier3)" stroke="var(--color-accent)" stroke-width="1" />
+            <text x="450" y="305" font-family="Bree Serif, serif" font-size="30" fill="var(--color-paper)" text-anchor="middle" font-weight="700">48</text>
+            <text x="450" y="338" font-family="Bricolage Grotesque, sans-serif" font-size="14" fill="var(--color-paper)" text-anchor="middle" font-weight="600" style="letter-spacing:0.04em">Tier 1 Priorities · highest-value, highest-fit</text>
+          </g>
+
+          {/* Conversion 3 → 4 */}
+          <g>
+            <text x="860" y="378" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">10% land FY26</text>
+          </g>
+
+          {/* Tier 4 · 5 FY26 wins — narrowest, biggest visual */}
+          <g class="flow-node" style="animation-delay:0.5s">
+            <polygon points="270,390 630,390 540,510 360,510" fill="url(#tier4)" stroke="var(--color-ink)" stroke-width="1.5" />
+            <text x="450" y="438" font-family="Bree Serif, serif" font-size="56" fill="var(--color-paper)" text-anchor="middle" font-weight="700">5</text>
+            <text x="450" y="470" font-family="Bricolage Grotesque, sans-serif" font-size="14" fill="var(--color-paper)" text-anchor="middle" font-weight="700" style="letter-spacing:0.06em">FY26 Win Targets</text>
+            <text x="450" y="492" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--color-paper)" opacity="0.85" text-anchor="middle" style="letter-spacing:0.06em">$5M ARR by Dec 2026</text>
+          </g>
+
+          {/* Side annotations */}
+          <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-faint)" style="letter-spacing:0.1em">
+            <text x="40" y="138" text-anchor="start" font-weight="700">~100% TAM</text>
+            <text x="40" y="258" text-anchor="start" font-weight="700">31% of TAM</text>
+            <text x="40" y="378" text-anchor="start" font-weight="700">10% of TAM</text>
+            <text x="40" y="500" text-anchor="start" font-weight="700">1% of TAM</text>
+          </g>
+        </svg>
+
+        <!-- Caption strip below SVG -->
+        <div class="mt-6 pt-5 border-t border-[var(--color-line)] grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <div>
+            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Universe</div>
+            <div class="font-display text-2xl text-[var(--color-ink)]">500</div>
+            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">mega-cap</div>
+          </div>
+          <div>
+            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Must-Win</div>
+            <div class="font-display text-2xl text-[var(--color-ink)]">155</div>
+            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">GM-curated</div>
+          </div>
+          <div>
+            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Tier 1</div>
+            <div class="font-display text-2xl text-[var(--color-ink)]">48</div>
+            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">priority</div>
+          </div>
+          <div>
+            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1">FY26 wins</div>
+            <div class="font-display text-2xl text-[var(--color-accent)]">5</div>
+            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">$5M ARR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two PoC tracks -->
+    <div class="grid md:grid-cols-2 gap-5 max-w-6xl">
+      {pocTracks.map((t, i) => (
+        <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+          <h3 class="font-display text-lg mb-3 leading-tight">{t.name}</h3>
+          <div class="space-y-3">
+            <div>
+              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Target</div>
+              <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">{t.target}</p>
+            </div>
+            <div>
+              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Why it works</div>
+              <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed">{t.edge}</p>
+            </div>
+            <div class="pt-2 border-t border-[var(--color-line)]">
+              <p class="text-[16px] text-[var(--color-ink-soft)] italic leading-snug">{t.proof}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §09 · 90-DAY EXECUTION SPRINT                                 -->
+  <!-- ============================================================ -->
+  <Section
+    id="sprint"
+    eyebrow="09 · 90-day execution sprint"
+    title="Three tracks. Strict parallel. Zero sequential blockers."
+    lede="The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. Pipeline closes 3 PoCs by Day 60."
+  >
+    <!-- Day-axis ruler -->
+    <div class="max-w-6xl mb-6 hidden md:block">
+      <div class="grid grid-cols-[10rem_1fr_1fr_1fr] gap-3 items-end px-1">
+        <div></div>
+        {["Days 1-30", "Days 30-60", "Days 60-90"].map((label, i) => (
+          <div class="relative">
+            <div class="h-1.5 rounded-full bg-gradient-to-r from-[var(--color-ink)] via-[var(--color-accent)] to-[var(--color-accent-soft)]" style={`opacity: ${0.5 + i * 0.15};`}></div>
+            <div class="text-[13px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink)] mt-2">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Three parallel tracks, color-coded -->
+    <div class="max-w-6xl space-y-5">
+      {sprintTracks.map((t, i) => {
+        const IconC = Icon(t.icon);
+        return (
+          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="grid md:grid-cols-[10rem_1fr_1fr_1fr] gap-0">
+              <!-- Track label, color-coded -->
+              <div class="p-5 flex flex-col justify-center gap-2 border-b md:border-b-0 md:border-r border-[var(--color-line)]" style={`background: ${t.accent}14;`}>
+                <div class="flex items-center gap-2">
+                  {IconC && <IconC class="w-5 h-5" style={`color: ${t.accent};`} />}
+                  <span class="text-[13px] uppercase tracking-[0.16em] font-mono font-bold" style={`color: ${t.accent};`}>Track 0{i + 1}</span>
+                </div>
+                <span class="font-display text-xl leading-tight">{t.track}</span>
+                <div class="flex items-center gap-1.5 mt-1.5">
+                  <Trophy class="w-3.5 h-3.5" style={`color: ${t.accent};`} />
+                  <span class="text-[13px] font-mono leading-tight" style={`color: ${t.accent};`}>{t.milestone}</span>
+                </div>
+              </div>
+              <!-- Three time windows with accent stripe on top -->
+              {[t.d1_30, t.d30_60, t.d60_90].map((d, ci) => (
+                <div class="relative p-4 text-[15px] leading-relaxed border-t md:border-t-0 md:border-l border-[var(--color-line)] text-[var(--color-ink)]">
+                  <div class="absolute top-0 left-4 right-4 h-1 rounded-b" style={`background: ${t.accent}; opacity: ${0.4 + ci * 0.2};`}></div>
+                  <div class="pt-2">{d}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Parallel-execution callout -->
+    <div class="mt-8 max-w-4xl rounded-lg border-l-4 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30 p-5">
+      <div class="flex items-start gap-3">
+        <Zap class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-1" />
+        <div>
+          <h4 class="font-display text-lg leading-tight mb-1">Three tracks. Strict parallel. Zero sequential blockers.</h4>
+          <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">Target KK live date: <strong>September 1, 2026</strong>. First paid revenue 6 to 8 months from kickoff, not 12.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §10 · LAUNCH TEAM + HIRING ROADMAP                            -->
+  <!-- ============================================================ -->
+  <Section
+    id="team"
+    eyebrow="10 · Launch team"
+    title="The Core Squad. The 2026 hiring wave."
+    lede="Four roles seated or filling now. Four quarterly hiring waves shaping the rest of the year."
+    tone="soft"
+  >
+    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl">
+      <!-- Core Squad -->
+      <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
+        <div class="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--color-line)]">
+          <Crown class="w-5 h-5 text-[var(--color-accent)]" />
+          <h3 class="font-display text-xl">The Core Squad</h3>
+        </div>
+        <dl class="space-y-4">
+          {coreSquad.map((m) => (
+            <div class="grid grid-cols-[1fr_1fr] gap-3 items-start">
+              <div>
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">{m.role}</div>
+                <div class="font-display text-base text-[var(--color-ink)]">{m.name}</div>
+              </div>
+              <p class="text-[16px] text-[var(--color-ink-soft)] leading-snug pt-3">{m.note}</p>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <!-- Q1-Q4 phasing -->
+      <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
+        <div class="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--color-line)]">
+          <Calendar class="w-5 h-5 text-[var(--color-accent)]" />
+          <h3 class="font-display text-xl">2026 hiring phasing</h3>
+        </div>
+        <div class="space-y-3">
+          {hiringPhasing.map((p) => (
+            <div class="flex gap-3">
+              <span class="font-mono text-[16px] font-bold text-[var(--color-accent)] w-8 shrink-0">{p.q}</span>
+              <div>
+                <div class="font-display text-base text-[var(--color-ink)] mb-0.5">{p.focus}</div>
+                <p class="text-[16px] text-[var(--color-ink-soft)] leading-snug">{p.goal}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §11 · RISKS                                                   -->
+  <!-- ============================================================ -->
+  <Section
+    id="risks"
+    eyebrow="11 · Risks & mitigations"
+    title="Three systemic risks. Engineered mitigations."
+    lede="Talent. Procurement. Language. The three places a foreign-vendor Japan landing fails. Each one has a specific structural mitigation."
+  >
+    <div class="space-y-4 max-w-5xl">
+      {risks.map((r, i) => {
+        const IconC = Icon(r.icon);
+        return (
+          <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
+            <div class="grid md:grid-cols-[12rem_1fr_1fr] gap-5">
+              <div class="flex items-start gap-2">
+                {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-1" />}
+                <div>
+                  <div class="text-[16px] uppercase tracking-[0.14em] font-mono text-[var(--color-ink-faint)] mb-1">Systemic risk</div>
+                  <h3 class="font-display text-lg leading-tight">{r.risk}</h3>
+                </div>
+              </div>
+              <div>
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">The risk</div>
+                <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed">{r.framing}</p>
+              </div>
+              <div class="border-l-2 border-[var(--color-accent)] pl-4">
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1.5">Structural mitigation</div>
+                <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">{r.mitigation}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- §12 · HQ ASKS                                                 -->
+  <!-- ============================================================ -->
+  <Section
+    id="asks"
+    eyebrow="12 · Where HQ unlocks Japan velocity"
+    title="Three asks of HQ. Each unlocks the next."
+    lede="The plan works only if HQ moves at the speed Japan requires. Three specific commitments unlock the rest."
+    tone="ink"
+  >
+    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+      {hqAsks.map((a, i) => (
+        <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] text-[var(--color-ink)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+          <div class="font-display text-[3.5rem] leading-none text-[var(--color-accent)] mb-3 tracking-tight">{a.num}</div>
+          <h3 class="font-display text-xl mb-3 leading-tight">{a.title}</h3>
+          <div class="mb-3">
+            <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Ask</div>
+            <p class="text-[15px] leading-relaxed">{a.ask}</p>
+          </div>
+          <div class="pt-3 border-t border-[var(--color-line)]">
+            <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Impact</div>
+            <p class="text-[15px] leading-relaxed text-[var(--color-ink-soft)]">{a.impact}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ============================================================ -->
+  <!-- CLOSING                                                       -->
+  <!-- ============================================================ -->
+  <section class="py-20 sm:py-28 bg-[var(--color-ink)] text-[var(--color-paper)]">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="font-display text-[2rem] sm:text-[3rem] md:text-[4rem] leading-[1.05] tracking-tight mb-5 break-words" data-reveal="fade-up">
+        Move at startup speed in a market that <span class="text-[var(--color-accent)] italic">rewards staying power.</span>
+      </h2>
+      <p class="font-display text-xl sm:text-2xl text-[var(--color-paper-soft)] italic mb-3" data-reveal="fade-up" data-reveal-delay="1">
+        Win logos in 90 days. Keep them for a decade.
+      </p>
+      <p class="text-sm text-[var(--color-paper-soft)] max-w-2xl mx-auto" data-reveal="fade-up" data-reveal-delay="2">
+        Build a Japan business worth talking about in the Series C deck.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer cross-link -->
+  <section class="py-14">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="border-t border-[var(--color-line)] pt-8 flex flex-wrap items-center justify-between gap-4">
+        <a href="/" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors">
+          <ArrowLeft class="w-4 h-4" />
+          Japan strategy thesis
+        </a>
+        <span class="text-[16px] text-[var(--color-ink-faint)] font-mono">
+          Launch Plan · May 2026 · Confidential · Satoshi Hosoi
+        </span>
+      </div>
+    </div>
+  </section>
+</Layout>
