@@ -406,16 +406,15 @@ code, .font-mono {
     margin-top: 12mm;
   }
   html, body { font-size: 10pt; }
-  /* Each Section fills the slide, content sits top-aligned with padding */
-  section[id] {
-    min-height: calc(19.05cm - 24mm);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 14mm !important;
-    padding-bottom: 8mm !important;
-  }
-  section[id] > div { width: 100%; }
+  /* Tighten typography for the slide deck so content fits the 16:9 page */
+  section[id] h2 { font-size: 22pt !important; line-height: 1.1 !important; margin-bottom: 6pt !important; }
+  section[id] .mt-12 { margin-top: 4pt !important; }
+  section[id] [class*="text-xl"]:not(.font-display) { font-size: 10pt !important; }
+  section[id] [class*="text-2xl"]:not(.font-display) { font-size: 11pt !important; }
+  section[id] [class*="text-3xl"]:not(.font-display) { font-size: 13pt !important; }
+  section[id] [class*="py-16"] { padding-top: 6mm !important; padding-bottom: 6mm !important; }
+  section[id] [class*="py-20"] { padding-top: 7mm !important; padding-bottom: 7mm !important; }
+  section[id] [class*="py-24"] { padding-top: 8mm !important; padding-bottom: 8mm !important; }
 
   /* Collapse fade-up / reveal animations so nothing is hidden in print */
   [data-reveal] {
@@ -425,16 +424,25 @@ code, .font-mono {
     transition: none !important;
   }
 
-  /* Each top-level Section starts on a fresh page */
+  /* Section content centers vertically so empty space distributes evenly
+   * top and bottom rather than dumping at the bottom of the slide. */
   section[id] {
-    break-before: page;
-    page-break-before: always;
-    padding-top: 0 !important;
-    padding-bottom: 16pt !important;
+    padding-top: 6mm !important;
+    padding-bottom: 6mm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: calc(19.05cm - 24mm) !important;
   }
-  section[id]:first-of-type {
-    break-before: avoid;
+  /* Keep titles glued to their following content so we don't get title-only slides */
+  section[id] h2, section[id] [data-reveal] h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  /* Section h2 and immediately following content stay together */
+  section[id] h2 + p, section[id] h2 + div {
     page-break-before: avoid;
+    break-before: avoid;
   }
 
   /* Avoid splitting headings, tiles, and dense diagram blocks across pages */
