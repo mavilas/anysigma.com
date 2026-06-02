@@ -1135,6 +1135,37 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   </Section>
 
   <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- JAPANESE GLOSSARY · for non-JP-speaking HQ reviewers          -->
+  <!-- ============================================================ -->
+  <section class="py-10 bg-[var(--color-paper-soft)] border-t border-[var(--color-line)]" aria-label="Japanese terms glossary">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4">
+        <Languages class="w-4 h-4 text-[var(--color-ink-faint)]" />
+        <span class="text-sm uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink-faint)]">Japanese terms in this plan</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3 text-[14px]">
+        {[
+          { jp: "KK · 株式会社", en: "Kabushiki Kaisha. JP joint-stock company. The entity Wonderful Japan registers." },
+          { jp: "GK · 合同会社", en: "Godo Kaisha. JP limited liability company. Lighter governance, used by smaller subsidiaries." },
+          { jp: "Keigo · 敬語", en: "Honorific speech. Sonkeigo (respect), kenjōgo (humble), teineigo (polite). Failure to use correctly destroys enterprise trust." },
+          { jp: "Ringi · 稟議", en: "JP enterprise consensus approval. A document circulates for sign-off across departments before any major decision." },
+          { jp: "行政書士", en: "Gyōseishoshi · administrative scrivener. Files entity registration paperwork and government submissions." },
+          { jp: "司法書士", en: "Shihōshoshi · judicial scrivener. Handles real-estate and corporate-registry filings." },
+          { jp: "Hanko · 判子", en: "Personal or corporate seal used in lieu of signature. Required on most JP contracts." },
+          { jp: "APPI · 個人情報保護法", en: "Act on the Protection of Personal Information. JP's GDPR equivalent. Procurement asks first." },
+          { jp: "ISMAP", en: "Information system Security Management and Assessment Program. JP gov + enterprise cloud security registry." },
+        ].map((t) => (
+          <div class="flex flex-col">
+            <span class="font-display text-[15px] text-[var(--color-ink)] leading-tight">{t.jp}</span>
+            <span class="text-[var(--color-ink-soft)] text-[13px] leading-snug mt-0.5">{t.en}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
   <!-- CLOSING                                                       -->
   <!-- ============================================================ -->
   <section class="py-20 sm:py-28 bg-[var(--color-ink)] text-[var(--color-paper)]">
