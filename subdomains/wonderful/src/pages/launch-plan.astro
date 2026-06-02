@@ -537,9 +537,9 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="catalyst"
-    eyebrow="03 · The Japan macro catalyst"
+    eyebrow="03 · Demographic crisis"
     title="Demographic demand forces the buy."
-    lede='The pattern: aging workforce drives shortage. Government injects policy and capital. <strong class="text-[var(--color-accent)]">Enterprise has no choice but autonomous workflows.</strong>'
+    lede='Working-age 15-64 collapses 24% by 2040. <strong class="text-[var(--color-accent)]">Enterprise has no choice but autonomous workflows.</strong>'
   >
     <!-- ===== DEMOGRAPHIC STACKED-BAR VISUAL · the headline evidence ===== -->
     <div class="max-w-6xl mb-10 rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
@@ -600,20 +600,31 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         Working-age 15-64 falls from ~81M (2010) to ~62M (2040, projected).
       </p>
     </div>
+  </Section>
 
-    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl mb-8">
+  <!-- ============================================================ -->
+  <!-- §04 · POLICY + ENTERPRISE RESPONSE                            -->
+  <!-- ============================================================ -->
+  <Section
+    id="response"
+    eyebrow="04 · Government + enterprise response"
+    title="¥10T policy. $5-6B TAM. The shift is funded and forced."
+    lede='Government injects capital. Enterprise pivots from legacy RPA to autonomous agents. Adoption accelerating <strong class="text-[var(--color-accent)]">30-40% YoY</strong>.'
+    tone="soft"
+  >
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl mb-6">
       {macroCatalyst.map((m, i) => {
         const IconC = Icon(m.icon);
         return (
           <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
             <div class="flex items-center gap-2 mb-3">
               {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)]" />}
-              <span class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{m.sublabel}</span>
+              <span class="text-[14px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">{m.sublabel}</span>
             </div>
-            <h3 class="font-display text-xl mb-3 leading-tight">{m.label}</h3>
-            <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-3">{m.body}</p>
+            <h3 class="font-display text-lg mb-2 leading-tight">{m.label}</h3>
+            <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-2">{m.body}</p>
             {m.detail && (
-              <p class="text-[15px] text-[var(--color-ink-soft)] leading-relaxed border-l-2 border-[var(--color-accent)]/40 pl-3 italic">{m.detail}</p>
+              <p class="text-[13px] text-[var(--color-ink-soft)] leading-relaxed border-l-2 border-[var(--color-accent)]/40 pl-3 italic">{m.detail}</p>
             )}
           </div>
         );
@@ -622,8 +633,8 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 
     <div class="max-w-6xl grid sm:grid-cols-2 gap-4">
       <div class="rounded-lg bg-[var(--color-ink)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
-        <div class="font-display text-[2.5rem] leading-none text-[var(--color-accent)] mb-2">¥10T</div>
-        <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">~$65B AI investment framework to 2030. GENIAC funding domestic LLMs.</p>
+        <div class="font-display text-[2.5rem] leading-none text-[var(--color-accent)] mb-2">¥10T (~$65B)</div>
+        <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">AI investment framework to 2030. GENIAC funding domestic LLMs.</p>
       </div>
       <div class="rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
         <div class="font-display text-[2.5rem] leading-none mb-2">$5-6B</div>
@@ -637,7 +648,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="market"
-    eyebrow="04 · Why Japan running fast"
+    eyebrow="05 · Why Japan running fast"
     title="Patience rewarded with scale."
     lede="Japan is the world's #3 enterprise SaaS market by spend. Lowest churn, highest ACV per logo in APAC."
     tone="soft"
@@ -684,7 +695,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="competition"
-    eyebrow="05 · Competitive landscape"
+    eyebrow="06 · Competitive landscape"
     title="Local incumbents have surface. Wonderful has the moat."
     lede="Four named JP competitors. For each: what they have, where Wonderful wins."
   >
@@ -723,7 +734,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="pillars"
-    eyebrow="06 · Strategic pillars"
+    eyebrow="07 · Strategic pillars"
     title="Three pillars of entry. None negotiable."
     lede="Credibility. Long-term commitment. Clear differentiated value. The non-negotiable ground-rules for any Japan move."
     tone="soft"
@@ -757,7 +768,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="revenue"
-    eyebrow="07 · Time to revenue"
+    eyebrow="08 · Time to revenue"
     title="Bending the curve. 6 to 8 months to first paid."
     lede='Industry default is <strong>12+ months</strong>. Wonderful runs Legal, Talent, and Pipeline in <strong class="text-[var(--color-accent)]">strict parallel</strong>. Target <strong>Sep 2026 first revenue</strong>.'
   >
@@ -845,7 +856,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="funnel"
-    eyebrow="08 · Pipeline funnel"
+    eyebrow="09 · Pipeline funnel"
     title="500 to 5. The curated path to FY26 wins."
     lede='500 universe. 155 Must-Win. 48 Tier 1. <strong class="text-[var(--color-accent)]">5 wins by Dec 2026 for $5M ARR.</strong> Two parallel PoC tracks unlock the funnel.'
     tone="soft"
@@ -1083,7 +1094,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="sprint"
-    eyebrow="09 · 90-day execution sprint"
+    eyebrow="10 · 90-day execution sprint"
     title="Three tracks. Strict parallel. Zero sequential blockers."
     lede='The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. <strong class="text-[var(--color-accent)]">Pipeline closes 3 PoCs by Day 60.</strong>'
   >
@@ -1149,7 +1160,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="team"
-    eyebrow="10 · Launch team"
+    eyebrow="11 · Launch team"
     title="The Core Squad. The 2026 hiring wave."
     lede="Four roles seated or filling now. Four quarterly hiring waves shaping the rest of the year."
     tone="soft"
@@ -1200,7 +1211,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="risks"
-    eyebrow="11 · Risks & mitigations"
+    eyebrow="12 · Risks & mitigations"
     title="Three systemic risks. Engineered mitigations."
     lede='Talent. Procurement. Language. <strong>The three places a foreign-vendor Japan landing fails.</strong> Each one has a specific structural mitigation.'
   >
@@ -1237,7 +1248,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <Section
     id="asks"
-    eyebrow="12 · Where HQ unlocks Japan velocity"
+    eyebrow="13 · Where HQ unlocks Japan velocity"
     title="Three asks of HQ. Each unlocks the next."
     lede='The plan works only if HQ moves at the speed Japan requires. <strong class="text-[var(--color-accent)]">Three specific commitments unlock the rest.</strong>'
     tone="ink"
