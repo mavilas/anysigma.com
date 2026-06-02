@@ -107,6 +107,46 @@ const globalProof = [
 ];
 
 // =====================================================================
+// Slide 4 · Japan demographic structure 2010 → 2040
+// Source: IPSS · National Institute of Population & Social Security Research
+// =====================================================================
+const demographics = [
+  {
+    year: "2010",
+    actual: true,
+    bands: [
+      { label: "Under 20", value: 23.0, pct: 18 },
+      { label: "Working age (20-64)", value: 79.2, pct: 62, highlight: true },
+      { label: "65 +", value: 25.8, pct: 20 },
+    ],
+    total: 128.0,
+  },
+  {
+    year: "2025",
+    actual: false,
+    bands: [
+      { label: "Under 20", value: 20.6, pct: 16 },
+      { label: "Working age (20-64)", value: 70.5, pct: 56, highlight: true },
+      { label: "65 +", value: 35.4, pct: 28 },
+    ],
+    total: 126.5,
+  },
+  {
+    year: "2040",
+    actual: false,
+    projection: true,
+    bands: [
+      { label: "Under 20", value: 17.0, pct: 15 },
+      { label: "Working age (20-64)", value: 60.0, pct: 53, highlight: true },
+      { label: "65 +", value: 36.9, pct: 32 },
+    ],
+    total: 113.9,
+  },
+];
+const workingAgeDelta = demographics[0].bands[1].value - demographics[2].bands[1].value;
+const workingAgePctChange = Math.round((workingAgeDelta / demographics[0].bands[1].value) * 100);
+
+// =====================================================================
 // Slide 4 · Japan Macro Catalyst
 // =====================================================================
 const macroCatalyst = [
@@ -474,8 +514,64 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="catalyst"
     eyebrow="03 · The Japan macro catalyst"
     title="Demographic demand forces the buy."
-    lede="The pattern: aging workforce drives shortage; government injects policy and capital; enterprise has no choice but autonomous workflows."
+    lede="The pattern: aging workforce drives shortage. Government injects policy and capital. Enterprise has no choice but autonomous workflows."
   >
+    <!-- ===== DEMOGRAPHIC STACKED-BAR VISUAL · the headline evidence ===== -->
+    <div class="max-w-6xl mb-10 rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
+      <div class="flex items-center gap-3 mb-1 flex-wrap">
+        <Users class="w-5 h-5 text-[var(--color-accent)]" />
+        <span class="text-sm uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">The Demographic Crisis · Driver</span>
+      </div>
+      <h3 class="font-display text-2xl sm:text-3xl leading-tight mb-2">
+        <span class="text-[var(--color-accent)] font-bold">{workingAgeDelta.toFixed(1)}M</span> working-age population lost in 30 years.
+      </h3>
+      <p class="text-base text-[var(--color-ink-soft)] mb-8 max-w-3xl">2010 to 2040 (projected). Working age 20-64 collapses <strong class="text-[var(--color-ink)]">{workingAgePctChange}%</strong>. Elderly grow <strong class="text-[var(--color-ink)]">+43%</strong>. Enterprise can't hire its way out.</p>
+
+      <!-- Three stacked bars · 2010 / 2025 / 2040 -->
+      <div class="grid sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+        {demographics.map((d, i) => (
+          <div class="relative" data-reveal="fade-up" data-reveal-delay={i + 1}>
+            <div class="flex items-baseline justify-between mb-2">
+              <span class="font-display text-2xl text-[var(--color-ink)]">{d.year}{d.projection && <span class="text-sm text-[var(--color-ink-faint)] font-sans"> · projected</span>}</span>
+              <span class="text-sm font-mono text-[var(--color-ink-faint)]">{d.total}M</span>
+            </div>
+            <!-- vertical stacked bar showing 3 bands -->
+            <div class="h-72 rounded-md overflow-hidden border border-[var(--color-line)] flex flex-col">
+              {d.bands.map((b) => (
+                <div
+                  class={`relative flex items-center justify-center px-2 ${b.highlight ? "ring-2 ring-[var(--color-accent)] ring-inset" : ""}`}
+                  style={`flex: ${b.pct}; background: ${b.highlight ? "var(--color-accent)" : b.label === "65 +" ? "var(--color-ink-soft)" : "var(--color-paper-soft)"}; color: ${b.highlight || b.label === "65 +" ? "var(--color-paper)" : "var(--color-ink)"};`}
+                >
+                  <div class="text-center">
+                    <div class={`font-display text-xl sm:text-2xl leading-none font-bold ${b.highlight ? "text-[var(--color-paper)]" : ""}`}>{b.value.toFixed(1)}M</div>
+                    <div class="text-[11px] sm:text-[12px] mt-1 leading-tight opacity-90">{b.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Key callouts under the chart -->
+      <div class="grid sm:grid-cols-3 gap-4 pt-5 border-t border-[var(--color-line)]">
+        <div>
+          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">-19.2M</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Working-age population 20-64 (2010 → 2040). Equivalent to losing the entire workforce of Italy.</p>
+        </div>
+        <div>
+          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">1.6 : 1</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Workers per elderly by 2040. Down from 3.1:1 in 2010. Headcount-driven CS is no longer possible.</p>
+        </div>
+        <div>
+          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">32%</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Of Japan over 65 by 2040. The dependency ratio breaks every cost model JP enterprise built in the 90s.</p>
+        </div>
+      </div>
+
+      <p class="text-[12px] text-[var(--color-ink-faint)] italic mt-5 font-mono">Source: National Institute of Population &amp; Social Security Research (IPSS), Japan · 2024 projection.</p>
+    </div>
+
     <div class="grid lg:grid-cols-3 gap-5 max-w-6xl mb-8">
       {macroCatalyst.map((m, i) => {
         const IconC = Icon(m.icon);

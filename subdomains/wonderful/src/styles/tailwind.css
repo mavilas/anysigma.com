@@ -3,7 +3,7 @@
 /* === Pick one accent palette. Swap this single line per project. ===
  * Available: warm-orange · cool-blue · forest-green · slate · plum
  */
-@import "./palettes/slate.css";
+@import "./palettes/cool-blue.css";
 
 @theme {
   --font-sans: "Bricolage Grotesque", "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
