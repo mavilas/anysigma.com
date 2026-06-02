@@ -1,0 +1,36 @@
+/* Two-blue Hierarchy — Wonderful brand kept, depth added.
+ *   Title       : deep navy        (--color-ink)
+ *   Eyebrow/UI  : Wonderful blue   (--color-accent)
+ *   Stats       : bright cobalt    (--color-highlight)   ← LOAD-BEARING ONLY
+ *   Body        : charcoal-navy    (--color-ink-body)
+ *   Paper       : near-white       (--color-paper)
+ *
+ * The highlight is the rare-use color: stat numbers and the single
+ * load-bearing word in a lede. Everything else stays Wonderful blue
+ * (links, eyebrows, chips) so the brand still reads. */
+
+:root {
+  /* === Ink tones (text) === */
+  --color-ink: oklch(0.22 0.06 258);            /* deep navy near-black */
+  --color-ink-body: oklch(0.32 0.04 258);       /* charcoal-navy body */
+  --color-ink-soft: oklch(0.48 0.03 258);       /* steel-grey */
+  --color-ink-faint: oklch(0.65 0.015 250);     /* faint cool grey */
+  --color-ink-inverse: oklch(0.98 0.005 90);
+
+  /* === Paper tones (surfaces) === */
+  --color-paper: oklch(0.99 0.005 90);
+  --color-paper-soft: oklch(0.96 0.01 90);
+  --color-paper-warm: oklch(0.97 0.02 70);
+  --color-line: oklch(0.88 0.01 250);
+  --color-line-soft: oklch(0.93 0.005 250);
+
+  /* === Wonderful brand blue — eyebrows / links / UI === */
+  --palette-accent: oklch(0.55 0.18 258);       /* Wonderful cool-blue */
+  --palette-accent-soft: oklch(0.93 0.04 255);  /* tinted background */
+  --palette-accent-ink: oklch(0.38 0.16 260);   /* deeper blue for hover */
+
+  /* === Highlight — LOAD-BEARING stats only === */
+  --color-highlight: oklch(0.62 0.20 240);      /* bright cobalt */
+  --color-highlight-soft: oklch(0.92 0.06 245);
+  --color-highlight-ink: oklch(0.42 0.18 245);  /* deeper cobalt */
+}

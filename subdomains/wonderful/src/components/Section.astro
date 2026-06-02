@@ -22,13 +22,16 @@ const ledeClass =
     : "text-[var(--color-ink-soft)]";
 ---
 
-<section id={id} class={`py-16 sm:py-24 ${toneClass}`}>
-  <div class="max-w-6xl mx-auto px-6">
+<section
+  id={id}
+  class={`py-14 sm:py-20 scroll-mt-20 ${toneClass}`}
+>
+  <div class="max-w-6xl mx-auto px-6 w-full">
     {
       eyebrow && (
         <div
           data-reveal="fade-up"
-          class="text-xs uppercase tracking-[0.18em] font-medium mb-4 text-[var(--color-accent)]"
+          class="text-sm sm:text-base uppercase tracking-[0.18em] font-bold mb-4 text-[var(--color-accent)]"
         >
           {eyebrow}
         </div>
@@ -37,7 +40,7 @@ const ledeClass =
     <h2
       data-reveal="fade-up"
       data-reveal-delay="1"
-      class="font-display text-3xl sm:text-5xl mb-5 max-w-3xl leading-tight"
+      class="font-display text-[2rem] sm:text-4xl md:text-5xl mb-5 max-w-5xl leading-[1.08] break-words"
     >
       {title}
     </h2>
@@ -46,13 +49,12 @@ const ledeClass =
         <p
           data-reveal="fade-up"
           data-reveal-delay="2"
-          class={`text-lg max-w-2xl leading-relaxed ${ledeClass}`}
-        >
-          {lede}
-        </p>
+          class={`text-lg sm:text-xl max-w-4xl leading-relaxed mb-10 ${ledeClass}`}
+          set:html={lede}
+        />
       )
     }
-    <div class="mt-12">
+    <div>
       <slot />
     </div>
   </div>

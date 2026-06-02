@@ -8,3 +8,6 @@ dist/
 .env
 .env.production
 *-debug.log*
+exports/
+public/Wonderful-Japan-*.pdf
+exports/

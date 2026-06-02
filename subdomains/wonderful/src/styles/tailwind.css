@@ -3,7 +3,7 @@
 /* === Pick one accent palette. Swap this single line per project. ===
  * Available: warm-orange · cool-blue · forest-green · slate · plum
  */
-@import "./palettes/slate.css";
+@import "./palettes/boardroom-navy.css";
 
 @theme {
   --font-sans: "Bricolage Grotesque", "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
@@ -371,5 +371,148 @@ code, .font-mono {
   .radial-stage .radial-node {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* ======================================================================
+ * Print / PDF — proposal-grade output
+ * Designed for A4 + US Letter, both portrait (long-form read) and
+ * landscape (slide-style). Each Section becomes a page; reveal anims
+ * collapse; the deliverables grid stacks one column per page so each
+ * Day-30/60/90 column reads cleanly when printed or exported.
+ * ====================================================================== */
+@media print {
+  /* Color fidelity — keep accents, paper background, ink type */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html, body {
+    background: var(--color-paper) !important;
+    color: var(--color-ink) !important;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  /* Reader-friendly print — A4 portrait, generous margins.
+   * The presentation deck lives at /launch-plan/present (Reveal.js)
+   * and exports its own 16:9 PDF via reveal's native ?print-pdf. */
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+  html, body { font-size: 10pt; }
+  /* Presentation typography · golden-ratio scale, consistent across slides
+   *   Eyebrow chip  : 12pt mono
+   *   Title (h2)    : 28pt display
+   *   Sub-head (h3) : 18pt display
+   *   Body          : 14pt
+   *   Caption       : 11pt
+   *   Mono labels   : 10pt
+   *   Stat numbers  : 56pt for huge, 36pt for medium, 24pt for small
+   */
+  section[id] [class*="uppercase"][class*="tracking-"] { font-size: 12pt !important; letter-spacing: 0.16em !important; }
+  section[id] h2 { font-size: 28pt !important; line-height: 1.08 !important; margin-bottom: 10pt !important; }
+  section[id] h3 { font-size: 18pt !important; line-height: 1.15 !important; }
+  section[id] h4 { font-size: 15pt !important; line-height: 1.2 !important; }
+  section[id] h5 { font-size: 13pt !important; line-height: 1.25 !important; }
+  section[id] p { font-size: 13pt !important; line-height: 1.4 !important; }
+  /* Lede paragraph (the one right after the title) - bigger */
+  section[id] h2 + p, section[id] > div > p:first-of-type { font-size: 15pt !important; line-height: 1.4 !important; }
+  /* Stat numbers — keep the dramatic font sizes */
+  section[id] .font-display[class*="text-3xl"] { font-size: 30pt !important; }
+  section[id] .font-display[class*="text-4xl"] { font-size: 38pt !important; }
+  section[id] .font-display[class*="text-5xl"] { font-size: 56pt !important; }
+  section[id] .font-display[class*="text-6xl"] { font-size: 68pt !important; }
+  section[id] .font-display[class*="text-[2"] { font-size: 32pt !important; }
+  section[id] .font-display[class*="text-[3"] { font-size: 44pt !important; }
+  section[id] .font-display[class*="text-[4"] { font-size: 56pt !important; }
+  section[id] .font-display[class*="text-[5"] { font-size: 68pt !important; }
+  section[id] .mt-12 { margin-top: 8pt !important; }
+  section[id] [class*="py-16"] { padding-top: 6mm !important; padding-bottom: 6mm !important; }
+  section[id] [class*="py-20"] { padding-top: 7mm !important; padding-bottom: 7mm !important; }
+  section[id] [class*="py-24"] { padding-top: 8mm !important; padding-bottom: 8mm !important; }
+
+  /* Collapse fade-up / reveal animations so nothing is hidden in print */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Reader-friendly sections — encourage page break before but let
+   * content flow naturally; no forced slide-height clipping. */
+  section[id] {
+    page-break-before: auto;
+    break-before: auto;
+  }
+  section[id]:first-of-type {
+    page-break-before: avoid;
+    break-before: avoid;
+  }
+  /* Keep titles glued to their following content */
+  section[id] h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Avoid splitting headings, tiles, and dense diagram blocks across pages */
+  h1, h2, h3, h4, h5 { break-after: avoid; page-break-after: avoid; }
+  .tile, .prose-block, .rounded-md, .rounded-lg, .rounded-xl, svg {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Hide things that don't translate to print:
+     - sticky / fixed nav (TOC, header)
+     - status dots, animated pulses
+     - any element opting out via .print\:hidden */
+  nav[role="navigation"], .toc, [data-print="hide"], .print\:hidden {
+    display: none !important;
+  }
+
+  /* Animated SVG flourishes stop pulsing */
+  .flow-pulse, .status-dot { animation: none !important; }
+
+  /* Do NOT expand link URLs in print — they read as artifacts on a
+     slide deck. Source citations remain reachable via the on-screen page. */
+  a[href]::after { content: ""; }
+
+  /* Site header is a screen affordance, not a slide element. Hide it. */
+  header[role="banner"], body > header:first-of-type { display: none !important; }
+
+  /* Section content keeps grids intact unless they overflow the page.
+   * The opt-in class .print-split-cols cascades each direct child to its
+   * own page for grids that need column-per-slide treatment.  */
+  .print-split-cols > div {
+    break-before: page;
+    page-break-before: always;
+  }
+  .print-split-cols > div:first-child {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  /* Dark "ink" sections — keep the contrast but ensure background prints */
+  .bg-\[var\(--color-ink\)\] {
+    background: var(--color-ink) !important;
+    color: var(--color-paper) !important;
+  }
+}
+
+/* Landscape variant — use a print stylesheet swap, or browser's
+ * "Landscape" toggle in the print dialog. Tuned to roughly 16:9 with
+ * generous margins so a single Section ≈ one slide. */
+@media print and (orientation: landscape) {
+  @page {
+    size: A4 landscape;
+    margin: 12mm 16mm 14mm 16mm;
+  }
+  html, body { font-size: 11pt; }
+  section[id] {
+    min-height: calc(100vh - 30mm);
   }
 }

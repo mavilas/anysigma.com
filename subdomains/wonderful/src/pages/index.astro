@@ -75,7 +75,7 @@ const iconToPascal = (s: string) =>
     .join("");
 
 // =====================================================================
-// CONTENT — kept as data so individual sections stay clean to read
+// CONTENT · kept as data so individual sections stay clean to read
 // =====================================================================
 
 // Four practice areas that map to Wonderful's specific gaps
@@ -83,7 +83,7 @@ const practiceAreas = [
   {
     title: "Product & Localization",
     icon: "package-2",
-    week: "Wk 2–4",
+    week: "Wk 2-4",
     blurb:
       "Audit your product against what Japanese enterprise buyers test for in the first ten minutes. Build localization right, not translated.",
     bullets: [
@@ -95,7 +95,7 @@ const practiceAreas = [
   {
     title: "Compliance & Security",
     icon: "shield-check",
-    week: "Wk 3–4",
+    week: "Wk 3-4",
     blurb:
       "Get the security story production-ready before you walk into meeting one. Security review is the first meeting in Japan, not the last.",
     bullets: [
@@ -108,7 +108,7 @@ const practiceAreas = [
   {
     title: "Go-to-Market",
     icon: "compass",
-    week: "Wk 1–12",
+    week: "Wk 1-12",
     blurb:
       "Compress the 12-month JP enterprise sales cycle to 3. The procurement sequence is the same every time. The vertical detail varies.",
     bullets: [
@@ -133,10 +133,10 @@ const practiceAreas = [
   },
 ];
 
-// 90-day plan, used in §06
+// Legacy 4-phase Timeline data · retained for the SVG narrative above the deliverables grid
 const ninetyDayPlan = [
   {
-    weeks: "Weeks 1–2",
+    weeks: "Weeks 1-2",
     title: "Land + playbook",
     icon: "play",
     deliverables: [
@@ -147,7 +147,7 @@ const ninetyDayPlan = [
     ],
   },
   {
-    weeks: "Weeks 3–4",
+    weeks: "Weeks 3-4",
     title: "Roadmap + compliance",
     icon: "shield-check",
     deliverables: [
@@ -158,7 +158,7 @@ const ninetyDayPlan = [
     ],
   },
   {
-    weeks: "Weeks 5–8",
+    weeks: "Weeks 5-8",
     title: "Open the funnel",
     icon: "rocket",
     deliverables: [
@@ -168,7 +168,7 @@ const ninetyDayPlan = [
     ],
   },
   {
-    weeks: "Weeks 9–12",
+    weeks: "Weeks 9-12",
     title: "Pilot terms + first closes",
     icon: "trophy",
     deliverables: [
@@ -188,13 +188,13 @@ const winners = [
 ];
 
 const losers = [
-  { name: "IBM Watson Japan", what: "2017–19 loud entry. Mizuho · MUFG · Daiichi Sankyo named, then quietly off. The reference accounts walked.", url: "https://www.idc.com/jp" },
+  { name: "IBM Watson Japan", what: "2017-19 loud entry. Mizuho · MUFG · Daiichi Sankyo named, then quietly off. The reference accounts walked.", url: "https://www.idc.com/jp" },
   { name: "Salesforce Einstein", what: "Strong global product. JP customers run on PKSHA, Karakuri, or Mobilus for voice + chat. Einstein stays the CRM.", url: "https://www.salesforce.com/jp/products/einstein-ai-solutions/" },
   { name: "Generic foreign AI-CX vendors", what: "Translated their pitch, lost POCs in 3 months. No embedded team, no keigo eval, no on-prem option.", url: null },
   { name: "Xembly (US AI Chief of Staff)", what: "$20M raised. Salesforce + Qualtrics customers. Shut down June 2024. Same archetype, US edition.", url: "https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" },
 ];
 
-// Wonderful platform strengths — proven scale leads, then platform depth
+// Wonderful platform strengths · proven scale leads, then platform depth
 const strengths = [
   {
     title: "Proven at production scale",
@@ -356,7 +356,7 @@ const gaps = [
   },
 ];
 
-// Japan failure modes — radial signature SVG + cards
+// Japan failure modes · radial signature SVG + cards
 const japanFailureModes = [
   {
     label: "Keigo",
@@ -397,12 +397,12 @@ const japanFailureModes = [
     label: "Compliance",
     title: "APPI · data residency · on-prem",
     impact:
-      "Procurement asks about data residency in the first 30 minutes. Cloud-only is a hard stop. APPI 2025–26 amendments added administrative penalties.",
+      "Procurement asks about data residency in the first 30 minutes. Cloud-only is a hard stop. APPI 2025-26 amendments added administrative penalties.",
     icon: "shield-alert",
   },
 ];
 
-// Competitor matrix — JP procurement cohort
+// Competitor matrix · JP procurement cohort
 const competitors = [
   // === JP-native cohort · who procurement compares Wonderful against today ===
   {
@@ -536,6 +536,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     <a href="#magic-gifts" class="hover:text-[var(--color-ink)] transition-colors">Platform</a>
     <a href="#evidence" class="hover:text-[var(--color-ink)] transition-colors">Evidence</a>
     <a href="#plan" class="hover:text-[var(--color-ink)] transition-colors">Plan</a>
+    <a href="/launch-plan" class="hover:text-[var(--color-ink)] transition-colors">Launch Plan →</a>
     <a href="#references" class="hover:text-[var(--color-ink)] transition-colors">References</a>
   </Fragment>
 
@@ -565,13 +566,13 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         A 14-minute read on Wonderful's Japan play, starting with the product and ending with the plan.
       </p>
 
-      <!-- Narrative lede — story opens with the platform, pivots to Japan -->
+      <!-- Narrative lede · story opens with the platform, pivots to Japan -->
       <div class="story-prose max-w-3xl mb-12" data-reveal="fade-up" data-reveal-delay="4">
         <p class="first-para">
-          I watched the demo end to end. <strong>The platform is real.</strong> Agentic OS, voice, multimodal, dynamic dashboards, the Wonderful Apps auto-UI layer, and the Bezeq-scale reference — 2,000 agents, ~80% resolution, millions of calls a month, all in production. Almost no foreign agentic-AI vendor landing in Japan today can point to a reference of this shape. The plumbing is mostly there. The wedge — voice plus autonomy plus multimodal plus forward-deployed engineering plus production-scale proof — is the right shape for the largest JP enterprise rooms.
+          I watched the demo end to end. <strong>The platform is real.</strong> Agentic OS, voice, multimodal, dynamic dashboards, the Wonderful Apps auto-UI layer, and the Bezeq-scale reference · 2,000 agents, ~80% resolution, millions of calls a month, all in production. Almost no foreign agentic-AI vendor landing in Japan today can point to a reference of this shape. The plumbing is mostly there. The wedge · voice plus autonomy plus multimodal plus forward-deployed engineering plus production-scale proof · is the right shape for the largest JP enterprise rooms.
         </p>
         <p>
-          <strong>But Japan is not generic.</strong> The remaining 20% is what Japan tests for in the first three procurement meetings. Keigo register handling. Kansai / Tohoku dialect on the ASR. PII handling under APPI 2025–26 amendments. On-prem and ISMAP posture. Document encoding in COBOL / Shift-JIS mainframe environments. None of those came up in the demo itself. They will come up the moment procurement opens the security review. Fail one, you fail the procurement, before they ever try the product.
+          <strong>But Japan is not generic.</strong> The remaining 20% is what Japan tests for in the first three procurement meetings. Keigo register handling. Kansai / Tohoku dialect on the ASR. PII handling under APPI 2025-26 amendments. On-prem and ISMAP posture. Document encoding in COBOL / Shift-JIS mainframe environments. None of those came up in the demo itself. They will come up the moment procurement opens the security review. Fail one, you fail the procurement, before they ever try the product.
         </p>
         <p>
           And this market is urgent. In Japan, <strong>AI is not a cost-cutting story. It is survival.</strong> Contact centers cannot hire. Knowledge workers are retiring faster than they are being replaced. The Cabinet Office's demographic forecasts make the math undeniable. The question is no longer <em>"can we afford to wait?"</em> It is <em>"who do we trust to land before the door closes?"</em> Most foreign vendors will lose it the same way they have lost it before, by letting HQ write the Japan plan.
@@ -584,7 +585,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         </p>
       </div>
 
-      <!-- Quiet executive summary — prose-style, no card grid -->
+      <!-- Quiet executive summary · prose-style, no card grid -->
       <div class="max-w-3xl mb-12 pl-6 border-l-2 border-[var(--color-accent)]" data-reveal="fade-up" data-reveal-delay="5">
         <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-3 flex items-center gap-2">
           <Sparkles class="w-3.5 h-3.5" />
@@ -595,7 +596,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         </p>
       </div>
 
-      <!-- Anthony alignment callout — direct quote from session next-steps -->
+      <!-- Anthony alignment callout · direct quote from session next-steps -->
       <div class="max-w-3xl mb-10 rounded-lg bg-[var(--color-ink)] text-[var(--color-paper)] p-5" data-reveal="fade-up" data-reveal-delay="6">
         <div class="flex items-start gap-3">
           <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-[var(--color-accent)]/20 text-[var(--color-accent)] shrink-0 mt-0.5">
@@ -622,7 +623,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       </div>
 
       <p class="mt-6 text-xs text-[var(--color-ink-faint)] max-w-3xl">
-        The brief above is self-contained. Everything below this point is the full playbook — depth on demand, not required reading. Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san / Satoshi (President, Japan, in role May 2026). Distributed via the LINE group as the requested feedback writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access.
+        The brief above is self-contained. Everything below this point is the full playbook · depth on demand, not required reading. Audience: Anthony (VP, Asia Operations) · Henek (Asia Regional GM) · Hosoi-san / Satoshi (President, Japan, in role May 2026). Distributed via the LINE group as the requested feedback writeup. Hosted at <code class="inline-code">wonderful.anysigma.com</code> behind Cloudflare Access.
       </p>
     </div>
   </section>
@@ -647,7 +648,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           Appendix · the full playbook
         </h2>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed max-w-3xl">
-          The pages below are the long form behind the brief — market read, winners-and-losers pattern, the 12-month position, platform-plus-execution detail, evidence, and the 90-day plan. Read in order, skim by section heading, or stop at the brief. All of it is depth on demand, not required reading.
+          The pages below are the long form behind the brief · market read, winners-and-losers pattern, the 12-month position, platform-plus-execution detail, evidence, and the 90-day plan. Read in order, skim by section heading, or stop at the brief. All of it is depth on demand, not required reading.
         </p>
       </div>
     </div>
@@ -662,7 +663,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     title="Japan's AI market is huge, friendly, and moving fast. The HQ-driven foreign-vendor model is officially dead."
     lede="Two things changed at once. Demographic pressure flipped Japan from 'maybe' to 'must' on enterprise AI adoption. And the pattern of foreign-vendor failure became too obvious for procurement teams to ignore. Both create urgency. Both produce winners and losers. The criteria for being on the right side are clear."
   >
-    <!-- "AI = survival" callout — the load-bearing reframe -->
+    <!-- "AI = survival" callout · the load-bearing reframe -->
     <div class="rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)]/30 p-6 mb-10 max-w-4xl" data-reveal="fade-up">
       <div class="flex items-baseline gap-2 mb-2 flex-wrap">
         <span class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">The Japan reframe</span>
@@ -702,7 +703,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         </div>
         <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
           <li><strong class="text-[var(--color-ink)]">Voice AI is real for the first time.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://openai.com/index/introducing-the-realtime-api/" target="_blank" rel="noopener noreferrer">OpenAI Realtime API</a> + Deepdub-class eTTS make sub-second voice in Japanese deployable. Wonderful is on the right side of this break.</li>
-          <li><strong class="text-[var(--color-ink)]">METI tailwind.</strong> National AI strategy + SME subsidies (50–66% project-cost reimbursement, ¥300k–¥4.5M per grant). Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.meti.go.jp/english/policy/it_policy/index.html" target="_blank" rel="noopener noreferrer">METI · IT policy</a>.</li>
+          <li><strong class="text-[var(--color-ink)]">METI tailwind.</strong> National AI strategy + SME subsidies (50-66% project-cost reimbursement, ¥300k-¥4.5M per grant). Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.meti.go.jp/english/policy/it_policy/index.html" target="_blank" rel="noopener noreferrer">METI · IT policy</a>.</li>
           <li><strong class="text-[var(--color-ink)]">JP-domestic AI funding inflection.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">Sakana $135M</a>, <a class="text-[var(--color-accent)] hover:underline" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">LayerX $100M</a>, KDDI's $1B AI infrastructure commitment. Enterprise is buying.</li>
           <li><strong class="text-[var(--color-ink)]">Demographics force the buy.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://www8.cao.go.jp/kourei/english/annualreport/index-wh.html" target="_blank" rel="noopener noreferrer">Cabinet Office</a>: working-age population falling ~1% per year through 2040. Contact centers cannot hire. AI agents are no longer optional.</li>
           <li><strong class="text-[var(--color-ink)]">JP regulation is friendlier than EU.</strong> Japan's 2024 AI-act-lite vs the EU AI Act. APPI strict but predictable. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.ppc.go.jp/en/" target="_blank" rel="noopener noreferrer">PPC.go.jp</a>.</li>
@@ -715,7 +716,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <h3 class="text-xs uppercase tracking-[0.16em] font-bold text-[var(--color-danger)]">Headwinds · the pattern of foreign-vendor failure</h3>
         </div>
         <ul class="space-y-3 text-sm text-[var(--color-ink-soft)] leading-relaxed">
-          <li><strong class="text-[var(--color-ink)]">IBM Watson Japan</strong> · Loud entry 2017–2019. Mizuho, MUFG, Daiichi Sankyo named, then quietly off. <a class="text-[var(--color-accent)] hover:underline" href="https://www.statnews.com/2017/09/05/watson-ibm-cancer/" target="_blank" rel="noopener noreferrer">STAT (Watson Health context)</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a>.</li>
+          <li><strong class="text-[var(--color-ink)]">IBM Watson Japan</strong> · Loud entry 2017-2019. Mizuho, MUFG, Daiichi Sankyo named, then quietly off. <a class="text-[var(--color-accent)] hover:underline" href="https://www.statnews.com/2017/09/05/watson-ibm-cancer/" target="_blank" rel="noopener noreferrer">STAT (Watson Health context)</a> · <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a>.</li>
           <li><strong class="text-[var(--color-ink)]">Salesforce Einstein</strong> · Strong global product. JP customers run on PKSHA, Karakuri, or Mobilus for voice and chat. Einstein stays the CRM.</li>
           <li><strong class="text-[var(--color-ink)]">Generic foreign AI-CX vendors</strong> · Translated their pitch, lost PoCs in 3 months. No embedded team, no keigo eval, no on-prem option. Pattern documented across <a class="text-[var(--color-accent)] hover:underline" href="https://www.idc.com/jp" target="_blank" rel="noopener noreferrer">IDC Japan</a> annual surveys.</li>
           <li><strong class="text-[var(--color-ink)]">Xembly</strong> · $20M raised, customers Salesforce and Qualtrics. Shutdown June 2024. Source: <a class="text-[var(--color-accent)] hover:underline" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire</a>.</li>
@@ -774,7 +775,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     </div>
 
     <p class="mt-10 text-base text-[var(--color-ink-soft)] max-w-3xl leading-relaxed italic">
-      <strong class="not-italic text-[var(--color-ink)]">Which side is Wonderful on?</strong> Today, neither yet. Bezeq is winner-shaped. The cloud-only posture and the JP-fit gaps in §03 are loser-shaped. The decision happens in the next 6–12 months.
+      <strong class="not-italic text-[var(--color-ink)]">Which side is Wonderful on?</strong> Today, neither yet. Bezeq is winner-shaped. The cloud-only posture and the JP-fit gaps in §03 are loser-shaped. The decision happens in the next 6-12 months.
     </p>
   </Section>
 
@@ -921,7 +922,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   </Section>
 
   <!-- ============================================================ -->
-  <!-- §05 EVIDENCE — Wonderful's gaps + Japan failure modes + competitive cohort -->
+  <!-- §05 EVIDENCE · Wonderful's gaps + Japan failure modes + competitive cohort -->
   <!-- ============================================================ -->
   <Section
     id="evidence"
@@ -930,7 +931,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     lede="Three lenses. The gaps in Wonderful's current platform that JP procurement will surface. The Japan-specific failure modes that kill foreign vendors at PoC. And the competitive cohort Wonderful gets compared against in JP enterprise vendor reviews."
     tone="soft"
   >
-    <!-- PII pull-quote — the procurement reality nobody pre-empts -->
+    <!-- PII pull-quote · the procurement reality nobody pre-empts -->
     <div class="my-10 max-w-4xl rounded-2xl bg-[var(--color-ink)] text-[var(--color-paper)] p-10 sm:p-12 relative overflow-hidden" data-reveal="scale">
       <div class="absolute top-0 right-0 w-32 h-32 -translate-y-12 translate-x-12 rounded-full bg-[var(--color-accent)]/30 blur-3xl" aria-hidden="true"></div>
       <div class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-4 flex items-center gap-2">
@@ -940,7 +941,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <span class="text-[var(--color-accent)] mr-1">"</span>Pseudonymization in transit. Redaction at rest. Role-based PII view. Audit logging on every touch.<span class="text-[var(--color-accent)] ml-1">"</span>
       </blockquote>
       <p class="mt-6 text-sm text-[var(--color-paper-soft)]/80 max-w-3xl leading-relaxed">
-        That is the literal sentence Japanese procurement asks in the first 30 minutes. <strong class="text-[var(--color-paper)]">"Encrypted" is not the answer they want.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://www.ppc.go.jp/en/" target="_blank" rel="noopener noreferrer">APPI 2025–26 enforcement</a> amendments added administrative penalties, which makes this contractual rather than aspirational. PII handling is one of the high-severity items below. It is also the one most foreign vendors mis-handle by treating it as a checkbox instead of a process.
+        That is the literal sentence Japanese procurement asks in the first 30 minutes. <strong class="text-[var(--color-paper)]">"Encrypted" is not the answer they want.</strong> <a class="text-[var(--color-accent)] hover:underline" href="https://www.ppc.go.jp/en/" target="_blank" rel="noopener noreferrer">APPI 2025-26 enforcement</a> amendments added administrative penalties, which makes this contractual rather than aspirational. PII handling is one of the high-severity items below. It is also the one most foreign vendors mis-handle by treating it as a checkbox instead of a process.
       </p>
     </div>
 
@@ -1008,7 +1009,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         Six categories most foreign vendors discover at PoC, six months in. None of these came up in the demo session itself. They are my post-session assessment grounded in what every other foreign vendor has hit on this market.
       </p>
 
-      <!-- Radial SVG · 6 failure modes radiating from "JP enterprise procurement" — animated -->
+      <!-- Radial SVG · 6 failure modes radiating from "JP enterprise procurement" · animated -->
       <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-6 max-w-5xl" data-reveal="fade-up">
         <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
           <div class="flex items-center gap-2">
@@ -1031,7 +1032,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         </p>
         <div class="overflow-x-auto radial-stage is-visible">
           <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" class="w-full max-w-2xl mx-auto block" role="img" aria-labelledby="radial-title radial-desc">
-            <title id="radial-title">JP enterprise procurement filter — 6 failure modes</title>
+            <title id="radial-title">JP enterprise procurement filter · 6 failure modes</title>
             <desc id="radial-desc">Animated radial diagram showing 6 Japan-specific failure modes radiating from "JP enterprise procurement" at center: keigo, dialect, encoding, documents, characters, compliance.</desc>
 
             <defs>
@@ -1199,7 +1200,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <div class="grid lg:grid-cols-[1fr_18rem] gap-6 items-start">
           <div class="overflow-x-auto flow-stage">
             <svg viewBox="0 0 600 440" preserveAspectRatio="xMidYMid meet" class="w-full max-w-xl mx-auto block" role="img" aria-labelledby="radar-title radar-desc">
-              <title id="radar-title">Competitive wedge radar — 5 dimensions</title>
+              <title id="radar-title">Competitive wedge radar · 5 dimensions</title>
               <desc id="radar-desc">Five-axis radar showing Wonderful's coverage (filled accent polygon) vs five JP competitors (PKSHA, Karakuri, AI Shift, Mobilus, Sakana) as faded outlines on dimensions: voice, autonomy, multimodal, forward-deployed engineering, production-scale reference.</desc>
 
               <!-- Concentric grid rings (1-5) -->
@@ -1372,7 +1373,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
   </Section>
 
   <!-- ============================================================ -->
-  <!-- §06 PLAN — 90-day plan + beachhead sequencing -->
+  <!-- §06 PLAN · 90-day plan + beachhead sequencing -->
   <!-- ============================================================ -->
   <Section
     id="plan"
@@ -1383,11 +1384,10 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
     <!-- Narrative bridge into the plan -->
     <div class="story-prose max-w-3xl mb-10">
       <p>
-        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. Instead the first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run in parallel, not sequenced. Wonderful's hiring engine is already in flight, so the hiring deliverables here are calibration and screening depth on top of work already happening, not a new recruiter pipeline. By the end of week twelve, the goal is pilot terms with the first big-logo internal-workflow customer, a calibrated framework for the next senior closes, and a decision memo on the primary motion (direct, SI-led, or BPO-channel).
-      </p>
+        The plan is honest about Japan. Promising landed enterprise customers in week six would signal I do not know this market. Instead the first ninety days build the launch surface so months four through twelve can compound. Engineering and sales run in parallel, not sequenced. Wonderful's hiring engine is already in flight, so the hiring deliverables here are calibration and screening depth on top of work already happening, not a new recruiter pipeline. By the end of week twelve, the goal is pilot terms with the first big-logo internal-workflow customer, a calibrated framework for the next senior closes, and a decision memo on the primary motion (direct, SI-led, or BPO-channel).      </p>
     </div>
 
-    <!-- 90-day plan timeline — animated horizontal SVG + compact phase strip below -->
+    <!-- 90-day plan timeline · animated horizontal SVG + compact phase strip below -->
     <div class="mb-14 max-w-6xl">
       <div class="rounded-xl border border-[var(--color-line)] bg-gradient-to-b from-[var(--color-paper)] to-[var(--color-paper-soft)] p-5 sm:p-8 mb-5" data-reveal="fade-up">
         <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
@@ -1411,8 +1411,8 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 
         <div class="overflow-x-auto flow-stage">
           <svg viewBox="0 0 940 280" preserveAspectRatio="xMidYMid meet" class="w-full max-w-5xl mx-auto block" role="img" aria-labelledby="timeline-title timeline-desc">
-            <title id="timeline-title">90-day delivery plan — animated timeline</title>
-            <desc id="timeline-desc">Horizontal timeline with four phases over twelve weeks: Land + playbook (Wk 1–2), Roadmap + compliance (Wk 3–4), Open the funnel (Wk 5–8), Pilot terms + first closes (Wk 9–12). Final milestone at week 12 is pilot terms with the first enterprise customer.</desc>
+            <title id="timeline-title">90-day delivery plan · animated timeline</title>
+            <desc id="timeline-desc">Horizontal timeline with four phases over twelve weeks: Land + playbook (Wk 1-2), Roadmap + compliance (Wk 3-4), Open the funnel (Wk 5-8), Pilot terms + first closes (Wk 9-12). Final milestone at week 12 is pilot terms with the first enterprise customer.</desc>
 
             <defs>
               <linearGradient id="track-grad" x1="0" y1="0" x2="1" y2="0">
@@ -1444,7 +1444,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             <!-- Phase 1 · Wk 1-2 · Land + playbook -->
             <g class="flow-node" style="animation-delay:0.1s">
               <rect x="80" y="100" width="130" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-line)" stroke-width="1.5" />
-              <text x="92" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 01 · W1–W2</text>
+              <text x="92" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 01 · W1-W2</text>
               <text x="92" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Land + playbook</text>
               <text x="92" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">positioning · target map · sourcing</text>
               <!-- Connector to track -->
@@ -1455,7 +1455,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             <!-- Phase 2 · Wk 3-4 · Roadmap + compliance -->
             <g class="flow-node" style="animation-delay:0.4s">
               <rect x="220" y="100" width="130" height="68" rx="10" fill="var(--color-paper)" stroke="var(--color-line)" stroke-width="1.5" />
-              <text x="232" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 02 · W3–W4</text>
+              <text x="232" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.16em">PHASE 02 · W3-W4</text>
               <text x="232" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Roadmap + compliance</text>
               <text x="232" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">SOC II · ISMAP · battle cards</text>
               <line x1="285" y1="168" x2="285" y2="195" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="2 3" />
@@ -1465,7 +1465,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             <!-- Phase 3 · Wk 5-8 · Open the funnel -->
             <g class="flow-node" style="animation-delay:0.7s">
               <rect x="360" y="100" width="220" height="68" rx="10" fill="url(#phase-grad)" stroke="var(--color-accent)" stroke-width="1.5" />
-              <text x="372" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.16em">PHASE 03 · W5–W8</text>
+              <text x="372" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-accent-ink)" style="letter-spacing:0.16em">PHASE 03 · W5-W8</text>
               <text x="372" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-ink)">Open the funnel</text>
               <text x="372" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-ink-soft)" style="letter-spacing:0.06em">enterprise meetings · senior eng screening</text>
               <line x1="470" y1="168" x2="470" y2="195" stroke="var(--color-accent)" stroke-width="1.5" stroke-dasharray="2 3" />
@@ -1476,7 +1476,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
             <g class="flow-node" style="animation-delay:1.0s">
               <rect x="590" y="100" width="270" height="68" rx="10" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" />
               <rect x="590" y="100" width="270" height="68" rx="10" fill="none" stroke="var(--color-paper)" stroke-width="0.5" opacity="0.4" stroke-dasharray="3 3" />
-              <text x="602" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-paper)" style="letter-spacing:0.16em">PHASE 04 · W9–W12 · TARGET</text>
+              <text x="602" y="120" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="var(--color-paper)" style="letter-spacing:0.16em">PHASE 04 · W9-W12 · TARGET</text>
               <text x="602" y="140" font-family="Bree Serif, serif" font-size="14" fill="var(--color-paper)" font-weight="600">Pilot terms + first closes</text>
               <text x="602" y="156" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--color-paper)" opacity="0.85" style="letter-spacing:0.06em">first enterprise pilot · decision memo · senior closes calibrated</text>
               <line x1="725" y1="168" x2="725" y2="190" stroke="var(--color-accent)" stroke-width="2" />
@@ -1526,7 +1526,9 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           );
         })}
       </div>
+
     </div>
+
 
     <!-- Beachhead principle -->
     <div class="max-w-4xl">
@@ -1566,7 +1568,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 
         <div class="overflow-x-auto flow-stage">
           <svg viewBox="0 0 940 420" preserveAspectRatio="xMidYMid meet" class="w-full max-w-4xl mx-auto block" role="img" aria-labelledby="flow-title flow-desc">
-            <title id="flow-title">Beachhead cascade — how one PoC compounds into a market position</title>
+            <title id="flow-title">Beachhead cascade · how one PoC compounds into a market position</title>
             <desc id="flow-desc">Three-column flow: single beachhead PoC on the left, three parallel compounds in the middle (workflow expansion, JP-fit closure, SI relationship), three downstream wins on the right (reference, customer-service re-entry, SI channel).</desc>
 
             <defs>
@@ -1587,8 +1589,8 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
 
             <!-- Column headers -->
             <g font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="var(--color-ink-faint)" style="letter-spacing:0.18em" text-anchor="middle">
-              <text x="120" y="34">NOW · Q1–Q2</text>
-              <text x="470" y="34">WINDOW · Q2–Q4</text>
+              <text x="120" y="34">NOW · Q1-Q2</text>
+              <text x="470" y="34">WINDOW · Q2-Q4</text>
               <text x="820" y="34">OUTCOME · Y2+</text>
             </g>
             <g font-family="Bricolage Grotesque, sans-serif" font-size="10" fill="var(--color-ink-soft)" text-anchor="middle">
@@ -1731,7 +1733,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold">Why this strategy works · sales-cycle compression</div>
         </div>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
-          JP enterprise sales cycles run 12–18 months. The standard approach is to wait until the platform is fully production-ready, then start procurement. That serializes engineering and sales and extends time-to-revenue by a year.
+          JP enterprise sales cycles run 12-18 months. The standard approach is to wait until the platform is fully production-ready, then start procurement. That serializes engineering and sales and extends time-to-revenue by a year.
         </p>
         <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-2">
           <strong class="text-[var(--color-ink)]">PoC-first inverts this.</strong> Sell what Wonderful can deliver and demo today (the 80% core is real). Land a PoC at an old-guard logo on terms matched to current capabilities. Production rollout is months out, and that window is where we close the 20% gap. The customer gets a working PoC. We get a paid runway to close JP-fit while their procurement, security, and integration teams move at JP pace.
@@ -1749,6 +1751,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       </div>
     </div>
   </Section>
+
 
   <!-- ============================================================ -->
   <!-- §07 OPEN QUESTIONS -->
@@ -1792,7 +1795,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         The platform is real. The Bezeq reference is rare. The strengths that matter for JP enterprise (agentic OS, voice, forward-deployed engineering, multimodal) are all present. The gaps that matter (keigo, dialects, on-prem, PII, robustness, SLA, document encoding) are nameable, finite, and shipping-distance.
       </p>
       <p class="text-lg leading-relaxed text-[var(--color-paper-soft)]">
-        The decision that determines whether Wonderful wins Japan is not technical. It is organizational. <strong class="text-[var(--color-paper)]">Will Tel Aviv let Hosoi-san write the Japan plan</strong>, with Anthony and Henek as the regional bridge, and trust HQ's role to be air cover, capital, and platform velocity? If yes, this market is winnable on a 12–24 month horizon. If no, the procurement reality and demographic pressure win instead.
+        The decision that determines whether Wonderful wins Japan is not technical. It is organizational. <strong class="text-[var(--color-paper)]">Will Tel Aviv let Hosoi-san write the Japan plan</strong>, with Anthony and Henek as the regional bridge, and trust HQ's role to be air cover, capital, and platform velocity? If yes, this market is winnable on a 12-24 month horizon. If no, the procurement reality and demographic pressure win instead.
       </p>
       <p class="text-lg leading-relaxed text-[var(--color-paper-soft)] font-display italic pt-4 border-t border-[var(--color-paper-soft)]/20">
         Japan-led, not Japan-translated. Everything else flows from that.
@@ -1824,7 +1827,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
           <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://finance.biggo.com/news/t_86650BX0tZvRTvK4Pz" target="_blank" rel="noopener noreferrer">Yomiuri Shimbun + Teikoku Databank · 34.6% JP gen-AI adoption (Mar 2026)</a></li>
           <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/11/17/sakana-ai-raises-135m-series-b-at-a-2-65b-valuation-to-continue-building-ai-models-for-japan/" target="_blank" rel="noopener noreferrer">TechCrunch · Sakana AI Series B ($135M @ $2.65B, Nov 2025)</a></li>
           <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://techcrunch.com/2025/09/01/layerx-uses-ai-to-cut-enterprise-back-office-workload-scores-100m-in-series-b/" target="_blank" rel="noopener noreferrer">TechCrunch · LayerX Series B ($100M, Sep 2025)</a></li>
-          <li>· METI national AI strategy + SME subsidies (50–66% project-cost reimbursement)</li>
+          <li>· METI national AI strategy + SME subsidies (50-66% project-cost reimbursement)</li>
           <li>· Cabinet Office: working-age population forecasts to 2040</li>
           <li>· Japan 2024 AI-act-lite policy framework</li>
         </ul>
@@ -1832,7 +1835,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
       <div>
         <h3 class="font-semibold mb-3 text-[var(--color-ink)]">Compliance + regulation</h3>
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
-          <li>· APPI (Act on the Protection of Personal Information) · 2025–26 enforcement amendments</li>
+          <li>· APPI (Act on the Protection of Personal Information) · 2025-26 enforcement amendments</li>
           <li>· ISMAP (Information system Security Management and Assessment Program) · govt + enterprise procurement</li>
           <li>· JP-domestic data residency requirements (varies by industry: finance, healthcare, govt)</li>
         </ul>
@@ -1852,7 +1855,7 @@ const Icon = (name: string) => (Icons as any)[iconToPascal(name)];
         <ul class="space-y-2 text-[var(--color-ink-soft)]">
           <li>· <a class="hover:text-[var(--color-ink)] underline decoration-[var(--color-accent-soft)] underline-offset-2" href="https://www.geekwire.com/2024/enterprise-ai-company-xembly-abruptly-ends-service-for-users-says-its-working-on-new-chapter/" target="_blank" rel="noopener noreferrer">GeekWire · Xembly shutdown (June 2024)</a></li>
           <li>· IBM Japan public disclosures · Watson Health JP transition</li>
-          <li>· IDC Japan AI follow-up reports · 2020–24</li>
+          <li>· IDC Japan AI follow-up reports · 2020-24</li>
           <li>· Salesforce Einstein JP customer disclosure (public earnings + case studies)</li>
         </ul>
       </div>
