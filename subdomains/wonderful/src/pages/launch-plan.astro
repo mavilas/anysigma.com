@@ -475,7 +475,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         </a>
         <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/40 text-[var(--color-accent-ink)] text-sm font-semibold hover:bg-[var(--color-accent)] hover:text-[var(--color-paper)] transition-colors ml-auto">
           <ArrowDown class="w-4 h-4" />
-          Export PDF · slide-ready
+          Export PDF · slide deck
         </button>
       </div>
     </div>
@@ -490,7 +490,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     title="Three numbers tell the story."
     lede='<strong>$100M secured.</strong> <strong>$1B+ TAM</strong> in Japan. <strong class="text-[var(--color-accent)]">90 days</strong> to compress the first paid revenue cycle. The rest of the plan supports those three claims.'
   >
-    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
       {execSummary.map((item, i) => (
         <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
           <div class="font-display text-[3.5rem] sm:text-[4.5rem] leading-none text-[var(--color-accent)] mb-2 tracking-tight">{item.stat}</div>
@@ -601,7 +601,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl mb-8">
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl mb-8">
       {macroCatalyst.map((m, i) => {
         const IconC = Icon(m.icon);
         return (
@@ -642,7 +642,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     lede="Japan is the world's #3 enterprise SaaS market by spend. Lowest churn, highest ACV per logo in APAC."
     tone="soft"
   >
-    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl items-start">
+    <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl items-start">
       <!-- Rank + chart -->
       <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
         <div class="flex items-baseline gap-3 mb-5">
@@ -728,7 +728,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     lede="Credibility. Long-term commitment. Clear differentiated value. The non-negotiable ground-rules for any Japan move."
     tone="soft"
   >
-    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
       {pillars.map((p, i) => {
         const IconC = Icon(p.icon);
         return (
@@ -1154,7 +1154,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     lede="Four roles seated or filling now. Four quarterly hiring waves shaping the rest of the year."
     tone="soft"
   >
-    <div class="grid lg:grid-cols-2 gap-6 max-w-6xl">
+    <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl">
       <!-- Core Squad -->
       <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
         <div class="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--color-line)]">
@@ -1242,7 +1242,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     lede='The plan works only if HQ moves at the speed Japan requires. <strong class="text-[var(--color-accent)]">Three specific commitments unlock the rest.</strong>'
     tone="ink"
   >
-    <div class="grid lg:grid-cols-3 gap-5 max-w-6xl">
+    <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
       {hqAsks.map((a, i) => (
         <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] text-[var(--color-ink)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
           <div class="font-display text-[3.5rem] leading-none text-[var(--color-accent)] mb-3 tracking-tight">{a.num}</div>
