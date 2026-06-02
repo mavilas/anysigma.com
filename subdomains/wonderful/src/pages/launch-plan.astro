@@ -1146,8 +1146,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3 text-[14px]">
         {[
-          { jp: "KK · 株式会社", en: "Kabushiki Kaisha. JP joint-stock company. The entity Wonderful Japan registers." },
-          { jp: "GK · 合同会社", en: "Godo Kaisha. JP limited liability company. Lighter governance, used by smaller subsidiaries." },
+          { jp: "KK · 株式会社", en: "Kabushiki Kaisha. JP joint-stock company.", flag: "Wonderful Japan registers as KK — required for serious enterprise procurement and Microsoft partner co-selling. GK is not viable for this motion." },
           { jp: "Keigo · 敬語", en: "Honorific speech. Sonkeigo (respect), kenjōgo (humble), teineigo (polite). Failure to use correctly destroys enterprise trust." },
           { jp: "Ringi · 稟議", en: "JP enterprise consensus approval. A document circulates for sign-off across departments before any major decision." },
           { jp: "行政書士", en: "Gyōseishoshi · administrative scrivener. Files entity registration paperwork and government submissions." },
@@ -1155,10 +1154,14 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           { jp: "Hanko · 判子", en: "Personal or corporate seal used in lieu of signature. Required on most JP contracts." },
           { jp: "APPI · 個人情報保護法", en: "Act on the Protection of Personal Information. JP's GDPR equivalent. Procurement asks first." },
           { jp: "ISMAP", en: "Information system Security Management and Assessment Program. JP gov + enterprise cloud security registry." },
+          { jp: "DX · デジタルトランスフォーメーション", en: "Digital Transformation. JP enterprise budget category and CIO mandate often distinct from Innovation Lab." },
         ].map((t) => (
           <div class="flex flex-col">
             <span class="font-display text-[15px] text-[var(--color-ink)] leading-tight">{t.jp}</span>
             <span class="text-[var(--color-ink-soft)] text-[13px] leading-snug mt-0.5">{t.en}</span>
+            {t.flag && (
+              <span class="text-[var(--color-accent)] text-[12px] leading-snug mt-1 font-medium">→ {t.flag}</span>
+            )}
           </div>
         ))}
       </div>
