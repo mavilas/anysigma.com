@@ -644,7 +644,7 @@ const refs = [
         </span>
       </div>
 
-      <p class="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
+      <p class="text-[16px] uppercase tracking-[0.22em] text-[var(--color-accent)] font-bold mb-5" data-reveal="fade-up" data-reveal-delay="1">
         30-60 plan · contractor lane in the 90-day sprint
       </p>
       <h1 class="font-display text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.05] tracking-tight mb-4 max-w-none relative" data-reveal="fade-up" data-reveal-delay="2">
@@ -660,7 +660,7 @@ const refs = [
       <div class="max-w-3xl mb-8 rounded-lg border-[3px] border-amber-400 bg-amber-50 p-4 flex items-start gap-3" data-reveal="fade-up" data-reveal-delay="4">
         <AlertCircle class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
         <div>
-          <div class="text-[10px] uppercase tracking-[0.18em] font-bold text-amber-700 mb-1">Reading note</div>
+          <div class="text-[16px] uppercase tracking-[0.18em] font-bold text-amber-700 mb-1">Reading note</div>
           <p class="text-sm leading-relaxed text-[var(--color-ink)]">
             This is a draft for review with Hosoi-san. Items marked <strong class="text-amber-700">[TBD: ...]</strong> are deliberate placeholders. Hosoi-san fills them in during the conversation; we leave with a finished plan. Open questions consolidated in <a href="#questions" class="underline">§06</a>.
           </p>
@@ -718,16 +718,16 @@ const refs = [
             <div class="p-5 sm:p-6 border-b border-[var(--color-line)]" style={`background: ${track.accent}11;`}>
               <div class="flex items-center gap-2 mb-2">
                 {IconC && <IconC class="w-5 h-5" style={`color: ${track.accent};`} />}
-                <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold" style={`color: ${track.accent};`}>Track 0{ti + 1}</span>
+                <span class="text-[16px] uppercase tracking-[0.18em] font-mono font-bold" style={`color: ${track.accent};`}>Track 0{ti + 1}</span>
               </div>
               <h3 class="font-display text-2xl mb-3 leading-tight">{track.label}</h3>
               <div class="grid sm:grid-cols-2 gap-4 text-[14px] leading-relaxed">
                 <div>
-                  <span class="font-mono uppercase tracking-[0.1em] text-[10px] text-[var(--color-ink-faint)] block mb-1">Hosoi-san owns</span>
+                  <span class="font-mono uppercase tracking-[0.1em] text-[16px] text-[var(--color-ink-faint)] block mb-1">Hosoi-san owns</span>
                   <p class="text-[var(--color-ink-soft)]">{track.owns}</p>
                 </div>
                 <div>
-                  <span class="font-mono uppercase tracking-[0.1em] text-[10px] text-[var(--color-ink-faint)] block mb-1">Marco's lane</span>
+                  <span class="font-mono uppercase tracking-[0.1em] text-[16px] text-[var(--color-ink-faint)] block mb-1">Marco's lane</span>
                   <p class="text-[var(--color-ink-soft)]">{track.marcoLane}</p>
                 </div>
               </div>
@@ -741,8 +741,8 @@ const refs = [
               ].map((col) => (
                 <div class="p-5 sm:p-6 print:break-inside-avoid">
                   <div class="flex items-center gap-2 mb-3">
-                    <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-ink)] text-[var(--color-paper)]">{col.label}</span>
-                    <span class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">{col.items.length} items</span>
+                    <span class="text-[16px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-ink)] text-[var(--color-paper)]">{col.label}</span>
+                    <span class="text-[16px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono">{col.items.length} items</span>
                   </div>
                   <div class="space-y-2.5">
                     {col.items.map((item) => (
@@ -752,9 +752,9 @@ const refs = [
                             {item.placeholder && <AlertCircle class="inline w-3.5 h-3.5 mr-1 mb-0.5 text-amber-600" />}
                             {item.title}
                           </h4>
-                          <span class="shrink-0 text-[10px] uppercase tracking-[0.12em] font-mono text-[var(--color-ink-faint)] mt-0.5">{item.owner}</span>
+                          <span class="shrink-0 text-[16px] uppercase tracking-[0.12em] font-mono text-[var(--color-ink-faint)] mt-0.5">{item.owner}</span>
                         </div>
-                        <p class="text-[13px] leading-snug text-[var(--color-ink-soft)]">{item.detail}</p>
+                        <p class="text-[16px] leading-snug text-[var(--color-ink-soft)]">{item.detail}</p>
                       </div>
                     ))}
                   </div>
@@ -789,9 +789,9 @@ const refs = [
           <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={pi}>
             <div class="px-5 py-4 border-b border-[var(--color-line)] bg-[var(--color-accent-soft)]/30">
               <div class="flex items-center gap-3 flex-wrap">
-                <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">Phase 0{pi + 1}</span>
+                <span class="text-[16px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">Phase 0{pi + 1}</span>
                 <h4 class="font-display text-lg leading-tight">{phase.phase}</h4>
-                <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded bg-[var(--color-ink)] text-[var(--color-paper)]">{phase.window}</span>
+                <span class="text-[16px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded bg-[var(--color-ink)] text-[var(--color-paper)]">{phase.window}</span>
               </div>
               <p class="text-[14px] text-[var(--color-ink-soft)] mt-1.5">{phase.posture}</p>
             </div>
@@ -804,8 +804,8 @@ const refs = [
                       {IconC && <IconC class="w-4 h-4 text-[var(--color-accent)] shrink-0" />}
                       <h5 class="font-display text-sm leading-tight">{item.title}</h5>
                     </div>
-                    <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)] mb-3">{item.ships}</p>
-                    <dl class="space-y-1 text-[10px] leading-snug">
+                    <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)] mb-3">{item.ships}</p>
+                    <dl class="space-y-1 text-[16px] leading-snug">
                       <div class="flex gap-1.5">
                         <dt class="shrink-0 font-mono uppercase tracking-[0.1em] text-[var(--color-accent-ink)] w-[52px]">Track</dt>
                         <dd class="text-[var(--color-ink-soft)]">{item.unlocksTrack}</dd>
@@ -840,8 +840,8 @@ const refs = [
                 {IconC && <IconC class="w-4 h-4 text-[#7a5cff] shrink-0" />}
                 <h5 class="font-display text-sm leading-tight">{item.title}</h5>
               </div>
-              <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)] mb-3">{item.ships}</p>
-              <dl class="space-y-1 text-[10px] leading-snug">
+              <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)] mb-3">{item.ships}</p>
+              <dl class="space-y-1 text-[16px] leading-snug">
                 <div class="flex gap-1.5">
                   <dt class="shrink-0 font-mono uppercase tracking-[0.1em] text-[#7a5cff] w-[52px]">Track</dt>
                   <dd class="text-[var(--color-ink-soft)]">{item.unlocksTrack}</dd>
@@ -874,22 +874,22 @@ const refs = [
           <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
             <div class="flex items-center gap-2 mb-3">
               {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)]" />}
-              <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">Signal 0{i + 1}</span>
+              <span class="text-[16px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">Signal 0{i + 1}</span>
             </div>
             <h3 class="font-display text-xl leading-tight mb-1">{s.title}</h3>
-            <p class="text-[10px] uppercase tracking-[0.12em] font-mono text-[var(--color-ink-faint)] mb-4">{s.audience}</p>
+            <p class="text-[16px] uppercase tracking-[0.12em] font-mono text-[var(--color-ink-faint)] mb-4">{s.audience}</p>
             <div class="space-y-3">
               <div>
-                <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">What they want to see</div>
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">What they want to see</div>
                 <p class="text-[14px] leading-relaxed text-[var(--color-ink-soft)]">{s.wants}</p>
               </div>
               <div>
-                <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Marco's contribution</div>
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Marco's contribution</div>
                 <p class="text-[14px] leading-relaxed text-[var(--color-ink)]">{s.marcoContribution}</p>
               </div>
               <div class="pt-2 border-t border-[var(--color-line)]">
-                <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Hosoi-san track</div>
-                <p class="text-[13px] font-mono text-[var(--color-ink-soft)]">{s.hosoiTrack}</p>
+                <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Hosoi-san track</div>
+                <p class="text-[16px] font-mono text-[var(--color-ink-soft)]">{s.hosoiTrack}</p>
               </div>
             </div>
           </div>
@@ -909,7 +909,7 @@ const refs = [
   >
     <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/40 p-6 max-w-4xl print:break-inside-avoid" data-reveal="fade-up">
       <div class="flex items-center gap-2 mb-3">
-        <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-accent)] text-[var(--color-paper)]">Day 30 · Joint review</span>
+        <span class="text-[16px] uppercase tracking-[0.16em] font-mono font-bold px-2 py-1 rounded bg-[var(--color-accent)] text-[var(--color-paper)]">Day 30 · Joint review</span>
       </div>
       <h3 class="font-display text-2xl mb-3 leading-tight">Three questions. Three clean answers.</h3>
       <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-4">
@@ -917,22 +917,22 @@ const refs = [
       </p>
       <div class="space-y-3">
         <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] p-3.5">
-          <div class="text-[13px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q1 · Pipeline</div>
+          <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q1 · Pipeline</div>
           <h4 class="font-display text-sm leading-tight mb-1.5">Did the JP-fit eval + encoding teardown unblock conversations on at least 1 of the 5 FY26 targets?</h4>
-          <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)]">Pre-PoC technical risk surfaced and answered before customer discovery one. Demo prep packages used in at least one pitch.</p>
+          <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)]">Pre-PoC technical risk surfaced and answered before customer discovery one. Demo prep packages used in at least one pitch.</p>
         </div>
         <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] p-3.5">
-          <div class="text-[13px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q2 · Talent</div>
+          <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q2 · Talent</div>
           <h4 class="font-display text-sm leading-tight mb-1.5">Did technical screening produce signal Hosoi-san can act on?</h4>
-          <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)]">Written assessment per technical candidate. Network-sourced shortlist additive to the retained search. At least one candidate progressing to HQ founder gate.</p>
+          <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)]">Written assessment per technical candidate. Network-sourced shortlist additive to the retained search. At least one candidate progressing to HQ founder gate.</p>
         </div>
         <div class="rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] p-3.5">
-          <div class="text-[13px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q3 · Working rhythm</div>
+          <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent-ink)] mb-1.5">Q3 · Working rhythm</div>
           <h4 class="font-display text-sm leading-tight mb-1.5">Is the rhythm with Hosoi-san + HQ working?</h4>
-          <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)]">Weekly cadence with Hosoi-san. HQ exec sponsor named and responsive. Tel Aviv ↔ JP handoff predictable enough that Marco isn't a bottleneck.</p>
+          <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)]">Weekly cadence with Hosoi-san. HQ exec sponsor named and responsive. Tel Aviv ↔ JP handoff predictable enough that Marco isn't a bottleneck.</p>
         </div>
       </div>
-      <div class="mt-4 pt-3 border-t border-[var(--color-accent)]/30 text-[13px] text-[var(--color-ink-faint)] leading-relaxed">
+      <div class="mt-4 pt-3 border-t border-[var(--color-accent)]/30 text-[16px] text-[var(--color-ink-faint)] leading-relaxed">
         <span class="font-mono uppercase tracking-[0.14em] text-[var(--color-ink-soft)] mr-2">Outcome</span>
         Pass → continue Day 60 on agreed priorities. Pass-with-concerns → renegotiate scope. Fail → part cleanly. Artifacts (eval harness, encoding teardown, demo packages) stay with Wonderful either way.
       </div>
@@ -953,21 +953,21 @@ const refs = [
       {risks.map((r, i) => (
         <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
           <div class="flex items-center gap-3 mb-3 flex-wrap">
-            <span class="text-[10px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">{r.label}</span>
-            <span class="text-[10px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded bg-[var(--color-accent)] text-[var(--color-paper)]">{r.severity}</span>
+            <span class="text-[16px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">{r.label}</span>
+            <span class="text-[16px] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded bg-[var(--color-accent)] text-[var(--color-paper)]">{r.severity}</span>
           </div>
           <h3 class="font-display text-xl leading-tight mb-3">{r.risk}</h3>
           <div class="grid md:grid-cols-3 gap-4">
             <div>
-              <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">Hosoi-san's framing</div>
+              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">Hosoi-san's framing</div>
               <p class="text-[14px] leading-relaxed text-[var(--color-ink-soft)]">{r.hosoiFraming}</p>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">Hosoi-san's mitigation</div>
+              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1.5">Hosoi-san's mitigation</div>
               <p class="text-[14px] leading-relaxed text-[var(--color-ink-soft)]">{r.hosoiMitigation}</p>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1.5">Marco's lane</div>
+              <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1.5">Marco's lane</div>
               <p class="text-[14px] leading-relaxed text-[var(--color-ink)]">{r.marcoLane}</p>
             </div>
           </div>
@@ -991,16 +991,16 @@ const refs = [
           <div class="flex items-center gap-2 mb-4">
             <AlertCircle class="w-5 h-5 text-amber-600" />
             <h3 class="font-display text-xl">{g.group}</h3>
-            <span class="text-[10px] uppercase tracking-[0.14em] font-mono text-amber-700">{g.items.length} questions</span>
+            <span class="text-[16px] uppercase tracking-[0.14em] font-mono text-amber-700">{g.items.length} questions</span>
           </div>
           <div class="space-y-3">
             {g.items.map((qi, i) => (
               <div class="rounded-md border border-amber-300 bg-[var(--color-paper)] p-4">
                 <div class="flex items-start gap-3">
-                  <span class="shrink-0 text-[10px] uppercase tracking-[0.14em] font-mono font-bold text-amber-700 mt-1 w-8">Q{i + 1}</span>
+                  <span class="shrink-0 text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-amber-700 mt-1 w-8">Q{i + 1}</span>
                   <div class="flex-1">
                     <p class="font-display text-sm leading-snug text-[var(--color-ink)] mb-2">{qi.q}</p>
-                    <p class="text-[13px] leading-relaxed text-[var(--color-ink-soft)]">
+                    <p class="text-[16px] leading-relaxed text-[var(--color-ink-soft)]">
                       <span class="font-mono uppercase tracking-[0.08em] text-amber-700 mr-1">Why</span>
                       {qi.why}
                     </p>
@@ -1012,7 +1012,7 @@ const refs = [
         </div>
       ))}
     </div>
-    <p class="mt-6 max-w-3xl text-[13px] text-[var(--color-ink-faint)] italic leading-relaxed">
+    <p class="mt-6 max-w-3xl text-[16px] text-[var(--color-ink-faint)] italic leading-relaxed">
       Default at end of meeting: anything unanswered drops to Marco's working list as an open assumption, marked in the leomares-co working file. Re-surfaces at Day 30 joint review.
     </p>
   </Section>
@@ -1061,7 +1061,7 @@ const refs = [
           <ArrowLeft class="w-4 h-4" />
           Read the Japan strategy thesis
         </a>
-        <span class="text-[13px] text-[var(--color-ink-faint)] font-mono">
+        <span class="text-[16px] text-[var(--color-ink-faint)] font-mono">
           30-60 plan · 2026-06-02 · for Hosoi-san review
         </span>
       </div>
