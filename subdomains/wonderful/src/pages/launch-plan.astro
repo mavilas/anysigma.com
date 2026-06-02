@@ -46,12 +46,12 @@ const Icon = (name?: string) => (name ? ((Icons as any)[iconToPascal(name)] ?? n
 // =====================================================================
 const execSummary = [
   {
-    stat: "$100M",
+    stat: "$286M",
     label: "The Global Foundation",
-    body: "Series B funding secured (Mar 2026). Expanding from proven European traction to APAC.",
+    body: "$150M Series B at $2B (Mar 2026), four months after $100M Series A. Lead: Insight Partners.",
     sub: [
-      "30+ countries worldwide",
-      "80-86% complex resolution rates",
+      "30+ countries live · 80+ enterprise customers",
+      "Containment rates >80% in production deployments",
     ],
   },
   {
@@ -79,11 +79,11 @@ const execSummary = [
 // Slide 3 · Global Momentum + APAC Push · proof points
 // =====================================================================
 const globalProof = [
-  { stat: "$285M", label: "Total raised", body: "$150M Series B at $2B (Mar 2026). Insight, Index, IVP, Bessemer, Vine.", icon: "landmark" },
+  { stat: "$286M", label: "Total raised", body: "$150M Series B at $2B (Mar 2026), four months after $100M Series A. Insight, Index, IVP, Bessemer, Vine.", icon: "landmark" },
   { stat: "30+", label: "Countries live", body: "EMEA · APAC · Americas. Embedded country teams, not pure SaaS.", icon: "globe" },
   { stat: "80+", label: "Enterprise customers", body: "Telco · BFSI · healthcare · manufacturing. Production deployments.", icon: "building-2" },
   { stat: "<5%", label: "Annual logo churn", body: "World's lowest enterprise SaaS churn. Bezeq retained at scale.", icon: "shield" },
-  { stat: "80-86%", label: "Resolution rate", body: "Complex enterprise CS environments. End-to-end agent autonomy.", icon: "gauge" },
+  { stat: ">80%", label: "Containment rate", body: "Wonderful-reported across production deployments. Replaces legacy automation vendors.", icon: "gauge" },
   { stat: "70%", label: "Multi-workflow expansion", body: "European customers expand to new workflows within 3 months.", icon: "git-merge" },
 ];
 
@@ -419,8 +419,8 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   <!-- ============================================================ -->
   <!-- TITLE / HERO                                                  -->
   <!-- ============================================================ -->
-  <section class="pt-20 sm:pt-28 pb-12">
-    <div class="max-w-6xl mx-auto px-6">
+  <section id="title" class="pt-20 sm:pt-28 pb-16 scroll-mt-4">
+    <div class="max-w-6xl mx-auto px-6 w-full">
       <div class="flex items-center gap-3 mb-10 flex-wrap" data-reveal="fade-up">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
           <Flag class="w-3.5 h-3.5" />
@@ -442,23 +442,53 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         Strategic Blueprint &amp; 90-Day Execution Sprint.
       </p>
 
+      <!-- Hero stat strip · fills the title slide -->
+      <div class="grid grid-cols-2 md:grid-cols-4 print:grid-cols-4 gap-4 max-w-6xl mb-6" data-reveal="fade-up" data-reveal-delay="3.5">
+        {[
+          { stat: "$286M", label: "Raised cumulative", sub: "$150M Series B · $2B val" },
+          { stat: "30+", label: "Countries live", sub: "EMEA · APAC · Americas" },
+          { stat: "80+", label: "Enterprise customers", sub: "Telco · BFSI · health · mfg" },
+          { stat: "$5M ARR", label: "FY26 Japan target", sub: "5 wins from 500 mega-cap" },
+        ].map((s) => (
+          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-4 print:p-3">
+            <div class="font-display text-[2.5rem] sm:text-[2.75rem] print:text-[2.5rem] leading-none text-[var(--color-highlight)] tracking-tight">{s.stat}</div>
+            <div class="text-[14px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink)] mt-2">{s.label}</div>
+            <div class="text-[16px] text-[var(--color-ink-soft)] mt-1 leading-snug">{s.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Three-track strip (Legal · Talent · Pipeline) -->
+      <div class="grid md:grid-cols-3 print:grid-cols-3 gap-4 max-w-6xl" data-reveal="fade-up" data-reveal-delay="3.7">
+        {[
+          { tag: "Track 01", title: "Legal & Entity", body: "KK incorporation, banking, compliance posture." },
+          { tag: "Track 02", title: "Talent", body: "Wave-1 hires: Country GM, Solutions Eng, GTM lead." },
+          { tag: "Track 03", title: "Pipeline", body: "155 must-win accounts. 5 paid wins by Dec 2026." },
+        ].map((t) => (
+          <div class="border-l-4 border-[var(--color-accent)] bg-[var(--color-paper)]/60 pl-3 py-1.5">
+            <div class="text-[16px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-accent)]">{t.tag}</div>
+            <div class="font-display text-[1rem] text-[var(--color-ink)] leading-tight mt-0.5">{t.title}</div>
+            <div class="text-[14px] text-[var(--color-ink-soft)] leading-snug mt-0.5">{t.body}</div>
+          </div>
+        ))}
+      </div>
+
       <div class="flex flex-wrap items-center gap-3 print:hidden" data-reveal="fade-up" data-reveal-delay="4">
         <a href="#summary" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors">
           <BookOpen class="w-4 h-4" />
           Read the plan
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
-        <a href="#sprint" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
-          Jump to the 90-day sprint
+        <a href="/launch-plan/present" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border-2 border-[var(--color-highlight)] bg-[var(--color-highlight-soft)]/40 text-[var(--color-highlight-ink)] text-sm font-semibold hover:bg-[var(--color-highlight)] hover:text-[var(--color-paper)] transition-colors ml-auto">
+          <Rocket class="w-4 h-4" />
+          Present deck (16:9)
         </a>
-        <a href="#asks" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors">
-          Skip to HQ asks
-        </a>
-        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border-2 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/40 text-[var(--color-accent-ink)] text-sm font-semibold hover:bg-[var(--color-accent)] hover:text-[var(--color-paper)] transition-colors ml-auto">
-          <ArrowDown class="w-4 h-4" />
-          Export PDF · slide deck
-        </button>
+        {/* Download deck PDF button hidden until Reveal print-pdf mode is reliable.
+            Re-enable: <a href="/launch-plan/present?print-pdf">…</a> */}
       </div>
+      <p class="text-xs text-[var(--color-ink-faint)] font-mono mt-4 print:hidden" data-reveal="fade-up" data-reveal-delay="5">
+        Mini-site and deck both pull from <code class="text-[var(--color-accent)]">src/data/launch-plan.ts</code>. Last synced: <strong class="text-[var(--color-ink)]">2026-06-02</strong>.
+      </p>
     </div>
   </section>
 
@@ -469,12 +499,12 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="summary"
     eyebrow="01 · Executive summary"
     title="Three numbers tell the story."
-    lede='<strong>$100M secured.</strong> <strong>$1B+ TAM</strong> in Japan. <strong class="text-[var(--color-accent)]">90 days</strong> to compress the first paid revenue cycle. The rest of the plan supports those three claims.'
+    lede='<strong>$286M raised globally.</strong> <strong>$1B+ TAM</strong> in Japan. <strong class="text-[var(--color-highlight)]">90 days</strong> to compress the first paid revenue cycle. The rest of the plan supports those three claims.'
   >
     <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
       {execSummary.map((item, i) => (
         <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-          <div class="font-display text-[3.5rem] sm:text-[4.5rem] leading-none text-[var(--color-accent)] mb-2 tracking-tight">{item.stat}</div>
+          <div class="font-display text-[3.5rem] sm:text-[4.5rem] leading-none text-[var(--color-highlight)] mb-2 tracking-tight">{item.stat}</div>
           <h3 class="font-display text-xl mb-3 leading-tight">{item.label}</h3>
           <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-4">{item.body}</p>
           <ul class="space-y-1.5 text-[15px] text-[var(--color-ink-soft)]">
@@ -494,7 +524,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="momentum"
     eyebrow="02 · Global momentum"
     title="Proof exists. APAC is next."
-    lede='Six headline numbers from European deployments. The board has seen these. <strong class="text-[var(--color-accent)]">Japan is the missing logo.</strong>'
+    lede='Six headline numbers from European deployments. The board has seen these. <strong class="text-[var(--color-highlight)]">Japan is the missing logo.</strong>'
     tone="soft"
   >
     <!-- 3x2 grid of large stat tiles · fills the slide -->
@@ -502,13 +532,13 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       {globalProof.map((p, i) => {
         const IconC = Icon(p.icon);
         return (
-          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-5 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-            <div class="flex items-start justify-between mb-3">
-              <div class="font-display text-[2.75rem] sm:text-[3.5rem] leading-none text-[var(--color-accent)] tracking-tight">{p.stat}</div>
+          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] p-4 print:p-3 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="flex items-start justify-between mb-2">
+              <div class="font-display text-[2.25rem] sm:text-[2.75rem] print:text-[2.5rem] leading-none text-[var(--color-highlight)] tracking-tight">{p.stat}</div>
               {IconC && <IconC class="w-5 h-5 text-[var(--color-ink-faint)] mt-1" />}
             </div>
-            <div class="text-[12px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1.5">{p.label}</div>
-            <p class="text-[13px] leading-relaxed text-[var(--color-ink)]">{p.body}</p>
+            <div class="text-[14px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1">{p.label}</div>
+            <p class="text-[15px] leading-snug text-[var(--color-ink)]">{p.body}</p>
           </div>
         );
       })}
@@ -522,10 +552,10 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="catalyst"
     eyebrow="03 · Demographic crisis"
     title="Demographic demand forces the buy."
-    lede='Working-age 15-64 collapses 24% by 2040. <strong class="text-[var(--color-accent)]">Enterprise has no choice but autonomous workflows.</strong>'
+    lede='Working-age 15-64 collapses 24% by 2040. <strong class="text-[var(--color-highlight)]">Enterprise has no choice but autonomous workflows.</strong>'
   >
     <!-- ===== DEMOGRAPHIC STACKED-BAR VISUAL · the headline evidence ===== -->
-    <div class="max-w-6xl mb-10 rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
+    <div class="max-w-6xl mb-4 rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-4 sm:p-6 print:p-4 print:break-inside-avoid" data-reveal="fade-up">
       <div class="flex items-center gap-3 mb-1 flex-wrap">
         <Users class="w-5 h-5 text-[var(--color-accent)]" />
         <span class="text-sm uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-accent)]">The Demographic Crisis · Driver</span>
@@ -533,10 +563,10 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       <h3 class="font-display text-2xl sm:text-3xl leading-tight mb-2">
         <span class="text-[var(--color-accent)] font-bold">{workingAgeDelta.toFixed(1)}M</span> working-age population lost in 30 years.
       </h3>
-      <p class="text-base text-[var(--color-ink-soft)] mb-8 max-w-3xl">2010 to 2040 (IPSS projection). Working age 15-64 collapses <strong class="text-[var(--color-ink)]">{workingAgePctChange}%</strong>. Elderly grow <strong class="text-[var(--color-ink)]">+43%</strong>. Enterprise can't hire its way out.</p>
+      <p class="text-base text-[var(--color-ink-soft)] mb-4 max-w-3xl">2010 to 2040 (IPSS projection). Working age 15-64 collapses <strong class="text-[var(--color-ink)]">{workingAgePctChange}%</strong>. Elderly grow <strong class="text-[var(--color-ink)]">+43%</strong>. Enterprise can't hire its way out.</p>
 
       <!-- Three stacked bars · 2010 / 2025 / 2040 -->
-      <div class="grid sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+      <div class="grid sm:grid-cols-3 gap-3 sm:gap-5 mb-4">
         {demographics.map((d, i) => (
           <div class="relative" data-reveal="fade-up" data-reveal-delay={i + 1}>
             <div class="flex items-baseline justify-between mb-2">
@@ -544,7 +574,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
               <span class="text-sm font-mono text-[var(--color-ink-faint)]">{d.total}M</span>
             </div>
             <!-- vertical stacked bar showing 3 bands -->
-            <div class="h-72 rounded-md overflow-hidden border border-[var(--color-line)] flex flex-col">
+            <div class="h-56 print:h-44 rounded-md overflow-hidden border border-[var(--color-line)] flex flex-col">
               {d.bands.map((b) => (
                 <div
                   class={`relative flex items-center justify-center px-2 ${b.highlight ? "ring-2 ring-[var(--color-accent)] ring-inset" : ""}`}
@@ -552,7 +582,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
                 >
                   <div class="text-center">
                     <div class={`font-display text-xl sm:text-2xl leading-none font-bold ${b.highlight ? "text-[var(--color-paper)]" : ""}`}>{b.value.toFixed(1)}M</div>
-                    <div class="text-[11px] sm:text-[12px] mt-1 leading-tight opacity-90">{b.label}</div>
+                    <div class="text-[14px] sm:text-[15px] mt-1 leading-tight opacity-90">{b.label}</div>
                   </div>
                 </div>
               ))}
@@ -564,20 +594,20 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       <!-- Key callouts under the chart -->
       <div class="grid sm:grid-cols-3 gap-4 pt-5 border-t border-[var(--color-line)]">
         <div>
-          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">-19.2M</div>
+          <div class="font-display text-3xl text-[var(--color-highlight)] leading-none mb-1 tracking-tight">-19.2M</div>
           <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Working-age population 20-64 (2010 → 2040). Equivalent to losing the entire workforce of Italy.</p>
         </div>
         <div>
-          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">1.6 : 1</div>
+          <div class="font-display text-3xl text-[var(--color-highlight)] leading-none mb-1 tracking-tight">1.6 : 1</div>
           <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Workers per elderly by 2040. Down from 3.1:1 in 2010. Headcount-driven CS is no longer possible.</p>
         </div>
         <div>
-          <div class="font-display text-3xl text-[var(--color-accent)] leading-none mb-1 tracking-tight">35%</div>
+          <div class="font-display text-3xl text-[var(--color-highlight)] leading-none mb-1 tracking-tight">35%</div>
           <p class="text-sm text-[var(--color-ink-soft)] leading-snug">Of Japan over 65 by 2040. The dependency ratio breaks every cost model JP enterprise built in the 90s.</p>
         </div>
       </div>
 
-      <p class="text-[12px] text-[var(--color-ink-faint)] italic mt-5 font-mono">
+      <p class="text-[15px] text-[var(--color-ink-faint)] italic mt-5 font-mono">
         Source:
         <a href="https://www.ipss.go.jp/pp-zenkoku/e/zenkoku_e2023/pp_zenkoku2023e.asp" target="_blank" rel="noopener" class="underline hover:text-[var(--color-accent)]">IPSS Population Projections for Japan (2023 revision, medium-variant)</a>.
         Working-age 15-64 falls from ~81M (2010) to ~62M (2040, projected).
@@ -592,7 +622,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="response"
     eyebrow="04 · Government + enterprise response"
     title="¥10T policy. $5-6B TAM. The shift is funded and forced."
-    lede='Government injects capital. Enterprise pivots from legacy RPA to autonomous agents. Adoption accelerating <strong class="text-[var(--color-accent)]">30-40% YoY</strong>.'
+    lede='Government injects capital. Enterprise pivots from legacy RPA to autonomous agents. Adoption accelerating <strong class="text-[var(--color-highlight)]">30-40% YoY</strong>.'
     tone="soft"
   >
     <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl mb-6">
@@ -607,7 +637,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
             <h3 class="font-display text-lg mb-2 leading-tight">{m.label}</h3>
             <p class="text-sm text-[var(--color-ink)] leading-relaxed mb-2">{m.body}</p>
             {m.detail && (
-              <p class="text-[13px] text-[var(--color-ink-soft)] leading-relaxed border-l-2 border-[var(--color-accent)]/40 pl-3 italic">{m.detail}</p>
+              <p class="text-[16px] text-[var(--color-ink-soft)] leading-relaxed border-l-2 border-[var(--color-accent)]/40 pl-3 italic">{m.detail}</p>
             )}
           </div>
         );
@@ -616,7 +646,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 
     <div class="max-w-6xl grid sm:grid-cols-2 gap-4">
       <div class="rounded-lg bg-[var(--color-ink)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
-        <div class="font-display text-[2.5rem] leading-none text-[var(--color-accent)] mb-2">¥10T (~$65B)</div>
+        <div class="font-display text-[2.5rem] leading-none text-[var(--color-highlight)] mb-2">¥10T (~$65B)</div>
         <p class="text-sm text-[var(--color-paper-soft)] leading-relaxed">AI investment framework to 2030. GENIAC funding domestic LLMs.</p>
       </div>
       <div class="rounded-lg bg-[var(--color-accent)] text-[var(--color-paper)] p-5 print:break-inside-avoid">
@@ -633,14 +663,14 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="market"
     eyebrow="05 · Why Japan running fast"
     title="Patience rewarded with scale."
-    lede="Japan is the world's #3 enterprise SaaS market by spend. Lowest churn, highest ACV per logo in APAC."
+    lede='Japan is the <strong class="text-[var(--color-highlight)]">world&apos;s #3 enterprise SaaS market</strong> by spend. <strong>Lowest churn, highest ACV per logo</strong> in APAC.'
     tone="soft"
   >
     <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl items-start">
       <!-- Rank + chart -->
       <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid">
         <div class="flex items-baseline gap-3 mb-5">
-          <span class="font-display text-[5rem] leading-none text-[var(--color-accent)]">{japanMarket.rank}</span>
+          <span class="font-display text-[5rem] leading-none text-[var(--color-highlight)]">{japanMarket.rank}</span>
           <span class="text-sm text-[var(--color-ink-soft)] leading-snug">{japanMarket.rankLabel}</span>
         </div>
         <div class="text-[15px] uppercase tracking-[0.14em] text-[var(--color-ink-faint)] font-mono font-bold mb-3">Japan Enterprise AI Spend · ¥B</div>
@@ -665,7 +695,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       <div class="space-y-4">
         {japanMarket.highlights.map((h, i) => (
           <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-            <div class="font-display text-[4rem] leading-none text-[var(--color-accent)] mb-2 tracking-tight">{h.stat}</div>
+            <div class="font-display text-[4rem] leading-none text-[var(--color-highlight)] mb-2 tracking-tight">{h.stat}</div>
             <p class="text-sm text-[var(--color-ink)] leading-relaxed">{h.label}</p>
           </div>
         ))}
@@ -680,19 +710,19 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="competition"
     eyebrow="06 · Competitive landscape"
     title="Local incumbents have surface. Wonderful has the moat."
-    lede="Four named JP competitors. For each: what they have, where Wonderful wins."
+    lede='Four named JP competitors. For each: <strong>what they have</strong>, <strong class="text-[var(--color-highlight)]">where Wonderful wins</strong>.'
   >
     <!-- Proper table layout — headers once, rows below -->
     <div class="max-w-6xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid">
       <!-- Column headers -->
-      <div class="hidden md:grid md:grid-cols-[14rem_1fr_1fr] gap-0 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm uppercase tracking-[0.16em] font-mono font-bold">
+      <div class="hidden md:grid print:grid md:grid-cols-[14rem_1fr_1fr] print:grid-cols-[14rem_1fr_1fr] gap-0 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm uppercase tracking-[0.16em] font-mono font-bold">
         <div class="p-4">Competitor</div>
         <div class="p-4 border-l border-[var(--color-paper)]/20">Their position</div>
         <div class="p-4 border-l border-[var(--color-paper)]/20 bg-[var(--color-accent)] text-[var(--color-paper)]">Wonderful's edge</div>
       </div>
       <!-- Rows -->
       {competitors.map((c, i) => (
-        <div class="grid md:grid-cols-[14rem_1fr_1fr] gap-0 border-t border-[var(--color-line)] print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
+        <div class="grid md:grid-cols-[14rem_1fr_1fr] print:grid-cols-[14rem_1fr_1fr] gap-0 border-t border-[var(--color-line)] print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
           <div class="p-5 md:p-4 flex md:items-center gap-2 md:border-r border-[var(--color-line)] bg-[var(--color-paper-soft)]/40">
             <h3 class="font-display text-xl leading-tight text-[var(--color-ink)]">{c.name}</h3>
           </div>
@@ -719,7 +749,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="pillars"
     eyebrow="07 · Strategic pillars"
     title="Three pillars of entry. None negotiable."
-    lede="Credibility. Long-term commitment. Clear differentiated value. The non-negotiable ground-rules for any Japan move."
+    lede='<strong>Credibility. Long-term commitment. Clear differentiated value.</strong> The <strong class="text-[var(--color-highlight)]">non-negotiable ground-rules</strong> for any Japan move.'
     tone="soft"
   >
     <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
@@ -753,7 +783,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="revenue"
     eyebrow="08 · Time to revenue"
     title="Bending the curve. 6 to 8 months to first paid."
-    lede='Industry default is <strong>12+ months</strong>. Wonderful runs Legal, Talent, and Pipeline in <strong class="text-[var(--color-accent)]">strict parallel</strong>. Target <strong>Sep 2026 first revenue</strong>.'
+    lede='Industry default is <strong>12+ months</strong>. Wonderful runs Legal, Talent, and Pipeline in <strong class="text-[var(--color-highlight)]">strict parallel</strong>. Target <strong>Sep 2026 first revenue</strong>.'
   >
     <!-- Month-axis ruler -->
     <div class="max-w-6xl mb-4 hidden md:block">
@@ -764,7 +794,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           {[1, 3, 6, 9, 12].map((m) => (
             <div class="absolute bottom-0 flex flex-col items-center" style={`left: ${((m - 1) / 12) * 100}%; transform: translateX(-50%);`}>
               <div class="w-px h-2 bg-[var(--color-line)]"></div>
-              <span class="font-mono text-[12px] text-[var(--color-ink-faint)] mt-1">M{m}</span>
+              <span class="font-mono text-[15px] text-[var(--color-ink-faint)] mt-1">M{m}</span>
             </div>
           ))}
         </div>
@@ -775,7 +805,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     <div class="max-w-6xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper-soft)] p-5 sm:p-6 mb-4 print:break-inside-avoid">
       <div class="flex items-center gap-2 mb-2">
         <Gauge class="w-5 h-5 text-[var(--color-ink-soft)]" />
-        <span class="text-sm uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-soft)]">Industry default · sequential</span>
+        <span class="text-sm uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Industry default · sequential</span>
         <span class="ml-auto font-display text-lg text-[var(--color-ink)]">12+ months</span>
       </div>
       <div class="space-y-2">
@@ -792,7 +822,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
                 class="absolute inset-y-0 bg-[var(--color-ink-soft)] rounded flex items-center justify-end pr-2"
                 style={`left: ${s.start}%; width: ${s.end - s.start}%;`}
               >
-                <span class="text-[11px] font-mono font-bold text-[var(--color-paper)]">M{Math.round((s.end / 100) * 12)}</span>
+                <span class="text-[14px] font-mono font-bold text-[var(--color-paper)]">M{Math.round((s.end / 100) * 12)}</span>
               </div>
             </div>
           </div>
@@ -806,7 +836,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       <div class="flex items-center gap-2 mb-2">
         <Zap class="w-5 h-5 text-[var(--color-accent)]" />
         <span class="text-sm uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)]">Wonderful advantage · strict parallel</span>
-        <span class="ml-auto font-display text-lg text-[var(--color-accent)] font-bold">6-8 months · target Sep 2026</span>
+        <span class="ml-auto font-display text-lg text-[var(--color-highlight)] font-bold">6-8 months · target Sep 2026</span>
       </div>
       <div class="space-y-2">
         {[
@@ -822,14 +852,14 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
                 class="absolute inset-y-0 bg-[var(--color-accent)] rounded flex items-center justify-end pr-2"
                 style={`left: ${s.start}%; width: ${s.end - s.start}%;`}
               >
-                <span class="text-[11px] font-mono font-bold text-[var(--color-paper)]">M{Math.round((s.end / 100) * 12)}</span>
+                <span class="text-[14px] font-mono font-bold text-[var(--color-paper)]">M{Math.round((s.end / 100) * 12)}</span>
               </div>
             </div>
           </div>
         ))}
       </div>
       <p class="text-base text-[var(--color-ink)] mt-4 leading-relaxed">
-        <strong class="text-[var(--color-accent)]">First paid revenue by month 8.</strong> Tracks run from kickoff in parallel, not in sequence. <strong>Not 12.</strong>
+        <strong class="text-[var(--color-highlight)]">First paid revenue by month 8.</strong> Tracks run from kickoff in parallel, not in sequence. <strong>Not 12.</strong>
       </p>
     </div>
   </Section>
@@ -844,12 +874,12 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="architecture"
     eyebrow="09 · Where the wins live"
     title="500 mega-cap targets out of 3.67 million companies."
-    lede='SMEs are 99.7% of JP companies. Only <strong class="text-[var(--color-accent)]">0.01%</strong> are the mega-cap targets that move the needle on $5M ARR.'
+    lede='SMEs are 99.7% of JP companies. Only <strong class="text-[var(--color-highlight)]">0.01%</strong> are the mega-cap targets that move the needle on $5M ARR.'
     tone="soft"
   >
     <!-- ===== JP ENTERPRISE MARKET ARCHITECTURE — pyramid + industry donut ===== -->
-    <div class="max-w-6xl rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:break-inside-avoid" data-reveal="fade-up">
-      <div class="grid md:grid-cols-[1.1fr_1fr] print:grid-cols-[1.1fr_1fr] gap-8 items-center">
+    <div class="w-full rounded-xl border-2 border-[var(--color-accent)]/40 bg-[var(--color-paper)] p-6 sm:p-8 print:p-5 print:break-inside-avoid" data-reveal="fade-up">
+      <div class="grid md:grid-cols-[1.15fr_1fr] print:grid-cols-[1.15fr_1fr] gap-8 items-center">
         <!-- 3-Tier Pyramid -->
         <div>
           <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" class="w-full block" role="img" aria-labelledby="market-pyr-title">
@@ -859,32 +889,32 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
             <g class="flow-node" style="animation-delay:0.1s">
               <polygon points="240,30 360,30 380,90 220,90" fill="var(--color-accent)" stroke="var(--color-accent-ink)" stroke-width="2" />
               <text x="300" y="58" font-family="Bree Serif, serif" font-size="20" fill="var(--color-paper)" text-anchor="middle" font-weight="700">~500</text>
-              <text x="300" y="78" font-family="Bricolage Grotesque, sans-serif" font-size="11" fill="var(--color-paper)" text-anchor="middle" font-weight="600">Mega-sized · target</text>
-              <text x="395" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-accent-ink)" text-anchor="start" font-weight="700">0.01%</text>
-              <text x="395" y="72" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--color-ink-soft)" text-anchor="start">5,000+ emp</text>
-              <text x="395" y="84" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--color-ink-soft)" text-anchor="start">Direct sales</text>
+              <text x="300" y="78" font-family="Bricolage Grotesque, sans-serif" font-size="15" fill="var(--color-paper)" text-anchor="middle" font-weight="600">Mega-sized · target</text>
+              <text x="395" y="58" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-accent-ink)" text-anchor="start" font-weight="700">0.01%</text>
+              <text x="395" y="72" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--color-ink-soft)" text-anchor="start">5,000+ emp</text>
+              <text x="395" y="84" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--color-ink-soft)" text-anchor="start">Direct sales</text>
             </g>
 
             {/* Middle tier — Large · ~11,000 */}
             <g class="flow-node" style="animation-delay:0.25s">
               <polygon points="220,100 380,100 410,180 190,180" fill="var(--color-accent-soft)" stroke="var(--color-accent)" stroke-width="1.5" />
               <text x="300" y="135" font-family="Bree Serif, serif" font-size="22" fill="var(--color-ink)" text-anchor="middle" font-weight="700">~11,000</text>
-              <text x="300" y="158" font-family="Bricolage Grotesque, sans-serif" font-size="11" fill="var(--color-ink)" text-anchor="middle" font-weight="600">Large companies</text>
-              <text x="425" y="138" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-soft)" text-anchor="start" font-weight="700">0.3%</text>
-              <text x="425" y="155" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--color-ink-soft)" text-anchor="start">Partner-led</text>
+              <text x="300" y="158" font-family="Bricolage Grotesque, sans-serif" font-size="15" fill="var(--color-ink)" text-anchor="middle" font-weight="600">Large companies</text>
+              <text x="425" y="138" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-ink-soft)" text-anchor="start" font-weight="700">0.3%</text>
+              <text x="425" y="155" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--color-ink-soft)" text-anchor="start">Partner-led</text>
             </g>
 
             {/* Bottom tier — SME · 3.66M (non-target) */}
             <g class="flow-node" style="animation-delay:0.4s">
               <polygon points="190,190 410,190 460,320 140,320" fill="var(--color-paper-soft)" stroke="var(--color-line)" stroke-width="1" />
               <text x="300" y="230" font-family="Bree Serif, serif" font-size="24" fill="var(--color-ink-soft)" text-anchor="middle" font-weight="700">~3.66M</text>
-              <text x="300" y="258" font-family="Bricolage Grotesque, sans-serif" font-size="11" fill="var(--color-ink-soft)" text-anchor="middle" font-weight="600">SMEs &amp; small businesses</text>
-              <text x="300" y="288" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-faint)" text-anchor="middle" font-style="italic">Non-target</text>
-              <text x="475" y="225" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-faint)" text-anchor="start" font-weight="700">99.7%</text>
+              <text x="300" y="258" font-family="Bricolage Grotesque, sans-serif" font-size="15" fill="var(--color-ink-soft)" text-anchor="middle" font-weight="600">SMEs &amp; small businesses</text>
+              <text x="300" y="288" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-ink-faint)" text-anchor="middle" font-style="italic">Non-target</text>
+              <text x="475" y="225" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-ink-faint)" text-anchor="start" font-weight="700">99.7%</text>
             </g>
 
             {/* SI partner annotation on left */}
-            <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-soft)">
+            <g font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-ink-soft)">
               <text x="125" y="60" text-anchor="end" font-weight="700">Must Win</text>
               <text x="125" y="74" text-anchor="end" font-weight="700">155+</text>
               <line x1="135" y1="60" x2="220" y2="60" stroke="var(--color-ink-soft)" stroke-width="1" />
@@ -898,26 +928,26 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         </div>
 
         <!-- Industry breakdown donut + legend -->
-        <div>
-          <div class="text-sm uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-4">Mega-cap industry mix</div>
-          <div class="grid grid-cols-[150px_1fr] gap-5 items-center">
+        <div class="flex flex-col justify-center">
+          <div class="text-[16px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink-faint)] mb-3">Mega-cap industry mix</div>
+          <div class="grid grid-cols-[180px_1fr] gap-5 items-center">
             <svg viewBox="0 0 100 100" class="w-full" role="img" aria-label="Industry breakdown donut">
               <circle cx="50" cy="50" r="40" fill="var(--color-paper-soft)" />
               {donutSegments.map((s) => (
                 <circle cx="50" cy="50" r="30" fill="none" stroke={s.color} stroke-width="20" stroke-dasharray={`${s.dash} ${DONUT_C}`} stroke-dashoffset={-s.offset} transform="rotate(-90 50 50)" />
               ))}
-              <circle cx="50" cy="50" r="14" fill="var(--color-paper)" />
-              <text x="50" y="48" font-family="Bree Serif, serif" font-size="11" font-weight="700" text-anchor="middle" fill="var(--color-ink)">500</text>
-              <text x="50" y="58" font-family="JetBrains Mono, monospace" font-size="5" text-anchor="middle" fill="var(--color-ink-soft)">mega-cap</text>
+              <circle cx="50" cy="50" r="15" fill="var(--color-paper)" />
+              <text x="50" y="49" font-family="Bree Serif, serif" font-size="13" font-weight="700" text-anchor="middle" fill="var(--color-ink)">500</text>
+              <text x="50" y="62" font-family="JetBrains Mono, monospace" font-size="7" text-anchor="middle" fill="var(--color-ink-soft)">mega-cap</text>
             </svg>
-            <ul class="space-y-2 text-[13px]">
+            <ul class="space-y-1.5 text-[16px]">
               {industryMix.map((s) => (
                 <li class="flex items-start gap-2">
                   <span class="inline-block w-3 h-3 rounded-sm mt-1 shrink-0" style={`background: ${s.color};`}></span>
-                  <div>
-                    <span class="font-mono font-bold text-[var(--color-ink)]">{s.pct}%</span>
-                    <span class="text-[var(--color-ink)] ml-1">{s.label}</span>
-                    {s.co && <div class="text-[11px] text-[var(--color-ink-soft)] leading-snug">{s.co}</div>}
+                  <div class="leading-tight">
+                    <span class="font-mono font-bold text-[var(--color-ink)] text-[16px]">{s.pct}%</span>
+                    <span class="text-[var(--color-ink)] ml-1.5 font-semibold">{s.label}</span>
+                    {s.co && <span class="text-[14px] text-[var(--color-ink-soft)] ml-2">{s.co}</span>}
                   </div>
                 </li>
               ))}
@@ -926,7 +956,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         </div>
       </div>
 
-      <p class="text-[12px] text-[var(--color-ink-faint)] italic mt-6 font-mono">
+      <p class="text-[15px] text-[var(--color-ink-faint)] italic mt-6 font-mono">
         Source:
         <a href="https://www.meti.go.jp/english/press/2024/0329_001.html" target="_blank" rel="noopener" class="underline hover:text-[var(--color-accent)]">METI 2023 Basic Survey on SMEs</a>
         ·
@@ -935,6 +965,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         <a href="https://www.tdb.co.jp/english/" target="_blank" rel="noopener" class="underline hover:text-[var(--color-accent)]">Teikoku Databank</a>.
       </p>
     </div>
+
   </Section>
 
   <!-- ============================================================ -->
@@ -944,7 +975,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="funnel"
     eyebrow="10 · Pipeline funnel"
     title="500 to 5. The curated path to FY26 wins."
-    lede='Four-tier funnel from 500 mega-cap universe to <strong class="text-[var(--color-accent)]">5 FY26 wins for $5M ARR</strong>.'
+    lede='Four-tier funnel from 500 mega-cap universe to <strong class="text-[var(--color-highlight)]">5 FY26 wins for $5M ARR</strong>.'
   >
     <!-- SVG Trapezoidal Funnel — 4-tier cascade with conversion rates -->
     <div class="max-w-5xl mx-auto">
@@ -981,7 +1012,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 
           {/* Conversion 1 → 2 */}
           <g>
-            <text x="860" y="138" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% qualify</text>
+            <text x="860" y="138" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% qualify</text>
           </g>
 
           {/* Tier 2 · 155 Must-Win */}
@@ -993,7 +1024,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 
           {/* Conversion 2 → 3 */}
           <g>
-            <text x="860" y="258" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% prioritize</text>
+            <text x="860" y="258" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">31% prioritize</text>
           </g>
 
           {/* Tier 3 · 48 Tier 1 */}
@@ -1005,7 +1036,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 
           {/* Conversion 3 → 4 */}
           <g>
-            <text x="860" y="378" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">10% land FY26</text>
+            <text x="860" y="378" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--color-ink-faint)" text-anchor="end" font-weight="700" style="letter-spacing:0.1em">10% land FY26</text>
           </g>
 
           {/* Tier 4 · 5 FY26 wins — narrowest, biggest visual */}
@@ -1017,7 +1048,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </g>
 
           {/* Side annotations */}
-          <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--color-ink-faint)" style="letter-spacing:0.1em">
+          <g font-family="JetBrains Mono, monospace" font-size="14" fill="var(--color-ink-faint)" style="letter-spacing:0.1em">
             <text x="40" y="138" text-anchor="start" font-weight="700">~100% TAM</text>
             <text x="40" y="258" text-anchor="start" font-weight="700">31% of TAM</text>
             <text x="40" y="378" text-anchor="start" font-weight="700">10% of TAM</text>
@@ -1028,24 +1059,24 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         <!-- Caption strip below SVG -->
         <div class="mt-6 pt-5 border-t border-[var(--color-line)] grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           <div>
-            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Universe</div>
+            <div class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Universe</div>
             <div class="font-display text-2xl text-[var(--color-ink)]">500</div>
-            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">mega-cap</div>
+            <div class="text-[16px] text-[var(--color-ink-soft)] mt-1">mega-cap</div>
           </div>
           <div>
-            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Must-Win</div>
+            <div class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Must-Win</div>
             <div class="font-display text-2xl text-[var(--color-ink)]">155</div>
-            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">GM-curated</div>
+            <div class="text-[16px] text-[var(--color-ink-soft)] mt-1">GM-curated</div>
           </div>
           <div>
-            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Tier 1</div>
+            <div class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Tier 1</div>
             <div class="font-display text-2xl text-[var(--color-ink)]">48</div>
-            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">priority</div>
+            <div class="text-[16px] text-[var(--color-ink-soft)] mt-1">priority</div>
           </div>
           <div>
-            <div class="text-[13px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1">FY26 wins</div>
-            <div class="font-display text-2xl text-[var(--color-accent)]">5</div>
-            <div class="text-[13px] text-[var(--color-ink-soft)] mt-1">$5M ARR</div>
+            <div class="text-[16px] uppercase tracking-[0.14em] font-mono font-bold text-[var(--color-accent)] mb-1">FY26 wins</div>
+            <div class="font-display text-2xl text-[var(--color-highlight)]">5</div>
+            <div class="text-[16px] text-[var(--color-ink-soft)] mt-1">$5M ARR</div>
           </div>
         </div>
       </div>
@@ -1060,7 +1091,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="poc-tracks"
     eyebrow="11 · Two PoC tracks"
     title="Innovation Lab + DX Mandate. Two parallel paths."
-    lede='Two different buyer types unlock the funnel. <strong class="text-[var(--color-accent)]">CDOs move fast.</strong> <strong>CIOs move structural.</strong>'
+    lede='Two different buyer types unlock the funnel. <strong class="text-[var(--color-highlight)]">CDOs move fast.</strong> <strong>CIOs move structural.</strong>'
     tone="soft"
   >
     <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl">
@@ -1069,11 +1100,11 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           <h3 class="font-display text-xl mb-4 leading-tight">{t.name}</h3>
           <div class="space-y-4">
             <div>
-              <div class="text-[12px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Target</div>
+              <div class="text-[15px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-ink-faint)] mb-1">Target</div>
               <p class="text-base text-[var(--color-ink)] leading-relaxed">{t.target}</p>
             </div>
             <div>
-              <div class="text-[12px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Why it works</div>
+              <div class="text-[15px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Why it works</div>
               <p class="text-base text-[var(--color-ink-soft)] leading-relaxed">{t.edge}</p>
             </div>
             <div class="pt-3 border-t border-[var(--color-line)]">
@@ -1092,7 +1123,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="sprint"
     eyebrow="12 · 90-day execution sprint"
     title="Three tracks. Strict parallel. Zero sequential blockers."
-    lede='The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. <strong class="text-[var(--color-accent)]">Pipeline closes 3 PoCs by Day 60.</strong>'
+    lede='The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. <strong class="text-[var(--color-highlight)]">Pipeline closes 3 PoCs by Day 60.</strong>'
   >
     <!-- Day-axis ruler · prominent for presentation -->
     <div class="max-w-6xl mb-6 hidden md:block">
@@ -1158,7 +1189,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="team"
     eyebrow="13 · Launch team"
     title="The Core Squad. The 2026 hiring wave."
-    lede="Four roles seated or filling now. Four quarterly hiring waves shaping the rest of the year."
+    lede='<strong>Four roles seated or filling now.</strong> Four quarterly hiring waves shaping the rest of the year.'
     tone="soft"
   >
     <div class="grid md:grid-cols-2 print:grid-cols-2 gap-6 max-w-6xl">
@@ -1213,7 +1244,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   >
     <div class="max-w-6xl rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid">
       <!-- Single header row -->
-      <div class="hidden md:grid md:grid-cols-[14rem_1fr_1fr] gap-0 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm uppercase tracking-[0.16em] font-mono font-bold">
+      <div class="hidden md:grid print:grid md:grid-cols-[14rem_1fr_1fr] print:grid-cols-[14rem_1fr_1fr] gap-0 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm uppercase tracking-[0.16em] font-mono font-bold">
         <div class="p-4">Systemic risk</div>
         <div class="p-4 border-l border-[var(--color-paper)]/20">The risk</div>
         <div class="p-4 border-l border-[var(--color-paper)]/20 bg-[var(--color-accent)] text-[var(--color-paper)]">Structural mitigation</div>
@@ -1222,7 +1253,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       {risks.map((r, i) => {
         const IconC = Icon(r.icon);
         return (
-          <div class="grid md:grid-cols-[14rem_1fr_1fr] gap-0 border-t border-[var(--color-line)] print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
+          <div class="grid md:grid-cols-[14rem_1fr_1fr] print:grid-cols-[14rem_1fr_1fr] gap-0 border-t border-[var(--color-line)] print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i % 3}>
             <div class="p-5 md:p-4 flex md:items-center gap-3 md:border-r border-[var(--color-line)] bg-[var(--color-paper-soft)]/40">
               {IconC && <IconC class="w-5 h-5 text-[var(--color-accent)] shrink-0" />}
               <h3 class="font-display text-xl leading-tight text-[var(--color-ink)]">{r.risk}</h3>
@@ -1246,13 +1277,13 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     id="asks"
     eyebrow="15 · Where HQ unlocks Japan velocity"
     title="Three asks of HQ. Each unlocks the next."
-    lede='The plan works only if HQ moves at the speed Japan requires. <strong class="text-[var(--color-accent)]">Three specific commitments unlock the rest.</strong>'
+    lede='The plan works only if HQ moves at the speed Japan requires. <strong class="text-[var(--color-highlight)]">Three specific commitments unlock the rest.</strong>'
     tone="ink"
   >
     <div class="grid md:grid-cols-3 print:grid-cols-3 gap-5 max-w-6xl">
       {hqAsks.map((a, i) => (
         <div class="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] text-[var(--color-ink)] p-6 print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-          <div class="font-display text-[3.5rem] leading-none text-[var(--color-accent)] mb-3 tracking-tight">{a.num}</div>
+          <div class="font-display text-[3.5rem] leading-none text-[var(--color-highlight)] mb-3 tracking-tight">{a.num}</div>
           <h3 class="font-display text-xl mb-3 leading-tight">{a.title}</h3>
           <div class="mb-3">
             <div class="text-[16px] uppercase tracking-[0.12em] font-mono font-bold text-[var(--color-accent)] mb-1">Ask</div>
@@ -1291,9 +1322,9 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         ].map((t) => (
           <div class="flex flex-col">
             <span class="font-display text-[15px] text-[var(--color-ink)] leading-tight">{t.jp}</span>
-            <span class="text-[var(--color-ink-soft)] text-[13px] leading-snug mt-0.5">{t.en}</span>
+            <span class="text-[var(--color-ink-soft)] text-[16px] leading-snug mt-0.5">{t.en}</span>
             {t.flag && (
-              <span class="text-[var(--color-accent)] text-[12px] leading-snug mt-1 font-medium">→ {t.flag}</span>
+              <span class="text-[var(--color-accent)] text-[15px] leading-snug mt-1 font-medium">→ {t.flag}</span>
             )}
           </div>
         ))}

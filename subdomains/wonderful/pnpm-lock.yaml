@@ -14,6 +14,9 @@ importers:
       astro:
         specifier: ^6.3.1
         version: 6.3.1(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.3)
+      reveal.js:
+        specifier: ^6.0.1
+        version: 6.0.1
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.3.0
@@ -1628,6 +1631,9 @@ packages:
 
   retext@9.0.0:
     resolution: {integrity: sha512-sbMDcpHCNjvlheSgMfEcVrZko3cDzdbe1x/e7G66dFp0Ff7Mldvi2uv6JkJQzdRcvLYE8CA8Oe8siQx8ZOgTcA==}
+
+  reveal.js@6.0.1:
+    resolution: {integrity: sha512-9eacArNIgqO2HGWOK+93gJNn+gvdGDVbSq+i2u3Ja9kjiHps0XNLpgYTZTYjKRH91uXy3clGimeGiw4umHG/tg==}
 
   rollup@4.60.3:
     resolution: {integrity: sha512-pAQK9HalE84QSm4Po3EmWIZPd3FnjkShVkiMlz1iligWYkWQ7wHYd1PF/T7QZ5TVSD6uSTon5gBVMSM4JfBV+A==}
@@ -3596,6 +3602,8 @@ snapshots:
       retext-latin: 4.0.0
       retext-stringify: 4.0.0
       unified: 11.0.5
+
+  reveal.js@6.0.1: {}
 
   rollup@4.60.3:
     dependencies:

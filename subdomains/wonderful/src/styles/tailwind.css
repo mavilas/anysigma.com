@@ -3,7 +3,7 @@
 /* === Pick one accent palette. Swap this single line per project. ===
  * Available: warm-orange · cool-blue · forest-green · slate · plum
  */
-@import "./palettes/cool-blue.css";
+@import "./palettes/boardroom-navy.css";
 
 @theme {
   --font-sans: "Bricolage Grotesque", "Inter", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
@@ -396,14 +396,12 @@ code, .font-mono {
     line-height: 1.45;
   }
 
-  /* True 16:9 slide dimensions (PowerPoint widescreen)
-   * 33.867cm x 19.05cm = 13.33in x 7.5in */
+  /* Reader-friendly print — A4 portrait, generous margins.
+   * The presentation deck lives at /launch-plan/present (Reveal.js)
+   * and exports its own 16:9 PDF via reveal's native ?print-pdf. */
   @page {
-    size: 33.867cm 19.05cm;
-    margin: 10mm 14mm;
-  }
-  @page :first {
-    margin-top: 12mm;
+    size: A4;
+    margin: 18mm 16mm;
   }
   html, body { font-size: 10pt; }
   /* Presentation typography · golden-ratio scale, consistent across slides
@@ -445,18 +443,11 @@ code, .font-mono {
     transition: none !important;
   }
 
-  /* Each section starts on a fresh slide and is sized to exactly one slide */
+  /* Reader-friendly sections — encourage page break before but let
+   * content flow naturally; no forced slide-height clipping. */
   section[id] {
-    padding-top: 6mm !important;
-    padding-bottom: 6mm !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    height: calc(19.05cm - 24mm) !important;
-    min-height: calc(19.05cm - 24mm) !important;
-    overflow: hidden !important;
-    page-break-before: always;
-    break-before: page;
+    page-break-before: auto;
+    break-before: auto;
   }
   section[id]:first-of-type {
     page-break-before: avoid;
@@ -486,15 +477,12 @@ code, .font-mono {
   /* Animated SVG flourishes stop pulsing */
   .flow-pulse, .status-dot { animation: none !important; }
 
-  /* External links — show URL after link text so a printed page is still
-     reachable. Skip in-page anchors (#) to avoid noise. */
-  a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.78em;
-    color: var(--color-ink-faint);
-    word-break: break-all;
-  }
-  a[href^="#"]::after { content: ""; }
+  /* Do NOT expand link URLs in print — they read as artifacts on a
+     slide deck. Source citations remain reachable via the on-screen page. */
+  a[href]::after { content: ""; }
+
+  /* Site header is a screen affordance, not a slide element. Hide it. */
+  header[role="banner"], body > header:first-of-type { display: none !important; }
 
   /* Section content keeps grids intact unless they overflow the page.
    * The opt-in class .print-split-cols cascades each direct child to its

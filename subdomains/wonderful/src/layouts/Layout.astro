@@ -61,7 +61,7 @@ const {
   </head>
   <body class="bg-grain min-h-screen">
     <!-- HEADER -->
-    <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20">
+    <header class="nav-backdrop border-b border-[var(--color-line)] sticky top-0 z-20 print:hidden">
       <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2 group">
           <slot name="logo">
@@ -71,7 +71,7 @@ const {
           </slot>
           <div class="leading-tight">
             <div class="font-display text-lg">{brand}</div>
-            <div class="text-[10px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)]">
+            <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-ink-faint)]">
               {tagline}
             </div>
           </div>
