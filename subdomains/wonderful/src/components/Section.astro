@@ -28,7 +28,7 @@ const ledeClass =
       eyebrow && (
         <div
           data-reveal="fade-up"
-          class="text-xs uppercase tracking-[0.18em] font-medium mb-4 text-[var(--color-accent)]"
+          class="text-sm sm:text-base uppercase tracking-[0.18em] font-bold mb-5 text-[var(--color-accent)]"
         >
           {eyebrow}
         </div>
@@ -37,7 +37,7 @@ const ledeClass =
     <h2
       data-reveal="fade-up"
       data-reveal-delay="1"
-      class="font-display text-[1.75rem] sm:text-4xl md:text-5xl mb-5 max-w-3xl leading-tight break-words"
+      class="font-display text-[2rem] sm:text-4xl md:text-5xl mb-6 max-w-3xl leading-[1.1] break-words"
     >
       {title}
     </h2>
@@ -46,7 +46,7 @@ const ledeClass =
         <p
           data-reveal="fade-up"
           data-reveal-delay="2"
-          class={`text-lg max-w-2xl leading-relaxed ${ledeClass}`}
+          class={`text-lg sm:text-xl max-w-3xl leading-relaxed ${ledeClass}`}
         >
           {lede}
         </p>

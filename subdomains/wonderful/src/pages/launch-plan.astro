@@ -823,43 +823,43 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     title="Three tracks. Strict parallel. Zero sequential blockers."
     lede="The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. Pipeline closes 3 PoCs by Day 60."
   >
-    <!-- Day-axis ruler -->
+    <!-- Day-axis ruler · prominent for presentation -->
     <div class="max-w-6xl mb-6 hidden md:block">
-      <div class="grid grid-cols-[10rem_1fr_1fr_1fr] gap-3 items-end px-1">
+      <div class="grid grid-cols-[12rem_1fr_1fr_1fr] gap-4 items-end px-1">
         <div></div>
         {["Days 1-30", "Days 30-60", "Days 60-90"].map((label, i) => (
           <div class="relative">
-            <div class="h-1.5 rounded-full bg-gradient-to-r from-[var(--color-ink)] via-[var(--color-accent)] to-[var(--color-accent-soft)]" style={`opacity: ${0.5 + i * 0.15};`}></div>
-            <div class="text-[13px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink)] mt-2">{label}</div>
+            <div class="h-2 rounded-full bg-gradient-to-r from-[var(--color-ink)] via-[var(--color-accent)] to-[var(--color-accent-soft)]" style={`opacity: ${0.55 + i * 0.15};`}></div>
+            <div class="text-[18px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink)] mt-3">{label}</div>
           </div>
         ))}
       </div>
     </div>
 
-    <!-- Three parallel tracks, color-coded -->
+    <!-- Three parallel tracks, color-coded · bolder presentation styling -->
     <div class="max-w-6xl space-y-5">
       {sprintTracks.map((t, i) => {
         const IconC = Icon(t.icon);
         return (
-          <div class="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid" data-reveal="fade-up" data-reveal-delay={i}>
-            <div class="grid md:grid-cols-[10rem_1fr_1fr_1fr] gap-0">
-              <!-- Track label, color-coded -->
-              <div class="p-5 flex flex-col justify-center gap-2 border-b md:border-b-0 md:border-r border-[var(--color-line)]" style={`background: ${t.accent}14;`}>
+          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid shadow-sm" style={`border-left: 6px solid ${t.accent};`} data-reveal="fade-up" data-reveal-delay={i}>
+            <div class="grid md:grid-cols-[12rem_1fr_1fr_1fr] gap-0">
+              <!-- Track label, color-coded · bigger labels -->
+              <div class="p-5 flex flex-col justify-center gap-2 border-b md:border-b-0 md:border-r border-[var(--color-line)]" style={`background: ${t.accent}18;`}>
                 <div class="flex items-center gap-2">
-                  {IconC && <IconC class="w-5 h-5" style={`color: ${t.accent};`} />}
-                  <span class="text-[13px] uppercase tracking-[0.16em] font-mono font-bold" style={`color: ${t.accent};`}>Track 0{i + 1}</span>
+                  {IconC && <IconC class="w-6 h-6" style={`color: ${t.accent};`} />}
+                  <span class="text-[14px] uppercase tracking-[0.16em] font-mono font-bold" style={`color: ${t.accent};`}>Track 0{i + 1}</span>
                 </div>
-                <span class="font-display text-xl leading-tight">{t.track}</span>
-                <div class="flex items-center gap-1.5 mt-1.5">
-                  <Trophy class="w-3.5 h-3.5" style={`color: ${t.accent};`} />
-                  <span class="text-[13px] font-mono leading-tight" style={`color: ${t.accent};`}>{t.milestone}</span>
+                <span class="font-display text-2xl leading-tight">{t.track}</span>
+                <div class="flex items-center gap-1.5 mt-2 pt-2 border-t" style={`border-color: ${t.accent}33;`}>
+                  <Trophy class="w-4 h-4" style={`color: ${t.accent};`} />
+                  <span class="text-[14px] font-mono font-bold leading-tight" style={`color: ${t.accent};`}>{t.milestone}</span>
                 </div>
               </div>
               <!-- Three time windows with accent stripe on top -->
               {[t.d1_30, t.d30_60, t.d60_90].map((d, ci) => (
-                <div class="relative p-4 text-[15px] leading-relaxed border-t md:border-t-0 md:border-l border-[var(--color-line)] text-[var(--color-ink)]">
-                  <div class="absolute top-0 left-4 right-4 h-1 rounded-b" style={`background: ${t.accent}; opacity: ${0.4 + ci * 0.2};`}></div>
-                  <div class="pt-2">{d}</div>
+                <div class="relative p-5 text-[16px] leading-relaxed border-t md:border-t-0 md:border-l border-[var(--color-line)] text-[var(--color-ink)]">
+                  <div class="absolute top-0 left-5 right-5 h-1.5 rounded-b" style={`background: ${t.accent}; opacity: ${0.4 + ci * 0.25};`}></div>
+                  <div class="pt-3">{d}</div>
                 </div>
               ))}
             </div>
