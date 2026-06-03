@@ -41,12 +41,16 @@ function authHeaders() {
   process.exit(2);
 }
 
-async function cf(path) {
+async function cf(path, { soft = false } = {}) {
   const r = await fetch(`https://api.cloudflare.com/client/v4${path}`, {
     headers: { ...authHeaders(), "Content-Type": "application/json" },
   });
   const j = await r.json();
   if (!j.success) {
+    if (soft) {
+      console.warn(`⚠ CF API soft-error on ${path}:`, JSON.stringify(j.errors));
+      return null;
+    }
     console.error(`✗ CF API error on ${path}:`, JSON.stringify(j.errors));
     process.exit(2);
   }
@@ -69,12 +73,17 @@ function isNonWeb(host) {
 }
 
 async function findAccountId() {
+  // Prefer explicit env var — a scoped CI token usually can't list /accounts.
+  if (process.env.CLOUDFLARE_ACCOUNT_ID) return process.env.CLOUDFLARE_ACCOUNT_ID;
   const accs = await cf("/accounts");
-  const match = accs.find((a) =>
-    /anysigma|finno/i.test(a.name || ""),
-  );
+  // Exact match first, then narrow contains so we don't match 'finnoland' etc.
+  const target = ["finno k.k.", "anysigma"];
+  let match = accs.find((a) => target.includes((a.name || "").toLowerCase()));
   if (!match) {
-    console.error("✗ No account matched 'anysigma' or 'finno'");
+    match = accs.find((a) => /^anysigma\b|^finno\b/i.test(a.name || ""));
+  }
+  if (!match) {
+    console.error("✗ No account matched. Set CLOUDFLARE_ACCOUNT_ID env var.");
     process.exit(2);
   }
   return match.id;
@@ -102,27 +111,41 @@ async function main() {
   }
 
   // 2. Cloudflare Access apps — index by every domain they cover.
+  // An app's pages.dev coverage may live in self_hosted_domains even when
+  // its top-level `domain` is a different hostname. Inspect both.
   const apps = await cf(`/accounts/${accountId}/access/apps?per_page=200`);
   const gatedHostnames = new Set();
-  const pagesDevApps = [];
+  const pagesDevAppsByMirror = new Map(); // bare hostname → app summary
   for (const a of apps) {
-    const domains = a.self_hosted_domains || (a.domain ? [a.domain] : []);
-    for (const d of domains) {
-      gatedHostnames.add(d.toLowerCase());
-    }
-    if ((a.domain || "").toLowerCase().endsWith(PAGES_MIRROR_SUFFIX)) {
-      pagesDevApps.push({
-        id: a.id,
-        name: a.name,
-        domain: a.domain.toLowerCase(),
-        self_hosted_domains: (a.self_hosted_domains || []).map((d) =>
-          d.toLowerCase(),
-        ),
-      });
+    const shd = (a.self_hosted_domains || []).map((d) => d.toLowerCase());
+    const top = (a.domain || "").toLowerCase();
+    const all = new Set([...(top ? [top] : []), ...shd]);
+    for (const d of all) gatedHostnames.add(d);
+    for (const d of all) {
+      if (!d.endsWith(PAGES_MIRROR_SUFFIX)) continue;
+      const bare = d.startsWith("*.") ? d.slice(2) : d;
+      if (!pagesDevAppsByMirror.has(bare)) {
+        pagesDevAppsByMirror.set(bare, {
+          id: a.id,
+          name: a.name,
+          domain: bare,
+          self_hosted_domains: shd.length ? shd : top ? [top] : [],
+        });
+      }
     }
   }
+  const pagesDevApps = [...pagesDevAppsByMirror.values()];
 
-  // 3. Check each subdomain.
+  // 3. Pages projects — enumerate every project so an un-wired Pages
+  // mirror (no custom DNS) doesn't silently slip past the DNS scan.
+  // Pages API caps per_page at ~100; soft-fail so missing Pages:Read scope
+  // doesn't break the whole audit (DNS + Access scan still catches most).
+  const pagesProjects = (await cf(
+    `/accounts/${accountId}/pages/projects`,
+    { soft: true },
+  )) || [];
+
+  // 4. Findings.
   const findings = [];
   for (const sub of [...subdomains].sort()) {
     if (gatedHostnames.has(sub)) continue;
@@ -131,6 +154,17 @@ async function main() {
       type: "ungated-subdomain",
       host: sub,
       hint: `Add a CF Access app for "${sub}", or add it to ${ALLOWLIST_PATH} if intentionally public.`,
+    });
+  }
+  for (const p of pagesProjects) {
+    const mirror = `${p.name.toLowerCase()}.pages.dev`;
+    if (!mirror.endsWith(PAGES_MIRROR_SUFFIX)) continue;
+    if (pagesDevAppsByMirror.has(mirror)) continue;
+    if (allowlist.has(mirror)) continue;
+    findings.push({
+      type: "pages-project-no-access-app",
+      host: mirror,
+      hint: `CF Pages project "${mirror}" exists but no Access app covers it. Create one with self_hosted_domains: ["${mirror}", "*.${mirror}"], or add it to ${ALLOWLIST_PATH}.`,
     });
   }
 

@@ -5,19 +5,22 @@ name: Access gating audit
 # per-deployment preview URLs don't bypass the policy. Public exceptions live in
 # .access-public-allowlist at repo root.
 #
-# Required secret: CLOUDFLARE_API_TOKEN  (scoped: Account → Access: Read, Zone → DNS: Read)
-# Alternative: CF_API_EMAIL + CF_API_KEY (global key, not recommended for CI).
+# Required secrets:
+#   CLOUDFLARE_API_TOKEN (scoped to Account → Access: Read + Account → Cloudflare Pages: Read + Zone → DNS: Read for anysigma.com)
+#   CLOUDFLARE_ACCOUNT_ID (scoped tokens cannot list /accounts; pass the account ID explicitly)
+# Alternative for local dev only:
+#   CF_API_EMAIL + CF_API_KEY (global key) — fine for local runs, never in CI.
 
 on:
+  # Audit fires on EVERY PR, not just changes to its own files. A PR adding
+  # a new subdomain mini-site (under subdomains/**) often comes with a new
+  # CF Pages project + DNS — we want the audit to catch any new surface
+  # that lacks Access before merge, not the day after.
   pull_request:
-    paths:
-      - ".access-public-allowlist"
-      - "scripts/audit-access-gating.mjs"
-      - ".github/workflows/access-gating-audit.yml"
   push:
     branches: [main]
   schedule:
-    # Daily at 06:00 UTC (15:00 JST) — catches new subdomains created out-of-band.
+    # Daily at 06:00 UTC (15:00 JST) — catches subdomains created out-of-band.
     - cron: "0 6 * * *"
   workflow_dispatch:
 
@@ -33,6 +36,7 @@ jobs:
         env:
           CI: "1"
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_API_EMAIL: ${{ secrets.CF_API_EMAIL }}
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
         run: node scripts/audit-access-gating.mjs

@@ -1215,20 +1215,15 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         letter-spacing: 0.02em;
         pointer-events: auto;
       }
-      .reveal p.source a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dotted var(--ink-soft); }
-      .reveal p.source a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-      .reveal section[data-state="ink"] p.source { color: rgba(255,255,255,0.5); }
-      .reveal section[data-state="ink"] p.source a { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.3); }
       .reveal p.source a {
-        color: var(--ink-faint);
+        color: var(--ink-soft);
         text-decoration: none;
-        border-bottom: none;
-        transition: color 0.15s ease, opacity 0.15s ease;
+        border-bottom: 1px dotted var(--ink-soft);
+        transition: color 0.15s ease, border-bottom-color 0.15s ease;
       }
-      .reveal p.source a:hover { opacity: 1; color: var(--accent); }
-      /* On dark/ink slides, lighten the source so it stays visible */
-      .reveal section[data-state="ink"] p.source { color: rgba(255,255,255,0.5); }
-      .reveal section[data-state="ink"] p.source a { color: rgba(255,255,255,0.5); }
+      .reveal p.source a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+      .reveal section[data-state="ink"] p.source { color: rgba(255,255,255,0.55); }
+      .reveal section[data-state="ink"] p.source a { color: rgba(255,255,255,0.55); border-bottom-color: rgba(255,255,255,0.3); }
 
       /* === Sources grid (§Verification) === */
       .reveal .sources-grid {

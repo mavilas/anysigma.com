@@ -15,7 +15,7 @@ Standing brief is in [`AGENTS.md`](./AGENTS.md). Read it before doing anything i
 
 This repo now hosts a Reveal.js deck at `/launch-plan/present` alongside the reader-friendly mini-site at `/launch-plan`. Both render from the same data file `src/data/launch-plan.ts`.
 
-**Canonical design system for decks + readers**: `wonderful-ai/docs/analysis/deck-recipes.md`. Nine hard gates including minimum font sizes (14 px deck floor / 13 px reader floor), pixel-perfect render gate, SVG math consistency, tone alternation, and pattern-locked layouts (hero numbers row + 2-column evidence grid). Read this before adding or editing any slide.
+**Canonical design system for decks + readers**: [`../../docs/deck-recipes.md`](../../docs/deck-recipes.md) at the anysigma.com root (synced from `wonderful-ai/docs/analysis/deck-recipes.md`). 13 hard gates at the top of the doc: source pill anchored bottom-right, color hierarchy ladder, font floors (14 px deck / 13 px reader), pixel-perfect render gate, SVG math consistency, tone alternation, pinned nav controls, universal "Open the presentation" button label. Read this before adding or editing any slide.
 
 **Pattern to follow when adding a new slide-bearing route**:
 1. Add data to `src/data/<page>.ts` (one constant per content block, with sources cross-checked against primary docs).
