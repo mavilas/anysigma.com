@@ -1,0 +1,15 @@
+# Hostnames intentionally NOT gated by Cloudflare Access.
+# Anything in here is acknowledged as public-facing or no-content-yet.
+# One hostname per line. # starts a comment.
+#
+# To add a hostname: confirm the surface carries no confidential content,
+# add the line, link the commit/PR in the comment.
+
+# atlas.anysigma.com — Cloudflare Tunnel placeholder, no service routed (2026-06-03)
+atlas.anysigma.com
+
+# blog.anysigma.com — CNAME to Gandi blog, never provisioned, returns 530 (2026-06-03)
+blog.anysigma.com
+
+# www.anysigma.com — public landing alias for the apex
+www.anysigma.com
