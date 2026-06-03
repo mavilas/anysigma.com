@@ -10,7 +10,7 @@ Each subdomain has its own `AGENTS.md` (and often `CLAUDE.md`) inside `subdomain
 
 For any visual work — mini-site sections, presentation decks, charts, SVGs — the binding rules live in:
 
-📘 **`/Users/mavila/github/personal/wonderful-ai/docs/analysis/deck-recipes.md`**
+📘 **[`docs/deck-recipes.md`](./docs/deck-recipes.md)** (synced from `wonderful-ai/docs/analysis/deck-recipes.md`)
 
 That document is the single source of truth for typography minimums, slide layout gates, color hierarchy, tone alternation, SVG math, and headless-Chrome verification. Read it before adding or editing any visual element.
 
@@ -111,4 +111,4 @@ CF Pages project names are set on Cloudflare side and passed via `--project-name
 
 ## When in doubt
 
-Read `wonderful-ai/docs/analysis/deck-recipes.md`. It has 11 hard gates with verification recipes for each. The rules there govern every subdomain in this repo.
+Read [`docs/deck-recipes.md`](./docs/deck-recipes.md). It has 13 hard gates with verification recipes for each. The rules there govern every subdomain in this repo.
