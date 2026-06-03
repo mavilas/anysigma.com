@@ -276,7 +276,6 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
                   </div>
                 ))}
               </div>
-              <p class="source">Industry analyst consensus, 2024-2028E. FX assumed ~¥150/$.</p>
             </div>
             <div class="japan-stack">
               {japanMarket.highlights.map((h) => (
@@ -288,7 +287,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
             </div>
           </div>
           <p class="source">
-            Source: industry analyst consensus 2024-2028E (IDC Japan, Gartner JP). FX ~¥150/$. ACV peer benchmark via SaaSOptics &amp; SaaStr APAC regional reports.
+            IDC Japan + Gartner JP analyst consensus 2024-2028E · FX ¥150/$ · ACV via SaaSOptics, SaaStr APAC
           </p>
           <aside class="notes">
             Lean on the chart trajectory. Japan AI spend is more than 5× over 4 years.
@@ -333,10 +332,15 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           <p class="lede"><strong>Credibility, commitment, and clearly differentiated value.</strong> Anything less is a <strong class="hl">Western SaaS misfire</strong>.</p>
           <div class="cards-3">
             {pillars.map((p, i) => (
-              <div class="card">
-                <div class="tile-label">Pillar 0{i + 1}</div>
-                <h3>{p.title}</h3>
-                <ul>
+              <div class="card pillar-card">
+                <div class="pillar-head">
+                  <div class="num hl">0{i + 1}</div>
+                  <div class="pillar-titles">
+                    <div class="tile-label">Pillar</div>
+                    <h3>{p.title}</h3>
+                  </div>
+                </div>
+                <ul class="pillar-list">
                   {p.items.map((it) => <li>{it}</li>)}
                 </ul>
               </div>
@@ -358,33 +362,33 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
               {["M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12"].map((m) => <div>{m}</div>)}
             </div>
             <div class="gantt-panel">
-              <div class="gantt-panel-label">Industry default</div>
+              <div class="gantt-panel-label">Industry default · sequential · 12+ months</div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:1/4; background:var(--ink-soft); color:white;">Legal · entity setup</div>
+                <div class="gantt-task" style="grid-column:1/4; background:var(--ink-soft); color:white;">Hire core team · M1-M3</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:4/7; background:var(--ink-soft); color:white;">Talent · hiring</div>
+                <div class="gantt-task" style="grid-column:4/7; background:var(--ink-soft); color:white;">Entity setup · M3-M6</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:7/12; background:var(--ink-soft); color:white;">Pipeline · sandbox POCs</div>
+                <div class="gantt-task" style="grid-column:7/10; background:var(--ink-soft); color:white;">Build pipeline · M6-M9</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:12/14; background:var(--ink-faint); color:white;">First paid</div>
+                <div class="gantt-task" style="grid-column:10/13; background:var(--ink-faint); color:white;">Revenue · M9-M12</div>
               </div>
             </div>
             <div class="gantt-panel hl-panel">
-              <div class="gantt-panel-label hl">Wonderful · strict parallel</div>
+              <div class="gantt-panel-label hl">Wonderful · strict parallel · 6-8 months</div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:1/4; background:var(--accent); color:white;">Legal · KK live by M3</div>
+                <div class="gantt-task" style="grid-column:1/7; background:var(--accent); color:white;">Legal &amp; Entity · M1-M6</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:1/4; background:#7a5cff; color:white;">Talent · founding 5 by M3</div>
+                <div class="gantt-task" style="grid-column:1/8; background:#7a5cff; color:white;">Retained search &amp; talent · M1-M7</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:1/4; background:#0b8f6b; color:white;">Pipeline · 3 paid PoCs by M3</div>
+                <div class="gantt-task" style="grid-column:1/8; background:#0b8f6b; color:white;">Account map &amp; pipeline · M1-M7</div>
               </div>
               <div class="gantt-row">
-                <div class="gantt-task" style="grid-column:5/8; background:var(--highlight); color:white;">First paid revenue · M6-8</div>
+                <div class="gantt-task" style="grid-column:6/10; background:var(--highlight); color:white;">First paid revenue · M6-M8</div>
               </div>
             </div>
           </div>
@@ -394,8 +398,11 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </aside>
         </section>
 
-        {/* === Slide 10 · §09 Architecture (pyramid + donut) === */}
-        <section data-state="mist">
+        {/* === Slide 10 · §09 Architecture (pyramid + donut) ===
+            Tone changed from "mist" → "soft" 2026-06-03: Wonderful blue accent
+            on light-blue mist bg was too low contrast. Soft (envelope) gives
+            the blue pyramid + Manufacturing donut segment real pop. */}
+        <section data-state="soft">
           <div class="eyebrow">09 · Where the wins live</div>
           <h2>500 mega-cap targets out of 3.67 million companies.</h2>
           <p class="lede">SMEs are 99.7% of JP companies. Only <strong class="hl">0.01%</strong> are the mega-cap targets that move the needle on $5M ARR.</p>
@@ -418,20 +425,20 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
                   <text x="440" y="168" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-soft)" text-anchor="start">Partner-led</text>
                 </g>
                 <g>
-                  <polygon points="175,215 425,215 470,365 130,365" fill="var(--paper-soft)" stroke="var(--line)" stroke-width="1" />
-                  <text x="300" y="268" font-family="Bree Serif, serif" font-size="32" fill="var(--ink-soft)" text-anchor="middle" font-weight="700">~3.66M</text>
-                  <text x="300" y="298" font-family="Bricolage Grotesque, sans-serif" font-size="16" fill="var(--ink-soft)" text-anchor="middle" font-weight="600">SMEs &amp; small businesses</text>
-                  <text x="300" y="328" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-faint)" text-anchor="middle" font-style="italic">Non-target</text>
-                  <text x="485" y="268" font-family="JetBrains Mono, monospace" font-size="18" fill="var(--ink-faint)" text-anchor="start" font-weight="700">99.7%</text>
+                  <polygon points="175,215 425,215 470,365 130,365" fill="var(--paper)" stroke="var(--ink-soft)" stroke-width="2" />
+                  <text x="300" y="270" font-family="Bree Serif, serif" font-size="34" fill="var(--ink)" text-anchor="middle" font-weight="700">~3.66M</text>
+                  <text x="300" y="300" font-family="Bricolage Grotesque, sans-serif" font-size="17" fill="var(--ink)" text-anchor="middle" font-weight="600">SMEs &amp; small businesses</text>
+                  <text x="300" y="328" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-soft)" text-anchor="middle" font-style="italic">Non-target · context only</text>
+                  <text x="485" y="270" font-family="JetBrains Mono, monospace" font-size="20" fill="var(--ink-soft)" text-anchor="start" font-weight="700">99.7%</text>
                 </g>
-                <g font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-soft)">
+                <g font-family="JetBrains Mono, monospace" font-size="15" fill="var(--ink)">
                   <text x="120" y="60" text-anchor="end" font-weight="700">Must-Win</text>
                   <text x="120" y="78" text-anchor="end" font-weight="700">155+</text>
-                  <line x1="130" y1="60" x2="220" y2="60" stroke="var(--ink-soft)" stroke-width="1" />
+                  <line x1="130" y1="60" x2="220" y2="60" stroke="var(--ink)" stroke-width="1.5" />
                   <text x="120" y="150" text-anchor="end" font-weight="700">SI partners</text>
                   <text x="120" y="168" text-anchor="end">NTT · Hitachi</text>
                   <text x="120" y="184" text-anchor="end">Fujitsu · NEC</text>
-                  <line x1="130" y1="150" x2="175" y2="150" stroke="var(--ink-soft)" stroke-width="1" />
+                  <line x1="130" y1="150" x2="175" y2="150" stroke="var(--ink)" stroke-width="1.5" />
                 </g>
               </svg>
             </div>
@@ -439,13 +446,13 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
               <div class="tile-label">Mega-cap industry mix</div>
               <div class="donut-row">
                 <svg viewBox="0 0 100 100" class="donut-svg">
-                  <circle cx="50" cy="50" r="40" fill="var(--paper-soft)" />
+                  <circle cx="50" cy="50" r="42" fill="var(--paper)" />
                   {donutSegments.map((s) => (
-                    <circle cx="50" cy="50" r="30" fill="none" stroke={s.color} stroke-width="20" stroke-dasharray={`${s.dash} ${DONUT_C}`} stroke-dashoffset={-s.offset} transform="rotate(-90 50 50)" />
+                    <circle cx="50" cy="50" r={DONUT_R} fill="none" stroke={s.color} stroke-width="20" stroke-dasharray={`${s.dash} ${DONUT_C}`} stroke-dashoffset={-s.offset} transform="rotate(-90 50 50)" />
                   ))}
-                  <circle cx="50" cy="50" r="15" fill="var(--paper)" />
-                  <text x="50" y="49" font-family="Bree Serif, serif" font-size="20" font-weight="700" text-anchor="middle" fill="var(--ink)">500</text>
-                  <text x="50" y="62" font-family="JetBrains Mono, monospace" font-size="7" text-anchor="middle" fill="var(--ink-soft)">mega-cap</text>
+                  <circle cx="50" cy="50" r="18" fill="var(--paper)" stroke="var(--line)" stroke-width="0.5" />
+                  <text x="50" y="50" font-family="Bree Serif, serif" font-size="13" font-weight="700" text-anchor="middle" fill="var(--ink)">500</text>
+                  <text x="50" y="61" font-family="JetBrains Mono, monospace" font-size="6" text-anchor="middle" fill="var(--ink-soft)">mega-cap</text>
                 </svg>
                 <ul class="donut-legend">
                   {industryMix.map((s) => (
@@ -475,7 +482,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           <p class="lede">Four-tier funnel from the 500 mega-cap universe to <strong class="hl">5 FY26 wins for $5M ARR</strong>.</p>
           <div class="funnel">
             {funnel.map((f, i) => {
-              const widths = ["100%", "62%", "32%", "12%"];
+              const widths = ["100%", "78%", "55%", "34%"];
               const colors = ["var(--accent-soft)", "var(--accent)", "var(--highlight)", "var(--ink)"];
               const textColors = ["var(--ink)", "white", "white", "white"];
               return (
@@ -501,23 +508,36 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           <h2>Innovation Lab + DX Mandate. Two parallel paths.</h2>
           <p class="lede"><strong>Two different buyer types unlock the funnel.</strong> <strong class="hl">CDOs move fast. CIOs move structural.</strong></p>
           <div class="cards-2">
-            {pocTracks.map((t, i) => (
-              <div class="card poc-card">
-                <div class="poc-head">
-                  <div class="poc-num">{i === 0 ? "01" : "02"}</div>
-                  <h3>{t.name.split(" · ")[1] || t.name}</h3>
+            {pocTracks.map((t, i) => {
+              const extras = i === 0
+                ? { owner: "CDO sponsor", cycle: "30-day PoC, 60-day expand", winShape: "1-2 use cases live by Day 60" }
+                : { owner: "CIO sponsor", cycle: "60-day PoC, 90-day expand", winShape: "Programme of 3+ use cases" };
+              return (
+                <div class="card poc-card">
+                  <div class="poc-head">
+                    <div class="poc-num">{i === 0 ? "01" : "02"}</div>
+                    <h3>{t.name.split(" · ")[1] || t.name}</h3>
+                  </div>
+                  <div class="poc-kv">
+                    <div class="tile-label">Target buyer</div>
+                    <p class="poc-val">{t.target}</p>
+                  </div>
+                  <div class="poc-kv">
+                    <div class="tile-label">Why it works</div>
+                    <p class="poc-val">{t.edge}</p>
+                  </div>
+                  <div class="poc-kv">
+                    <div class="tile-label">Owner · cycle</div>
+                    <p class="poc-val">{extras.owner} · {extras.cycle}</p>
+                  </div>
+                  <div class="poc-kv">
+                    <div class="tile-label">Win shape</div>
+                    <p class="poc-val">{extras.winShape}</p>
+                  </div>
+                  <p class="card-detail"><strong>{t.proof}</strong></p>
                 </div>
-                <div class="poc-kv">
-                  <div class="tile-label">Target buyer</div>
-                  <p class="poc-val">{t.target}</p>
-                </div>
-                <div class="poc-kv">
-                  <div class="tile-label">Why it works</div>
-                  <p class="poc-val">{t.edge}</p>
-                </div>
-                <p class="card-detail"><strong>{t.proof}</strong></p>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <aside class="notes">
             Innovation Lab is the speed play; DX Mandate is the structural play.
@@ -525,8 +545,10 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </aside>
         </section>
 
-        {/* === Slide 13 · §12 90-Day Execution Sprint === */}
-        <section data-state="mist">
+        {/* === Slide 13 · §12 90-Day Execution Sprint ===
+            Tone changed mist → paper 2026-06-03: same blue-on-blue clash with
+            track-color dots (accent / plum / emerald) against mist bg. */}
+        <section>
           <div class="eyebrow">12 · 90-day sprint</div>
           <h2>Legal · Talent · Pipeline. Three tracks, strict parallel.</h2>
           <p class="lede"><strong>Days 1-30 / 31-60 / 61-90.</strong> Each track lands a <strong class="hl">milestone by day 90</strong>.</p>
@@ -643,7 +665,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </aside>
         </section>
 
-        {/* === Slide 17 · Closing === */}
+        {/* === Slide 17 · Closing (tightened spacing 2026-06-03) === */}
         <section data-state="ink" class="closing-slide">
           <div class="closing">
             <div class="eyebrow ink-mode">Wonderful AI · Japan</div>
@@ -713,22 +735,8 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </aside>
         </section>
 
-        {/* === Sync notice === */}
-        <section data-state="end-slide">
-          <div class="end-card">
-            <div class="end-eyebrow">Source of truth</div>
-            <h2>Numbers and sources live in the mini-site.</h2>
-            <p>
-              This deck is generated from
-              <code>src/data/launch-plan.ts</code>.
-              Edit there → both the mini-site and this deck update on next build.
-            </p>
-            <p class="last-synced">Last synced: {LAST_SYNCED}</p>
-            <p class="reader-link">
-              <a href="/launch-plan">← Back to the reader-friendly mini-site</a>
-            </p>
-          </div>
-        </section>
+        {/* Sync notice slide removed 2026-06-03 — Sources & Verification (§18)
+            already covers freshness + single-source-of-truth pointer. */}
       </div>
     </div>
 
@@ -756,8 +764,23 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     </script>
 
     <style is:global>
-      /* === Wonderful · Boardroom palette (extended) === */
+      /* === Wonderful · Boardroom palette (extended) ===
+         Variables exist under TWO names so the shared data module
+         (src/data/launch-plan.ts) — which uses --color-* names from
+         the mini-site palette — renders correctly inside the deck too. */
       :root {
+        /* Mini-site aliases — required for shared SVG colors to resolve */
+        --color-accent: #2851ff;
+        --color-accent-ink: #0a2bbf;
+        --color-accent-soft: #dbe2ff;
+        --color-ink: #0a1f3d;
+        --color-ink-soft: #5d6677;
+        --color-ink-faint: #98a0ad;
+        --color-paper: #fbf9f2;
+        --color-paper-soft: #efe9d8;
+        --color-highlight: #0ba5ff;
+        --color-line: #d8d0bd;
+
         --ink: #0a1f3d;
         --ink-2: #142a52;
         --ink-body: #2a3550;
@@ -788,16 +811,21 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       .reveal { font-family: "Bricolage Grotesque", system-ui, sans-serif; color: var(--ink-body); }
       .reveal { text-align: left; }
       .reveal .slides, .reveal .slides * { text-align: left; }
-      /* Apply flex/sizing ONLY to the currently-presented slide so Reveal's
-         own display:none on past/future slides keeps working. */
-      .reveal .slides > section.present,
-      .reveal .slides > section.present > section.present {
-        padding: 48px 56px 32px;
+      /* All slides get the same shell. Reveal applies inline `display: block`
+         on the present slide, so we use !important to force flex layout.
+         Past/future slides still get `display: none` via [hidden] attribute,
+         which wins over class-based display rules. */
+      .reveal .slides section {
+        /* Source line is now in normal flex flow (flex: 0 0 auto + margin-top
+           border-line) so card containers automatically shrink to leave room.
+           Bottom padding back to comfortable 40 px. */
+        padding: 48px 56px 72px !important;
         background: var(--paper);
         color: var(--ink-body);
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         gap: 10px;
+        height: 100%;
         box-sizing: border-box;
         text-align: left;
         align-items: stretch;
@@ -805,17 +833,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         position: relative;
         overflow: hidden;
       }
-      /* Base styling that applies to all section instances (for theme consistency
-         when Reveal flips them in/out) */
-      .reveal .slides section {
-        padding: 48px 56px 32px;
-        background: var(--paper);
-        color: var(--ink-body);
-        box-sizing: border-box;
-        text-align: left;
-        position: relative;
-        overflow: hidden;
-      }
+      .reveal .slides section[hidden] { display: none !important; }
       .reveal .slides section > * { text-align: left; }
 
       /* Top accent strip — colored band per slide */
@@ -841,9 +859,20 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         flex: 1 1 0;
         min-height: 0;
       }
-      .reveal .card { height: 100%; min-height: 380px; }
-      .reveal .grid-3x2 { min-height: 460px; }
+      /* Card heights tuned so the entire slide (720px) holds the layout
+         without pushing content past the bottom safe area (~660px usable). */
+      .reveal .card { height: 100%; min-height: 0; }
+      .reveal .cards-3 .card { min-height: 0; }
+      .reveal .cards-3.tight .card { min-height: 0; }
+      .reveal .cards-2 .card { min-height: 280px; }
+      .reveal .evidence-grid .evidence-card { min-height: 240px; }
+      .reveal .grid-3x2 { min-height: 0; }
       .reveal .grid-3x2 .tile { min-height: 0; }
+      /* Slide 4 demographic — packed chart + 3 callouts, keep them tight */
+      .reveal .demo-bar { height: 180px !important; }
+      .reveal .card.mini { padding: 12px 14px !important; }
+      .reveal .card.mini .num { font-size: 30px !important; line-height: 1; }
+      .reveal .card.mini p { font-size: 14px; line-height: 1.32; margin: 6px 0 0; }
 
       .reveal h1, .reveal h2, .reveal h3 {
         font-family: "Bree Serif", Georgia, serif;
@@ -888,12 +917,12 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       .reveal .hl { color: var(--highlight); font-weight: 600; }
 
       /* === Title slide === */
-      .reveal .slide-title { justify-content: space-between !important; gap: 18px; padding-bottom: 32px; }
+      .reveal .slide-title { justify-content: flex-start !important; gap: 16px; padding-bottom: 32px; }
       .reveal .slide-title .eyebrow { flex: 0 0 auto; margin-bottom: 8px; }
-      .reveal .slide-title h1 { flex: 0 0 auto; }
-      .reveal .slide-title p.lede { flex: 0 0 auto; margin-bottom: auto; }
+      .reveal .slide-title h1 { flex: 0 0 auto; margin-bottom: 8px; }
+      .reveal .slide-title p.lede { flex: 0 0 auto; margin-bottom: 32px; }
       .reveal .slide-title .stats-4 { margin-top: 0; }
-      .reveal .slide-title .footer-meta { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
+      .reveal .slide-title .footer-meta { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); }
       .reveal .slide-title h1 { font-size: 92px; }
       .reveal section[data-state="ink"] .slide-title h1 em,
       .reveal .slide-title h1 em { color: rgba(255,255,255,0.55); }
@@ -905,8 +934,9 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         color: rgba(255,255,255,0.6);
       }
       .reveal .slide-title .stat {
-        background: rgba(255,255,255,0.04);
-        border-color: rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.24);
+        border-width: 2px;
       }
       .reveal .slide-title .stat .label { color: var(--paper); }
       .reveal .slide-title .stat .sub { color: rgba(255,255,255,0.65); }
@@ -991,26 +1021,36 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       }
       .reveal .evidence-card ul li { font-size: 16px; }
 
-      /* === 3-card grid (legacy, used by §04 / §07 / §15) === */
+      /* === 3-card grid (legacy, used by §04 / §07 / §15) ===
+         flex: 0 0 auto — let cards take natural height instead of growing
+         to fill the slide. This stops sparse cards from over-expanding. */
       .reveal .cards-3 {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 18px;
-        flex: 1;
+        flex: 1 1 auto;
+        min-height: 0;
       }
-      .reveal .cards-3.tight { gap: 14px; margin-top: 12px; flex: initial; }
+      .reveal .cards-3.tight { gap: 14px; margin-top: 12px; flex: 0 1 auto; }
       .reveal .card {
         border: 2px solid var(--line);
         border-radius: 14px;
-        padding: 20px 22px 24px;
+        padding: 24px 24px 28px;
         background: var(--paper);
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        /* Center content vertically — when content is shorter than the card
+           min-height, breathing room distributes top+bottom equally instead
+           of pooling at the bottom and looking truncated. */
+        justify-content: center;
         gap: 10px;
         position: relative;
         overflow: hidden;
       }
+      /* Cards whose first child is a stat number stay top-aligned so the
+         giant number anchors the card (not floating in the middle). */
+      .reveal .card:has(> .num:first-child),
+      .reveal .card:has(> .poc-head) { justify-content: flex-start; }
       /* Ensure card flex children stack tight and any "detail/foot" pins to bottom */
       .reveal .card > * { margin: 0; flex: 0 0 auto; }
       .reveal .card > .card-detail,
@@ -1024,10 +1064,34 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         opacity: 0.55;
       }
       .reveal .card > * { z-index: 1; position: relative; }
-      /* On tinted slides, cards keep a clean paper bg for legibility */
+      /* Cards must fill ONE STEP AWAY from the slide tone so they
+         stay distinct from the background (see Gate: fill-must-differ-from-tone).
+         Tinted slides → cards in default cream. Default (paper) slides → cards
+         in envelope-cream. Ink slides keep their own dark card treatment. */
       .reveal section[data-state="soft"] .card,
       .reveal section[data-state="warm"] .card,
       .reveal section[data-state="mist"] .card { background: var(--paper); }
+      .reveal section:not([data-state]) .card,
+      .reveal section[data-state="end-slide"] .card { background: var(--paper-soft); }
+      /* Same rule for evidence/japan/poc/team cards on default slides */
+      .reveal section:not([data-state]) .evidence-card,
+      .reveal section:not([data-state]) .chart-card,
+      .reveal section:not([data-state]) .team-panel,
+      .reveal section:not([data-state]) .source-block,
+      .reveal section:not([data-state]) .hero-tile,
+      .reveal section:not([data-state]) .japan-stat { background: var(--paper-soft); }
+      .reveal section[data-state="soft"] .evidence-card,
+      .reveal section[data-state="soft"] .chart-card,
+      .reveal section[data-state="soft"] .team-panel,
+      .reveal section[data-state="soft"] .source-block,
+      .reveal section[data-state="soft"] .hero-tile,
+      .reveal section[data-state="soft"] .japan-stat,
+      .reveal section[data-state="warm"] .evidence-card,
+      .reveal section[data-state="warm"] .chart-card,
+      .reveal section[data-state="warm"] .team-panel,
+      .reveal section[data-state="warm"] .source-block,
+      .reveal section[data-state="warm"] .hero-tile,
+      .reveal section[data-state="warm"] .japan-stat { background: var(--paper); }
       .reveal .card.mini { padding: 14px 16px; }
       .reveal .card .num {
         font-family: "Bree Serif", serif;
@@ -1112,22 +1176,49 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         font-size: 11px; line-height: 1.2; margin-top: 4px; opacity: 0.9;
       }
 
-      /* Source line: natural flow, pinned bottom via margin-top:auto.
-         Small, muted, right-aligned so it never competes with content. */
+      /* Source line: natural flex flow at bottom of section. flex: 0 0 auto
+         reserves its height first; cards-3 / japan-grid above use flex:1
+         and shrink to leave room — so source never overlaps card content. */
+      /* Reveal nav controls are pinned to fixed positions across all slides
+         so they never shift relative to slide content. Bottom-right cluster
+         with the slide counter directly under the next-arrow. */
+      .reveal .controls {
+        right: 12px !important;
+        bottom: 12px !important;
+      }
+      .reveal .slide-number {
+        right: 14px !important;
+        bottom: 6px !important;
+        background: rgba(15, 23, 42, 0.6);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* Source pill is ANCHORED to slide bottom-right corner.
+         Section reserves 56px bottom padding so grids can't grow into this strip. */
       .reveal p.source {
-        flex: 0 0 auto;
-        margin-top: 12px;
-        margin-bottom: 0;
-        padding-top: 8px;
+        position: absolute;
+        bottom: 20px;
+        right: 80px;
+        left: 56px;
+        z-index: 3;
+        margin: 0;
         font-family: "JetBrains Mono", monospace;
         font-size: 11px;
         font-style: italic;
-        color: var(--ink-faint);
+        color: var(--ink-soft);
         text-align: right;
-        opacity: 0.6;
-        line-height: 1.35;
+        opacity: 0.78;
+        line-height: 1.4;
         letter-spacing: 0.02em;
+        pointer-events: auto;
       }
+      .reveal p.source a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dotted var(--ink-soft); }
+      .reveal p.source a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+      .reveal section[data-state="ink"] p.source { color: rgba(255,255,255,0.5); }
+      .reveal section[data-state="ink"] p.source a { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.3); }
       .reveal p.source a {
         color: var(--ink-faint);
         text-decoration: none;
@@ -1209,6 +1300,23 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         margin-right: 6px;
         letter-spacing: -0.02em;
       }
+      /* Pillar card (§07) — big numeral anchor + title + bullets */
+      .reveal .pillar-card { padding: 26px 26px 30px; gap: 18px; justify-content: flex-start; }
+      .reveal .pillar-head {
+        display: flex; align-items: flex-start; gap: 18px;
+        border-bottom: 2px solid var(--line); padding-bottom: 14px;
+      }
+      .reveal .pillar-head .num {
+        font-family: "Bree Serif", serif;
+        font-size: 56px; color: var(--highlight);
+        line-height: 1; letter-spacing: -0.02em;
+        flex-shrink: 0;
+      }
+      .reveal .pillar-titles { display: flex; flex-direction: column; gap: 4px; }
+      .reveal .pillar-titles .tile-label { margin-top: 0; }
+      .reveal .pillar-titles h3 { margin: 0; line-height: 1.15; }
+      .reveal .pillar-list { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
       /* PoC card (§11) — header row + key-value pairs */
       .reveal .poc-card { padding: 24px 28px 28px !important; gap: 14px !important; }
       .reveal .poc-head {
@@ -1272,7 +1380,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       /* §05 Why Japan grid — chart (60%) + stacked 2-stat column (40%), strictly 2-row */
       .reveal .japan-grid {
         display: grid; grid-template-columns: 1.4fr 1fr;
-        gap: 16px; flex: 1 1 0; min-height: 0;
+        gap: 16px; flex: 1 1 auto; min-height: 0;
       }
       .reveal .japan-stack {
         display: grid; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 0;
@@ -1335,22 +1443,27 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
         text-overflow: ellipsis;
       }
 
-      /* === Pyramid + donut (§09) === */
-      .reveal .arch-pyramid svg { width: 100%; height: 100%; max-height: 320px; display: block; }
+      /* === Pyramid + donut (§09) ===
+         Both visuals vertically centered in their column so they
+         align eye-to-eye, not corner-to-corner. */
+      .reveal .two-col.arch { align-items: center !important; }
+      .reveal .arch-pyramid { display: flex; justify-content: center; align-items: center; }
+      .reveal .arch-pyramid svg { width: 100%; height: auto; max-height: 380px; max-width: 600px; display: block; }
       .reveal .arch-donut {
-        display: flex; flex-direction: column; justify-content: center; gap: 10px;
+        display: flex; flex-direction: column; justify-content: center; gap: 14px;
       }
-      .reveal .donut-row { display: grid; grid-template-columns: 220px 1fr; gap: 20px; align-items: center; }
-      .reveal .donut-svg { width: 100%; height: auto; max-width: 220px; }
-      .reveal .donut-legend { display: flex; flex-direction: column; gap: 10px; padding: 0; list-style: none; }
-      .reveal .donut-legend li { display: flex; align-items: flex-start; gap: 12px; font-size: 17px; line-height: 1.35; }
+      .reveal .donut-row { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: center; }
+      .reveal .donut-svg { width: 100%; height: auto; max-width: 240px; }
+      .reveal .donut-legend { display: flex; flex-direction: column; gap: 12px; padding: 0; list-style: none; }
+      .reveal .donut-legend li { display: flex; align-items: flex-start; gap: 12px; font-size: 19px; line-height: 1.32; color: var(--ink); }
       .reveal .donut-legend li::before { content: ""; }
-      .reveal .swatch { display: inline-block; width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
-      .reveal .legend-co { color: var(--ink-soft); font-size: 17px; display: block; margin-top: 2px; }
+      .reveal .donut-legend li strong { font-weight: 700; }
+      .reveal .swatch { display: inline-block; width: 18px; height: 18px; border-radius: 3px; flex-shrink: 0; margin-top: 4px; }
+      .reveal .legend-co { color: var(--ink-soft); font-size: 16px; display: block; margin-top: 2px; font-weight: 400; }
 
       /* === Funnel (§10) === */
-      .reveal .funnel { display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0; padding: 12px 0; }
-      .reveal .funnel-row { display: flex; align-items: center; gap: 14px; }
+      .reveal .funnel { display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 0; padding: 12px 0; }
+      .reveal .funnel-row { display: grid; grid-template-columns: 1fr 180px; align-items: center; gap: 20px; }
       .reveal .funnel-band {
         padding: 14px 20px; border-radius: 8px;
         display: flex; align-items: center; gap: 16px;
@@ -1451,9 +1564,10 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
       /* === Closing slide (§17) === */
       .reveal .closing-slide { padding: 56px 64px !important; justify-content: space-between !important; }
       .reveal .closing {
-        display: flex; flex-direction: column; justify-content: space-between;
-        gap: 20px; height: 100%;
+        display: flex; flex-direction: column; justify-content: flex-start;
+        gap: 14px; height: 100%;
       }
+      .reveal .closing .closing-meta { margin-top: auto; }
       .reveal .closing-statement {
         font-size: 56px; line-height: 1.08; color: var(--paper); font-weight: 400;
         font-family: "Bree Serif", serif; letter-spacing: -0.01em;
