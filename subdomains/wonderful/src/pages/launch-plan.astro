@@ -479,11 +479,9 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           Read the plan
           <ArrowDown class="w-3.5 h-3.5 ml-1" />
         </a>
-        {/* Present deck (16:9) button hidden 2026-06-03 — Reveal slides 3+ render
-            blank in headless capture; fix in progress. Mini-site is the canonical
-            review surface until the deck is solid.
-            Re-enable when fixed:
-            <a href="/launch-plan/present" target="_blank" rel="noopener" …>Present deck (16:9)</a> */}
+        <a href="/launch-plan/present" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[var(--color-ink)]/20 bg-[var(--color-paper)] text-[var(--color-ink)] text-sm font-semibold hover:bg-[var(--color-accent)] hover:text-[var(--color-paper)] hover:border-[var(--color-accent)] transition-colors">
+          Open the presentation
+        </a>
       </div>
       <p class="text-xs text-[var(--color-ink-faint)] font-mono mt-4 print:hidden" data-reveal="fade-up" data-reveal-delay="5">
         Last synced: <strong class="text-[var(--color-ink)]">2026-06-03</strong>.
