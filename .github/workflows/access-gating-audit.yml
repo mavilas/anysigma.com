@@ -1,0 +1,38 @@
+name: Access gating audit
+
+# Verify every confidential *.anysigma.com surface (and its *-anysigma.pages.dev mirror)
+# is behind Cloudflare Access. Pages.dev mirrors must include the wildcard so
+# per-deployment preview URLs don't bypass the policy. Public exceptions live in
+# .access-public-allowlist at repo root.
+#
+# Required secret: CLOUDFLARE_API_TOKEN  (scoped: Account → Access: Read, Zone → DNS: Read)
+# Alternative: CF_API_EMAIL + CF_API_KEY (global key, not recommended for CI).
+
+on:
+  pull_request:
+    paths:
+      - ".access-public-allowlist"
+      - "scripts/audit-access-gating.mjs"
+      - ".github/workflows/access-gating-audit.yml"
+  push:
+    branches: [main]
+  schedule:
+    # Daily at 06:00 UTC (15:00 JST) — catches new subdomains created out-of-band.
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run audit
+        env:
+          CI: "1"
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_API_EMAIL: ${{ secrets.CF_API_EMAIL }}
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+        run: node scripts/audit-access-gating.mjs
