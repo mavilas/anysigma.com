@@ -63,17 +63,39 @@ Every page passes an `agenda` prop to `<Layout>`:
 
 ## Visual system
 
+**Read the canonical brief first.** The visual discipline (typography minimums, color hierarchy, slide gates, source-pill anchoring, SVG math, headless-Chrome verification) lives at:
+
+📘 **`../../AGENTS.md`** at the apex of the anysigma.com repo (universal subdomain rules) → which itself points to →
+📘 **`../../docs/deck-recipes.md`** at the apex of the anysigma.com repo (canonical visual-discipline doc, 11+ hard gates) — applies to **every subdomain in the anysigma family**, not just Zunou.
+📘 **`../../docs/recipes/visual-discipline.md`** — reader-page addendum (hero stack, section rhythm, container width).
+
+Zunou-specific palette notes at [`docs/recipes/colors.md`](docs/recipes/colors.md). Anything below this header is a short-form summary; the canonical brief is the source of truth.
+
 ### Icons
 - Only `@lucide/astro` icons. No emoji, no SVG inlining, no other icon packs.
 - Import what you use at the top of the page. Avoid `import * as Icons from "@lucide/astro"` patterns in pages — they balloon bundle size.
 
-### Colors
+### Colors (short form — see recipe for the full rules)
 Defined in `src/styles/tailwind.css` under `@theme`. Use the CSS variables, not raw hex:
 - `--color-ink` / `--color-ink-soft` / `--color-ink-faint` — text
 - `--color-paper` / `--color-paper-soft` / `--color-paper-warm` — surfaces
 - `--color-line` / `--color-line-soft` — borders
 - `--color-accent` (`#4A00E0`) / `--color-accent-soft` / `--color-accent-ink` — Zunou brand purple
 - `--color-success` / `--color-warning` / `--color-danger` — semantic, each with `-soft` companions
+
+**Hard rules** (per the apex recipe):
+- One accent (Zunou purple), neutrals everywhere else. No second accent.
+- Semantic colors (`warning` / `danger` / `success`) are for **true operational state only**, never decoration.
+- Placeholders / TODOs use `border-dashed border-line` + `text-ink-soft`. No color.
+- At most one `border-2 border-accent` emphasis card per page.
+
+### Alignment and consistency (short form — see recipe)
+- Container: `max-w-6xl mx-auto px-6` (full pages) or `max-w-4xl` (scan-style). One per page.
+- Section rhythm: `py-16 sm:py-20` (full) or `py-10` (scan). One per page.
+- Inner prose: `max-w-3xl`.
+- Eyebrow tracking: `tracking-[0.18em]`. One canonical value.
+- Card grids: every card in one grid shares padding + border weight + rounding + background.
+- Left-align prose by default. `text-center` only in footer signature and hero stat figures.
 
 ### Typography
 - **Display** (`font-display`, Bree Serif): page H1, section H2, large stat figures, magic numbers

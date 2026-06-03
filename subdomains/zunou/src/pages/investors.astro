@@ -1,0 +1,377 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  Flag,
+  Sparkles,
+  Cpu,
+  Mic,
+  Workflow,
+  Rocket,
+  Layers,
+  Calendar,
+  Target,
+  ArrowRight,
+  BookOpen,
+  Handshake,
+  Network,
+  Send,
+  Presentation,
+} from "@lucide/astro";
+import {
+  argumentSlide,
+  demoBeachhead,
+  productStats,
+  productCapabilities,
+  whyNow,
+  beachheads,
+  stageGate,
+  horizon,
+  openCalls,
+  closingStatement,
+  LAST_SYNCED,
+} from "../data/investor-brief";
+
+const capIcon: Record<string, any> = {
+  mic: Mic,
+  workflow: Workflow,
+  network: Network,
+  layers: Layers,
+};
+
+const beachheadDot: Record<string, string> = {
+  confirmed: "var(--color-success)",
+  scheduled: "var(--color-accent)",
+  staged: "var(--color-ink-faint)",
+};
+---
+
+<Layout
+  title="Zunou · Investor brief"
+  description="One-page brief for an existing investor: what Zunou is, where we land first, and the seven calls we'd value your view on."
+  kind="scan"
+>
+  <!-- HERO -->
+  <section class="pt-20 sm:pt-24 pb-12">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-3 mb-8 flex-wrap" data-reveal="fade-up">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] text-xs font-semibold tracking-wide">
+          <Flag class="w-3.5 h-3.5" />
+          Investor brief
+        </span>
+        <span class="text-xs text-[var(--color-ink-faint)] font-mono">
+          Marco Avila · v1 · forwardable
+        </span>
+      </div>
+
+      <h1
+        class="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.04] tracking-tight mb-4 max-w-4xl"
+        data-reveal="fade-up"
+        data-reveal-delay="1"
+      >
+        The exec chief-of-staff surface for the modern team.
+      </h1>
+
+      <p
+        class="font-display italic text-xl sm:text-2xl text-[var(--color-ink-soft)] leading-snug mb-7 max-w-3xl"
+        data-reveal="fade-up"
+        data-reveal-delay="2"
+      >
+        Built. Deployed. Beachhead 0 confirmed. Tokyo-based, globally scoped.
+      </p>
+
+      <p class="text-lg sm:text-xl text-[var(--color-ink-soft)] leading-relaxed mb-8 max-w-3xl" data-reveal="fade-up" data-reveal-delay="3">
+        One page on what Zunou is, where we land first, and the calls we'd value your view on. You've already backed us; this conversation is to pressure-test the shape, not to pitch it. Full strategy doc and pilot prep linked below for depth.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3" data-reveal="fade-up" data-reveal-delay="4">
+        <a
+          href="#views"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-semibold hover:bg-[var(--color-accent)] transition-colors"
+        >
+          <Send class="w-4 h-4" />
+          Jump to where we'd value your view
+        </a>
+        <a
+          href="/investors/present"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors"
+        >
+          <Presentation class="w-4 h-4" />
+          Open the presentation
+        </a>
+        <a
+          href="/gtm"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-[var(--color-line)] text-sm font-semibold hover:border-[var(--color-ink)] transition-colors"
+        >
+          Read the full GTM
+          <ArrowRight class="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-rule max-w-4xl mx-auto" />
+
+  <!-- 01 · THE ARGUMENT -->
+  <section class="py-10" id="argument">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Sparkles class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">01 · The argument</h2>
+      </div>
+      <p class="font-display text-2xl sm:text-3xl mb-3 leading-tight max-w-3xl" data-reveal="fade-up" data-reveal-delay="1">
+        {argumentSlide.h2}
+      </p>
+      <p class="text-base text-[var(--color-ink-soft)] leading-relaxed mb-6 max-w-3xl" data-reveal="fade-up" data-reveal-delay="2">
+        {argumentSlide.lede}
+      </p>
+      <div class="grid sm:grid-cols-2 gap-3" data-reveal="fade-up" data-reveal-delay="3">
+        {argumentSlide.cards.map((c) => (
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">{c.label}</div>
+            <div class="font-display text-lg mb-2 leading-tight">{c.title}</div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="font-display italic text-xl text-[var(--color-accent)] text-center mt-5" data-reveal="fade-up" data-reveal-delay="4">
+        {argumentSlide.closing}
+      </p>
+    </div>
+  </section>
+
+  <!-- TOUCH IT · live demo (the experiential beachhead) -->
+  <section class="py-10" id="touch">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="rounded-2xl bg-[var(--color-paper-soft)] p-6 sm:p-8" data-reveal="fade-up">
+        <div class="flex items-center gap-2 mb-3">
+          <Sparkles class="w-4 h-4 text-[var(--color-accent)]" />
+          <span class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold">02 · Touch it · the 60-second demo</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-3xl mb-3 leading-tight">
+          Open the seeded workspace on your phone right now.
+        </h2>
+        <p class="text-base text-[var(--color-ink-soft)] leading-relaxed mb-3 max-w-3xl">
+          {demoBeachhead.pitch}
+        </p>
+        <p class="font-display italic text-lg text-[var(--color-accent)] mb-5 max-w-3xl">
+          {demoBeachhead.ahaQuote}
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <span
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border-2 border-dashed border-[var(--color-ink-faint)] text-[var(--color-ink-soft)] text-sm font-semibold cursor-not-allowed"
+            aria-disabled="true"
+          >
+            <Send class="w-4 h-4" />
+            {demoBeachhead.url}
+            <span class="ml-1 text-[11px] uppercase tracking-[0.18em] font-mono font-bold text-[var(--color-ink-faint)]">Not live</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 text-xs text-[var(--color-ink-faint)] font-mono">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-warning)]"></span>
+            {demoBeachhead.status}
+          </span>
+        </div>
+        <div class="rounded-lg border border-dashed border-[var(--color-line)] bg-[var(--color-paper)] p-3 mt-5 text-xs text-[var(--color-ink-soft)]">
+          <span class="font-mono uppercase tracking-[0.18em] text-[13px] font-bold text-[var(--color-ink-faint)]">Coming in Phase 0</span>
+          <span class="ml-2">demo.zunou.ai is the committed URL. Build ships during Phase 0 ({demoBeachhead.shipWeek}). For today's meeting, walk this section as the commitment we're shipping against, not as a click-through.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 · THE PRODUCT IS REAL -->
+  <section class="py-10" id="section-01">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Cpu class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">03 · The product is real</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-5 max-w-3xl" data-reveal="fade-up">
+        Built and deployed today. Substantially deeper than what zunou.ai shows publicly. The launch problem is distribution and density, not product readiness.
+      </p>
+      <div class="grid sm:grid-cols-3 gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        {productStats.map((s, i) => (
+          <div class="stat-xl">
+            <div class="stat-xl-eyebrow">{s.label}</div>
+            <div class={`stat-xl-figure ${i === 0 ? "accent" : ""}`}>{s.stat}</div>
+            <div class="stat-xl-label">{s.body}</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-3 mt-4" data-reveal="fade-up" data-reveal-delay="2">
+        {productCapabilities.map((c) => {
+          const Icon = capIcon[c.icon];
+          return (
+            <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-4">
+              {Icon && <Icon class="w-4 h-4 text-[var(--color-accent)] mb-2" />}
+              <div class="font-semibold text-sm mb-1">{c.title}</div>
+              <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.body}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <p class="text-xs text-[var(--color-ink-faint)] italic max-w-3xl mt-5 leading-relaxed" data-reveal="fade-up" data-reveal-delay="3">
+        Architecture detail and code-level evidence at <a href="/gtm#background" class="text-[var(--color-accent)] hover:underline">/gtm §00</a> and <a href="/journeys" class="text-[var(--color-accent)] hover:underline">/journeys</a> (every claim carries a file:line citation).
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 · WHY NOW -->
+  <section class="py-10" id="section-02">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Rocket class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">04 · Why now</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-5 max-w-3xl" data-reveal="fade-up">
+        Three observations that close the door on the alternative timing.
+      </p>
+      <div class="grid sm:grid-cols-3 gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        {whyNow.map((w) => (
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">{w.label}</div>
+            <div class="font-semibold text-sm mb-2">{w.title}</div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{w.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · BEACHHEADS -->
+  <section class="py-10 bg-[var(--color-paper-soft)] rounded-2xl" id="section-03">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Target class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">05 · Three beachhead waves, each gated by the previous</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-5 max-w-3xl" data-reveal="fade-up">
+        Sequential, not synchronized. Each wave only fires when the previous clears its activation gate. Slower than a broad launch; substantially lower risk.
+      </p>
+
+      <div class="space-y-3" data-reveal="fade-up" data-reveal-delay="1">
+        {beachheads.map((b) => (
+          <div class="border border-[var(--color-line)] bg-[var(--color-paper)] rounded-lg p-5">
+            <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+              <span
+                class="font-mono text-[13px] uppercase tracking-[0.18em] font-bold"
+                style={`color: ${beachheadDot[b.status]}`}
+              >
+                {b.label}
+              </span>
+              <span class="font-display text-xl">{b.title}</span>
+            </div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+              {b.body}
+            </p>
+            {b.link && (
+              <a href={b.link.href} class="text-xs font-semibold text-[var(--color-accent-ink)] hover:text-[var(--color-ink)] inline-flex items-center gap-1">
+                {b.link.label} <ArrowRight class="w-3 h-3" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div class="callout-stripe mt-6" data-reveal="fade-up" data-reveal-delay="2">
+        <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-2">{stageGate.label}</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{stageGate.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · HORIZON -->
+  <section class="py-10" id="section-04">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Calendar class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">06 · The horizon · PMF first, ARR follows</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-5 max-w-3xl" data-reveal="fade-up">
+        Three windows. The ARR number locks after paid signal is real, not before.
+      </p>
+      <div class="grid md:grid-cols-3 gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        {horizon.map((h) => (
+          <div class="rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
+            <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">{h.label}</div>
+            <div class="font-display text-lg text-[var(--color-ink)] leading-tight mb-2">{h.title}</div>
+            <p class="text-xs text-[var(--color-ink-soft)] leading-relaxed">{h.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · WHERE WE'D VALUE YOUR VIEW -->
+  <section class="py-10" id="views">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <Handshake class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">07 · Where we'd value your view</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-6 max-w-3xl" data-reveal="fade-up">
+        Seven calls we've taken a position on but kept open for pressure-testing. None of them block the launch; all of them shape it. Where your read sharpens ours, we want to hear it. Pulled from <a href="/gtm#decisions" class="text-[var(--color-accent)] hover:underline">/gtm §12 · open decisions</a>.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        {openCalls.map((c, i) => (
+          <div class={`rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-5 ${i === openCalls.length - 1 ? "sm:col-span-2" : ""}`}>
+            <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent)] font-bold mb-2">{c.n} · {c.title}</div>
+            <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="callout-stripe mt-6" data-reveal="fade-up" data-reveal-delay="2">
+        <div class="text-[13px] uppercase tracking-[0.18em] text-[var(--color-accent-ink)] font-bold mb-2">{closingStatement.headline}</div>
+        <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">{closingStatement.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT TO READ NEXT -->
+  <section class="py-10 bg-[var(--color-paper-soft)] rounded-2xl">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-4" data-reveal="fade-up">
+        <BookOpen class="w-4 h-4 text-[var(--color-accent)]" />
+        <h2 class="text-[13px] uppercase tracking-[0.18em] font-bold text-[var(--color-accent)]">For the reader who wants depth</h2>
+      </div>
+      <p class="text-base text-[var(--color-ink)] leading-relaxed mb-5 max-w-3xl" data-reveal="fade-up">
+        Every claim above is sourced. The pages below are the show-your-work versions.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-3" data-reveal="fade-up" data-reveal-delay="1">
+        <a href="/gtm" class="block rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)] transition-colors">
+          <div class="font-display text-lg mb-1">GTM (full)</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">25 sections. Beachhead derivation, sponsorship economics, community attack list, decision log.</p>
+        </a>
+        <a href="/pilots/indelible" class="block rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)] transition-colors">
+          <div class="font-display text-lg mb-1">Pilot prep · Indelible</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">Three use cases. Pre-flight bug list. Next-meeting agenda. Mobile + backend PMF readiness audit linked.</p>
+        </a>
+        <a href="/journeys" class="block rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)] transition-colors">
+          <div class="font-display text-lg mb-1">Journeys</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">Six end-to-end user journeys mapped against actual code. Every bug claim carries a file:line citation.</p>
+        </a>
+        <a href="/dashboard" class="block rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] p-4 hover:border-[var(--color-accent)] transition-colors">
+          <div class="font-display text-lg mb-1">Dashboard</div>
+          <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">How we measure. Five dashboards. The Monday-morning ritual that turns the magic number into a contract.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER · forward-this signature -->
+  <section class="py-12">
+    <div class="max-w-4xl mx-auto px-6 text-center" data-reveal="fade-up">
+      <p class="text-sm text-[var(--color-ink-soft)] leading-relaxed mb-3">
+        Built to be forwarded. Direct link: <code class="inline-code">zunou.anysigma.com/investors</code>
+      </p>
+      <p class="text-xs text-[var(--color-ink-faint)] italic">
+        Marco Avila · marco@anysigma.com · Zunou GTM lead
+      </p>
+    </div>
+  </section>
+</Layout>

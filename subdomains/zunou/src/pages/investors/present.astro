@@ -1,0 +1,882 @@
+---
+// Zunou · Investor brief deck
+// Reveal.js presentation, 16:9 (1280x720). Single source of truth = src/data/investor-brief.ts
+//
+// Usage:
+//   /investors/present           : fullscreen deck
+//   /investors/present?print-pdf : Reveal native PDF export
+//   F = fullscreen · S = speaker notes · ESC = overview
+
+import {
+  argumentSlide,
+  demoBeachhead,
+  productStats,
+  productCapabilities,
+  whyNow,
+  beachheads,
+  stageGate,
+  horizon,
+  openCalls,
+  closingStatement,
+  whatHappensNext,
+  LAST_SYNCED,
+} from "../../data/investor-brief";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Zunou · Investor brief (deck)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        {/* === Slide 1 · Title === */}
+        <section class="slide-title" data-state="ink">
+          <div class="eyebrow">Zunou · Pressure-test</div>
+          <h1>The exec chief-of-staff <em>surface for the modern team.</em></h1>
+          <p class="lede">Built. Deployed. Beachhead 0 confirmed. Tokyo-based, globally scoped.</p>
+          <div class="stats stats-4">
+            <div class="stat"><div class="num">136</div><div class="label">Agent tools</div><div class="sub">MCP-native runtime</div></div>
+            <div class="stat"><div class="num">15</div><div class="label">Data sources</div><div class="sub">Slack · Google · GitHub</div></div>
+            <div class="stat"><div class="num">3</div><div class="label">Beachhead waves</div><div class="sub">Sequenced · gated</div></div>
+            <div class="stat"><div class="num">Feb '27</div><div class="label">Stage-gate</div><div class="sub">4 of 6 PMF criteria</div></div>
+          </div>
+          <div class="footer-meta">
+            Marco Avila · Zunou GTM · {LAST_SYNCED} · pressure-test conversation
+          </div>
+          <aside class="notes">
+            Opening slide. Don't read it aloud. Hand the investor their phone and queue slide 2.
+            The four numbers anchor the room: 136 tools = depth, 15 sources = reach,
+            3 waves = discipline, Feb '27 = pre-committed pivot. Slide 2 is the thesis.
+          </aside>
+        </section>
+
+        {/* === Slide 2 · The argument · paper === */}
+        <section id="argument" data-state="paper">
+          <div class="eyebrow">01 · The argument</div>
+          <h2>{argumentSlide.h2}</h2>
+          <p class="lede">{argumentSlide.lede}</p>
+          <div class="argument-grid">
+            {argumentSlide.cards.map((c) => (
+              <div class="argument-tile">
+                <div class="tile-label">{c.label}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </div>
+            ))}
+          </div>
+          <p class="argument-close">{argumentSlide.closing}</p>
+          <aside class="notes">
+            Don't read every card aloud. Frame the slide: "Four ideas. Category opening,
+            what we ship, where we land, the discipline." Walk left-to-right top-to-bottom,
+            8-10 seconds per card. Land on "PMF first. ARR follows." Pause for 3 seconds
+            before slide 3 (the demo). The investor fills the silence; defer the question:
+            "Hold that. Let's touch the product first."
+          </aside>
+        </section>
+
+        {/* === Slide 3 · Touch it · demo beachhead · soft === */}
+        <section id="touch" data-state="soft">
+          <div class="eyebrow">02 · The demo beachhead · planned for Phase 0</div>
+          <h2>The 60-second demo we're committing to ship.</h2>
+          <p class="lede">
+            <strong class="hl">{demoBeachhead.url}</strong>
+            (not yet live). Read-only Zunou workspace, pre-loaded with three weeks of meetings and
+            one open follow-up the agent surfaces unprompted.
+          </p>
+          <div class="demo-grid">
+            <div class="demo-aha">
+              <div class="tile-label">The 5-minute aha</div>
+              <p class="aha-quote">{demoBeachhead.ahaQuote}</p>
+              <p class="aha-note">The follow-up they would have missed. Surfaced unprompted.</p>
+              <div class="demo-status">
+                <span class="status-dot"></span>
+                <span>{demoBeachhead.status}</span>
+              </div>
+            </div>
+            <div class="demo-seeds">
+              <div class="tile-label">What's in the seed</div>
+              <ul>
+                {demoBeachhead.seeds.map((s) => (
+                  <li><strong>{s.label}.</strong> {s.what}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p class="source">Demo workspace ships in Phase 0 · {demoBeachhead.shipWeek} · {demoBeachhead.url} URL committed.</p>
+          <aside class="notes">
+            This beat is non-negotiable, but the demo isn't live yet (Phase 0).
+            Walk this section as a concrete commitment: spec, seeds, the aha
+            moment, the timeline. Point to the Tanaka follow-up quote and frame
+            it as the moment we're engineering for. Pause for 5 seconds before
+            slide 4. Every slide after this one is supporting evidence for the
+            commitment they just heard.
+          </aside>
+        </section>
+
+        {/* === Slide 4 · Product is real · paper === */}
+        <section id="product" data-state="paper">
+          <div class="eyebrow">03 · The product is real</div>
+          <h2>What they just touched, in numbers.</h2>
+          <p class="lede">
+            Substantially deeper than what zunou.ai shows publicly.
+            <strong class="hl">The launch problem is distribution, not product readiness.</strong>
+          </p>
+          <div class="hero-row hero-3">
+            {productStats.map((s) => (
+              <div class="hero-tile">
+                <div class="num hl">{s.stat}</div>
+                <div class="hero-tile-label">{s.label}</div>
+                <p>{s.body}</p>
+              </div>
+            ))}
+          </div>
+          <div class="caps-grid">
+            {productCapabilities.map((c) => (
+              <div class="cap-card">
+                <div class="cap-title">{c.title}</div>
+                <p>{c.body}</p>
+              </div>
+            ))}
+          </div>
+          <aside class="notes">
+            Three numbers and four capabilities. The architecture density is the
+            proof the connector can name-drop to other investors. Lead with 136
+            tools (MIT-aligned, never client-exposed). Close with embeddable SDK
+            (the same brain runs in every surface, including the next beachhead).
+          </aside>
+        </section>
+
+        {/* === Slide 5 · Why now · warm === */}
+        <section id="why-now" data-state="warm">
+          <div class="eyebrow">04 · Why now</div>
+          <h2>The category is opening. The surface is unbuilt.</h2>
+          <p class="lede">
+            MCP is here. The exec workflow surface is open globally.
+            <strong class="hl">The wedge replaces by gravity, not migration.</strong>
+          </p>
+          <div class="cards-3">
+            {whyNow.map((w) => (
+              <div class="card">
+                <div class="tile-label">{w.label}</div>
+                <h3>{w.title}</h3>
+                <p>{w.body}</p>
+              </div>
+            ))}
+          </div>
+          <div class="context-strip">
+            <span class="context-strip-label">The investor takeaway</span>
+            <span class="context-strip-body">Capital is flowing into the category. The dedicated exec-CoS surface is still unbuilt. The first product that lands the Slack-native team with a no-migration wedge owns this category.</span>
+          </div>
+          <aside class="notes">
+            The wedge mechanic (MCP triage of muted group chats) is the most novel
+            idea on the page. Emphasize it. Frame the wedge as a sales answer:
+            "operators don't have to switch tools. They keep their habits and stop
+            missing value." That sentence travels back to other investors verbatim.
+          </aside>
+        </section>
+
+        {/* === Slide 6 · Beachheads · paper === */}
+        <section id="beachheads" data-state="paper">
+          <div class="eyebrow">05 · Three beachhead waves</div>
+          <h2>Sequenced. Gated. Pre-committed pivot.</h2>
+          <p class="lede">
+            Each wave only fires when the previous clears its activation gate.
+            <strong class="hl">Slower than a broad launch. Substantially lower risk.</strong>
+          </p>
+          <div class="beachhead-stack">
+            {beachheads.map((b) => (
+              <div class={`beachhead-row beachhead-${b.status}`}>
+                <div class="beachhead-label">{b.label}</div>
+                <div class="beachhead-body">
+                  <h3>{b.title}</h3>
+                  <p>{b.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div class="stage-gate-strip">
+            <div class="tile-label">{stageGate.label}</div>
+            <p>{stageGate.body}</p>
+          </div>
+          <aside class="notes">
+            The Feb 2027 stage-gate is the discipline signal. Investors trust founders
+            who name their pivot in advance. If they ask depth on Indelible, point at
+            /pilots/indelible but do not navigate. Stay on the deck.
+          </aside>
+        </section>
+
+        {/* === Slide 7 · Horizon · warm === */}
+        <section id="horizon" data-state="warm">
+          <div class="eyebrow">06 · The horizon</div>
+          <h2>PMF first. ARR follows.</h2>
+          <p class="lede">
+            Three windows. <strong class="hl">The ARR number locks after paid signal is real, not before.</strong>
+          </p>
+          <div class="cards-3">
+            {horizon.map((h) => (
+              <div class={`card ${h.highlight ? "card-emphasis" : ""}`}>
+                <div class="tile-label">{h.label}</div>
+                <h3>{h.title}</h3>
+                <p>{h.body}</p>
+              </div>
+            ))}
+          </div>
+          <div class="context-strip">
+            <span class="context-strip-label">The honest framing</span>
+            <span class="context-strip-body">We are not faking a hockey stick. The year-1 ARR number locks when paid signal is real. The financial model is still being built around that gate.</span>
+          </div>
+          <aside class="notes">
+            The honest framing. We are not faking a hockey stick. This is the line
+            that separates us from forecast-padded pitches. The third card carries
+            the emphasis because months 6-12 is where ARR locks.
+          </aside>
+        </section>
+
+        {/* === Slide 8 · Where we'd value your view · soft === */}
+        <section id="views" data-state="soft">
+          <div class="eyebrow">07 · Where we'd value your view</div>
+          <h2>Seven calls we've taken a position on.</h2>
+          <p class="lede">
+            None block the launch. All shape it.
+            <strong class="hl">Where would you take a different position, and why?</strong>
+          </p>
+          <div class="open-calls-grid">
+            {openCalls.map((c) => (
+              <div class="open-call">
+                <div class="open-call-num">{c.n}</div>
+                <div class="open-call-body">
+                  <h3>{c.title}</h3>
+                  <p>{c.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <aside class="notes">
+            Walk the seven quickly. Don't defend any of them. After the list, ask:
+            "Which one would you take a different position on?" Then shut up and
+            listen. Whatever he reacts to fastest is the one to follow up on.
+            Number 07 (parallel-tracks compounding) is the most valuable answer
+            he could give you.
+          </aside>
+        </section>
+
+        {/* === Slide 9 · Closing · ink === */}
+        <section class="closing-slide" data-state="ink">
+          <div class="eyebrow ink-mode">Closing</div>
+          <h2 class="closing-statement">
+            {closingStatement.headline}
+          </h2>
+          <p class="closing-sub">{closingStatement.body}</p>
+          <div class="closing-next">
+            <div class="closing-next-label">What happens next</div>
+            <div class="closing-next-grid">
+              {whatHappensNext.map((n) => (
+                <div class="closing-next-card">
+                  <div class="closing-next-when">{n.when}</div>
+                  <p>{n.what}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="closing-meta">
+            <span>Marco Avila · marco@anysigma.com</span>
+            <span>zunou.anysigma.com/investors</span>
+            <span>Last synced {LAST_SYNCED}</span>
+          </div>
+          <aside class="notes">
+            Land on the headline. Don't pivot to "any questions?" Let the silence
+            sit. The investor speaks next. Whatever they say is the start of the
+            real conversation.
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      import Reveal from "reveal.js";
+      import Notes from "reveal.js/plugin/notes";
+      import "reveal.js/reveal.css";
+
+      const deck = new Reveal({
+        width: 1280,
+        height: 720,
+        margin: 0.02,
+        minScale: 0.2,
+        maxScale: 2.0,
+        center: false,
+        hash: true,
+        controls: true,
+        progress: true,
+        slideNumber: "c/t",
+        transition: "none",
+        backgroundTransition: "none",
+        plugins: [Notes],
+      });
+      deck.initialize();
+    </script>
+
+    <style is:global>
+      /* === Zunou · Investor brief deck palette ===
+         Mirrors mini-site tokens (src/styles/tailwind.css) so the same
+         data module renders correctly in both reader and deck. */
+      :root {
+        /* Mini-site aliases */
+        --color-accent: #4a00e0;
+        --color-accent-ink: #3700a8;
+        --color-accent-soft: #ece5fb;
+        --color-ink: #2b2d2d;
+        --color-ink-soft: #666666;
+        --color-ink-faint: #8c8c8c;
+        --color-paper: #f7f7f7;
+        --color-paper-soft: #f1f0f2;
+        --color-line: #e6e6e6;
+
+        /* Deck-native names */
+        --ink: #2b2d2d;
+        --ink-body: #3a3c3c;
+        --ink-soft: #666666;
+        --ink-faint: #8c8c8c;
+        --paper: #fafaf7;          /* warm cream */
+        --paper-soft: #f1f0f2;     /* envelope */
+        --paper-warm: #efeae0;     /* manila */
+        --line: #e6e6e6;
+        --line-warm: #d8d2c4;
+        --accent: #4a00e0;         /* Zunou purple */
+        --accent-soft: #ece5fb;
+        --accent-ink: #3700a8;
+        --highlight: #6a2bff;      /* lighter purple for hl-keyword */
+        --success: #2d8a5c;
+        --success-soft: #d8efe0;
+        --warning: #c79c2e;
+      }
+
+      html, body { margin: 0; padding: 0; background: var(--paper); }
+      .reveal { font-family: "Bricolage Grotesque", system-ui, sans-serif; color: var(--ink-body); text-align: left; }
+      .reveal .slides, .reveal .slides * { text-align: left; }
+
+      /* Slide shell: flex column, 56px gutter, accent strip top, source strip reserved (72px bottom) */
+      .reveal .slides section {
+        padding: 48px 56px 72px;
+        background: var(--paper);
+        color: var(--ink-body);
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px;
+        height: 100%;
+        box-sizing: border-box;
+        text-align: left;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: relative;
+        overflow: hidden;
+      }
+      .reveal .slides section[hidden] { display: none !important; }
+
+      /* Top accent strip */
+      .reveal .slides section::before {
+        content: "";
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--accent), var(--highlight) 60%, var(--accent-ink) 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
+      .reveal .slides section > * { position: relative; z-index: 2; }
+
+      /* Slide tones */
+      .reveal .slides section[data-state="soft"] { background: var(--paper-soft); }
+      .reveal .slides section[data-state="warm"] { background: var(--paper-warm); }
+
+      /* Typography */
+      .reveal h1, .reveal h2, .reveal h3 {
+        font-family: "Bree Serif", Georgia, serif;
+        color: var(--ink);
+        margin: 0;
+        text-transform: none;
+        letter-spacing: -0.01em;
+      }
+      .reveal h1 { font-size: 84px; line-height: 1.02; font-weight: 400; }
+      .reveal h1 em { color: var(--ink-soft); font-style: italic; font-weight: 400; }
+      .reveal h2 { font-size: 50px; line-height: 1.08; font-weight: 400; }
+      .reveal h3 { font-size: 22px; line-height: 1.2; font-weight: 600; }
+      .reveal p { font-size: 19px; line-height: 1.44; margin: 0; color: var(--ink-body); }
+      .reveal ul { margin: 6px 0 0 0; padding: 0; list-style: none; }
+      .reveal ul li {
+        position: relative; padding-left: 14px; font-size: 17px; line-height: 1.42;
+        color: var(--ink-body); margin-bottom: 6px;
+      }
+      .reveal ul li::before {
+        content: "·"; color: var(--accent); position: absolute; left: 0; font-weight: 700;
+      }
+      .reveal a { color: var(--accent); text-decoration: underline; }
+
+      .reveal .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .reveal p.lede {
+        font-size: 22px;
+        line-height: 1.38;
+        color: var(--ink-body);
+        max-width: 1100px;
+        margin-bottom: 14px;
+      }
+      .reveal .hl { color: var(--accent); font-weight: 600; }
+
+      .reveal .tile-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      /* Source pill: absolute anchor bottom-right per canonical recipe.
+         right:80px clears Reveal's nav-arrow chevron column.
+         opacity:0.78 keeps it readable but quiet on cream. */
+      .reveal p.source {
+        position: absolute;
+        bottom: 14px;
+        right: 80px;
+        left: 56px;
+        text-align: right;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        font-style: italic;
+        color: var(--ink-soft);
+        opacity: 0.78;
+        z-index: 3;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* === Title slide === */
+      .reveal .slide-title { justify-content: flex-start !important; gap: 14px; padding-bottom: 32px; }
+      .reveal .slide-title h1 { font-size: 88px; margin-bottom: 8px; }
+      .reveal .slide-title p.lede { color: rgba(255,255,255,0.85); font-size: 26px; margin-bottom: 28px; }
+      .reveal .footer-meta {
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255,255,255,0.16);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        color: rgba(255,255,255,0.7);
+      }
+
+      /* Stat strips (title slide) */
+      .reveal .stats-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin: 8px 0 0;
+      }
+      .reveal .slide-title .stat {
+        background: rgba(255,255,255,0.06);
+        border: 2px solid rgba(255,255,255,0.22);
+        border-radius: 12px;
+        padding: 16px 18px;
+      }
+      .reveal .stat .num {
+        font-family: "Bree Serif", serif;
+        font-size: 44px;
+        line-height: 1;
+        color: var(--highlight);
+        letter-spacing: -0.02em;
+      }
+      .reveal .stat .label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        color: var(--paper);
+        margin-top: 10px;
+      }
+      .reveal .stat .sub {
+        font-size: 14px;
+        color: rgba(255,255,255,0.65);
+        margin-top: 4px;
+        line-height: 1.3;
+      }
+
+      /* === Argument card (reader-prose fallback, unused on current deck) === */
+      .reveal .argument-card {
+        flex: 1 1 0;
+        min-height: 0;
+        border: 3px solid var(--accent);
+        border-radius: 14px;
+        background: var(--paper);
+        padding: 28px 32px;
+        display: flex;
+        align-items: center;
+      }
+      .reveal .argument-card p {
+        font-size: 19px;
+        line-height: 1.55;
+        color: var(--ink);
+      }
+
+      /* === Argument slide: 2x2 grid of cards + closing line === */
+      .reveal .argument-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        flex: 1 1 0;
+        min-height: 0;
+        grid-auto-rows: minmax(0, 1fr);
+      }
+      .reveal .argument-tile {
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        background: var(--paper);
+        padding: 18px 22px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+      .reveal .argument-tile::after {
+        content: "";
+        position: absolute; left: 0; right: 0; bottom: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--highlight));
+      }
+      .reveal .argument-tile h3 {
+        font-size: 21px;
+        line-height: 1.18;
+        margin: 4px 0 8px;
+        color: var(--ink);
+      }
+      .reveal .argument-tile p {
+        font-size: 15px;
+        line-height: 1.46;
+        color: var(--ink-body);
+      }
+      .reveal .argument-close {
+        font-family: "Bree Serif", serif;
+        font-style: italic;
+        font-size: 26px;
+        color: var(--accent);
+        text-align: center;
+        flex: 0 0 auto;
+        margin: 6px 0 0;
+        padding: 10px 0 4px;
+      }
+
+      /* === Demo grid (slide 3) === */
+      .reveal .demo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 18px;
+        flex: 1 1 0;
+        min-height: 0;
+      }
+      .reveal .demo-aha,
+      .reveal .demo-seeds {
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        background: var(--paper);
+        padding: 22px 24px;
+        display: flex;
+        flex-direction: column;
+      }
+      .reveal .aha-quote {
+        font-family: "Bree Serif", serif;
+        font-size: 30px;
+        line-height: 1.15;
+        color: var(--accent);
+        font-style: italic;
+        margin: 6px 0 12px;
+      }
+      .reveal .aha-note {
+        font-size: 16px;
+        color: var(--ink-soft);
+        margin-bottom: auto;
+      }
+      .reveal .demo-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        color: var(--ink-soft);
+        margin-top: 14px;
+      }
+      .reveal .status-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--warning);
+        display: inline-block;
+      }
+      .reveal .demo-seeds ul { margin-top: 8px; }
+      .reveal .demo-seeds li { font-size: 16px; line-height: 1.45; margin-bottom: 10px; }
+      .reveal .demo-seeds li strong { color: var(--ink); font-weight: 700; }
+
+      /* === Hero row + caps grid (slide 4) === */
+      .reveal .hero-row { display: grid; gap: 14px; }
+      .reveal .hero-3 { grid-template-columns: repeat(3, 1fr); }
+      .reveal .hero-tile {
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        background: var(--paper);
+        padding: 18px 20px;
+        display: flex; flex-direction: column; gap: 4px;
+        position: relative; overflow: hidden;
+      }
+      .reveal .hero-tile::after {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+        height: 4px; background: linear-gradient(90deg, var(--accent), var(--highlight));
+      }
+      .reveal .hero-tile .num {
+        font-family: "Bree Serif", serif;
+        font-size: 56px; line-height: 1;
+        color: var(--accent);
+        letter-spacing: -0.02em;
+      }
+      .reveal .hero-tile-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em;
+        font-weight: 700; color: var(--ink); margin-top: 4px;
+      }
+      .reveal .hero-tile p {
+        font-size: 15px; line-height: 1.4; color: var(--ink-soft); margin-top: 6px;
+      }
+
+      .reveal .caps-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        flex: 1 1 0; min-height: 0;
+      }
+      .reveal .cap-card {
+        border: 2px solid var(--line); border-radius: 12px; background: var(--paper);
+        padding: 16px 18px;
+        display: flex; flex-direction: column;
+      }
+      .reveal .cap-title {
+        font-family: "Bree Serif", serif;
+        font-size: 19px; color: var(--ink); font-weight: 600; margin-bottom: 4px;
+      }
+      .reveal .cap-card p { font-size: 15px; line-height: 1.42; color: var(--ink-body); }
+
+      /* === Cards (slides why-now + horizon) === */
+      .reveal .cards-3 {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+        align-items: stretch;
+      }
+      .reveal .card {
+        border: 2px solid var(--line); border-radius: 12px; background: var(--paper);
+        padding: 22px 24px;
+        display: flex; flex-direction: column;
+        justify-content: center;
+        position: relative; overflow: hidden;
+        min-height: 280px;
+      }
+      /* Emphasized card: still center content; the top accent flag carries the emphasis */
+      .reveal .card.card-emphasis { justify-content: center; padding-top: 26px; }
+      .reveal .card::after {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+        height: 3px; background: var(--accent-soft);
+      }
+      /* Emphasized card: top accent flag, not full border (reads as intentional, not a focus ring) */
+      .reveal .card.card-emphasis { border-top: 4px solid var(--accent); }
+      .reveal .card.card-emphasis::after { background: var(--accent); height: 3px; }
+      .reveal .card h3 { font-size: 22px; line-height: 1.18; margin-bottom: 8px; color: var(--ink); }
+      .reveal .card p { font-size: 15px; line-height: 1.46; color: var(--ink-body); }
+
+      /* Placeholder cards (team slide) */
+      .reveal .card-placeholder { border-style: dashed; }
+      .reveal .card-placeholder p { color: var(--ink-soft); font-style: italic; }
+
+      /* Context strip: sits below a cards-3 grid to fill the slide and carry
+         the "investor takeaway" / "honest framing" load-bearing line */
+      .reveal .context-strip {
+        margin-top: 16px;
+        padding: 16px 22px;
+        background: var(--accent-soft);
+        border-left: 4px solid var(--accent);
+        border-radius: 4px 12px 12px 4px;
+        display: flex; flex-direction: column; gap: 4px;
+      }
+      .reveal .context-strip-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        color: var(--accent-ink);
+      }
+      .reveal .context-strip-body {
+        font-size: 17px;
+        line-height: 1.4;
+        color: var(--ink);
+      }
+
+      /* === Beachhead stack (slide 6) === */
+      .reveal .beachhead-stack {
+        display: flex; flex-direction: column; gap: 10px;
+        flex: 1 1 0; min-height: 0;
+      }
+      .reveal .beachhead-row {
+        display: grid; grid-template-columns: 220px 1fr;
+        gap: 18px; align-items: start;
+        border: 2px solid var(--line); border-radius: 12px;
+        background: var(--paper);
+        padding: 14px 18px;
+        position: relative; overflow: hidden;
+      }
+      .reveal .beachhead-row::before {
+        content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+        background: var(--line);
+      }
+      .reveal .beachhead-confirmed::before { background: var(--success); }
+      .reveal .beachhead-scheduled::before { background: var(--accent); }
+      .reveal .beachhead-staged::before { background: var(--ink-faint); }
+      .reveal .beachhead-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em;
+        font-weight: 700; color: var(--ink);
+        padding-top: 2px;
+      }
+      .reveal .beachhead-confirmed .beachhead-label { color: var(--success); }
+      .reveal .beachhead-scheduled .beachhead-label { color: var(--accent); }
+      .reveal .beachhead-staged .beachhead-label { color: var(--ink-faint); }
+      .reveal .beachhead-body h3 { font-size: 20px; margin-bottom: 4px; }
+      .reveal .beachhead-body p { font-size: 14px; line-height: 1.4; color: var(--ink-body); }
+      .reveal .stage-gate-strip {
+        border-top: 2px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 0 0 12px 12px;
+        padding: 12px 18px;
+      }
+      .reveal .stage-gate-strip p {
+        font-size: 14px; line-height: 1.4; color: var(--ink); margin-top: 4px;
+      }
+
+      /* === 2x2 team grid (slide 8) === */
+      .reveal .cards-2x2 {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+        flex: 1 1 0; min-height: 0;
+        grid-auto-rows: minmax(0, 1fr);
+      }
+
+      /* === Open calls grid (slide 8) ===
+         grid-auto-rows: auto so cards size to content. No clipping (Gate 8). */
+      .reveal .open-calls-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+        align-items: stretch;
+      }
+      .reveal .open-call {
+        display: grid; grid-template-columns: 48px 1fr; gap: 14px;
+        border: 2px solid var(--line); border-radius: 10px; background: var(--paper);
+        padding: 12px 16px;
+        align-items: start;
+      }
+      .reveal .open-call-num {
+        font-family: "Bree Serif", serif;
+        font-size: 28px; color: var(--accent);
+        line-height: 1; letter-spacing: -0.02em;
+        padding-top: 2px;
+      }
+      .reveal .open-call-body h3 { font-size: 16px; line-height: 1.18; margin-bottom: 4px; }
+      .reveal .open-call-body p { font-size: 14.5px; line-height: 1.38; color: var(--ink-body); }
+
+      /* === Ink (dark) slides === */
+      .reveal .slides section[data-state="ink"] {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .reveal .slides section[data-state="ink"] h1,
+      .reveal .slides section[data-state="ink"] h2,
+      .reveal .slides section[data-state="ink"] h3 { color: var(--paper); }
+      .reveal .eyebrow.ink-mode { color: var(--highlight); }
+
+      /* Closing slide */
+      .reveal .closing-slide {
+        justify-content: space-between !important;
+        padding: 56px 64px !important;
+      }
+      .reveal .closing-statement {
+        font-size: 64px !important; line-height: 1.06; font-weight: 400;
+        color: var(--paper); margin-top: 20px;
+      }
+      .reveal .closing-sub {
+        font-size: 24px !important; line-height: 1.4;
+        color: rgba(255,255,255,0.85); max-width: 1000px; margin-top: 18px;
+      }
+      .reveal .closing-next {
+        margin-top: 28px;
+        flex: 1 1 auto;
+        display: flex; flex-direction: column;
+        min-height: 0;
+      }
+      .reveal .closing-next-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        color: var(--highlight);
+        margin-bottom: 14px;
+      }
+      .reveal .closing-next-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .reveal .closing-next-card {
+        background: rgba(255,255,255,0.07);
+        border: 1.5px solid rgba(255,255,255,0.32);
+        border-radius: 12px;
+        padding: 20px 22px;
+        display: flex; flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+      .reveal .closing-next-card::after {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+        height: 3px; background: var(--highlight);
+      }
+      .reveal .closing-next-when {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        color: var(--highlight);
+      }
+      .reveal .closing-next-card p {
+        font-size: 16px;
+        line-height: 1.42;
+        color: var(--paper);
+        opacity: 0.92;
+      }
+      .reveal .closing-meta {
+        margin-top: 20px; padding-top: 24px;
+        border-top: 1px solid rgba(255,255,255,0.18);
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px; color: rgba(255,255,255,0.65);
+      }
+    </style>
+  </body>
+</html>
