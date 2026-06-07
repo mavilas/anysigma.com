@@ -112,3 +112,26 @@ CF Pages project names are set on Cloudflare side and passed via `--project-name
 ## When in doubt
 
 Read [`docs/deck-recipes.md`](./docs/deck-recipes.md). It has 13 hard gates with verification recipes for each. The rules there govern every subdomain in this repo.
+
+<!-- ensure-agent-docs: cluster-ref -->
+## Cluster context (added by ensure-agent-docs)
+
+You are running on Marco's homelab cluster (studio + mini-01 + mini-02 + M3).
+Before editing any non-trivial code, read:
+
+- `~/cluster-memory/MEMORY.md` — index of accumulated knowledge across all
+  Marco's projects (decisions, hard rules, references). The memory directory
+  itself is a symlink to the homelab repo, so it's git-versioned and
+  replicated across every cluster peer. **A memory file is point-in-time —
+  cross-check against current code before asserting facts.**
+
+- `~/github/personal/homelab/CLAUDE.md` — cluster-wide guidance (LLM
+  routing, hard rules around mDNS/Tailscale IPs, runner topology, etc.).
+
+- This file (`AGENTS.md`) — repo-specific conventions below.
+
+If you need extra context, use `local-coder "<question>"` to query the
+cluster's local Qwen3-Coder model (free, no cloud token spend, ~0.5s warm)
+before reaching for a cloud agent.
+<!-- ensure-agent-docs: end -->
+
