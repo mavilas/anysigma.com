@@ -20,7 +20,6 @@ import {
   industryMix,
   funnel,
   pocTracks,
-  sprintTracks,
   coreSquad,
   hiringPhasing,
   risks,
@@ -545,34 +544,28 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
           </aside>
         </section>
 
-        {/* === Slide 13 · §12 90-Day Execution Sprint ===
-            Tone changed mist → paper 2026-06-03: same blue-on-blue clash with
-            track-color dots (accent / plum / emerald) against mist bg. */}
+        {/* === Slide 13 · §12 Launch Plan Spreadsheet === */}
         <section>
-          <div class="eyebrow">12 · 90-day sprint</div>
-          <h2>Legal · Talent · Pipeline. Three tracks, strict parallel.</h2>
-          <p class="lede"><strong>Days 1-30 / 31-60 / 61-90.</strong> Each track lands a <strong class="hl">milestone by day 90</strong>.</p>
-          <div class="sprint-grid">
-            <div class="sprint-head">
-              <div></div>
-              <div>Days 1-30</div>
-              <div>Days 31-60</div>
-              <div>Days 61-90</div>
-              <div>Milestone</div>
+          <div class="eyebrow">12 · Launch plan spreadsheet</div>
+          <h2>Wonderful Japan — 30-60-90 Day Launch Plan</h2>
+          <p class="lede">Action checklist managed dynamically in <strong class="hl">Google Sheets</strong> to ensure real-time tracking.</p>
+          <div style="display: flex; justify-content: center; margin-top: 40px;">
+            <div style="background: var(--color-paper-soft); border: 2px solid var(--color-ink-soft); border-radius: 12px; padding: 40px; max-width: 700px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+              <p style="font-size: 22px; color: var(--color-ink); line-height: 1.6; margin-bottom: 30px;">
+                The complete roadmap, including detailed deliverables, priorities, owner mappings, and technical specs, is managed in a shared spreadsheet.
+              </p>
+              <a 
+                href="https://docs.google.com/spreadsheets/d/1UXJwMyAUaoi9HitoS3zY5zKFqCaz1HIfRGjTXLVDILU/edit" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style="display: inline-block; padding: 14px 28px; background: var(--color-accent); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-family: monospace; font-size: 16px;"
+              >
+                Open the launch plan spreadsheet
+              </a>
             </div>
-            {sprintTracks.map((t) => (
-              <div class="sprint-row" style={`--track-accent: ${t.accent};`}>
-                <div class="sprint-track-name"><span class="sprint-dot" style={`background:${t.accent}`}></span> {t.track}</div>
-                <div>{t.d1_30}</div>
-                <div>{t.d30_60}</div>
-                <div>{t.d60_90}</div>
-                <div class="sprint-milestone">{t.milestone}</div>
-              </div>
-            ))}
           </div>
           <aside class="notes">
-            The strict-parallel design is what HQ has not seen before from a Japan launch.
-            Most country launches sequence Legal → Talent → Pipeline. We do all three.
+            We are tracking all fine-grained engineering and operations deliverables directly in a shared Google Sheet for real-time collaboration.
           </aside>
         </section>
 

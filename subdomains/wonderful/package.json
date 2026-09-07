@@ -17,8 +17,7 @@
     "deploy": "pnpm run build && pnpm run deploy:check && wrangler pages deploy dist",
     "astro": "astro",
     "pdf": "node scripts/export-pdf.mjs",
-    "pdf:proposal": "node scripts/export-pdf.mjs --page=proposal",
-    "pdf:all": "node scripts/export-pdf.mjs --page=launch-plan && node scripts/export-pdf.mjs --page=proposal && node scripts/export-pdf.mjs --page=/ --out=Wonderful-Japan-Strategy.pdf"
+    "pdf:all": "node scripts/export-pdf.mjs --page=launch-plan && node scripts/export-pdf.mjs --page=/ --out=Wonderful-Japan-Strategy.pdf"
   },
   "dependencies": {
     "@lucide/astro": "^1.14.0",

@@ -175,24 +175,6 @@ export const pocTracks = [
     proof: "Aligned to ringi-friendly transformation budgets." },
 ];
 
-// --- §10 90-Day Execution Sprint -------------------------------------------
-export const sprintTracks = [
-  { track: "Legal & Entity", icon: "building-2", accent: "var(--color-accent)",
-    milestone: "KK live Sep 1, 2026",
-    d1_30: "Engage 行政書士 + 司法書士. Reserve company name.",
-    d30_60: "KK registration filed. Representative director assigned.",
-    d60_90: "Corporate bank, tax, social insurance live. MSA/NDA ready." },
-  { track: "Talent", icon: "users", accent: "#7a5cff",
-    milestone: "Founding 5 signed",
-    d1_30: "Retained search via HQ. 40+ long-list. Warm pre-entity conversations.",
-    d30_60: "Convert verbal commitments. Sign founding 5. Activate agency network.",
-    d60_90: "Transition to direct sourcing. Scaling to 15+ hires by Month 6." },
-  { track: "Pipeline", icon: "trending-up", accent: "#0b8f6b",
-    milestone: "3 PoCs signed + funded",
-    d1_30: "Account map finalisation and targeting.",
-    d30_60: "3 PoCs officially signed and funded.",
-    d60_90: "PoC delivery execution. Positioning for paid expansion." },
-];
 
 // --- §11 Launch Team + Hiring ---------------------------------------------
 export const coreSquad = [

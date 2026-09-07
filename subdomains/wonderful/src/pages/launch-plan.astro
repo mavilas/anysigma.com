@@ -282,38 +282,6 @@ const pocTracks = [
   },
 ];
 
-// =====================================================================
-// Slide 11 · The 90-Day Execution Sprint
-// =====================================================================
-const sprintTracks = [
-  {
-    track: "Legal & Entity",
-    icon: "building-2",
-    accent: "var(--color-accent)",
-    milestone: "KK live Sep 1, 2026",
-    d1_30: "Engage 行政書士 + 司法書士. Reserve company name.",
-    d30_60: "KK registration filed. Representative director assigned.",
-    d60_90: "Corporate bank, tax, social insurance live. MSA/NDA ready.",
-  },
-  {
-    track: "Talent",
-    icon: "users",
-    accent: "#7a5cff",
-    milestone: "Founding 5 signed",
-    d1_30: "Retained search via HQ. 40+ long-list. Warm pre-entity conversations.",
-    d30_60: "Convert verbal commitments. Sign founding 5. Activate agency network.",
-    d60_90: "Transition to direct sourcing. Scaling to 15+ hires by Month 6.",
-  },
-  {
-    track: "Pipeline",
-    icon: "trending-up",
-    accent: "#0b8f6b",
-    milestone: "3 PoCs signed + funded",
-    d1_30: "Account map finalisation and targeting.",
-    d30_60: "3 PoCs officially signed and funded.",
-    d60_90: "PoC delivery execution. Positioning for paid expansion.",
-  },
-];
 
 // =====================================================================
 // Slide 12 · Launch Team & Hiring Roadmap
@@ -399,7 +367,7 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
     { number: "06", title: "Strategic pillars", href: "#pillars" },
     { number: "07", title: "Time to revenue", href: "#revenue" },
     { number: "08", title: "Pipeline funnel", href: "#funnel" },
-    { number: "09", title: "90-day sprint", href: "#sprint" },
+    { number: "09", title: "Launch checklist", href: "#sprint" },
     { number: "10", title: "Team & hiring", href: "#team" },
     { number: "11", title: "Risks", href: "#risks" },
     { number: "12", title: "HQ asks", href: "#asks" },
@@ -407,13 +375,9 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
 >
   <Fragment slot="nav">
     <a href="#summary" class="hover:text-[var(--color-ink)] transition-colors">Summary</a>
-    <a href="#sprint" class="hover:text-[var(--color-ink)] transition-colors">Sprint</a>
+    <a href="#sprint" class="hover:text-[var(--color-ink)] transition-colors">Checklist</a>
     <a href="#team" class="hover:text-[var(--color-ink)] transition-colors">Team</a>
     <a href="#asks" class="hover:text-[var(--color-ink)] transition-colors">Asks</a>
-    <a href="/proposal" class="hover:text-[var(--color-ink)] transition-colors inline-flex items-center gap-1.5 ml-2">
-      30-60 plan
-      <span class="text-[10px] uppercase tracking-[0.16em] font-mono font-bold px-1.5 py-0.5 rounded bg-[var(--color-line-soft)] text-[var(--color-ink-soft)]">draft</span>
-    </a>
   </Fragment>
 
   <!-- ============================================================ -->
@@ -1114,67 +1078,29 @@ const maxChartValue = Math.max(...japanMarket.chart.map((c) => c.value));
   </Section>
 
   <!-- ============================================================ -->
-  <!-- §09 · 90-DAY EXECUTION SPRINT                                 -->
+  <!-- §09 · LAUNCH ROADMAP & ACTION CHECKLIST                       -->
   <!-- ============================================================ -->
   <Section
     id="sprint"
-    eyebrow="12 · 90-day execution sprint"
-    title="Three tracks. Strict parallel. Zero sequential blockers."
-    lede='The detail behind the time-to-revenue bend. Each track has a 30 / 30-60 / 60-90 commitment. <strong class="text-[var(--color-highlight)]">Pipeline closes 3 PoCs by Day 60.</strong>'
+    eyebrow="12 · Launch roadmap & checklist"
+    title="Managed dynamically in Google Sheets."
+    lede='The complete 30-60-90 day GTM & Forward Deployed Engineering checklist is managed via Google Spreadsheets to ensure real-time collaboration.'
   >
-    <!-- Day-axis ruler · prominent for presentation -->
-    <div class="max-w-6xl mb-6 hidden md:block">
-      <div class="grid grid-cols-[12rem_1fr_1fr_1fr] gap-4 items-end px-1">
-        <div></div>
-        {["Days 1-30", "Days 30-60", "Days 60-90"].map((label, i) => (
-          <div class="relative">
-            <div class="h-2 rounded-full bg-gradient-to-r from-[var(--color-ink)] via-[var(--color-accent)] to-[var(--color-accent-soft)]" style={`opacity: ${0.55 + i * 0.15};`}></div>
-            <div class="text-[18px] uppercase tracking-[0.16em] font-mono font-bold text-[var(--color-ink)] mt-3">{label}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Three parallel tracks, color-coded · bolder presentation styling -->
-    <div class="max-w-6xl space-y-5">
-      {sprintTracks.map((t, i) => {
-        const IconC = Icon(t.icon);
-        return (
-          <div class="rounded-xl border-2 border-[var(--color-line)] bg-[var(--color-paper)] overflow-hidden print:break-inside-avoid shadow-sm" style={`border-left: 6px solid ${t.accent};`} data-reveal="fade-up" data-reveal-delay={i}>
-            <div class="grid md:grid-cols-[12rem_1fr_1fr_1fr] gap-0">
-              <!-- Track label, color-coded · bigger labels -->
-              <div class="p-5 flex flex-col justify-center gap-2 border-b md:border-b-0 md:border-r border-[var(--color-line)]" style={`background: ${t.accent}18;`}>
-                <div class="flex items-center gap-2">
-                  {IconC && <IconC class="w-6 h-6" style={`color: ${t.accent};`} />}
-                  <span class="text-[14px] uppercase tracking-[0.16em] font-mono font-bold" style={`color: ${t.accent};`}>Track 0{i + 1}</span>
-                </div>
-                <span class="font-display text-2xl leading-tight">{t.track}</span>
-                <div class="flex items-center gap-1.5 mt-2 pt-2 border-t" style={`border-color: ${t.accent}33;`}>
-                  <Trophy class="w-4 h-4" style={`color: ${t.accent};`} />
-                  <span class="text-[14px] font-mono font-bold leading-tight" style={`color: ${t.accent};`}>{t.milestone}</span>
-                </div>
-              </div>
-              <!-- Three time windows with accent stripe on top -->
-              {[t.d1_30, t.d30_60, t.d60_90].map((d, ci) => (
-                <div class="relative p-5 text-[16px] leading-relaxed border-t md:border-t-0 md:border-l border-[var(--color-line)] text-[var(--color-ink)]">
-                  <div class="absolute top-0 left-5 right-5 h-1.5 rounded-b" style={`background: ${t.accent}; opacity: ${0.4 + ci * 0.25};`}></div>
-                  <div class="pt-3">{d}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-
-    <!-- Parallel-execution callout -->
-    <div class="mt-8 max-w-4xl rounded-lg border-l-4 border-[var(--color-accent)] bg-[var(--color-accent-soft)]/30 p-5">
-      <div class="flex items-start gap-3">
-        <Zap class="w-5 h-5 text-[var(--color-accent)] shrink-0 mt-1" />
-        <div>
-          <h4 class="font-display text-lg leading-tight mb-1">Three tracks. Strict parallel. Zero sequential blockers.</h4>
-          <p class="text-[15px] text-[var(--color-ink)] leading-relaxed">Target KK live date: <strong>September 1, 2026</strong>. First paid revenue 6 to 8 months from kickoff, not 12.</p>
-        </div>
+    <div class="max-w-4xl rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-paper)] p-8 shadow-sm">
+      <h3 class="font-display text-2xl mb-4 text-[var(--color-ink)]">Wonderful Japan — 30-60-90 Day Launch Plan</h3>
+      <p class="text-[16px] text-[var(--color-ink-soft)] leading-relaxed mb-6">
+        The complete roadmap, including detailed deliverables, priorities, owners, and strategic unlocks for the Bilingual Technical GTM & FDE tracks, is actively tracked in Google Sheets.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a 
+          href="https://docs.google.com/spreadsheets/d/1UXJwMyAUaoi9HitoS3zY5zKFqCaz1HIfRGjTXLVDILU/edit" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-ink)] transition-colors font-mono text-[14px] uppercase tracking-wider font-bold"
+        >
+          <Briefcase class="w-5 h-5" />
+          Open the launch plan spreadsheet
+        </a>
       </div>
     </div>
   </Section>
